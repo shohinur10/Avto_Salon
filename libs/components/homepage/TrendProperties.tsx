@@ -11,7 +11,7 @@ import TrendPropertyCard from './TrendPropertyCard';
 import { T } from '../../types/common';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_PROPERTIES } from '../../../apollo/user/query';
-import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
+//import { LIKE_TARGET_PROPERTY } from '../../../apollo/user/mutation';
 
 interface TrendPropertiesProps {
 	initialInput: PropertiesInquiry;
