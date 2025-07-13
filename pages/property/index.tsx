@@ -32,6 +32,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [filterSortName, setFilterSortName] = useState('New');
 
 	/** APOLLO REQUESTS **/
+	
 
 	/** LIFECYCLES **/
 	useEffect(() => {
