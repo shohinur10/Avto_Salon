@@ -156,10 +156,10 @@ export const updateUserInfo = (jwtToken: any) => {
 export const logOut = () => {
 	deleteStorage();
 	deleteUserInfo();
-	window.location.reload();
+    window.location.reload();// or whatever your login route is
 };
-
 const deleteStorage = () => {
+
 	localStorage.removeItem('accessToken');
 	window.localStorage.setItem('logout', Date.now().toString());
 };
