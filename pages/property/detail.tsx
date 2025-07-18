@@ -11,7 +11,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import WestIcon from '@mui/icons-material/West';
 import EastIcon from '@mui/icons-material/East';
-import { useQuery, useReactiveVar } from '@apollo/client';
+import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { useRouter } from 'next/router';
 import { Property } from '../../libs/types/property/property';
 import moment from 'moment';
@@ -29,7 +29,9 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import { GET_COMMENTS, GET_PROPERTIES, GET_PROPERTY } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
-import { Direction } from '../../libs/enums/common.enum';
+import { Direction, Message } from '../../libs/enums/common.enum';
+import { CREATE_COMMENT, LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -58,6 +60,8 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	//const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [createComment] = useMutation(CREATE_COMMENT);
 	const {
 		loading: getPropertyLoading,
 		data: getPropertyData,
@@ -137,6 +141,35 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
 		setSlideImage(image);
+	};
+
+	const likePropertyHandler = async (user: T, id: string) => {
+		try {
+			if (!id) return;
+			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
+
+			await likeTargetProperty({
+				variables: { input: id },
+			});
+			await getPropertyRefetch({ input: id });
+
+			await getPropertiesRefetch({
+				input: {
+					page: 1,
+					limit: 4,
+					sort: 'createdAt',
+					direction: Direction.DESC,
+					search: {
+						locationList: [property?.propertyLocation],
+					},
+				},
+			});
+
+			await sweetTopSmallSuccessAlert('success', 800);
+		} catch (err: any) {
+			console.log('Error, likePropertyHandler', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
 	};
 
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
