@@ -34,7 +34,7 @@ const TopPropertyCard = (props: TopPropertyCardProps) => {
 					component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${property?.propertyImages[0]})` }}
-              onClick={() => pushDetailHandler(property._id)} 
+                    onClick={() => pushDetailHandler(property._id)} 
 				>
 					<div>${property?.propertyPrice}</div>
 				</Box>
