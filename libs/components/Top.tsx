@@ -1,5 +1,4 @@
-import React, { useCallback, useEffect, useRef } from 'react';
-import { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouter, withRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
 import { getJwtToken, logOut, updateUserInfo } from '../auth';
@@ -27,10 +26,10 @@ const Top = () => {
 	const [lang, setLang] = useState<string | null>('en');
 	const drop = Boolean(anchorEl2);
 	const [colorChange, setColorChange] = useState(false);
-	const [anchorEl, setAnchorEl] = React.useState<any | HTMLElement>(null);
-	let open = Boolean(anchorEl);
+	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+	const open = Boolean(anchorEl);
 	const [bgColor, setBgColor] = useState<boolean>(false);
-	const [logoutAnchor, setLogoutAnchor] = React.useState<null | HTMLElement>(null);
+	const [logoutAnchor, setLogoutAnchor] = useState<null | HTMLElement>(null);
 	const logoutOpen = Boolean(logoutAnchor);
 
 	/** LIFECYCLES **/
@@ -49,6 +48,7 @@ const Top = () => {
 				setBgColor(true);
 				break;
 			default:
+				setBgColor(false);
 				break;
 		}
 	}, [router]);
@@ -56,6 +56,24 @@ const Top = () => {
 	useEffect(() => {
 		const jwt = getJwtToken();
 		if (jwt) updateUserInfo(jwt);
+	}, []);
+
+	// ✅ Add scroll event listener safely
+	useEffect(() => {
+		const handleScroll = () => {
+			if (window.scrollY >= 50) {
+				setColorChange(true);
+			} else {
+				setColorChange(false);
+			}
+		};
+
+		window.addEventListener('scroll', handleScroll);
+
+		// Cleanup on unmount
+		return () => {
+			window.removeEventListener('scroll', handleScroll);
+		};
 	}, []);
 
 	/** HANDLERS **/
@@ -77,14 +95,6 @@ const Top = () => {
 		[router],
 	);
 
-	const changeNavbarColor = () => {
-		if (window.scrollY >= 50) {
-			setColorChange(true);
-		} else {
-			setColorChange(false);
-		}
-	};
-
 	const handleClose = () => {
 		setAnchorEl(null);
 	};
@@ -100,14 +110,8 @@ const Top = () => {
 	const StyledMenu = styled((props: MenuProps) => (
 		<Menu
 			elevation={0}
-			anchorOrigin={{
-				vertical: 'bottom',
-				horizontal: 'right',
-			}}
-			transformOrigin={{
-				vertical: 'top',
-				horizontal: 'right',
-			}}
+			anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+			transformOrigin={{ vertical: 'top', horizontal: 'right' }}
 			{...props}
 		/>
 	))(({ theme }) => ({
@@ -135,28 +139,14 @@ const Top = () => {
 		},
 	}));
 
-	if (typeof window !== 'undefined') {
-		window.addEventListener('scroll', changeNavbarColor);
-	}
-
-	if (device == 'mobile') {
+	if (device === 'mobile') {
 		return (
 			<Stack className={'top'}>
-				<Link href={'/'}>
-					<div>{t('Home')}</div>
-				</Link>
-				<Link href={'/property'}>
-					<div>{t('Properties')}</div>
-				</Link>
-				<Link href={'/agent'}>
-					<div> {t('Agents')} </div>
-				</Link>
-				<Link href={'/community?articleCategory=FREE'}>
-					<div> {t('Community')} </div>
-				</Link>
-				<Link href={'/cs'}>
-					<div> {t('CS')} </div>
-				</Link>
+				<Link href={'/'}><div>{t('Home')}</div></Link>
+				<Link href={'/property'}><div>{t('Properties')}</div></Link>
+				<Link href={'/agent'}><div> {t('Agents')} </div></Link>
+				<Link href={'/community?articleCategory=FREE'}><div> {t('Community')} </div></Link>
+				<Link href={'/cs'}><div> {t('CS')} </div></Link>
 			</Stack>
 		);
 	} else {
@@ -164,52 +154,37 @@ const Top = () => {
 			<Stack className={'navbar'}>
 				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
 					<Stack className={'container'}>
-						<Box component={'div'} className={'logo-box'}>
+						<Box className={'logo-box'}>
 							<Link href={'/'}>
 								<img src="/img/logo/logoWhite.svg" alt="" />
 							</Link>
 						</Box>
-						<Box component={'div'} className={'router-box'}>
-							<Link href={'/'}>
-								<div>{t('Home')}</div>
-							</Link>
-							<Link href={'/property'}>
-								<div>{t('Properties')}</div>
-							</Link>
-							<Link href={'/agent'}>
-								<div> {t('Agents')} </div>
-							</Link>
-							<Link href={'/community?articleCategory=FREE'}>
-								<div> {t('Community')} </div>
-							</Link>
-							{user?._id && (
-								<Link href={'/mypage'}>
-									<div> {t('My Page')} </div>
-								</Link>
-							)}
-							<Link href={'/cs'}>
-								<div> {t('CS')} </div>
-							</Link>
+						<Box className={'router-box'}>
+							<Link href={'/'}><div>{t('Home')}</div></Link>
+							<Link href={'/property'}><div>{t('Properties')}</div></Link>
+							<Link href={'/agent'}><div> {t('Agents')} </div></Link>
+							<Link href={'/community?articleCategory=FREE'}><div> {t('Community')} </div></Link>
+							{user?._id && <Link href={'/mypage'}><div> {t('My Page')} </div></Link>}
+							<Link href={'/cs'}><div> {t('CS')} </div></Link>
 						</Box>
-						<Box component={'div'} className={'user-box'}>
+						<Box className={'user-box'}>
 							{user?._id ? (
 								<>
-									<div className={'login-user'} onClick={(event: any) => setLogoutAnchor(event.currentTarget)}>
+									<div className={'login-user'} onClick={(e: any) => setLogoutAnchor(e.currentTarget)}>
 										<img
 											src={
-												user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'
+												user?.memberImage
+													? `${REACT_APP_API_URL}/${user?.memberImage}`
+													: '/img/profile/defaultUser.svg'
 											}
 											alt=""
 										/>
 									</div>
-
 									<Menu
 										id="basic-menu"
 										anchorEl={logoutAnchor}
 										open={logoutOpen}
-										onClose={() => {
-											setLogoutAnchor(null);
-										}}
+										onClose={() => setLogoutAnchor(null)}
 										sx={{ mt: '5px' }}
 									>
 										<MenuItem onClick={() => logOut()}>
@@ -222,9 +197,7 @@ const Top = () => {
 								<Link href={'/account/join'}>
 									<div className={'join-box'}>
 										<AccountCircleOutlinedIcon />
-										<span>
-											{t('Login')} / {t('Register')}
-										</span>
+										<span>{t('Login')} / {t('Register')}</span>
 									</div>
 								</Link>
 							)}
@@ -237,44 +210,22 @@ const Top = () => {
 									onClick={langClick}
 									endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
 								>
-									<Box component={'div'} className={'flag'}>
-										{lang !== null ? (
-											<img src={`/img/flag/lang${lang}.png`} alt={'usaFlag'} />
-										) : (
-											<img src={`/img/flag/langen.png`} alt={'usaFlag'} />
-										)}
+									<Box className={'flag'}>
+										<img src={`/img/flag/lang${lang || 'en'}.png`} alt="language" />
 									</Box>
 								</Button>
 
-								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose} sx={{ position: 'absolute' }}>
+								<StyledMenu anchorEl={anchorEl2} open={drop} onClose={langClose}>
 									<MenuItem disableRipple onClick={langChoice} id="en">
-										<img
-											className="img-flag"
-											src={'/img/flag/langen.png'}
-											onClick={langChoice}
-											id="en"
-											alt={'usaFlag'}
-										/>
+										<img className="img-flag" src={'/img/flag/langen.png'} id="en" alt="English" />
 										{t('English')}
 									</MenuItem>
 									<MenuItem disableRipple onClick={langChoice} id="kr">
-										<img
-											className="img-flag"
-											src={'/img/flag/langkr.png'}
-											onClick={langChoice}
-											id="uz"
-											alt={'koreanFlag'}
-										/>
+										<img className="img-flag" src={'/img/flag/langkr.png'} id="kr" alt="Korean" />
 										{t('Korean')}
 									</MenuItem>
 									<MenuItem disableRipple onClick={langChoice} id="ru">
-										<img
-											className="img-flag"
-											src={'/img/flag/langru.png'}
-											onClick={langChoice}
-											id="ru"
-											alt={'russiaFlag'}
-										/>
+										<img className="img-flag" src={'/img/flag/langru.png'} id="ru" alt="Russian" />
 										{t('Russian')}
 									</MenuItem>
 								</StyledMenu>

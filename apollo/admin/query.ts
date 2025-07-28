@@ -43,78 +43,77 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
  *************************/
 
 export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
-	query GetAllPropertiesByAdmin($input: AllPropertiesInquiry!) {
-		getAllPropertiesByAdmin(input: $input) {
-			list {
-				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyComments	# Added: Property comment count for admin stats
-				propertyRank		# Added: Property ranking/rating for admin management
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
-				memberId
-				soldAt
-				deletedAt
-				constructedAt
-				createdAt
-				updatedAt
-				memberData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberProperties
-					memberArticles		# Added: Member's article count for admin insights
-					memberFollowers		# Added: Member's follower count for admin analytics
-					memberFollowings	# Added: Member's following count for admin analytics
-					memberPoints
-					memberLikes
-					memberViews
-					memberComments		# Added: Member's comment count for admin insights
-					memberRank
-					memberBlocks
-					memberWarnings
-					deletedAt
-					createdAt
-					updatedAt
-					accessToken
-					# Added: Like relationship data for admin context
-					meLiked {
-						memberId
-						likeRefId
-						myFavorite
-					}
-					# Added: Follow relationship data for admin context
-					meFollowed {
-						followingId
-						followerId
-						myFollowing
-					}
-				}
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
+		query GetAllPropertiesByAdmin($input: AllPropertiesInquiry!) {
+    getAllPropertiesByAdmin(input: $input) {
+        list {
+            _id
+            propertyType
+            propertyStatus
+            propertyLocation
+            propertyAddress
+            propertyTitle
+            propertyPrice
+            propertySquare
+            propertyBeds
+            propertyRooms
+            propertyViews
+            propertyLikes
+            propertyComments
+            propertyRank
+            propertyImages
+            propertyDesc
+            propertyBarter
+            propertyRent
+            memberId
+            soldAt
+            deletedAt
+            constructedAt
+            createdAt
+            updatedAt
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberProperties
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberBlocks
+                memberWarnings
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+                meLiked {
+                    memberId
+                    likeRefId
+                    myFavorite
+                }
+                meFollowed {
+                    followingId
+                    followerId
+                    myFollowing
+                }
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
 `;
 
 /**************************
