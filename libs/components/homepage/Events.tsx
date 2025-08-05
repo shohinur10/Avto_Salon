@@ -32,7 +32,7 @@ const eventsData: EventData[] = [
 		eventTitle: 'Sand Festival',
 		city: 'Busan',
 		description:
-			'Haeundae Sand Festival, the nation’s largest eco-friendly exhibition on sand, is held at Haeundae Beach!',
+			'Haeundae Sand Festival, the nation\'s largest eco-friendly exhibition on sand, is held at Haeundae Beach!',
 		imageSrc: '/img/events/BUSAN.webp',
 	},
 ];

@@ -1,41 +1,83 @@
 @import '/scss/variables.scss';
 
 #mobile-wrap {
+  background: $gradient-primary;
+  min-height: 100vh;
+  
   .top {
     height: 100px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+  }
+
+  .home-page {
+    background: $gradient-primary;
+    color: $text-light;
   }
 
   .info-box {
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    padding: 40px 20px 20px;
+    text-align: center;
+    
     span {
-      color: #181a20;
-      font-family: $font;
-      font-size: 34px;
+      color: $text-light;
+      font-family: $font-heading;
+      font-size: 28px;
       font-style: normal;
-      font-weight: 500;
-      line-height: 150%;
-      letter-spacing: -0.646px;
-      text-transform: capitalize;
+      font-weight: 700;
+      line-height: 1.2;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      background: $gradient-gold;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 12px;
+      
       &.white {
-        color: #ffffff;
+        color: $text-light;
+        -webkit-text-fill-color: $text-light;
       }
     }
-
+    
+    p {
+      color: $text-gray;
+      font-family: $font;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 1.5;
+      max-width: 300px;
+    }
   }
 
   .trend-properties {
-    padding: 0px 10px;
+    padding: 60px 16px;
     width: 100%;
     height: auto;
     display: flex;
     flex-direction: row;
+    background: $gradient-primary;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(ellipse at center, rgba(255, 215, 0, 0.05) 0%, transparent 70%);
+      pointer-events: none;
+    }
     .container {
       width: 100%;
       flex-direction: column;
@@ -50,42 +92,74 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          color: $text-gray;
+          font-family: $font;
+          font-size: 16px;
         }
         .trend-property-swiper {
           width: 100%;
           height: 400px;
           display: flex;
           flex-direction: row;
+          padding: 10px 0 20px;
+          
           .trend-property-slide {
             width: 98%;
             height: auto;
             display: flex;
+            border-radius: 16px;
+            background: $gradient-card;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+            transition: all 0.3s ease;
+            
+            &:hover {
+              transform: translateY(-8px);
+              box-shadow: 0 20px 60px rgba(255, 215, 0, 0.2);
+              border-color: rgba(255, 215, 0, 0.3);
+            }
             .trend-card-box {
               position: relative;
               width: 100%;
-              height: 375px;
+              height: 400px;
               display: flex;
               flex-direction: column;
               .card-img {
                 position: relative;
                 width: 100%;
-                height: 203px;
+                height: 220px;
                 background-size: cover;
-                border-radius: 12px 12px 0px 0px;
+                border-radius: 16px 16px 0px 0px;
                 cursor: pointer;
+                overflow: hidden;
+                
+                &::before {
+                  content: '';
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  right: 0;
+                  bottom: 0;
+                  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.3) 100%);
+                }
+                
                 div {
                   position: absolute;
-                  padding: 8px 12px;
-                  left: 12px;
-                  bottom: 12px;
-                  border-radius: 6px;
-                  background: #fff;
-                  color: #181a20;
+                  padding: 10px 16px;
+                  left: 16px;
+                  bottom: 16px;
+                  border-radius: 20px;
+                  background: $gradient-gold;
+                  color: $primary-dark;
                   font-family: $font;
-                  font-size: 15px;
+                  font-size: 12px;
                   font-style: normal;
-                  font-weight: 600;
+                  font-weight: 700;
                   line-height: normal;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                  box-shadow: 0 4px 20px rgba(255, 215, 0, 0.3);
                 }
               }
               .info {

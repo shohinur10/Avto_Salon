@@ -7,8 +7,10 @@ import TopAgents from '../libs/components/homepage/TopAgents';
 import Events from '../libs/components/homepage/Events';
 import TrendProperties from '../libs/components/homepage/TrendProperties';
 import TopProperties from '../libs/components/homepage/TopProperties';
+import InspiringExcellence from '../libs/components/homepage/InspiringExcellence';
+import CraftsmanshipHeritage from '../libs/components/homepage/CraftsmanshipHeritage';
+import SignatureExperience from '../libs/components/homepage/SignatureExperience';
 import { Stack } from '@mui/material';
-import Advertisement from '../libs/components/homepage/Advertisement';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -23,22 +25,26 @@ const Home: NextPage = () => {
 	if (device === 'mobile') {
 		return (
 			<Stack className={'home-page'}>
+				<InspiringExcellence />
 				<TrendProperties />
 				<PopularProperties />
-				<Advertisement />
+				<CraftsmanshipHeritage />
 				<TopProperties />
 				<TopAgents />
+				<SignatureExperience />
 			</Stack>
 		);
 	} else {
 		return (
 			<Stack className={'home-page'}>
+				<InspiringExcellence />
 				<TrendProperties />
 				<PopularProperties />
-				<Advertisement />
+				<CraftsmanshipHeritage />
 				<TopProperties />
 				<TopAgents />
 				<Events />
+				<SignatureExperience />
 				<CommunityBoards />
 			</Stack>
 		);
