@@ -32,7 +32,7 @@ const CS: NextPage = () => {
 	const tab = router.query.tab ?? 'notice';
 
 	if (device === 'mobile') {
-		return <h1>CS PAGE MOBILE</h1>;
+		return <h1> SUPPORT PAGE MOBILE</h1>;
 	} else {
 		return (
 			<Stack className={'cs-page'}>

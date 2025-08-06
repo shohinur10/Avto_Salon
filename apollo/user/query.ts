@@ -18,7 +18,7 @@ query GetAgents($input: AgentsInquiry!) {
             memberImage
             memberAddress
             memberDesc
-            memberProperties
+            memberCars
             memberArticles
             memberFollowers
             memberFollowings
@@ -66,7 +66,7 @@ query GetMember($input: String!) {
         memberImage
         memberAddress
         memberDesc
-        memberProperties
+        memberCars
         memberArticles
         memberPoints
         memberLikes
@@ -93,87 +93,187 @@ query GetMember($input: String!) {
  *        PROPERTY        *
  *************************/
 
-export const GET_PROPERTY = gql`
-	query GetProperty($input: String!) {
-		getProperty(propertyId: $input) {
-			_id
-			propertyType
-			propertyStatus
-			propertyLocation
-			propertyAddress
-			propertyTitle
-			propertyPrice
-			propertySquare
-			propertyBeds
-			propertyRooms
-			propertyViews
-			propertyLikes
-			propertyImages
-			propertyDesc
-			propertyBarter
-			propertyRent
-			memberId
-			soldAt
-			deletedAt
-			constructedAt
-			createdAt
-			updatedAt
-			memberData {
-				_id
-				memberType
-				memberStatus
-				memberAuthType
-				memberPhone
-				memberNick
-				memberFullName
-				memberImage
-				memberAddress
-				memberDesc
-				memberWarnings
-				memberBlocks
-				memberPoints
-				memberLikes
-				memberViews
-				deletedAt
-				createdAt
-				updatedAt
-				accessToken
-			}
-			meLiked {
-				memberId
-				likeRefId
-				myFavorite
-			}
-		}
-	}
+export const GET_CAR = gql`
+	query GetCar($input: String!) {
+    getCar(carId: $input) {
+        _id
+        carTransactionType
+        carCategory
+        carStatus
+        carLocation
+        carAddress
+        carTitle
+        carPrice
+        carYear
+        carSeats
+        carDoors
+        carViews
+        carLikes
+        carComments
+        carRank
+        carImages
+        carDesc
+        isBarterAvailable
+        isForRent
+        discountPercent
+        discountedPrice
+        memberId
+        soldAt
+        deletedAt
+        registeredAt
+        createdAt
+        updatedAt
+        memberData {
+            _id
+            memberType
+            memberStatus
+            memberAuthType
+            memberPhone
+            memberNick
+            memberFullName
+            memberImage
+            memberAddress
+            memberDesc
+            memberCars
+            memberArticles
+            memberFollowers
+            memberFollowings
+            memberPoints
+            memberLikes
+            memberViews
+            memberComments
+            memberRank
+            memberBlocks
+            memberWarnings
+            deletedAt
+            createdAt
+            updatedAt
+            accessToken
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            meFollowed {
+                followingId
+                followerId
+                myFollowing
+            }
+        }
+        brand
+    }
+}
 `;
 
-export const GET_PROPERTIES = gql`
-	query GetProperties($input: PropertiesInquiry!) {
-    getProperties(input: $input) {
+export const GET_CARS = gql`
+	query GetCars($input: CarsInquiry!) {
+    getCars(input: $input) {
         list {
             _id
-            propertyType
-            propertyStatus
-            propertyLocation
-            propertyAddress
-            propertyTitle
-            propertyPrice
-            propertySquare
-            propertyBeds
-            propertyRooms
-            propertyViews
-            propertyLikes
-            propertyComments
-            propertyRank
-            propertyImages
-            propertyDesc
-            propertyBarter
-            propertyRent
+            carTransactionType
+            carCategory
+            carStatus
+            carLocation
+            carAddress
+            carTitle
+            carPrice
+            carYear
+            carSeats
+            carDoors
+            carViews
+            carLikes
+            carComments
+            carRank
+            carImages
+            carDesc
+            isBarterAvailable
+            isForRent
+            discountPercent
+            discountedPrice
             memberId
             soldAt
             deletedAt
-            constructedAt
+            registeredAt
+            createdAt
+            updatedAt
+            brand
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberCars
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberBlocks
+                memberWarnings
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+                meLiked {
+                    memberId
+                    likeRefId
+                    myFavorite
+                }
+                meFollowed {
+                    followingId
+                    followerId
+                    myFollowing
+                }
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
+
+`;
+
+export const GET_AGENT_CARS= gql`
+query GetAgentCars($input:AgentCarsInquiry!) {
+    getAgentCars(input:$input) {
+        list {
+            _id
+            carTransactionType
+            carCategory
+            carStatus
+            carLocation
+            brand
+            carAddress
+            carTitle
+            carPrice
+            carYear
+            carSeats
+            carDoors
+            carViews
+            carLikes
+            carComments
+            carRank
+            carImages
+            carDesc
+            isBarterAvailable
+            isForRent
+            discountPercent
+            discountedPrice
+            memberId
+            soldAt
+            deletedAt
+            registeredAt
             createdAt
             updatedAt
             memberData {
@@ -187,7 +287,7 @@ export const GET_PROPERTIES = gql`
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberCars
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -222,224 +322,159 @@ export const GET_PROPERTIES = gql`
 
 `;
 
-export const GET_AGENT_PROPERTIES = gql`
-	query GetAgentProperties($input: AgentPropertiesInquiry!) {
-		getAgentProperties(input: $input) {
-			list {
-				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
-				memberId
-				soldAt
-				deletedAt
-				constructedAt
-				createdAt
-				updatedAt
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
-`;
-
 export const GET_FAVORITES = gql`
 	query GetFavorites($input: OrdinaryInquiry!) {
-		getFavorites(input: $input) {
-			list {
-				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyComments
-				propertyRank
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
-				memberId
-				soldAt
-				deletedAt
-				constructedAt
-				createdAt
-				updatedAt
-				memberData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberProperties
-					memberArticles
-					memberPoints
-					memberLikes
-					memberViews
-					memberComments
-					memberFollowings
-					memberFollowers
-					memberRank
-					memberWarnings
-					memberBlocks
-					deletedAt
-					createdAt
-					updatedAt
-					accessToken
-				}
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
+    getFavorites(input: $input) {
+        list {
+            _id
+            carTransactionType
+            carCategory
+            carStatus
+            carLocation
+            carAddress
+            carTitle
+            carPrice
+            carYear
+            carSeats
+            carDoors
+            carViews
+            carLikes
+            carComments
+            carRank
+            carImages
+            carDesc
+            isBarterAvailable
+            isForRent
+            discountPercent
+            discountedPrice
+            memberId
+            soldAt
+            deletedAt
+            registeredAt
+            createdAt
+            updatedAt
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberCars
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberBlocks
+                memberWarnings
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+                meLiked {
+                    memberId
+                    likeRefId
+                    myFavorite
+                }
+                meFollowed {
+                    followingId
+                    followerId
+                    myFollowing
+                }
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
 `;
 
 export const GET_VISITED = gql`
 	query GetVisited($input: OrdinaryInquiry!) {
-		getVisited(input: $input) {
-			list {
-				_id
-				propertyType
-				propertyStatus
-				propertyLocation
-				propertyAddress
-				propertyTitle
-				propertyPrice
-				propertySquare
-				propertyBeds
-				propertyRooms
-				propertyViews
-				propertyLikes
-				propertyComments
-				propertyRank
-				propertyImages
-				propertyDesc
-				propertyBarter
-				propertyRent
-				memberId
-				soldAt
-				deletedAt
-				constructedAt
-				createdAt
-				updatedAt
-				memberData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberProperties
-					memberArticles
-					memberPoints
-					memberLikes
-					memberViews
-					memberComments
-					memberFollowings
-					memberFollowers
-					memberRank
-					memberWarnings
-					memberBlocks
-					deletedAt
-					createdAt
-					updatedAt
-					accessToken
-				}
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
-`;
-
-/**************************
- *      BOARD-ARTICLE     *
- *************************/
-
-export const GET_BOARD_ARTICLE = gql`
-query GetBoardArticle($input: String!) {
-    getBoardArticle(articleId: $input) {
-        _id
-        articleCategory
-        articleStatus
-        articleTitle
-        articleContent
-        articleImage
-        articleViews
-        articleLikes
-        articleComments
-        memberId
-        createdAt
-        updatedAt
-        memberData {
+    getVisited(input: $input) {
+        list {
             _id
-            memberType
-            memberStatus
-            memberAuthType
-            memberPhone
-            memberNick
-            memberFullName
-            memberImage
-            memberAddress
-            memberDesc
-            memberProperties
-            memberArticles
-            memberFollowers
-            memberFollowings
-            memberPoints
-            memberLikes
-            memberViews
-            memberComments
-            memberRank
-            memberBlocks
-            memberWarnings
+            carTransactionType
+            carCategory
+            carStatus
+            carLocation
+            carAddress
+            carTitle
+            carPrice
+            carYear
+            carSeats
+            carDoors
+            carViews
+            carLikes
+            carComments
+            carRank
+            carImages
+            carDesc
+            isBarterAvailable
+            isForRent
+            discountPercent
+            discountedPrice
+            memberId
+            soldAt
             deletedAt
+            registeredAt
             createdAt
             updatedAt
-            accessToken
-            meLiked {
-                memberId
-                likeRefId
-                myFavorite
+            brand
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberCars
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberBlocks
+                memberWarnings
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+                meLiked {
+                    memberId
+                    likeRefId
+                    myFavorite
+                }
+                meFollowed {
+                    followingId
+                    followerId
+                    myFollowing
+                }
             }
-            meFollowed {
-                followingId
-                followerId
-                myFollowing
-            }
+        }
+        metaCounter {
+            total
         }
     }
 }
+
 
 `;
 
@@ -470,7 +505,70 @@ export const GET_BOARD_ARTICLES = gql`
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberCars
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberBlocks
+                memberWarnings
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+                meLiked {
+                    memberId
+                    likeRefId
+                    myFavorite
+                }
+                meFollowed {
+                    followingId
+                    followerId
+                    myFollowing
+                }
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
+
+`;
+
+/**************************
+ *         COMMENT        *
+ *************************/
+
+export const GET_COMMENTS = gql`
+	query GetComments($input:CommentsInquiry!) {
+    getComments(input: $input) {
+        list {
+            _id
+            commentStatus
+            commentGroup
+            commentContent
+            commentRefId
+            memberId
+            createdAt
+            updatedAt
+            memberData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberCars
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -506,158 +604,113 @@ export const GET_BOARD_ARTICLES = gql`
 `;
 
 /**************************
- *         COMMENT        *
- *************************/
-
-export const GET_COMMENTS = gql`
-	query GetComments($input: CommentsInquiry!) {
-		getComments(input: $input) {
-			list {
-				_id
-				commentStatus
-				commentGroup
-				commentContent
-				commentRefId
-				memberId
-				createdAt
-				updatedAt
-				memberData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberWarnings
-					memberBlocks
-					memberProperties
-					memberRank
-					memberPoints
-					memberLikes
-					memberViews
-					deletedAt
-					createdAt
-					updatedAt
-					accessToken
-				}
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
-`;
-
-/**************************
  *         FOLLOW        *
  *************************/
 export const GET_MEMBER_FOLLOWERS = gql`
 	query GetMemberFollowers($input: FollowInquiry!) {
-		getMemberFollowers(input: $input) {
-			list {
-				_id
-				followingId
-				followerId
-				createdAt
-				updatedAt
-				meLiked {
-					memberId
-					likeRefId
-					myFavorite
-				}
-				meFollowed {
-					followingId
-					followerId
-					myFollowing
-				}
-				followerData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberProperties
-					memberArticles
-					memberPoints
-					memberLikes
-					memberViews
-					memberComments
-					memberFollowings
-					memberFollowers
-					memberRank
-					memberWarnings
-					memberBlocks
-					deletedAt
-					createdAt
-					updatedAt
-				}
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
+    getMemberFollowers(input: $input) {
+        list {
+            _id
+            followingId
+            followerId
+            createdAt
+            updatedAt
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            meFollowed {
+                followingId
+                followerId
+                myFollowing
+            }
+            followerData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberCars
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberBlocks
+                memberWarnings
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
 `;
 
 export const GET_MEMBER_FOLLOWINGS = gql`
 	query GetMemberFollowings($input: FollowInquiry!) {
-		getMemberFollowings(input: $input) {
-			list {
-				_id
-				followingId
-				followerId
-				createdAt
-				updatedAt
-				followingData {
-					_id
-					memberType
-					memberStatus
-					memberAuthType
-					memberPhone
-					memberNick
-					memberFullName
-					memberImage
-					memberAddress
-					memberDesc
-					memberProperties
-					memberArticles
-					memberPoints
-					memberLikes
-					memberViews
-					memberComments
-					memberFollowings
-					memberFollowers
-					memberRank
-					memberWarnings
-					memberBlocks
-					deletedAt
-					createdAt
-					updatedAt
-					accessToken
-				}
-				meLiked {
-					memberId
-					likeRefId
-					myFavorite
-				}
-				meFollowed {
-					followingId
-					followerId
-					myFollowing
-				}
-			}
-			metaCounter {
-				total
-			}
-		}
-	}
+    getMemberFollowings(input: $input) {
+        list {
+            _id
+            followingId
+            followerId
+            createdAt
+            updatedAt
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            meFollowed {
+                followingId
+                followerId
+                myFollowing
+            }
+            followingData {
+                _id
+                memberType
+                memberStatus
+                memberAuthType
+                memberPhone
+                memberNick
+                memberFullName
+                memberImage
+                memberAddress
+                memberDesc
+                memberCars
+                memberArticles
+                memberFollowers
+                memberFollowings
+                memberPoints
+                memberLikes
+                memberViews
+                memberComments
+                memberRank
+                memberBlocks
+                memberWarnings
+                deletedAt
+                createdAt
+                updatedAt
+                accessToken
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+
 `;

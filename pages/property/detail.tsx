@@ -203,7 +203,7 @@ const PropertyDetail: NextPage = ({ initialComment, ...props }: any) => {
 		);
 	}
 	if (device === 'mobile') {
-		return <div>PROPERTY DETAIL PAGE</div>;
+		return <div> CAR DETAIL PAGE</div>;
 	} else {
 		return (
 			<div id={'property-detail-page'}>

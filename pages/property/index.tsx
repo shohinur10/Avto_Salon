@@ -129,7 +129,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>PROPERTIES MOBILE</h1>;
+		return <h1>Browser  Cars MOBILE</h1>;
 	} else {
 		return (
 			<div id="property-list-page" style={{ position: 'relative' }}>

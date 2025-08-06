@@ -1,0 +1,142 @@
+// Mobile Lamborghini Menu System
+#mobile-wrap {
+	#top {
+		.top {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			z-index: 999;
+			background: $lamborghini-dark;
+			border-bottom: 3px solid $lamborghini-orange;
+			padding: 15px 20px;
+			display: flex;
+			flex-direction: column;
+			gap: 0;
+			box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8);
+			
+			// Carbon fiber pattern
+			&::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: $gradient-carbon;
+				background-size: 15px 15px;
+				background-position: 0 0, 0 0, 7.5px 7.5px, 7.5px 7.5px;
+				opacity: 0.1;
+				pointer-events: none;
+			}
+			
+			// Racing stripe
+			&::after {
+				content: '';
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				height: 3px;
+				background: $gradient-lamborghini;
+				box-shadow: 0 0 15px rgba(255, 102, 0, 0.8);
+			}
+			
+			a {
+				text-decoration: none;
+				position: relative;
+				z-index: 2;
+				
+				div {
+					position: relative;
+					padding: 15px 20px;
+					margin: 2px 0;
+					color: $text-light;
+					font-family: $font-heading;
+					font-size: 16px;
+					font-weight: 700;
+					text-transform: uppercase;
+					letter-spacing: 1.5px;
+					text-align: center;
+					cursor: pointer;
+					transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+					background: linear-gradient(135deg, rgba(26, 26, 26, 0.8) 0%, rgba(45, 45, 45, 0.6) 100%);
+					clip-path: polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%);
+					border: 1px solid rgba(255, 102, 0, 0.3);
+					
+					// Hexagonal glow effect
+					&::before {
+						content: '';
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						background: $gradient-lamborghini;
+						clip-path: polygon(20px 0%, 100% 0%, calc(100% - 20px) 100%, 0% 100%);
+						opacity: 0;
+						transition: all 0.4s ease;
+						z-index: -1;
+					}
+					
+					// Speed lines effect
+					&::after {
+						content: '';
+						position: absolute;
+						top: 50%;
+						left: -100%;
+						width: 100%;
+						height: 2px;
+						background: linear-gradient(90deg, transparent 0%, $lamborghini-orange 50%, transparent 100%);
+						transform: translateY(-50%);
+						transition: all 0.6s ease;
+						opacity: 0;
+					}
+					
+					&:hover, &:active {
+						color: $lamborghini-dark;
+						transform: translateX(5px) scale(1.02);
+						box-shadow: 0 10px 30px rgba(255, 102, 0, 0.4);
+						border-color: $lamborghini-orange;
+						
+						&::before {
+							opacity: 1;
+						}
+						
+						&::after {
+							left: 0;
+							opacity: 1;
+							animation: speed-lines 0.8s ease-out;
+						}
+					}
+					
+					// First and last items special styling
+					&:first-child {
+						border-top: 2px solid $lamborghini-orange;
+						clip-path: polygon(25px 0%, 100% 0%, calc(100% - 25px) 100%, 0% 100%);
+					}
+					
+					&:last-child {
+						border-bottom: 2px solid $lamborghini-orange;
+						clip-path: polygon(25px 0%, 100% 0%, calc(100% - 25px) 100%, 0% 100%);
+					}
+				}
+			}
+		}
+	}
+}
+
+// Mobile Racing Animations
+@keyframes speed-lines {
+	0% {
+		transform: translateX(-100%);
+		opacity: 0;
+	}
+	50% {
+		opacity: 1;
+	}
+	100% {
+		transform: translateX(100%);
+		opacity: 0;
+	}
+}
