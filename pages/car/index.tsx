@@ -1,20 +1,20 @@
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { Box, Button, Menu, MenuItem, Pagination, Stack, Typography } from '@mui/material';
-import PropertyCard from '../../libs/components/property/PropertyCard';
+import CarCard from '../../libs/components/car/CarCard';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import Filter from '../../libs/components/property/Filter';
+import Filter from '../../libs/components/car/Filter';
 import { useRouter } from 'next/router';
-import { PropertiesInquiry } from '../../libs/types/property/property.input';
-import { Property } from '../../libs/types/property/property';
+import { CarsInquiry } from '../../libs/types/car/car.input';
+import { Car } from '../../libs/types/car/car';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
 import { Direction, Message } from '../../libs/enums/common.enum';
-import { GET_PROPERTIES } from '../../apollo/user/query';
+import { GET_CARS } from '../../apollo/user/query';
 import { T } from '../../libs/types/common';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_PROPERTY } from '../../apollo/user/mutation';
+import { LIKE_TARGET_CAR } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
 
 export const getStaticProps = async ({ locale }: any) => ({
@@ -23,13 +23,13 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
+const CarList: NextPage = ({ initialInput, ...props }: any) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(
+	const [searchFilter, setSearchFilter] = useState<CarsInquiry>(
 		router?.query?.input ? JSON.parse(router?.query?.input as string) : initialInput,
 	);
-	const [properties, setProperties] = useState<Property[]>([]);
+	const [cars, setCars] = useState<Car[]>([]);
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -37,19 +37,19 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const [filterSortName, setFilterSortName] = useState('New');
 
 	/** APOLLO REQUESTS **/
-	const [likeTargetProperty] = useMutation(LIKE_TARGET_PROPERTY);
+	const [likeTargetCar] = useMutation(LIKE_TARGET_CAR);
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
-	} = useQuery(GET_PROPERTIES, {
+		loading: getCarsLoading,
+		data: getCarsData,
+		error: getCarsError,
+		refetch: getCarsRefetch,
+	} = useQuery(GET_CARS, {
 		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setProperties(data?.getProperties?.list);
-			setTotal(data?.getProperties?.metaCounter[0]?.total);
+			setCars(data?.getCars?.list);
+			setTotal(data?.getCars?.metaCounter[0]?.total);
 		},
 	});
 	
@@ -73,28 +73,28 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
 		searchFilter.page = value;
 		await router.push(
-			`/property?input=${JSON.stringify(searchFilter)}`,
-			`/property?input=${JSON.stringify(searchFilter)}`,
+			`/car?input=${JSON.stringify(searchFilter)}`,
+			`/car?input=${JSON.stringify(searchFilter)}`,
 			{
 				scroll: false,
 			},
 		);
 		setCurrentPage(value);
 	};
-	const likePropertyHandler = async (user: T, id: string) => {
+	const likeCarHandler = async (user: T, id: string) => {
 		try {
 			if (!id) return;
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 
-			await likeTargetProperty({
+			await likeTargetCar({
 				variables: { input: id },
 			});
 
-			await getPropertiesRefetch({ input: initialInput });
+			await getCarsRefetch({ input: initialInput });
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('Error, likePropertyHandler', err.message);
+			console.log('Error, likeCarHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -117,11 +117,11 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 				setFilterSortName('New');
 				break;
 			case 'lowest':
-				setSearchFilter({ ...searchFilter, sort: 'propertyPrice', direction: Direction.ASC });
+				setSearchFilter({ ...searchFilter, sort: 'carPrice', direction: Direction.ASC });
 				setFilterSortName('Lowest Price');
 				break;
 			case 'highest':
-				setSearchFilter({ ...searchFilter, sort: 'propertyPrice', direction: Direction.DESC });
+				setSearchFilter({ ...searchFilter, sort: 'carPrice', direction: Direction.DESC });
 				setFilterSortName('Highest Price');
 		}
 		setSortingOpen(false);
@@ -129,10 +129,10 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	};
 
 	if (device === 'mobile') {
-		return <h1>Browser  Cars MOBILE</h1>;
+		return <h1>Browse Cars MOBILE</h1>;
 	} else {
-		return (
-			<div id="property-list-page" style={{ position: 'relative' }}>
+					return (
+			<div id="car-list-page" style={{ position: 'relative' }}>
 				<div className="container">
 					<Box component={'div'} className={'right'}>
 						<span>Sort by</span>
@@ -168,26 +168,26 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 							</Menu>
 						</div>
 					</Box>
-					<Stack className={'property-page'}>
+					<Stack className={'car-page'}>
 						<Stack className={'filter-config'}>
 							{/* @ts-ignore */}
 							<Filter searchFilter={searchFilter} setSearchFilter={setSearchFilter} initialInput={initialInput} />
 						</Stack>
 						<Stack className="main-config" mb={'76px'}>
 							<Stack className={'list-config'}>
-								{properties?.length === 0 ? (
+								{cars?.length === 0 ? (
 									<div className={'no-data'}>
 										<img src="/img/icons/icoAlert.svg" alt="" />
-										<p>No Properties found!</p>
+										<p>No Cars found!</p>
 									</div>
 								) : (
-									properties.map((property: Property) => {
-										return <PropertyCard property={property} likePropertyHandler={likePropertyHandler} key={property?._id} />;
+									cars.map((car: Car) => {
+										return <CarCard car={car} likeCarHandler={likeCarHandler} key={car?._id} />;
 									})
 								)}
 							</Stack>
 							<Stack className="pagination-config">
-								{properties.length !== 0 && (
+								{cars.length !== 0 && (
 									<Stack className="pagination-box">
 										<Pagination
 											page={currentPage}
@@ -199,10 +199,10 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 									</Stack>
 								)}
 
-								{properties.length !== 0 && (
+								{cars.length !== 0 && (
 									<Stack className="total-result">
 										<Typography>
-											Total {total} propert{total > 1 ? 'ies' : 'y'} available
+											Total {total} car{total > 1 ? 's' : ''} available
 										</Typography>
 									</Stack>
 								)}
@@ -215,7 +215,7 @@ const PropertyList: NextPage = ({ initialInput, ...props }: any) => {
 	}
 };
 
-PropertyList.defaultProps = {
+CarList.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 9,
@@ -234,4 +234,4 @@ PropertyList.defaultProps = {
 	},
 };
 
-export default withLayoutBasic(PropertyList);
+export default withLayoutBasic(CarList);

@@ -44,7 +44,7 @@ const Top = () => {
 
 	useEffect(() => {
 		switch (router.pathname) {
-			case '/property/detail':
+			case '/car/detail':
 				setBgColor(true);
 				break;
 			default:
@@ -143,7 +143,7 @@ const Top = () => {
 		return (
 			<Stack className={'top'}>
 				<Link href={'/'}><div>{t('Home')}</div></Link>
-				<Link href={'/property'}><div>{t('Properties')}</div></Link>
+				<Link href={'/car'}><div>{t('Cars')}</div></Link>
 				<Link href={'/agent'}><div> {t('Agents')} </div></Link>
 				<Link href={'/community?articleCategory=FREE'}><div> {t('Community')} </div></Link>
 				<Link href={'/cs'}><div> {t('CS')} </div></Link>
@@ -161,7 +161,7 @@ const Top = () => {
 						</Box>
 						<Box className={'router-box'}>
 							<Link href={'/'}><div>{t('Home')}</div></Link>
-							<Link href={'/property'}><div>{t('Properties')}</div></Link>
+							<Link href={'/car'}><div>{t('Cars')}</div></Link>
 							<Link href={'/agent'}><div> {t('Agents')} </div></Link>
 							<Link href={'/community?articleCategory=FREE'}><div> {t('Community')} </div></Link>
 							{user?._id && <Link href={'/mypage'}><div> {t('My Page')} </div></Link>}

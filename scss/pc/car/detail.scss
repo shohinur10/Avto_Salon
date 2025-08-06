@@ -1,15 +1,15 @@
 #pc-wrap {
-	#property-detail-page {
+	#car-detail-page {
 		position: relative;
 		background: #fff;
 		padding-top: 87px;
 		padding-bottom: 200px;
-		.property-detail-config {
+		.car-detail-config {
 			width: 100%;
 			height: auto;
 			padding-top: 56px;
 			gap: 30px;
-			.property-info-config {
+			.car-info-config {
 				width: 100%;
 				height: auto;
 				gap: 30px;
@@ -188,7 +188,7 @@
 					}
 				}
 			}
-			.property-desc-config {
+			.car-desc-config {
 				width: 100%;
 				height: auto;
 				flex-direction: row;

@@ -240,11 +240,11 @@
 				pointer-events: none;
 			}
 
-			.trend-property-swiper {
+			.trend-car-swiper {
 				padding: 20px 0 40px;
 				overflow: visible;
 
-				.trend-property-slide {
+				.trend-car-slide {
 					height: auto;
 					border-radius: 20px;
 					background: $gradient-card;
@@ -297,10 +297,10 @@
 				border-radius: 1px;
 			}
 
-			.popular-property-swiper {
+			.popular-car-swiper {
 				padding: 20px 0 40px;
 
-				.popular-property-slide {
+				.popular-car-slide {
 					height: auto;
 					border-radius: 16px;
 					background: rgba(255, 255, 255, 0.03);
@@ -351,10 +351,10 @@
 			background: $gradient-primary;
 			position: relative;
 
-			.top-property-swiper {
+			.top-car-swiper {
 				padding: 20px 0 40px;
 
-				.top-property-slide {
+				.top-car-slide {
 					height: auto;
 					border-radius: 20px;
 					background: rgba(255, 255, 255, 0.05);

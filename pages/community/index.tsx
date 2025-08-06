@@ -96,7 +96,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('Error, likePropertyHandler', err.message);
+			console.log('Error, likeCarHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};

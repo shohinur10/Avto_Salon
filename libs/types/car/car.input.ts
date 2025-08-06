@@ -46,6 +46,7 @@ interface YearRange {
 }
 
 export interface PISearch {
+  doorsList: any;
   memberId?: string;
   locationList?: CarLocation[];
   typeList?: CarTransactionType[];

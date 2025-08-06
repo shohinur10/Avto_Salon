@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { Pagination, Stack, Typography } from '@mui/material';
-import PropertyCard from '../property/PropertyCard';
+import CarCard from '../car/CarCard';
 import { T } from '../../types/common';
 import { useMutation, useQuery } from '@apollo/client';
 import { GET_FAVORITES } from '../../../apollo/user/query';
@@ -53,7 +53,7 @@ const MyFavorites: NextPage = () => {
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
-			console.log('Error, likePropertyHandler', err.message);
+			console.log('Error, likeCarHandler', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -94,7 +94,7 @@ const MyFavorites: NextPage = () => {
 						</Stack>
 						<Stack className="total-result">
 							<Typography>
-								Total {total} favorite car {total > 1 ? 'ies' : 'y'}
+								Total {total} favorite car{total > 1 ? 's' : ''}
 							</Typography>
 						</Stack>
 					</Stack>
