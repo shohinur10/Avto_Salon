@@ -22,6 +22,7 @@ export interface Car {
 	brand: string; // ✅ Added brand field
 	carPrice: number;
 	carYear: number;
+	carMileage?: number; // Added mileage field
 	carSeats: number;
 	carDoors: number;
 	carViews?: number;

@@ -6,11 +6,11 @@ import CloseIcon from '@mui/icons-material/Close';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { propertySquare, propertyYears } from '../../config';
-import { PropertyLocation, PropertyType } from '../../enums/property.enum';
-import { PropertiesInquiry } from '../../types/property/property.input';
+import { CarLocation, CarCategory, CarTransactionType } from '../../enums/car.enum';
+import { CarsInquiry } from '../../types/car/car.input';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { carYear } from '../../config';
 
 const style = {
 	position: 'absolute' as 'absolute',
@@ -33,27 +33,29 @@ const MenuProps = {
 };
 
 const thisYear = new Date().getFullYear();
+const mileageOptions = [0, 10000, 25000, 50000, 75000, 100000, 150000, 200000];
 
 interface HeaderFilterProps {
-	initialInput: PropertiesInquiry;
+	initialInput: CarsInquiry;
 }
 
 const HeaderFilter = (props: HeaderFilterProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
 	const { t, i18n } = useTranslation('common');
-	const [searchFilter, setSearchFilter] = useState<PropertiesInquiry>(initialInput);
+	const [searchFilter, setSearchFilter] = useState<CarsInquiry>(initialInput);
 	const locationRef: any = useRef();
 	const typeRef: any = useRef();
-	const roomsRef: any = useRef();
+	const categoryRef: any = useRef();
 	const router = useRouter();
 	const [openAdvancedFilter, setOpenAdvancedFilter] = useState(false);
 	const [openLocation, setOpenLocation] = useState(false);
 	const [openType, setOpenType] = useState(false);
-	const [openRooms, setOpenRooms] = useState(false);
-	const [propertyLocation, setPropertyLocation] = useState<PropertyLocation[]>(Object.values(PropertyLocation));
-	const [propertyType, setPropertyType] = useState<PropertyType[]>(Object.values(PropertyType));
-	const [yearCheck, setYearCheck] = useState({ start: 1970, end: thisYear });
+	const [openCategory, setOpenCategory] = useState(false);
+	const [carLocation, setCarLocation] = useState<CarLocation[]>(Object.values(CarLocation));
+	const [carTransactionType, setCarTransactionType] = useState<CarTransactionType[]>(Object.values(CarTransactionType));
+	const [carCategory, setCarCategory] = useState<CarCategory[]>(Object.values(CarCategory));
+	const [yearCheck, setYearCheck] = useState({ start: 1990, end: thisYear });
 	const [optionCheck, setOptionCheck] = useState('all');
 
 	/** LIFECYCLES **/
@@ -67,8 +69,8 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				setOpenType(false);
 			}
 
-			if (!roomsRef?.current?.contains(event.target)) {
-				setOpenRooms(false);
+			if (!categoryRef?.current?.contains(event.target)) {
+				setOpenCategory(false);
 			}
 		};
 
@@ -82,36 +84,36 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	/** HANDLERS **/
 	const advancedFilterHandler = (status: boolean) => {
 		setOpenLocation(false);
-		setOpenRooms(false);
+		setOpenCategory(false);
 		setOpenType(false);
 		setOpenAdvancedFilter(status);
 	};
 
 	const locationStateChangeHandler = () => {
 		setOpenLocation((prev) => !prev);
-		setOpenRooms(false);
+		setOpenCategory(false);
 		setOpenType(false);
 	};
 
 	const typeStateChangeHandler = () => {
 		setOpenType((prev) => !prev);
 		setOpenLocation(false);
-		setOpenRooms(false);
+		setOpenCategory(false);
 	};
 
-	const roomStateChangeHandler = () => {
-		setOpenRooms((prev) => !prev);
+	const categoryStateChangeHandler = () => {
+		setOpenCategory((prev) => !prev);
 		setOpenType(false);
 		setOpenLocation(false);
 	};
 
 	const disableAllStateHandler = () => {
-		setOpenRooms(false);
+		setOpenCategory(false);
 		setOpenType(false);
 		setOpenLocation(false);
 	};
 
-	const propertyLocationSelectHandler = useCallback(
+	const carLocationSelectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
@@ -123,13 +125,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				});
 				typeStateChangeHandler();
 			} catch (err: any) {
-				console.log('ERROR, propertyLocationSelectHandler:', err);
+				console.log('ERROR, carLocationSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const propertyTypeSelectHandler = useCallback(
+	const carTransactionTypeSelectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
@@ -139,64 +141,64 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						typeList: [value],
 					},
 				});
-				roomStateChangeHandler();
+				categoryStateChangeHandler();
 			} catch (err: any) {
-				console.log('ERROR, propertyTypeSelectHandler:', err);
+				console.log('ERROR, carTransactionTypeSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const propertyRoomSelectHandler = useCallback(
+	const carCategorySelectHandler = useCallback(
 		async (value: any) => {
 			try {
 				setSearchFilter({
 					...searchFilter,
 					search: {
 						...searchFilter.search,
-						roomsList: [value],
+						carCategoryList: [value],
 					},
 				});
 				disableAllStateHandler();
 			} catch (err: any) {
-				console.log('ERROR, propertyRoomSelectHandler:', err);
+				console.log('ERROR, carCategorySelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const propertyBedSelectHandler = useCallback(
-		async (number: Number) => {
+	const carSeatsSelectHandler = useCallback(
+		async (number: number) => {
 			try {
 				if (number != 0) {
-					if (searchFilter?.search?.bedsList?.includes(number)) {
+					if (searchFilter?.search?.seatsList?.includes(number)) {
 						setSearchFilter({
 							...searchFilter,
 							search: {
 								...searchFilter.search,
-								bedsList: searchFilter?.search?.bedsList?.filter((item: Number) => item !== number),
+								seatsList: searchFilter?.search?.seatsList?.filter((item: number) => item !== number),
 							},
 						});
 					} else {
 						setSearchFilter({
 							...searchFilter,
-							search: { ...searchFilter.search, bedsList: [...(searchFilter?.search?.bedsList || []), number] },
+							search: { ...searchFilter.search, seatsList: [...(searchFilter?.search?.seatsList || []), number] },
 						});
 					}
 				} else {
-					delete searchFilter?.search.bedsList;
+					delete searchFilter?.search.seatsList;
 					setSearchFilter({ ...searchFilter });
 				}
 
-				console.log('propertyBedSelectHandler:', number);
+				console.log('carSeatsSelectHandler:', number);
 			} catch (err: any) {
-				console.log('ERROR, propertyBedSelectHandler:', err);
+				console.log('ERROR, carSeatsSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const propertyOptionSelectHandler = useCallback(
+	const carOptionSelectHandler = useCallback(
 		async (e: any) => {
 			try {
 				const value = e.target.value;
@@ -220,13 +222,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					});
 				}
 			} catch (err: any) {
-				console.log('ERROR, propertyOptionSelectHandler:', err);
+				console.log('ERROR, carOptionSelectHandler:', err);
 			}
 		},
 		[searchFilter],
 	);
 
-	const propertySquareHandler = useCallback(
+	const carMileageHandler = useCallback(
 		async (e: any, type: string) => {
 			const value = e.target.value;
 
@@ -235,8 +237,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					...searchFilter,
 					search: {
 						...searchFilter.search,
-						// @ts-ignore
-						squaresRange: { ...searchFilter.search.squaresRange, start: parseInt(value) },
+						minMileage: parseInt(value),
 					},
 				});
 			} else {
@@ -244,8 +245,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					...searchFilter,
 					search: {
 						...searchFilter.search,
-						// @ts-ignore
-						squaresRange: { ...searchFilter.search.squaresRange, end: parseInt(value) },
+						maxMileage: parseInt(value),
 					},
 				});
 			}
@@ -260,7 +260,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 			...searchFilter,
 			search: {
 				...searchFilter.search,
-				periodsRange: { start: Number(event.target.value), end: yearCheck.end },
+				yearRange: [Number(event.target.value), yearCheck.end],
 			},
 		});
 	};
@@ -272,7 +272,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 			...searchFilter,
 			search: {
 				...searchFilter.search,
-				periodsRange: { start: yearCheck.start, end: Number(event.target.value) },
+				yearRange: [yearCheck.start, Number(event.target.value)],
 			},
 		});
 	};
@@ -280,7 +280,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	const resetFilterHandler = () => {
 		setSearchFilter(initialInput);
 		setOptionCheck('all');
-		setYearCheck({ start: 1970, end: thisYear });
+		setYearCheck({ start: 1990, end: thisYear });
 	};
 
 	const pushSearchHandler = async () => {
@@ -293,21 +293,21 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				delete searchFilter.search.typeList;
 			}
 
-			if (searchFilter?.search?.roomsList?.length == 0) {
-				delete searchFilter.search.roomsList;
+			if (searchFilter?.search?.carCategoryList?.length == 0) {
+				delete searchFilter.search.carCategoryList;
 			}
 
 			if (searchFilter?.search?.options?.length == 0) {
 				delete searchFilter.search.options;
 			}
 
-			if (searchFilter?.search?.bedsList?.length == 0) {
-				delete searchFilter.search.bedsList;
+			if (searchFilter?.search?.seatsList?.length == 0) {
+				delete searchFilter.search.seatsList;
 			}
 
 			await router.push(
-				`/property?input=${JSON.stringify(searchFilter)}`,
-				`/property?input=${JSON.stringify(searchFilter)}`,
+				`/car?input=${JSON.stringify(searchFilter)}`,
+				`/car?input=${JSON.stringify(searchFilter)}`,
 			);
 		} catch (err: any) {
 			console.log('ERROR, pushSearchHandler:', err);
@@ -326,12 +326,12 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							<ExpandMoreIcon />
 						</Box>
 						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
-							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : t('Property type')} </span>
+							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : 'Transaction Type'} </span>
 							<ExpandMoreIcon />
 						</Box>
-						<Box className={`box ${openRooms ? 'on' : ''}`} onClick={roomStateChangeHandler}>
+						<Box className={`box ${openCategory ? 'on' : ''}`} onClick={categoryStateChangeHandler}>
 							<span>
-								{searchFilter?.search?.roomsList ? `${searchFilter?.search?.roomsList[0]} rooms}` : t('Rooms')}
+								{searchFilter?.search?.carCategoryList ? `${searchFilter?.search?.carCategoryList[0]}` : 'Car Category'}
 							</span>
 							<ExpandMoreIcon />
 						</Box>
@@ -348,9 +348,9 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 
 					{/*MENU */}
 					<div className={`filter-location ${openLocation ? 'on' : ''}`} ref={locationRef}>
-						{propertyLocation.map((location: string) => {
+						{carLocation.map((location: string) => {
 							return (
-								<div onClick={() => propertyLocationSelectHandler(location)} key={location}>
+								<div onClick={() => carLocationSelectHandler(location)} key={location}>
 									<img src={`img/banner/cities/${location}.webp`} alt="" />
 									<span>{location}</span>
 								</div>
@@ -359,11 +359,11 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					</div>
 
 					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
-						{propertyType.map((type: string) => {
+						{carTransactionType.map((type: string) => {
 							return (
 								<div
 									style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)` }}
-									onClick={() => propertyTypeSelectHandler(type)}
+									onClick={() => carTransactionTypeSelectHandler(type)}
 									key={type}
 								>
 									<span>{type}</span>
@@ -372,11 +372,11 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 						})}
 					</div>
 
-					<div className={`filter-rooms ${openRooms ? 'on' : ''}`} ref={roomsRef}>
-						{[1, 2, 3, 4, 5].map((room: number) => {
+					<div className={`filter-category ${openCategory ? 'on' : ''}`} ref={categoryRef}>
+						{carCategory.map((category: string) => {
 							return (
-								<span onClick={() => propertyRoomSelectHandler(room)} key={room}>
-									{room} room{room > 1 ? 's' : ''}
+								<span onClick={() => carCategorySelectHandler(category)} key={category}>
+									{category}
 								</span>
 							);
 						})}
@@ -397,17 +397,17 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 								<CloseIcon />
 							</div>
 							<div className={'top'}>
-								<span>Find your home</span>
+								<span>Find your perfect car</span>
 								<div className={'search-input-box'}>
 									<img src="/img/icons/search.svg" alt="" />
 									<input
-										value={searchFilter?.search?.text ?? ''}
+										value={searchFilter?.search?.searchText ?? ''}
 										type="text"
-										placeholder={'What are you looking for?'}
+										placeholder={'What car are you looking for?'}
 										onChange={(e: any) => {
 											setSearchFilter({
 												...searchFilter,
-												search: { ...searchFilter.search, text: e.target.value },
+												search: { ...searchFilter.search, searchText: e.target.value },
 											});
 										}}
 									/>
@@ -417,21 +417,21 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							<div className={'middle'}>
 								<div className={'row-box'}>
 									<div className={'box'}>
-										<span>bedrooms</span>
+										<span>seats</span>
 										<div className={'inside'}>
 											<div
-												className={`room ${!searchFilter?.search?.bedsList ? 'active' : ''}`}
-												onClick={() => propertyBedSelectHandler(0)}
+												className={`room ${!searchFilter?.search?.seatsList ? 'active' : ''}`}
+												onClick={() => carSeatsSelectHandler(0)}
 											>
 												Any
 											</div>
-											{[1, 2, 3, 4, 5].map((bed: number) => (
+											{[2, 4, 5, 7, 8].map((seats: number) => (
 												<div
-													className={`room ${searchFilter?.search?.bedsList?.includes(bed) ? 'active' : ''}`}
-													onClick={() => propertyBedSelectHandler(bed)}
-													key={bed}
+													className={`room ${searchFilter?.search?.seatsList?.includes(seats) ? 'active' : ''}`}
+													onClick={() => carSeatsSelectHandler(seats)}
+													key={seats}
 												>
-													{bed == 0 ? 'Any' : bed}
+													{seats == 0 ? 'Any' : seats}
 												</div>
 											))}
 										</div>
@@ -442,13 +442,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 											<FormControl>
 												<Select
 													value={optionCheck}
-													onChange={propertyOptionSelectHandler}
+													onChange={carOptionSelectHandler}
 													displayEmpty
 													inputProps={{ 'aria-label': 'Without label' }}
 												>
 													<MenuItem value={'all'}>All Options</MenuItem>
-													<MenuItem value={'propertyBarter'}>Barter</MenuItem>
-													<MenuItem value={'propertyRent'}>Rent</MenuItem>
+													<MenuItem value={'carBarter'}>Barter Available</MenuItem>
+													<MenuItem value={'carRent'}>For Rent</MenuItem>
 												</Select>
 											</FormControl>
 										</div>
@@ -466,7 +466,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 													inputProps={{ 'aria-label': 'Without label' }}
 													MenuProps={MenuProps}
 												>
-													{propertyYears?.slice(0)?.map((year: number) => (
+													{carYear?.slice(0)?.map((year: number) => (
 														<MenuItem value={year} disabled={yearCheck.end <= year} key={year}>
 															{year}
 														</MenuItem>
@@ -482,7 +482,7 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 													inputProps={{ 'aria-label': 'Without label' }}
 													MenuProps={MenuProps}
 												>
-													{propertyYears
+													{carYear
 														?.slice(0)
 														.reverse()
 														.map((year: number) => (
@@ -495,23 +495,23 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 										</div>
 									</div>
 									<div className={'box'}>
-										<span>square meter</span>
+										<span>mileage (miles)</span>
 										<div className={'inside space-between align-center'}>
 											<FormControl sx={{ width: '122px' }}>
 												<Select
-													value={searchFilter?.search?.squaresRange?.start}
-													onChange={(e: any) => propertySquareHandler(e, 'start')}
+													value={searchFilter?.search?.minMileage || 0}
+													onChange={(e: any) => carMileageHandler(e, 'start')}
 													displayEmpty
 													inputProps={{ 'aria-label': 'Without label' }}
 													MenuProps={MenuProps}
 												>
-													{propertySquare.map((square: number) => (
+													{mileageOptions.map((mileage: number) => (
 														<MenuItem
-															value={square}
-															disabled={(searchFilter?.search?.squaresRange?.end || 0) < square}
-															key={square}
+															value={mileage}
+															disabled={(searchFilter?.search?.maxMileage || 200000) < mileage}
+															key={mileage}
 														>
-															{square}
+															{mileage.toLocaleString()}
 														</MenuItem>
 													))}
 												</Select>
@@ -519,19 +519,19 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 											<div className={'minus-line'}></div>
 											<FormControl sx={{ width: '122px' }}>
 												<Select
-													value={searchFilter?.search?.squaresRange?.end}
-													onChange={(e: any) => propertySquareHandler(e, 'end')}
+													value={searchFilter?.search?.maxMileage || 200000}
+													onChange={(e: any) => carMileageHandler(e, 'end')}
 													displayEmpty
 													inputProps={{ 'aria-label': 'Without label' }}
 													MenuProps={MenuProps}
 												>
-													{propertySquare.map((square: number) => (
+													{mileageOptions.map((mileage: number) => (
 														<MenuItem
-															value={square}
-															disabled={(searchFilter?.search?.squaresRange?.start || 0) > square}
-															key={square}
+															value={mileage}
+															disabled={(searchFilter?.search?.minMileage || 0) > mileage}
+															key={mileage}
 														>
-															{square}
+															{mileage.toLocaleString()}
 														</MenuItem>
 													))}
 												</Select>
@@ -567,14 +567,13 @@ HeaderFilter.defaultProps = {
 		page: 1,
 		limit: 9,
 		search: {
-			squaresRange: {
-				start: 0,
-				end: 500,
-			},
+			yearRange: [1990, 2024],
 			pricesRange: {
 				start: 0,
-				end: 2000000,
+				end: 500000,
 			},
+			minMileage: 0,
+			maxMileage: 200000,
 		},
 	},
 };

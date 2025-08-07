@@ -10,9 +10,10 @@ export interface CarInput {
   carTitle: string;
   brand: string; // ✅ Added brand field
   carPrice: number;
-  carYear: number;
-  carSeats: number;
-  carDoors: number;
+  	carYear: number;
+	carMileage?: number; // Added mileage field
+	carSeats: number;
+	carDoors: number;
   carViews?: number;
   carLikes?: number;
   carComments?: number;
@@ -46,7 +47,6 @@ interface YearRange {
 }
 
 export interface PISearch {
-  doorsList: any;
   memberId?: string;
   locationList?: CarLocation[];
   typeList?: CarTransactionType[];
@@ -58,6 +58,8 @@ export interface PISearch {
   periodsRange?: PeriodsRange;
   minMileage?: number;
   maxMileage?: number;
+  seatsList?: number[];
+  doorsList?: number[];
   options?: string[];  // like CarLoan, CarInsurance
   searchText?: string;
 }

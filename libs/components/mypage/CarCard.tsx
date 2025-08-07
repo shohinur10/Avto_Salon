@@ -98,7 +98,7 @@ export const CarCard = (props: CarCardProps) => {
 							},
 						}}
 					>
-						{car.carStatus === 'ACTIVE' && (
+						{car.carStatus === CarStatus.AVAILABLE && (
 							<>
 								<MenuItem
 									disableRipple
@@ -115,9 +115,9 @@ export const CarCard = (props: CarCardProps) => {
 				)}
 
 				<Stack className="views-box">
-					<Typography className="views">{car.carViews.toLocaleString()}</Typography>
+					<Typography className="views">{car.carViews?.toLocaleString()}</Typography>
 				</Stack>
-				{!memberPage && car.carStatus === CarStatus.ACTIVE &&(
+				{!memberPage && car.carStatus === CarStatus.AVAILABLE &&(
 					<Stack className="action-box">
 						<IconButton className="icon-button" onClick={() => pushEditCar(car._id)}>
 							<ModeIcon className="buttons" />

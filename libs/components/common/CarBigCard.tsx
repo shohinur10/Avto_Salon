@@ -37,7 +37,7 @@ const CarBigCard = (props: CarBigCardProps) => {
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${car?.carImages?.[0]})` }}
 				>
-					{car && car?.carRank >= topCarRank && (
+					{car && car?.carRank && car?.carRank >= topCarRank && (
 						<div className={'status'}>
 							<img src="/img/icons/electricity.svg" alt="" />
 							<span>top</span>

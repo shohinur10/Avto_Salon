@@ -18,7 +18,7 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
             memberImage
             memberAddress
             memberDesc
-            memberProperties
+            memberCars
             memberArticles
             memberFollowers
             memberFollowings
@@ -56,7 +56,7 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
  *        PROPERTY        *
  *************************/
 
-export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
+export const GET_ALL_CARS_BY_ADMIN = gql`
 		query GetAllPropertiesByAdmin($input: AllPropertiesInquiry!) {
     getAllPropertiesByAdmin(input: $input) {
         list {
@@ -95,7 +95,7 @@ export const GET_ALL_PROPERTIES_BY_ADMIN = gql`
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberCars
                 memberArticles
                 memberFollowers
                 memberFollowings
@@ -161,7 +161,7 @@ export const GET_ALL_BOARD_ARTICLES_BY_ADMIN = gql`
                 memberImage
                 memberAddress
                 memberDesc
-                memberProperties
+                memberCars
                 memberArticles
                 memberFollowers
                 memberFollowings

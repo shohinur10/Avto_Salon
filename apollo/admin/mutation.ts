@@ -17,7 +17,7 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
 			memberImage
 			memberAddress
 			memberDesc
-			memberProperties
+			memberCars
 			memberRank
 			memberArticles
 			memberPoints
@@ -37,7 +37,7 @@ export const UPDATE_MEMBER_BY_ADMIN = gql`
  *        PROPERTY        *
  *************************/
 
-export const UPDATE_PROPERTY_BY_ADMIN = gql`
+export const UPDATE_CAR_BY_ADMIN = gql`
 	mutation UpdatePropertyByAdmin($input: PropertyUpdate!) {
 		updatePropertyByAdmin(input: $input) {
 			_id
@@ -66,7 +66,7 @@ export const UPDATE_PROPERTY_BY_ADMIN = gql`
 	}
 `;
 
-export const REMOVE_PROPERTY_BY_ADMIN = gql`
+export const REMOVE_CAR_BY_ADMIN = gql`
 	mutation RemovePropertyByAdmin($input: String!) {
 		removePropertyByAdmin(propertyId: $input) {
 			_id

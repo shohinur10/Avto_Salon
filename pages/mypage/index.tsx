@@ -4,7 +4,7 @@ import { NextPage } from 'next';
 import { Stack } from '@mui/material';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import MyProperties from '../../libs/components/mypage/MyProperties';
+import MyProperties from '../../libs/components/mypage/MyCars';
 import MyFavorites from '../../libs/components/mypage/MyFavorites';
 import RecentlyVisited from '../../libs/components/mypage/RecentlyVisited';
 import AddCar from '../../libs/components/mypage/AddNewProperty';

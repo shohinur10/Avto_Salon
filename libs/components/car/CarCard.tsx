@@ -79,6 +79,11 @@ const CarCard = (props: CarCardType) => {
 					<Stack className="option">
 						<img src="/img/icons/year.svg" alt="" /> <Typography>{car.carYear}</Typography>
 					</Stack>
+					{car.carMileage && (
+						<Stack className="option">
+							<img src="/img/icons/mileage.svg" alt="" /> <Typography>{car.carMileage.toLocaleString()} mi</Typography>
+						</Stack>
+					)}
 					</Stack>
 					<Stack className="divider"></Stack>
 					<Stack className="type-buttons">

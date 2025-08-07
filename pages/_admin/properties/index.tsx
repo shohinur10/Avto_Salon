@@ -8,39 +8,39 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
-import { PropertyPanelList } from '../../../libs/components/admin/properties/PropertyList';
-import { AllPropertiesInquiry } from '../../../libs/types/property/property.input';
-import { Property } from '../../../libs/types/property/property';
-import { PropertyLocation, PropertyStatus } from '../../../libs/enums/property.enum';
+import { CarPanelList } from '../../../libs/components/admin/properties/PropertyList';
+import { AllCarsInquiry } from '../../../libs/types/car/car.input';
+import { Car } from '../../../libs/types/car/car';
+import { CarLocation, CarStatus } from '../../../libs/enums/car.enum';
 import { sweetConfirmAlert, sweetErrorHandling } from '../../../libs/sweetAlert';
-import { PropertyUpdate } from '../../../libs/types/property/property.update';
-import { REMOVE_PROPERTY_BY_ADMIN, UPDATE_PROPERTY_BY_ADMIN } from '../../../apollo/admin/mutation';
+import { CarUpdate } from '../../../libs/types/car/car.update';
+import { REMOVE_CAR_BY_ADMIN, UPDATE_CAR_BY_ADMIN } from '../../../apollo/admin/mutation';
 import { useMutation, useQuery } from '@apollo/client';
-import { GET_ALL_PROPERTIES_BY_ADMIN } from '../../../apollo/admin/query';
+import { GET_ALL_CARS_BY_ADMIN } from '../../../apollo/admin/query';
 import { T } from '../../../libs/types/common';
 import { Box, List, ListItem, Stack } from '@mui/material';
 
 const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
-	const [propertiesInquiry, setPropertiesInquiry] = useState<AllPropertiesInquiry>(initialInquiry);
-	const [properties, setProperties] = useState<Property[]>([]);
-	const [propertiesTotal, setPropertiesTotal] = useState<number>(0);
+	const [carsInquiry, setPropertiesInquiry] = useState<AllCarsInquiry>(initialInquiry);
+	const [cars, setProperties] = useState<Car[]>([]);
+	const [carsTotal, setPropertiesTotal] = useState<number>(0);
 	const [value, setValue] = useState(
-		propertiesInquiry?.search?.propertyStatus ? propertiesInquiry?.search?.propertyStatus : 'ALL',
+		carsInquiry?.search?.carStatus ? carsInquiry?.search?.carStatus : 'ALL',
 	);
 	const [searchType, setSearchType] = useState('ALL');
 
 	/** APOLLO REQUESTS **/
-	const [updatePropertyByAdmin] = useMutation(UPDATE_PROPERTY_BY_ADMIN);
-	const [removePropertyByAdmin] = useMutation(REMOVE_PROPERTY_BY_ADMIN);
+	const [updateCarByAdmin] = useMutation(UPDATE_CAR_BY_ADMIN);
+	const [removeCarByAdmin] = useMutation(REMOVE_CAR_BY_ADMIN);
 	const {
 		loading: getAllPropertiesByAdminLoading,
 		data: getAllPropertiesByAdminData,
 		error: getAllPropertiesByAdminError,
 		refetch: getAllPropertiesByAdminRefetch,
-	} = useQuery(GET_ALL_PROPERTIES_BY_ADMIN, {
+	} = useQuery(GET_ALL_CARS_BY_ADMIN, {
 		fetchPolicy: 'network-only',
-		variables: { input: propertiesInquiry },
+		variables: { input: carsInquiry },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setProperties(data?.getAllPropertiesByAdmin?.list);
@@ -50,19 +50,19 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		getAllPropertiesByAdminRefetch({ input: propertiesInquiry }).then();
-	}, [propertiesInquiry]);
+		getAllPropertiesByAdminRefetch({ input: carsInquiry }).then();
+	}, [carsInquiry]);
 
 	/** HANDLERS **/
 	const changePageHandler = async (event: unknown, newPage: number) => {
-		propertiesInquiry.page = newPage + 1;
-		setPropertiesInquiry({ ...propertiesInquiry });
+		carsInquiry.page = newPage + 1;
+		setPropertiesInquiry({ ...carsInquiry });
 	};
 
 	const changeRowsPerPageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		propertiesInquiry.limit = parseInt(event.target.value, 10);
-		propertiesInquiry.page = 1;
-		setPropertiesInquiry({ ...propertiesInquiry });
+		carsInquiry.limit = parseInt(event.target.value, 10);
+		carsInquiry.page = 1;
+		setPropertiesInquiry({ ...carsInquiry });
 	};
 
 	const menuIconClickHandler = (e: any, index: number) => {
@@ -78,34 +78,34 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const tabChangeHandler = async (event: any, newValue: string) => {
 		setValue(newValue);
 
-		setPropertiesInquiry({ ...propertiesInquiry, page: 1, sort: 'createdAt' });
+		setPropertiesInquiry({ ...carsInquiry, page: 1, sort: 'createdAt' });
 
 		switch (newValue) {
 			case 'ACTIVE':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.ACTIVE } });
+				setPropertiesInquiry({ ...carsInquiry, search: { carStatus: CarStatus.AVAILABLE } });
 				break;
 			case 'SOLD':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.SOLD } });
+				setPropertiesInquiry({ ...carsInquiry, search: { carStatus: CarStatus.SOLD } });
 				break;
 			case 'DELETE':
-				setPropertiesInquiry({ ...propertiesInquiry, search: { propertyStatus: PropertyStatus.DELETE } });
+				setPropertiesInquiry({ ...carsInquiry, search: { carStatus: CarStatus.UNAVAILABLE } });
 				break;
 			default:
-				delete propertiesInquiry?.search?.propertyStatus;
-				setPropertiesInquiry({ ...propertiesInquiry });
+				delete carsInquiry?.search?.carStatus;
+				setPropertiesInquiry({ ...carsInquiry });
 				break;
 		}
 	};
 
-	const removePropertyHandler = async (id: string) => {
+	const removeCarHandler = async (id: string) => {
 		try {
 			if (await sweetConfirmAlert('Are you sure to remove?')) {
-				await removePropertyByAdmin({
+				await removeCarByAdmin({
 					variables: {
 						input: id,
 					},
 				});
-				await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
+				await getAllPropertiesByAdminRefetch({ input: carsInquiry });
 			}
 			menuIconCloseHandler();
 		} catch (err: any) {
@@ -119,33 +119,33 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 
 			if (newValue !== 'ALL') {
 				setPropertiesInquiry({
-					...propertiesInquiry,
+					...carsInquiry,
 					page: 1,
 					sort: 'createdAt',
 					search: {
-						...propertiesInquiry.search,
-						propertyLocationList: [newValue as PropertyLocation],
+						...carsInquiry.search,
+						carLocationList: [newValue as CarLocation],
 					},
 				});
 			} else {
-				delete propertiesInquiry?.search?.propertyLocationList;
-				setPropertiesInquiry({ ...propertiesInquiry });
+				delete carsInquiry?.search?.carLocationList;
+				setPropertiesInquiry({ ...carsInquiry });
 			}
 		} catch (err: any) {
 			console.log('searchTypeHandler: ', err.message);
 		}
 	};
 
-	const updatePropertyHandler = async (updateData: PropertyUpdate) => {
+	const updateCarHandler = async (updateData: CarUpdate) => {
 		try {
 			console.log('+updateData: ', updateData);
-			await updatePropertyByAdmin({
+			await updateCarByAdmin({
 				variables: {
 					input: updateData,
 				},
 			});
 			menuIconCloseHandler();
-			await getAllPropertiesByAdminRefetch({ input: propertiesInquiry });
+			await getAllPropertiesByAdminRefetch({ input: carsInquiry });
 		} catch (err: any) {
 			menuIconCloseHandler();
 			sweetErrorHandling(err).then();
@@ -155,7 +155,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	return (
 		<Box component={'div'} className={'content'}>
 			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
-				Property List
+				Car List
 			</Typography>
 			<Box component={'div'} className={'table-wrap'}>
 				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
@@ -197,7 +197,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 									<MenuItem value={'ALL'} onClick={() => searchTypeHandler('ALL')}>
 										ALL
 									</MenuItem>
-									{Object.values(PropertyLocation).map((location: string) => (
+									{Object.values(CarLocation).map((location: string) => (
 										<MenuItem value={location} onClick={() => searchTypeHandler(location)} key={location}>
 											{location}
 										</MenuItem>
@@ -206,21 +206,21 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 							</Stack>
 							<Divider />
 						</Box>
-						<PropertyPanelList
-							properties={properties}
+						<CarPanelList
+							cars={cars}
 							anchorEl={anchorEl}
 							menuIconClickHandler={menuIconClickHandler}
 							menuIconCloseHandler={menuIconCloseHandler}
-							updatePropertyHandler={updatePropertyHandler}
-							removePropertyHandler={removePropertyHandler}
+							updateCarHandler={updateCarHandler}
+							removeCarHandler={removeCarHandler}
 						/>
 
 						<TablePagination
 							rowsPerPageOptions={[10, 20, 40, 60]}
 							component="div"
-							count={propertiesTotal}
-							rowsPerPage={propertiesInquiry?.limit}
-							page={propertiesInquiry?.page - 1}
+							count={carsTotal}
+							rowsPerPage={carsInquiry?.limit}
+							page={carsInquiry?.page - 1}
 							onPageChange={changePageHandler}
 							onRowsPerPageChange={changeRowsPerPageHandler}
 						/>

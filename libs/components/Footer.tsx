@@ -2,6 +2,8 @@ import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TelegramIcon from '@mui/icons-material/Telegram';
 import TwitterIcon from '@mui/icons-material/Twitter';
+import YouTubeIcon from '@mui/icons-material/YouTube';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import { Stack, Box } from '@mui/material';
 import moment from 'moment';
@@ -55,9 +57,9 @@ const Footer = () => {
 							<div>
 								<strong>Discover</strong>
 								<span>Seoul</span>
-								<span>Gyeongido</span>
-								<span>Busan</span>
-								<span>Jejudo</span>
+								<span>Barcelona</span>
+								<span>New York</span>
+								<span>Paris </span>
 							</div>
 						</Box>
 					</Stack>
@@ -91,6 +93,8 @@ const Footer = () => {
 								<TelegramIcon />
 								<InstagramIcon />
 								<TwitterIcon />
+								<YouTubeIcon />
+								<LinkedInIcon />
 							</div>
 						</Box>
 					</Stack>

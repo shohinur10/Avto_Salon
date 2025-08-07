@@ -57,6 +57,7 @@ const AddCar = ({ initialValues, ...props }: any) => {
 			carDoors: getCarData?.getCar ? getCarData?.getCar?.carDoors : 0,
 			carSeats: getCarData?.getCar ? getCarData?.getCar?.carSeats : 0,
 			carYear: getCarData?.getCar ? getCarData?.getCar?.carYear : 0,
+			carMileage: getCarData?.getCar ? getCarData?.getCar?.carMileage : 0,
 			carDesc: getCarData?.getCar ? getCarData?.getCar?.carDesc : '',
 			carImages: getCarData?.getCar ? getCarData?.getCar?.carImages : [],
 		});
@@ -527,6 +528,7 @@ AddCar.defaultProps = {
 		carDoors: 0,
 		carSeats: 0,
 		carYear: 0,
+		carMileage: 0,
 		carDesc: '',
 		carImages: [],
 	},
