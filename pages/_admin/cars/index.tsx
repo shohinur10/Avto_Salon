@@ -8,7 +8,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { TabContext } from '@mui/lab';
 import TablePagination from '@mui/material/TablePagination';
-import { CarPanelList } from '../../../libs/components/admin/properties/PropertyList';
+import { CarPanelList } from '../../../libs/components/admin/cars/CarList';
 import { AllCarsInquiry } from '../../../libs/types/car/car.input';
 import { Car } from '../../../libs/types/car/car';
 import { CarLocation, CarStatus } from '../../../libs/enums/car.enum';
@@ -20,11 +20,11 @@ import { GET_ALL_CARS_BY_ADMIN } from '../../../apollo/admin/query';
 import { T } from '../../../libs/types/common';
 import { Box, List, ListItem, Stack } from '@mui/material';
 
-const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
+const AdminCars: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [anchorEl, setAnchorEl] = useState<[] | HTMLElement[]>([]);
-	const [carsInquiry, setPropertiesInquiry] = useState<AllCarsInquiry>(initialInquiry);
-	const [cars, setProperties] = useState<Car[]>([]);
-	const [carsTotal, setPropertiesTotal] = useState<number>(0);
+	const [carsInquiry, setCarsInquiry] = useState<AllCarsInquiry>(initialInquiry);
+	const [cars, setCars] = useState<Car[]>([]);
+	const [carsTotal, setCarsTotal] = useState<number>(0);
 	const [value, setValue] = useState(
 		carsInquiry?.search?.carStatus ? carsInquiry?.search?.carStatus : 'ALL',
 	);
@@ -34,35 +34,35 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const [updateCarByAdmin] = useMutation(UPDATE_CAR_BY_ADMIN);
 	const [removeCarByAdmin] = useMutation(REMOVE_CAR_BY_ADMIN);
 	const {
-		loading: getAllPropertiesByAdminLoading,
-		data: getAllPropertiesByAdminData,
-		error: getAllPropertiesByAdminError,
-		refetch: getAllPropertiesByAdminRefetch,
+		loading: getAllCarsByAdminLoading,
+		data: getAllCarsByAdminData,
+		error: getAllCarsByAdminError,
+		refetch: getAllCarsByAdminRefetch,
 	} = useQuery(GET_ALL_CARS_BY_ADMIN, {
 		fetchPolicy: 'network-only',
 		variables: { input: carsInquiry },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setProperties(data?.getAllPropertiesByAdmin?.list);
-			setPropertiesTotal(data?.getAllPropertiesByAdmin?.metaCounter[0]?.total ?? 0);
+			setCars(data?.getAllCarsByAdmin?.list);
+			setCarsTotal(data?.getAllCarsByAdmin?.metaCounter[0]?.total ?? 0);
 		},
 	});
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		getAllPropertiesByAdminRefetch({ input: carsInquiry }).then();
+		getAllCarsByAdminRefetch({ input: carsInquiry }).then();
 	}, [carsInquiry]);
 
 	/** HANDLERS **/
 	const changePageHandler = async (event: unknown, newPage: number) => {
 		carsInquiry.page = newPage + 1;
-		setPropertiesInquiry({ ...carsInquiry });
+		setCarsInquiry({ ...carsInquiry });
 	};
 
 	const changeRowsPerPageHandler = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		carsInquiry.limit = parseInt(event.target.value, 10);
 		carsInquiry.page = 1;
-		setPropertiesInquiry({ ...carsInquiry });
+		setCarsInquiry({ ...carsInquiry });
 	};
 
 	const menuIconClickHandler = (e: any, index: number) => {
@@ -78,21 +78,21 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	const tabChangeHandler = async (event: any, newValue: string) => {
 		setValue(newValue);
 
-		setPropertiesInquiry({ ...carsInquiry, page: 1, sort: 'createdAt' });
+		setCarsInquiry({ ...carsInquiry, page: 1, sort: 'createdAt' });
 
 		switch (newValue) {
 			case 'ACTIVE':
-				setPropertiesInquiry({ ...carsInquiry, search: { carStatus: CarStatus.AVAILABLE } });
+				setCarsInquiry({ ...carsInquiry, search: { carStatus: CarStatus.AVAILABLE } });
 				break;
 			case 'SOLD':
-				setPropertiesInquiry({ ...carsInquiry, search: { carStatus: CarStatus.SOLD } });
+				setCarsInquiry({ ...carsInquiry, search: { carStatus: CarStatus.SOLD } });
 				break;
-			case 'DELETE':
-				setPropertiesInquiry({ ...carsInquiry, search: { carStatus: CarStatus.UNAVAILABLE } });
+			case 'DELETED':
+				setCarsInquiry({ ...carsInquiry, search: { carStatus: CarStatus.UNAVAILABLE } });
 				break;
 			default:
 				delete carsInquiry?.search?.carStatus;
-				setPropertiesInquiry({ ...carsInquiry });
+				setCarsInquiry({ ...carsInquiry });
 				break;
 		}
 	};
@@ -105,7 +105,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 						input: id,
 					},
 				});
-				await getAllPropertiesByAdminRefetch({ input: carsInquiry });
+				await getAllCarsByAdminRefetch({ input: carsInquiry });
 			}
 			menuIconCloseHandler();
 		} catch (err: any) {
@@ -118,7 +118,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 			setSearchType(newValue);
 
 			if (newValue !== 'ALL') {
-				setPropertiesInquiry({
+				setCarsInquiry({
 					...carsInquiry,
 					page: 1,
 					sort: 'createdAt',
@@ -129,7 +129,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 				});
 			} else {
 				delete carsInquiry?.search?.carLocationList;
-				setPropertiesInquiry({ ...carsInquiry });
+				setCarsInquiry({ ...carsInquiry });
 			}
 		} catch (err: any) {
 			console.log('searchTypeHandler: ', err.message);
@@ -145,7 +145,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 				},
 			});
 			menuIconCloseHandler();
-			await getAllPropertiesByAdminRefetch({ input: carsInquiry });
+			await getAllCarsByAdminRefetch({ input: carsInquiry });
 		} catch (err: any) {
 			menuIconCloseHandler();
 			sweetErrorHandling(err).then();
@@ -184,9 +184,9 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 									Sold
 								</ListItem>
 								<ListItem
-									onClick={(e: any) => tabChangeHandler(e, 'DELETE')}
-									value="DELETE"
-									className={value === 'DELETE' ? 'li on' : 'li'}
+									onClick={(e: any) => tabChangeHandler(e, 'DELETED')}
+									value="DELETED"
+									className={value === 'DELETED' ? 'li on' : 'li'}
 								>
 									Delete
 								</ListItem>
@@ -231,7 +231,7 @@ const AdminProperties: NextPage = ({ initialInquiry, ...props }: any) => {
 	);
 };
 
-AdminProperties.defaultProps = {
+AdminCars.defaultProps = {
 	initialInquiry: {
 		page: 1,
 		limit: 10,
@@ -241,4 +241,4 @@ AdminProperties.defaultProps = {
 	},
 };
 
-export default withAdminLayout(AdminProperties);
+export default withAdminLayout(AdminCars);

@@ -148,56 +148,56 @@ export const CarPanelList = (props: CarPanelListType) => {
 						)}
 
 						{cars.length !== 0 &&
-							cars.map((property: Car, index: number) => {
-								const propertyImage = `${REACT_APP_API_URL}/${property?.carImages[0]}`;
+							cars.map((car: Car, index: number) => {
+								const carImage = `${REACT_APP_API_URL}/${car?.carImages[0]}`; 
 
 								return (
-									<TableRow hover key={property?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-										<TableCell align="left">{property._id}</TableCell>
+									<TableRow hover key={car?._id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+										<TableCell align="left">{car._id}</TableCell>
 										<TableCell align="left" className={'name'}>
-											{property.carStatus === CarStatus.AVAILABLE ? (
+											{car.carStatus === CarStatus.AVAILABLE ? (
 												<Stack direction={'row'}>
-													<Link href={`/car/detail?id=${property?._id}`}>
+													<Link href={`/car/detail?id=${car?._id}`}>
 														<div>
-															<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
+															<Avatar alt="Remy Sharp" src={carImage} sx={{ ml: '2px', mr: '10px' }} />
 														</div>
 													</Link>
-													<Link href={`/car/detail?id=${property?._id}`}>
-														<div>{property.carTitle}</div>
+													<Link href={`/car/detail?id=${car?._id}`}>
+														<div>{car.carTitle}</div>
 													</Link>
 												</Stack>
 											) : (
 												<Stack direction={'row'}>
 													<div>
-														<Avatar alt="Remy Sharp" src={propertyImage} sx={{ ml: '2px', mr: '10px' }} />
+														<Avatar alt="Remy Sharp" src={carImage} sx={{ ml: '2px', mr: '10px' }} />
 													</div>
-													<div style={{ marginTop: '10px' }}>{property.carTitle}</div>
+													<div style={{ marginTop: '10px' }}>{car.carTitle}</div>
 												</Stack>
 											)}
 										</TableCell>
-										<TableCell align="center">{property.carPrice}</TableCell>
-										<TableCell align="center">{property.memberData?.memberNick}</TableCell>
-										<TableCell align="center">{property.carLocation}</TableCell>
-										<TableCell align="center">{property.carCategory}</TableCell>
+										<TableCell align="center">{car.carPrice}</TableCell>
+										<TableCell align="center">{car.memberData?.memberNick}</TableCell>
+										<TableCell align="center">{car.carLocation}</TableCell>
+										<TableCell align="center">{car.carCategory}</TableCell>
 										<TableCell align="center">
-											{property.carStatus === CarStatus.UNAVAILABLE && (
+											{car.carStatus === CarStatus.UNAVAILABLE && (
 												<Button
 													variant="outlined"
 													sx={{ p: '3px', border: 'none', ':hover': { border: '1px solid #000000' } }}
-													onClick={() => removeCarHandler(property._id)}
+													onClick={() => removeCarHandler(car._id)}
 												>
 													<DeleteIcon fontSize="small" />
 												</Button>
 											)}
 
-											{property.carStatus === CarStatus.SOLD && (
-												<Button className={'badge warning'}>{property.carStatus}</Button>
+											{car.carStatus === CarStatus.SOLD && (
+												<Button className={'badge warning'}>{car.carStatus}</Button>
 											)}
 
-											{property.carStatus === CarStatus.AVAILABLE && (
+											{car.carStatus === CarStatus.AVAILABLE && (
 												<>
 													<Button onClick={(e: any) => menuIconClickHandler(e, index)} className={'badge success'}>
-														{property.carStatus}
+														{car.carStatus}
 													</Button>
 
 													<Menu
@@ -212,10 +212,10 @@ export const CarPanelList = (props: CarPanelListType) => {
 														sx={{ p: 1 }}
 													>
 														{Object.values(CarStatus)
-															.filter((ele) => ele !== property.carStatus)
+															.filter((ele) => ele !== car.carStatus)
 															.map((status: string) => (
 																<MenuItem
-																	onClick={() => updateCarHandler({ _id: property._id, carStatus: status })}
+																	onClick={() => updateCarHandler({ _id: car._id, carStatus: status })}
 																	key={status}
 																>
 																	<Typography variant={'subtitle1'} component={'span'}>
