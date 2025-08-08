@@ -13,32 +13,32 @@ import { GET_CARS } from '../../../apollo/user/query';
 import { useQuery } from '@apollo/client';
 import { T } from '../../types/common';
 
-interface PopularPropertiesProps {
+interface PopularCarsProps {
 	initialInput: CarsInquiry;
 }
 
-const PopularProperties = (props: PopularPropertiesProps) => {
+const PopularCars = (props: PopularCarsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
-	const [popularProperties, setPopularProperties] = useState<Car[]>([]);
+	const [popularCars, setPopularCars] = useState<Car[]>([]);
 
 	/** APOLLO REQUESTS **/
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
+		loading: getCarsLoading,
+		data: getCarsData,
+		error: getCarsError,
+		refetch: getCarsRefetch,
 	} = useQuery(GET_CARS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setPopularProperties(data?.getProperties?.list);
+			setPopularCars(data?.getCars?.list);
 		},
 	});
 	/** HANDLERS **/
 
-	if (!popularProperties) return null;
+	if (!popularCars) return null;
 
 	if (device === 'mobile') {
 		return (
@@ -55,10 +55,10 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 							spaceBetween={25}
 							modules={[Autoplay]}
 						>
-							{popularProperties.map((property: Car) => {
+							{popularCars.map((car: Car) => {
 								return (
-									<SwiperSlide key={property._id} className={'popular-property-slide'}>
-										<PopularPropertyCard car={property} />
+									<SwiperSlide key={car._id} className={'popular-property-slide'}>
+										<PopularPropertyCard car={car} />
 									</SwiperSlide>
 								);
 							})}
@@ -99,10 +99,10 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 								el: '.swiper-popular-pagination',
 							}}
 						>
-							{popularProperties.map((property: Car) => {
+							{popularCars.map((car: Car) => {
 								return (
-									<SwiperSlide key={property._id} className={'popular-property-slide'}>
-										<PopularPropertyCard car={property} />
+									<SwiperSlide key={car._id} className={'popular-property-slide'}>
+										<PopularPropertyCard car={car} />
 									</SwiperSlide>
 								);
 							})}
@@ -119,7 +119,7 @@ const PopularProperties = (props: PopularPropertiesProps) => {
 	}
 };
 
-PopularProperties.defaultProps = {
+PopularCars.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 7,
@@ -129,4 +129,4 @@ PopularProperties.defaultProps = {
 	},
 };
 
-export default PopularProperties;
+export default PopularCars;

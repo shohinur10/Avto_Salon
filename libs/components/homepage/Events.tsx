@@ -1,41 +1,50 @@
 import React from 'react';
 import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { CarLocation } from '../../enums/car.enum';
+
 
 interface EventData {
-	eventTitle: string;
-	city: string;
-	description: string;
-	imageSrc: string;
+  eventTitle: string;
+  city: CarLocation;
+  description: string;
+  imageSrc: string;
 }
+
 const eventsData: EventData[] = [
-	{
-		eventTitle: 'Paradise City Theme Park',
-		city: 'Incheon',
-		description:
-			'Experience magic and wonder in Incheon with a visit to the night-themed indoor theme park Wonderbox at Paradise City!',
-		imageSrc: '/img/events/INCHEON.webp',
-	},
-	{
-		eventTitle: 'Taebaeksan Snow Festival',
-		city: 'Seoul',
-		description: 'If you have the opportunity to travel to South Korea, do not miss the Taebaeksan Snow Festival!',
-		imageSrc: '/img/events/SEOUL.webp',
-	},
-	{
-		eventTitle: 'Suseong Lake Event',
-		city: 'Daegu',
-		description: 'The Suseong Lake Festival is a culture and arts festival held alongside Suseongmot Lake!',
-		imageSrc: '/img/events/DAEGU.webp',
-	},
-	{
-		eventTitle: 'Sand Festival',
-		city: 'Busan',
-		description:
-			'Haeundae Sand Festival, the nation\'s largest eco-friendly exhibition on sand, is held at Haeundae Beach!',
-		imageSrc: '/img/events/BUSAN.webp',
-	},
+  {
+    eventTitle: 'Seoul International Motor Show',
+    city: CarLocation.SEOUL,
+    description: 'Discover the latest models, cutting-edge EVs, and concept cars at Korea’s biggest auto event.',
+    imageSrc: 'https://via.placeholder.com/400x250?text=Seoul+Motor+Show',
+  },
+  {
+    eventTitle: 'Tokyo Auto Salon',
+    city: CarLocation.TOKYO,
+    description: 'Asia’s largest tuning and custom car exhibition, featuring modified supercars and racing machines.',
+    imageSrc: 'https://via.placeholder.com/400x250?text=Tokyo+Auto+Salon',
+  },
+  {
+    eventTitle: 'Paris Motor Show',
+    city: CarLocation.PARIS,
+    description: 'One of the world’s oldest auto shows, showcasing luxury brands and future automotive technology.',
+    imageSrc: 'https://via.placeholder.com/400x250?text=Paris+Motor+Show',
+  },
+  {
+    eventTitle: 'Los Angeles Auto Show',
+    city: CarLocation.LOS_ANGELES,
+    description: 'A massive auto exhibition featuring global debuts, electric cars, and celebrity appearances.',
+    imageSrc: 'https://via.placeholder.com/400x250?text=LA+Auto+Show',
+  },
+  {
+    eventTitle: 'Dubai International Motor Show',
+    city: CarLocation.DUBAI,
+    description: 'Luxury hypercars, exotic supercars, and the latest from the world’s top automotive brands.',
+    imageSrc: 'https://via.placeholder.com/400x250?text=Dubai+Motor+Show',
+  },
 ];
+
 
 const EventCard = ({ event }: { event: EventData }) => {
 	const device = useDeviceDetect();

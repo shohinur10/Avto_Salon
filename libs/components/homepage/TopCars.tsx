@@ -15,28 +15,28 @@ import { LIKE_TARGET_CAR } from '../../../apollo/user/mutation';
 import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 
-interface TopPropertiesProps {
+interface TopCarsProps {
 	initialInput: CarsInquiry;
 }
 
-const TopProperties = (props: TopPropertiesProps) => {
+const TopCars = (props: TopCarsProps) => {
 	const { initialInput } = props;
 	const device = useDeviceDetect();
-	const [topProperties, setTopProperties] = useState<Car[]>([]);
+	const [topCars, setTopCars] = useState<Car[]>([]);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetCar] = useMutation(LIKE_TARGET_CAR);
 	const {
-		loading: getPropertiesLoading,
-		data: getPropertiesData,
-		error: getPropertiesError,
-		refetch: getPropertiesRefetch,
+		loading: getCarsLoading,
+		data: getCarsData,
+		error: getCarsError,
+		refetch: getCarsRefetch,
 	} = useQuery(GET_CARS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input: initialInput },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			setTopProperties(data?.getProperties?.list);
+			setTopCars(data?.getCars?.list);
 		},
 	});
 
@@ -50,7 +50,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 				variables: { input: id },
 			});
 
-			await getPropertiesRefetch({ input: initialInput });
+			await getCarsRefetch({ input: initialInput });
 
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
@@ -75,10 +75,10 @@ const TopProperties = (props: TopPropertiesProps) => {
 							spaceBetween={15}
 							modules={[Autoplay]}
 						>
-							{topProperties.map((property: Car) => {
+							{topCars.map((car: Car) => {
 								return (
-									<SwiperSlide className={'top-property-slide'} key={property?._id}>
-										<TopCarCard car={property} likeTargetCarHandler={likeCarHandler}/>
+									<SwiperSlide className={'top-property-slide'} key={car?._id}>
+										<TopCarCard car={car} likeTargetCarHandler={likeCarHandler}/>
 									</SwiperSlide>
 								);
 							})}
@@ -118,10 +118,10 @@ const TopProperties = (props: TopPropertiesProps) => {
 								el: '.swiper-top-pagination',
 							}}
 						>
-							{topProperties.map((property: Car) => {
+							{topCars.map((car: Car) => {
 								return (
-									<SwiperSlide className={'top-property-slide'} key={property?._id}>
-										<TopCarCard car={property} likeTargetCarHandler={likeCarHandler} />
+									<SwiperSlide className={'top-property-slide'} key={car?._id}>
+										<TopCarCard car={car} likeTargetCarHandler={likeCarHandler} />
 									</SwiperSlide>
 								);
 							})}
@@ -133,7 +133,7 @@ const TopProperties = (props: TopPropertiesProps) => {
 	}
 };
 
-TopProperties.defaultProps = {
+TopCars.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 8,
@@ -143,4 +143,4 @@ TopProperties.defaultProps = {
 	},
 };
 
-export default TopProperties;
+export default TopCars;

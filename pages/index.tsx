@@ -12,6 +12,7 @@ import CraftsmanshipHeritage from '../libs/components/homepage/CraftsmanshipHeri
 import SignatureExperience from '../libs/components/homepage/SignatureExperience';
 import { Stack } from '@mui/material';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import TrendCars from '../libs/components/homepage/TrendCars';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -38,7 +39,7 @@ const Home: NextPage = () => {
 		return (
 			<Stack className={'home-page'}>
 				<InspiringExcellence />
-				<TrendProperties />
+				<TrendCars />
 				<PopularProperties />
 				<CraftsmanshipHeritage />
 				<TopProperties />
