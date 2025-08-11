@@ -59,22 +59,21 @@ const CarList: NextPage = ({ initialInput, ...props }: any) => {
 		if (router.query.input) {
 			const inputObj = JSON.parse(router?.query?.input as string);
 			setSearchFilter(inputObj);
+			setCurrentPage(inputObj.page || 1);
 		}
-
-		setCurrentPage(searchFilter.page === undefined ? 1 : searchFilter.page);
-	}, [router]);
+	}, [router.query.input]);
 
 	useEffect(() => {
-	console.log("searchFilter:", searchFilter) 
-			// getPropertiesRefetch({ input: searchFilter }).then()
+		console.log("searchFilter:", searchFilter);
+		// Auto-refetch is handled by Apollo useQuery when variables change
 	}, [searchFilter]);
 
 	/** HANDLERS **/
 	const handlePaginationChange = async (event: ChangeEvent<unknown>, value: number) => {
-		searchFilter.page = value;
+		const updatedFilter = { ...searchFilter, page: value };
 		await router.push(
-			`/car?input=${JSON.stringify(searchFilter)}`,
-			`/car?input=${JSON.stringify(searchFilter)}`,
+			`/car?input=${JSON.stringify(updatedFilter)}`,
+			`/car?input=${JSON.stringify(updatedFilter)}`,
 			{
 				scroll: false,
 			},

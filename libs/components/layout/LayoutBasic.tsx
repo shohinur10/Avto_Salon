@@ -28,53 +28,56 @@ const withLayoutBasic = (Component: any) => {
 				bgImage = '';
 
 			switch (router.pathname) {
-				case '/property':
-					title = 'Property Search';
-					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/properties.png';
+				case '/car':
+					title = 'Car Search';
+					desc = 'Find your perfect vehicle';
+					bgImage = '/img/mainBanner/main.jpg';
 					break;
 				case '/agent':
 					title = 'Agents';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/agents.webp';
+					desc = 'Professional car dealers';
+					bgImage = '/img/mainBanner/main.jpg';
 					break;
 				case '/agent/detail':
-					title = 'Agent Page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					title = 'Agent Details';
+					desc = 'Professional dealer profile';
+					bgImage = '/img/mainBanner/main.jpg';
 					break;
 				case '/mypage':
-					title = 'my page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header1.svg';
+					title = 'My Dashboard';
+					desc = 'Manage your cars and profile';
+					bgImage = '/img/mainBanner/main.jpg';
 					break;
 				case '/community':
 					title = 'Community';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					desc = 'Connect with car enthusiasts';
+					bgImage = '/img/mainBanner/main.jpg';
 					break;
 				case '/community/detail':
-					title = 'Community Detail';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header2.svg';
+					title = 'Community Article';
+					desc = 'Community discussions';
+					bgImage = '/img/mainBanner/main.jpg';
 					break;
 				case '/cs':
-					title = 'CS';
-					desc = 'We are glad to see you again!';
-					bgImage = '/img/banner/header2.svg';
+					title = 'Customer Support';
+					desc = 'We are here to help you';
+					bgImage = '/img/mainBanner/main.jpg';
 					break;
 				case '/account/join':
 					title = 'Login/Signup';
-					desc = 'Authentication Process';
-					bgImage = '/img/banner/header2.svg';
+					desc = 'Join our automotive community';
+					bgImage = '/img/mainBanner/main.jpg';
 					setAuthHeader(true);
 					break;
 				case '/member':
-					title = 'Member Page';
-					desc = 'Home / For Rent';
-					bgImage = '/img/banner/header1.svg';
+					title = 'Member Profile';
+					desc = 'View member details';
+					bgImage = '/img/mainBanner/main.jpg';
 					break;
 				default:
+					title = 'Avto Salon';
+					desc = 'Premium automotive experience';
+					bgImage = '/img/mainBanner/main.jpg';
 					break;
 			}
 
@@ -126,9 +129,11 @@ const withLayoutBasic = (Component: any) => {
 						<Stack
 							className={`header-basic ${authHeader && 'auth'}`}
 							style={{
-								backgroundImage: `url(${memoizedValues.bgImage})`,
+								backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${memoizedValues.bgImage})`,
 								backgroundSize: 'cover',
-								boxShadow: 'inset 10px 40px 150px 40px rgb(24 22 36)',
+								backgroundPosition: 'center',
+								backgroundRepeat: 'no-repeat',
+								boxShadow: 'inset 0px 0px 100px 20px rgba(0, 0, 0, 0.3)',
 							}}
 						>
 							<Stack className={'container'}>

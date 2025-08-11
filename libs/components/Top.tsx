@@ -150,9 +150,13 @@ const Top = () => {
 			</Stack>
 		);
 	} else {
+		const navbarClass = ['navbar-main'];
+		if (colorChange) navbarClass.push('transparent');
+		if (bgColor) navbarClass.push('transparent');
+		
 		return (
 			<Stack className={'navbar'}>
-				<Stack className={`navbar-main ${colorChange ? 'transparent' : ''} ${bgColor ? 'transparent' : ''}`}>
+				<Stack className={navbarClass.join(' ')}>
 					<Stack className={'container'}>
 						<Box className={'logo-box'}>
 							<Link href={'/'}>

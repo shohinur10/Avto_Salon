@@ -21,6 +21,15 @@ export enum CarStatus {
   UNAVAILABLE = 'UNAVAILABLE',
 }
 
+export enum CarCondition {
+  NEW = 'NEW',
+  USED = 'USED',
+  CERTIFIED_PRE_OWNED = 'CERTIFIED_PRE_OWNED',
+  EXCELLENT = 'EXCELLENT',
+  GOOD = 'GOOD',
+  FAIR = 'FAIR',
+}
+
 export enum FuelType {
   GASOLINE = 'GASOLINE',
   DIESEL = 'DIESEL',
@@ -45,6 +54,40 @@ export enum CarLocation {
   RIO_DE_JANEIRO = 'Rio de Janeiro',
   SEOUL = 'Seoul',
   LONDON = 'London',
+}
+
+export enum CarColor {
+  WHITE = 'WHITE',
+  BLACK = 'BLACK',
+  SILVER = 'SILVER',
+  GRAY = 'GRAY',
+  RED = 'RED',
+  BLUE = 'BLUE',
+  GREEN = 'GREEN',
+  YELLOW = 'YELLOW',
+  BROWN = 'BROWN',
+  OTHER = 'OTHER',
+}
+
+export enum CarBrand {
+  TOYOTA = 'TOYOTA',
+  BMW = 'BMW',
+  MERCEDES = 'MERCEDES',
+  AUDI = 'AUDI',
+  VOLKSWAGEN = 'VOLKSWAGEN',
+  HONDA = 'HONDA',
+  NISSAN = 'NISSAN',
+  HYUNDAI = 'HYUNDAI',
+  KIA = 'KIA',
+  FORD = 'FORD',
+  CHEVROLET = 'CHEVROLET',
+  LEXUS = 'LEXUS',
+  PORSCHE = 'PORSCHE',
+  LAMBORGHINI = 'LAMBORGHINI',
+  FERRARI = 'FERRARI',
+  BENTLEY = 'BENTLEY',
+  ROLLS_ROYCE = 'ROLLS_ROYCE',
+  OTHER = 'OTHER',
 }
 
 

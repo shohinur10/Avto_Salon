@@ -45,7 +45,7 @@ const MemberPage: NextPage = () => {
 				{ shallow: true },
 			);
 		}
-	}, [category, router]);
+	}, [category, router.isReady]);
 
 	/** HANDLERS **/
 	const subscribeHandler = async (id: string, refetch: any, query: any) => {

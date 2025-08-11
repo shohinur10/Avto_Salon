@@ -123,25 +123,24 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 	useEffect(() => {
 		if (router.query.id) {
 			setCarId(router.query.id as string);
-			setCommentInquiry({
-				...commentInquiry,
+			setCommentInquiry(prev => ({
+				...prev,
 				search: {
 					commentRefId: router.query.id as string,
 				},
-			});
-			setInsertCommentData({
-				...insertCommentData,
+			}));
+			setInsertCommentData(prev => ({
+				...prev,
 				commentRefId: router.query.id as string,
-			});
+			}));
 		}
-	}, [router]);
+	}, [router.query.id]);
 
 	useEffect(() => {
 		if(commentInquiry.search.commentRefId) {
 			getCommentsRefetch({ input: commentInquiry });
 		}
-
-	}, [commentInquiry]);
+	}, [commentInquiry.search.commentRefId, commentInquiry.page]);
 
 	/** HANDLERS **/
 	const changeImageHandler = (image: string) => {
@@ -178,8 +177,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 	};
 
 	const commentPaginationChangeHandler = async (event: ChangeEvent<unknown>, value: number) => {
-		commentInquiry.page = value;
-		setCommentInquiry({ ...commentInquiry });
+		setCommentInquiry(prev => ({ ...prev, page: value }));
 	};
 
 	const createCommentHandler = async () => {

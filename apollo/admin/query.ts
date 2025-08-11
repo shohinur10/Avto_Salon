@@ -57,31 +57,35 @@ export const GET_ALL_MEMBERS_BY_ADMIN = gql`
  *************************/
 
 export const GET_ALL_CARS_BY_ADMIN = gql`
-		query GetAllPropertiesByAdmin($input: AllPropertiesInquiry!) {
-    getAllPropertiesByAdmin(input: $input) {
+		query GetAllCarsByAdmin($input: AllCarsInquiry!) {
+    getAllCarsByAdmin(input: $input) {
         list {
             _id
-            propertyType
-            propertyStatus
-            propertyLocation
-            propertyAddress
-            propertyTitle
-            propertyPrice
-            propertySquare
-            propertyBeds
-            propertyRooms
-            propertyViews
-            propertyLikes
-            propertyComments
-            propertyRank
-            propertyImages
-            propertyDesc
-            propertyBarter
-            propertyRent
+            carTransactionType
+            carCategory
+            carStatus
+            carLocation
+            carAddress
+            carTitle
+            carPrice
+            carYear
+            carSeats
+            carDoors
+            carViews
+            carLikes
+            carComments
+            carRank
+            carImages
+            carDesc
+            isBarterAvailable
+            isForRent
+            discountPercent
+            discountedPrice
+            brand
             memberId
             soldAt
             deletedAt
-            constructedAt
+            registeredAt
             createdAt
             updatedAt
             memberData {

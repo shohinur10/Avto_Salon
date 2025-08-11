@@ -77,12 +77,11 @@ const Chat = () => {
 					break;
 				case 'message':
 					const newMessage: MessagePayload = data;
-					messagesList.push(newMessage);
-					setMessagesList([...messagesList]);
+					setMessagesList(prevMessages => [...prevMessages, newMessage]);
 					break;
 			}
 		};
-	}, [socket, messagesList]);
+	}, [socket]);
 	useEffect(() => {
 		const timeoutId = setTimeout(() => {
 			setOpenButton(true);
@@ -104,7 +103,7 @@ const Chat = () => {
 			const text = e.target.value;
 			setMessageInput(text);
 		},
-		[messageInput],
+		[],
 	);
 
 	const getKeyHandler = (e: any) => {

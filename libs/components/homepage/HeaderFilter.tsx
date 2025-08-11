@@ -6,7 +6,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { CarLocation, CarCategory, CarTransactionType } from '../../enums/car.enum';
+import { CarLocation, CarCategory, CarTransactionType, FuelType, TransmissionType, CarCondition, CarBrand, CarColor } from '../../enums/car.enum';
 import { CarsInquiry } from '../../types/car/car.input';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -52,10 +52,20 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	const [openLocation, setOpenLocation] = useState(false);
 	const [openType, setOpenType] = useState(false);
 	const [openCategory, setOpenCategory] = useState(false);
+	const [openCondition, setOpenCondition] = useState(false);
+	const [openBrand, setOpenBrand] = useState(false);
+	const [openFuel, setOpenFuel] = useState(false);
+	const [openTransmission, setOpenTransmission] = useState(false);
 	const [carLocation, setCarLocation] = useState<CarLocation[]>(Object.values(CarLocation));
 	const [carTransactionType, setCarTransactionType] = useState<CarTransactionType[]>(Object.values(CarTransactionType));
 	const [carCategory, setCarCategory] = useState<CarCategory[]>(Object.values(CarCategory));
+	const [carCondition, setCarCondition] = useState<CarCondition[]>(Object.values(CarCondition));
+	const [carBrand, setCarBrand] = useState<CarBrand[]>(Object.values(CarBrand));
+	const [fuelTypes, setFuelTypes] = useState<FuelType[]>(Object.values(FuelType));
+	const [transmissionTypes, setTransmissionTypes] = useState<TransmissionType[]>(Object.values(TransmissionType));
 	const [yearCheck, setYearCheck] = useState({ start: 1990, end: thisYear });
+	const [priceRange, setPriceRange] = useState({ min: 0, max: 500000 });
+	const [mileageRange, setMileageRange] = useState({ min: 0, max: 200000 });
 	const [optionCheck, setOptionCheck] = useState('all');
 
 	/** LIFECYCLES **/
@@ -86,7 +96,22 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 		setOpenLocation(false);
 		setOpenCategory(false);
 		setOpenType(false);
+		setOpenCondition(false);
+		setOpenBrand(false);
+		setOpenFuel(false);
+		setOpenTransmission(false);
 		setOpenAdvancedFilter(status);
+	};
+
+	const carConditionSelectHandler = (condition: CarCondition) => {
+		setSearchFilter({
+			...searchFilter,
+			search: {
+				...searchFilter.search,
+				// Add condition to search when backend is ready
+			}
+		});
+		setOpenCondition(false);
 	};
 
 	const locationStateChangeHandler = () => {
@@ -103,208 +128,81 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 
 	const categoryStateChangeHandler = () => {
 		setOpenCategory((prev) => !prev);
+		setOpenLocation(false);
 		setOpenType(false);
+	};
+
+	const carLocationSelectHandler = (location: CarLocation) => {
+		setSearchFilter({
+			...searchFilter,
+			search: { ...searchFilter.search, locationList: [location] },
+		});
 		setOpenLocation(false);
 	};
 
-	const disableAllStateHandler = () => {
+	const carTransactionTypeSelectHandler = (type: CarTransactionType) => {
+		setSearchFilter({
+			...searchFilter,
+			search: { ...searchFilter.search, typeList: [type] },
+		});
+		setOpenType(false);
+	};
+
+	const carCategorySelectHandler = (category: CarCategory) => {
+		setSearchFilter({
+			...searchFilter,
+			search: { ...searchFilter.search, carCategoryList: [category] },
+		});
 		setOpenCategory(false);
-		setOpenType(false);
-		setOpenLocation(false);
 	};
 
-	const carLocationSelectHandler = useCallback(
-		async (value: any) => {
-			try {
-				setSearchFilter({
-					...searchFilter,
-					search: {
-						...searchFilter.search,
-						locationList: [value],
-					},
-				});
-				typeStateChangeHandler();
-			} catch (err: any) {
-				console.log('ERROR, carLocationSelectHandler:', err);
-			}
-		},
-		[searchFilter],
-	);
-
-	const carTransactionTypeSelectHandler = useCallback(
-		async (value: any) => {
-			try {
-				setSearchFilter({
-					...searchFilter,
-					search: {
-						...searchFilter.search,
-						typeList: [value],
-					},
-				});
-				categoryStateChangeHandler();
-			} catch (err: any) {
-				console.log('ERROR, carTransactionTypeSelectHandler:', err);
-			}
-		},
-		[searchFilter],
-	);
-
-	const carCategorySelectHandler = useCallback(
-		async (value: any) => {
-			try {
-				setSearchFilter({
-					...searchFilter,
-					search: {
-						...searchFilter.search,
-						carCategoryList: [value],
-					},
-				});
-				disableAllStateHandler();
-			} catch (err: any) {
-				console.log('ERROR, carCategorySelectHandler:', err);
-			}
-		},
-		[searchFilter],
-	);
-
-	const carSeatsSelectHandler = useCallback(
-		async (number: number) => {
-			try {
-				if (number != 0) {
-					if (searchFilter?.search?.seatsList?.includes(number)) {
-						setSearchFilter({
-							...searchFilter,
-							search: {
-								...searchFilter.search,
-								seatsList: searchFilter?.search?.seatsList?.filter((item: number) => item !== number),
-							},
-						});
-					} else {
-						setSearchFilter({
-							...searchFilter,
-							search: { ...searchFilter.search, seatsList: [...(searchFilter?.search?.seatsList || []), number] },
-						});
-					}
-				} else {
-					delete searchFilter?.search.seatsList;
-					setSearchFilter({ ...searchFilter });
-				}
-
-				console.log('carSeatsSelectHandler:', number);
-			} catch (err: any) {
-				console.log('ERROR, carSeatsSelectHandler:', err);
-			}
-		},
-		[searchFilter],
-	);
-
-	const carOptionSelectHandler = useCallback(
-		async (e: any) => {
-			try {
-				const value = e.target.value;
-				setOptionCheck(value);
-
-				if (value !== 'all') {
-					setSearchFilter({
-						...searchFilter,
-						search: {
-							...searchFilter.search,
-							options: [value],
-						},
-					});
-				} else {
-					delete searchFilter.search.options;
-					setSearchFilter({
-						...searchFilter,
-						search: {
-							...searchFilter.search,
-						},
-					});
-				}
-			} catch (err: any) {
-				console.log('ERROR, carOptionSelectHandler:', err);
-			}
-		},
-		[searchFilter],
-	);
-
-	const carMileageHandler = useCallback(
-		async (e: any, type: string) => {
-			const value = e.target.value;
-
-			if (type == 'start') {
-				setSearchFilter({
-					...searchFilter,
-					search: {
-						...searchFilter.search,
-						minMileage: parseInt(value),
-					},
-				});
-			} else {
-				setSearchFilter({
-					...searchFilter,
-					search: {
-						...searchFilter.search,
-						maxMileage: parseInt(value),
-					},
-				});
-			}
-		},
-		[searchFilter],
-	);
-
-	const yearStartChangeHandler = async (event: any) => {
-		setYearCheck({ ...yearCheck, start: Number(event.target.value) });
-
-		setSearchFilter({
-			...searchFilter,
-			search: {
-				...searchFilter.search,
-				yearRange: [Number(event.target.value), yearCheck.end],
-			},
-		});
+	const carSeatsSelectHandler = (seats: number) => {
+		if (seats === 0) {
+			setSearchFilter({ ...searchFilter, search: { ...searchFilter.search, seatsList: undefined } });
+		} else {
+			setSearchFilter({
+				...searchFilter,
+				search: { ...searchFilter.search, seatsList: [seats] },
+			});
+		}
 	};
 
-	const yearEndChangeHandler = async (event: any) => {
-		setYearCheck({ ...yearCheck, end: Number(event.target.value) });
+	const carOptionSelectHandler = (e: any) => {
+		const value = e.target.value;
+		setOptionCheck(value);
+	};
 
-		setSearchFilter({
-			...searchFilter,
-			search: {
-				...searchFilter.search,
-				yearRange: [yearCheck.start, Number(event.target.value)],
-			},
-		});
+	const yearStartChangeHandler = (event: any) => {
+		setYearCheck({ ...yearCheck, start: parseInt(event.target.value) });
+	};
+
+	const yearEndChangeHandler = (event: any) => {
+		setYearCheck({ ...yearCheck, end: parseInt(event.target.value) });
+	};
+
+	const carMileageHandler = (event: any, type: string) => {
+		const value = parseInt(event.target.value);
+		if (type === 'start') {
+			setSearchFilter({
+				...searchFilter,
+				search: { ...searchFilter.search, minMileage: value },
+			});
+		} else {
+			setSearchFilter({
+				...searchFilter,
+				search: { ...searchFilter.search, maxMileage: value },
+			});
+		}
 	};
 
 	const resetFilterHandler = () => {
 		setSearchFilter(initialInput);
-		setOptionCheck('all');
 		setYearCheck({ start: 1990, end: thisYear });
+		setOptionCheck('all');
 	};
 
 	const pushSearchHandler = async () => {
 		try {
-			if (searchFilter?.search?.locationList?.length == 0) {
-				delete searchFilter.search.locationList;
-			}
-
-			if (searchFilter?.search?.typeList?.length == 0) {
-				delete searchFilter.search.typeList;
-			}
-
-			if (searchFilter?.search?.carCategoryList?.length == 0) {
-				delete searchFilter.search.carCategoryList;
-			}
-
-			if (searchFilter?.search?.options?.length == 0) {
-				delete searchFilter.search.options;
-			}
-
-			if (searchFilter?.search?.seatsList?.length == 0) {
-				delete searchFilter.search.seatsList;
-			}
-
 			await router.push(
 				`/car?input=${JSON.stringify(searchFilter)}`,
 				`/car?input=${JSON.stringify(searchFilter)}`,
@@ -319,71 +217,94 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	} else {
 		return (
 			<>
-				<Stack className={'search-box'}>
-					<Stack className={'select-box'}>
-						<Box component={'div'} className={`box ${openLocation ? 'on' : ''}`} onClick={locationStateChangeHandler}>
-							<span>{searchFilter?.search?.locationList ? searchFilter?.search?.locationList[0] : t('Location')} </span>
-							<ExpandMoreIcon />
+				<Stack className={'search-box-redesigned'}>
+					{/* Core Priority Filters */}
+					<Stack className={'primary-filters'}>
+						<Box component={'div'} className={`filter-box location-box ${openLocation ? 'on' : ''}`} onClick={locationStateChangeHandler}>
+							<div className="filter-label">Location</div>
+							<span className="filter-value">{searchFilter?.search?.locationList ? searchFilter?.search?.locationList[0] : 'Any City'}</span>
+							<ExpandMoreIcon className="dropdown-icon" />
 						</Box>
-						<Box className={`box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
-							<span> {searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : 'Transaction Type'} </span>
-							<ExpandMoreIcon />
+						
+						<Box className={`filter-box transaction-box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
+							<div className="filter-label">Deal Type</div>
+							<span className="filter-value">{searchFilter?.search?.typeList ? searchFilter?.search?.typeList[0] : 'Buy/Rent/Loan'}</span>
+							<ExpandMoreIcon className="dropdown-icon" />
 						</Box>
-						<Box className={`box ${openCategory ? 'on' : ''}`} onClick={categoryStateChangeHandler}>
-							<span>
-								{searchFilter?.search?.carCategoryList ? `${searchFilter?.search?.carCategoryList[0]}` : 'Car Category'}
-							</span>
-							<ExpandMoreIcon />
+						
+						<Box className={`filter-box category-box ${openCategory ? 'on' : ''}`} onClick={categoryStateChangeHandler}>
+							<div className="filter-label">Car Type</div>
+							<span className="filter-value">{searchFilter?.search?.carCategoryList ? searchFilter?.search?.carCategoryList[0] : 'Any Category'}</span>
+							<ExpandMoreIcon className="dropdown-icon" />
+						</Box>
+						
+						<Box className={`filter-box condition-box ${openCondition ? 'on' : ''}`} onClick={() => setOpenCondition(!openCondition)}>
+							<div className="filter-label">Condition</div>
+							<span className="filter-value">New/Used</span>
+							<ExpandMoreIcon className="dropdown-icon" />
 						</Box>
 					</Stack>
-					<Stack className={'search-box-other'}>
-						<Box className={'advanced-filter'} onClick={() => advancedFilterHandler(true)}>
+
+					{/* Price Range Display */}
+					<Stack className={'price-range-display'}>
+						<div className="price-label">Price Range</div>
+						<div className="price-value">${priceRange.min.toLocaleString()} - ${priceRange.max.toLocaleString()}</div>
+					</Stack>
+
+					{/* Action Buttons */}
+					<Stack className={'search-actions'}>
+						<Box className={'advanced-filter-btn'} onClick={() => advancedFilterHandler(true)}>
 							<img src="/img/icons/tune.svg" alt="" />
-							<span>{t('Advanced')}</span>
+							<span>More Filters</span>
 						</Box>
-						<Box className={'search-btn'} onClick={pushSearchHandler}>
+						<Box className={'instant-contact-btn'}>
+							<img src="/img/icons/call.svg" alt="" />
+							<span>Call Dealer</span>
+						</Box>
+						<Box className={'search-btn-primary'} onClick={pushSearchHandler}>
 							<img src="/img/icons/search_white.svg" alt="" />
+							<span>Search Cars</span>
 						</Box>
 					</Stack>
-
-					{/*MENU */}
-					<div className={`filter-location ${openLocation ? 'on' : ''}`} ref={locationRef}>
-						{carLocation.map((location: string) => {
-							return (
-								<div onClick={() => carLocationSelectHandler(location)} key={location}>
-									<img src={`img/banner/cities/${location}.webp`} alt="" />
-									<span>{location}</span>
-								</div>
-							);
-						})}
-					</div>
-
-					<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
-						{carTransactionType.map((type: string) => {
-							return (
-								<div
-									style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)` }}
-									onClick={() => carTransactionTypeSelectHandler(type)}
-									key={type}
-								>
-									<span>{type}</span>
-								</div>
-							);
-						})}
-					</div>
-
-					<div className={`filter-category ${openCategory ? 'on' : ''}`} ref={categoryRef}>
-						{carCategory.map((category: string) => {
-							return (
-								<span onClick={() => carCategorySelectHandler(category)} key={category}>
-									{category}
-								</span>
-							);
-						})}
-					</div>
 				</Stack>
 
-				{/* ADVANCED FILTER MODAL */}
+				{/* Dropdown Menus */}
+				<div className={`filter-location ${openLocation ? 'on' : ''}`} ref={locationRef}>
+					{carLocation.map((location: CarLocation) => {
+						return (
+							<div onClick={() => carLocationSelectHandler(location)} key={location}>
+								<img src={`img/banner/cities/${location}.webp`} alt="" />
+								<span>{location}</span>
+							</div>
+						);
+					})}
+				</div>
+
+				<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
+					{carTransactionType.map((type: CarTransactionType) => {
+						return (
+							<div
+								style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)` }}
+								onClick={() => carTransactionTypeSelectHandler(type)}
+								key={type}
+							>
+								<span>{type}</span>
+							</div>
+						);
+					})}
+				</div>
+
+				<div className={`filter-category ${openCategory ? 'on' : ''}`} ref={categoryRef}>
+					{carCategory.map((category: CarCategory) => {
+						return (
+							<span onClick={() => carCategorySelectHandler(category)} key={category}>
+								{category}
+							</span>
+						);
+					})}
+				</div>
+
+				{/* Advanced Filter Modal */}
 				<Modal
 					open={openAdvancedFilter}
 					onClose={() => advancedFilterHandler(false)}

@@ -58,8 +58,15 @@ body::-webkit-scrollbar {
 				z-index: 99;
 				align-items: center;
 				border-top: 1px solid rgba(255, 255, 255, 0.07);
+				background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('/img/mainBanner/main.jpg');
+				background-size: cover;
+				background-position: center;
+				background-attachment: fixed;
 				&.transparent {
-					background-color: #181a209e;
+					background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/img/mainBanner/main.jpg');
+					background-size: cover;
+					background-position: center;
+					background-attachment: fixed;
 				}
 				.container {
 					flex-direction: row;
@@ -176,8 +183,10 @@ body::-webkit-scrollbar {
 		position: relative;
 		width: 100%;
 		height: 900px;
-		background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 30%, #2d2d2d 70%, #0a0a0a 100%);
+		background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/mainBanner/main.jpg');
 		background-size: cover;
+		background-position: center;
+		background-repeat: no-repeat;
 		overflow: hidden;
 		
 		&::before {
@@ -339,142 +348,705 @@ body::-webkit-scrollbar {
 						}
 					}
 				}
-				.filter-location {
+
+				// Premium Automotive Search Filter (Higher Specificity)
+				.header-main .container .search-box-redesigned {
+					position: relative !important;
+					margin-top: 80px !important;
+					padding: 40px !important;
+					width: 1400px !important;
+					min-height: 200px !important;
+					display: flex !important;
+					flex-direction: column !important;
+					gap: 32px !important;
+					background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%) !important;
+					backdrop-filter: blur(40px) !important;
+					border: 2px solid rgba(255, 215, 0, 0.2) !important;
+					border-radius: 32px !important;
+					box-shadow: 
+						0 32px 120px rgba(0, 0, 0, 0.4),
+						inset 0 1px 0 rgba(255, 255, 255, 0.2),
+						inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+					z-index: 10;
+					overflow: visible;
+
+					// Premium header indicator
+					&::before {
+						content: "PREMIUM SEARCH";
 					position: absolute;
-					padding: 40px 60px;
-					width: 1094px;
-					min-height: 120px;
+						top: -12px;
+						left: 50%;
+						transform: translateX(-50%);
+						background: $gradient-gold;
+						color: $primary-dark;
+						padding: 8px 24px;
+						border-radius: 20px;
+						font-size: 11px;
+						font-weight: 800;
+						letter-spacing: 1px;
+						text-transform: uppercase;
+						font-family: $font-heading;
+						box-shadow: 0 8px 24px rgba(255, 215, 0, 0.3);
+					}
+
+					.primary-filters {
+						display: flex;
+						flex-direction: row;
+						gap: 24px;
+						width: 100%;
+
+						.filter-box {
+							flex: 1;
+							padding: 24px 28px;
+							min-height: 100px;
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							border-radius: 20px;
+							background: linear-gradient(145deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+							backdrop-filter: blur(20px);
+							border: 2px solid rgba(255, 255, 255, 0.15);
+							cursor: pointer;
+							transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+							position: relative;
+							overflow: hidden;
+
+							// Shine effect
+							&::before {
+								content: '';
+								position: absolute;
+								top: 0;
+								left: -100%;
+								width: 100%;
+								height: 100%;
+								background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+								transition: left 0.6s;
+							}
+
+							&:hover {
+								background: linear-gradient(145deg, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.1) 100%);
+								border-color: rgba(255, 215, 0, 0.6);
+								transform: translateY(-4px) scale(1.02);
+								box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+
+								&::before {
+									left: 100%;
+								}
+							}
+
+							&.on {
+								background: $gradient-gold;
+								border: 2px solid rgba(255, 215, 0, 1);
+								color: $primary-dark;
+								transform: translateY(-2px);
+								box-shadow: 
+									0 20px 60px rgba(255, 215, 0, 0.4),
+									inset 0 1px 0 rgba(255, 255, 255, 0.3);
+
+								.filter-label, .filter-value {
+									color: $primary-dark !important;
+								}
+
+								.dropdown-icon {
+									color: $primary-dark !important;
+								}
+							}
+
+							.filter-label {
+								font-size: 11px;
+								font-weight: 700;
+								color: rgba(255, 255, 255, 0.8);
+								text-transform: uppercase;
+								letter-spacing: 1px;
+								margin-bottom: 8px;
+								font-family: $font-heading;
+							}
+
+							.filter-value {
+								font-size: 18px;
+								font-weight: 600;
+								color: $text-light;
+								line-height: 1.2;
+								font-family: $font;
+							}
+
+							.dropdown-icon {
+								position: absolute;
+								top: 50%;
+								right: 20px;
+								transform: translateY(-50%);
+								color: rgba(255, 255, 255, 0.8);
+								transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+								font-size: 28px;
+							}
+
+							&.on .dropdown-icon {
+								transform: translateY(-50%) rotate(180deg);
+							}
+
+							// Individual filter styling
+							&.location-box .filter-label::before {
+								content: "📍 ";
+							}
+							&.transaction-box .filter-label::before {
+								content: "💼 ";
+							}
+							&.category-box .filter-label::before {
+								content: "🚗 ";
+							}
+							&.condition-box .filter-label::before {
+								content: "⭐ ";
+							}
+						}
+					}
+
+					.price-range-display {
+						display: flex;
+						flex-direction: column;
+						align-items: center;
+						padding: 24px 32px;
+						background: linear-gradient(145deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 212, 255, 0.05) 100%);
+						border-radius: 20px;
+						border: 2px solid rgba(0, 212, 255, 0.2);
+						box-shadow: 
+							0 16px 40px rgba(0, 212, 255, 0.2),
+							inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+						.price-label {
+							font-size: 12px;
+							font-weight: 700;
+							color: rgba(255, 255, 255, 0.9);
+							text-transform: uppercase;
+							letter-spacing: 1px;
+							margin-bottom: 8px;
+							font-family: $font-heading;
+
+							&::before {
+								content: "💰 ";
+							}
+						}
+
+						.price-value {
+							font-size: 24px;
+							font-weight: 800;
+							background: $gradient-blue;
+							-webkit-background-clip: text;
+							-webkit-text-fill-color: transparent;
+							background-clip: text;
+							font-family: $font-heading;
+							text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+						}
+					}
+
+					.search-actions {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						gap: 20px;
+						margin-top: 8px;
+
+						.advanced-filter-btn, .instant-contact-btn {
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							gap: 12px;
+							padding: 20px 28px;
+							border-radius: 20px;
+							background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+							backdrop-filter: blur(20px);
+							border: 2px solid rgba(255, 255, 255, 0.15);
+							transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+							cursor: pointer;
+							position: relative;
+							overflow: hidden;
+
+							&::before {
+								content: '';
+								position: absolute;
+								top: 0;
+								left: -100%;
+								width: 100%;
+								height: 100%;
+								background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+								transition: left 0.6s;
+							}
+
+							&:hover {
+								background: linear-gradient(145deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+								transform: translateY(-3px) scale(1.05);
+								box-shadow: 0 16px 40px rgba(0, 0, 0, 0.3);
+
+								&::before {
+									left: 100%;
+								}
+							}
+
+							img {
+								width: 24px;
+								height: 24px;
+								filter: brightness(0) invert(1);
+								transition: transform 0.3s ease;
+							}
+
+							&:hover img {
+								transform: scale(1.1);
+							}
+
+							span {
+								color: $text-light;
+								font-family: $font-heading;
+								font-size: 14px;
+								font-weight: 600;
+								text-transform: uppercase;
+								letter-spacing: 1px;
+							}
+						}
+
+						.instant-contact-btn {
+							border-color: rgba(255, 51, 102, 0.4);
+							background: linear-gradient(145deg, rgba(255, 51, 102, 0.15) 0%, rgba(255, 51, 102, 0.05) 100%);
+							
+							&:hover {
+								background: linear-gradient(145deg, rgba(255, 51, 102, 0.3) 0%, rgba(255, 51, 102, 0.1) 100%);
+								border-color: rgba(255, 51, 102, 0.8);
+								box-shadow: 0 16px 40px rgba(255, 51, 102, 0.3);
+							}
+						}
+
+						.search-btn-primary {
+							margin-left: auto;
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							gap: 16px;
+							padding: 24px 40px;
+							border-radius: 50px;
+							background: $gradient-blue;
+							cursor: pointer;
+							transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+							border: 3px solid rgba(0, 212, 255, 0.3);
+							box-shadow: 
+								0 16px 60px rgba(0, 212, 255, 0.4),
+								inset 0 1px 0 rgba(255, 255, 255, 0.2);
+							position: relative;
+							overflow: hidden;
+
+							&::before {
+								content: '';
+								position: absolute;
+								top: 0;
+								left: -100%;
+								width: 100%;
+								height: 100%;
+								background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+								transition: left 0.8s;
+							}
+
+							&:hover {
+								transform: translateY(-6px) scale(1.08);
+								box-shadow: 
+									0 24px 80px rgba(0, 212, 255, 0.6),
+									inset 0 1px 0 rgba(255, 255, 255, 0.3);
+								border-color: rgba(0, 212, 255, 0.8);
+
+								&::before {
+									left: 100%;
+								}
+							}
+
+							&:active {
+								transform: translateY(-2px) scale(1.05);
+							}
+
+							img {
+								width: 28px;
+								height: 28px;
+								filter: brightness(0) invert(1);
+								transition: transform 0.3s ease;
+							}
+
+							&:hover img {
+								transform: rotate(360deg) scale(1.1);
+							}
+
+							span {
+								color: $text-light;
+								font-family: $font-heading;
+								font-size: 18px;
+								font-weight: 800;
+								text-transform: uppercase;
+								letter-spacing: 1px;
+								text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+							}
+						}
+					}
+
+					// Responsive design
+					@media (max-width: 1440px) {
+						width: 95%;
+						padding: 32px;
+					}
+
+					@media (max-width: 1200px) {
+						.primary-filters {
+							flex-wrap: wrap;
+							gap: 16px;
+
+							.filter-box {
+								flex: 1 1 calc(50% - 8px);
+								min-width: 280px;
+							}
+						}
+
+						.search-actions {
+							flex-wrap: wrap;
+							gap: 16px;
+
+							.search-btn-primary {
+								margin-left: 0;
+								width: 100%;
+								justify-content: center;
+							}
+						}
+					}
+				}
+
+				.header-main .container .filter-location {
+					position: absolute;
+					padding: 48px 60px;
+					width: 1200px;
+					min-height: 160px;
 					height: auto;
-					top: 96px;
+					top: 140px;
 					right: 0px;
 					display: flex;
 					flex-direction: row;
 					flex-wrap: wrap;
-					gap: 40px;
+					gap: 24px;
 					visibility: hidden;
-					border-radius: 12px;
-					background: #ffffff;
-					box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+					border-radius: 0 0 40px 40px;
+					background: linear-gradient(145deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%), url('/img/mainBanner/main.jpg');
+					background-size: cover;
+					background-position: center;
+					backdrop-filter: blur(40px);
+					border: 2px solid rgba(255, 215, 0, 0.2);
+					border-top: none;
+					box-shadow: 
+						0 40px 120px rgba(0, 0, 0, 0.5),
+						inset 0 1px 0 rgba(255, 255, 255, 0.1);
 					box-sizing: border-box;
-					z-index: 2;
+					z-index: 90;
+
+					&::before {
+						content: "📍 SELECT LOCATION";
+						position: absolute;
+						top: 20px;
+						left: 60px;
+						color: rgba(255, 215, 0, 0.9);
+						font-size: 12px;
+						font-weight: 800;
+						letter-spacing: 1.5px;
+						text-transform: uppercase;
+						font-family: $font-heading;
+					}
+
 					&.on {
 						visibility: visible;
-						transition: 0.2s ease-out;
-						background: #fffdfd;
+						animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 					}
+
+					@keyframes slideDown {
+						from {
+							opacity: 0;
+							transform: translateY(-20px);
+						}
+						to {
+							opacity: 1;
+							transform: translateY(0);
+						}
+					}
+
 					div {
-						width: 295px;
+						width: 360px;
+						height: 88px;
+						background: linear-gradient(145deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.05) 100%);
+						border-radius: 20px;
 						display: flex;
 						flex-direction: row;
 						align-items: center;
-						img {
-							width: 122px;
-							height: 85px;
-							border-radius: 15px;
-							cursor: pointer;
+						gap: 20px;
+						padding: 0 28px;
+						cursor: pointer;
+						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+						border: 2px solid rgba(255, 255, 255, 0.1);
+						position: relative;
+						overflow: hidden;
+
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							left: -100%;
+							width: 100%;
+							height: 100%;
+							background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.2), transparent);
+							transition: left 0.6s;
 						}
+
+						&:hover {
+							background: linear-gradient(145deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.05) 100%);
+							border-color: rgba(255, 215, 0, 0.6);
+							transform: translateY(-4px) scale(1.02);
+							box-shadow: 0 20px 60px rgba(255, 215, 0, 0.3);
+
+							&::before {
+								left: 100%;
+							}
+						}
+
+						img {
+							width: 48px;
+							height: 48px;
+							border-radius: 12px;
+							cursor: pointer;
+							border: 2px solid rgba(255, 215, 0, 0.3);
+							box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+							object-fit: cover;
+						}
+
 						span {
-							margin-left: 22px;
-							color: #181a20;
-							font-family: $font;
-							font-size: 20px;
+							color: #ffffff;
+							font-family: $font-heading;
+							font-size: 18px;
 							font-style: normal;
-							font-weight: 400;
+							font-weight: 600;
 							line-height: 26px;
 							cursor: pointer;
 							text-transform: capitalize;
+							letter-spacing: 0.5px;
 						}
+
 						label {
 							line-height: 13px;
 						}
 					}
 				}
-				.filter-type {
+				.header-main .container .filter-type {
 					position: absolute;
-					padding: 50px;
-					width: 1094px;
-					min-height: 120px;
+					padding: 48px 60px;
+					width: 1200px;
+					min-height: 160px;
 					height: auto;
-					top: 96px;
+					top: 140px;
 					right: 0px;
 					display: flex;
 					flex-direction: row;
 					justify-content: space-between;
+					gap: 24px;
 					visibility: hidden;
-					border-radius: 12px;
-					background: #fff;
-					box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+					border-radius: 0 0 40px 40px;
+					background: linear-gradient(145deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%), url('/img/mainBanner/main.jpg');
+					background-size: cover;
+					background-position: center;
+					backdrop-filter: blur(40px);
+					border: 2px solid rgba(0, 212, 255, 0.2);
+					border-top: none;
+					box-shadow: 
+						0 40px 120px rgba(0, 0, 0, 0.5),
+						inset 0 1px 0 rgba(255, 255, 255, 0.1);
 					box-sizing: border-box;
-					z-index: 1;
+					z-index: 90;
+
+					&::before {
+						content: "💼 TRANSACTION TYPE";
+						position: absolute;
+						top: 20px;
+						left: 60px;
+						color: rgba(0, 212, 255, 0.9);
+						font-size: 12px;
+						font-weight: 800;
+						letter-spacing: 1.5px;
+						text-transform: uppercase;
+						font-family: $font-heading;
+					}
+
 					&.on {
 						visibility: visible;
-						transition: 0.2s ease-out;
-						background: #fffdfd;
+						animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 					}
+
 					div {
 						position: relative;
-						width: 272px;
-						height: 168px;
-						border-radius: 15px;
+						width: 320px;
+						height: 180px;
+						border-radius: 24px;
 						cursor: pointer;
 						background-size: cover;
+						background-position: center;
+						overflow: hidden;
+						border: 3px solid rgba(0, 212, 255, 0.3);
+						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+						box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							left: 0;
+							right: 0;
+							bottom: 0;
+							background: linear-gradient(145deg, rgba(0, 212, 255, 0.1) 0%, rgba(0, 0, 0, 0.6) 100%);
+							transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+						}
+
+						&::after {
+							content: '';
+							position: absolute;
+							top: 0;
+							left: -100%;
+							width: 100%;
+							height: 100%;
+							background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.3), transparent);
+							transition: left 0.6s;
+						}
+
+						&:hover {
+							transform: translateY(-8px) scale(1.05);
+							border-color: rgba(0, 212, 255, 0.8);
+							box-shadow: 0 32px 80px rgba(0, 212, 255, 0.4);
+
+							&::before {
+								background: linear-gradient(145deg, rgba(0, 212, 255, 0.2) 0%, rgba(0, 0, 0, 0.4) 100%);
+							}
+
+							&::after {
+								left: 100%;
+							}
+
+							span {
+								transform: scale(1.1);
+								text-shadow: 0 4px 16px rgba(0, 212, 255, 0.6);
+							}
+						}
+
 						span {
 							position: absolute;
-							top: 13px;
-							right: 12px;
-							padding: 1px 5px 5px 5px;
-							border-radius: 2px 2px 0px 0px;
-							font-family: $font;
+							bottom: 20px;
+							left: 20px;
+							right: 20px;
+							padding: 16px 20px;
+							border-radius: 16px;
+							font-family: $font-heading;
 							font-size: 20px;
 							font-style: normal;
-							font-weight: 700;
+							font-weight: 800;
 							line-height: 26px;
-							background: linear-gradient(180deg, #fff 0%, rgba(255, 255, 255, 0) 100%);
-							// -webkit-background-clip: text;
-							// -webkit-text-fill-color: transparent;
-							text-transform: capitalize;
+							background: linear-gradient(145deg, rgba(0, 212, 255, 0.9) 0%, rgba(0, 153, 204, 0.9) 100%);
+							color: #ffffff;
+							text-transform: uppercase;
+							letter-spacing: 1px;
+							text-align: center;
+							backdrop-filter: blur(20px);
+							border: 1px solid rgba(255, 255, 255, 0.2);
+							transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+							z-index: 2;
 						}
 					}
 				}
-				.filter-rooms {
+				.header-main .container .filter-rooms {
 					position: absolute;
-					padding: 10px 92px;
-					width: 1094px;
-					min-height: 120px;
+					padding: 48px 60px;
+					width: 1200px;
+					min-height: 160px;
 					height: auto;
-					top: 96px;
+					top: 140px;
 					right: 0px;
 					display: flex;
 					flex-direction: row;
 					justify-content: space-between;
 					align-items: center;
+					flex-wrap: wrap;
+					gap: 20px;
 					visibility: hidden;
-					border-radius: 12px;
-					background: #fff;
-					box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+					border-radius: 0 0 40px 40px;
+					background: linear-gradient(145deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.9) 100%), url('/img/mainBanner/main.jpg');
+					background-size: cover;
+					background-position: center;
+					backdrop-filter: blur(40px);
+					border: 2px solid rgba(255, 51, 102, 0.2);
+					border-top: none;
+					box-shadow: 
+						0 40px 120px rgba(0, 0, 0, 0.5),
+						inset 0 1px 0 rgba(255, 255, 255, 0.1);
 					box-sizing: border-box;
-					z-index: 1;
+					z-index: 90;
+
+					&::before {
+						content: "🚗 CAR CATEGORY";
+						position: absolute;
+						top: 20px;
+						left: 60px;
+						color: rgba(255, 51, 102, 0.9);
+						font-size: 12px;
+						font-weight: 800;
+						letter-spacing: 1.5px;
+						text-transform: uppercase;
+						font-family: $font-heading;
+					}
+
 					&.on {
 						visibility: visible;
-						transition: 0.2s ease-out;
-						background: #fffdfd;
+						animation: slideDown 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 					}
 					span {
 						display: flex;
 						align-items: center;
-						padding: 10px 30px;
-						border: 1px solid #fffdfd;
-						color: #181a20;
-						font-family: $font;
-						font-size: 20px;
+						justify-content: center;
+						padding: 20px 32px;
+						min-width: 160px;
+						height: 64px;
+						border: 2px solid rgba(255, 51, 102, 0.3);
+						color: #ffffff;
+						font-family: $font-heading;
+						font-size: 16px;
 						font-style: normal;
-						font-weight: 400;
-						line-height: 26px;
+						font-weight: 600;
+						line-height: 20px;
 						cursor: pointer;
+						border-radius: 20px;
+						background: linear-gradient(145deg, rgba(255, 51, 102, 0.1) 0%, rgba(255, 51, 102, 0.05) 100%);
+						backdrop-filter: blur(20px);
+						transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+						text-transform: uppercase;
+						letter-spacing: 1px;
+						position: relative;
+						overflow: hidden;
+
+						&::before {
+							content: '';
+							position: absolute;
+							top: 0;
+							left: -100%;
+							width: 100%;
+							height: 100%;
+							background: linear-gradient(90deg, transparent, rgba(255, 51, 102, 0.2), transparent);
+							transition: left 0.6s;
+						}
+
 						&:hover {
-							border-radius: 5px;
-							border: 1px solid #b9b9b9;
-							box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+							border: 2px solid rgba(255, 51, 102, 0.8);
+							background: linear-gradient(145deg, rgba(255, 51, 102, 0.2) 0%, rgba(255, 51, 102, 0.1) 100%);
+							transform: translateY(-4px) scale(1.05);
+							box-shadow: 0 20px 60px rgba(255, 51, 102, 0.4);
+							text-shadow: 0 2px 8px rgba(255, 51, 102, 0.6);
+
+							&::before {
+								left: 100%;
+							}
+						}
+
+						&:active {
+							transform: translateY(-2px) scale(1.02);
 						}
 					}
 				}
