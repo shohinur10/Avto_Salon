@@ -1729,7 +1729,7 @@ $rr-font-elegant: 'Crimson Text', Georgia, serif;
 				border-radius: 16px !important;
 				box-shadow: 0 20px 60px rgba($rr-purple-spirit, 0.15) !important;
 				border: 1px solid rgba($rr-gold, 0.2) !important;
-				z-index: 1000 !important;
+				z-index: 9999 !important;
 				overflow: hidden !important;
 				transform: translateY(-10px) !important;
 				opacity: 0 !important;
@@ -1745,10 +1745,13 @@ $rr-font-elegant: 'Crimson Text', Georgia, serif;
 				flex-wrap: wrap !important;
 				gap: 12px !important;
 				
+				// Debug: Make sure dropdowns are visible when opened
 				&.on {
 					transform: translateY(0) !important;
 					opacity: 1 !important;
 					visibility: visible !important;
+					display: flex !important;
+					border: 2px solid red !important; // Debug border
 				}
 				
 				// Brand items with logos
