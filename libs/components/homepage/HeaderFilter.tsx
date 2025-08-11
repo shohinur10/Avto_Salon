@@ -138,8 +138,6 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 			search: { ...searchFilter.search, carCategoryList: [category] },
 		});
 		setOpenCategory(false);
-		// Trigger car filtering when category is selected
-		console.log(`Filtering cars by category: ${category}`);
 	};
 
 	const carLocationSelectHandler = (location: CarLocation) => {
@@ -183,8 +181,6 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	};
 
 	const categoryStateChangeHandler = () => {
-		console.log('Category dropdown clicked, current state:', openCategory);
-		console.log('Available categories:', carCategory);
 		setOpenCategory((prev) => !prev);
 		setOpenLocation(false);
 		setOpenType(false);
@@ -194,8 +190,6 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 	};
 
 	const locationStateChangeHandler = () => {
-		console.log('Location dropdown clicked, current state:', openLocation);
-		console.log('Available locations:', carLocation);
 		setOpenLocation((prev) => !prev);
 		setOpenCategory(false);
 		setOpenType(false);
@@ -400,23 +394,21 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				</div>
 
 				<div className={`filter-location ${openLocation ? 'on' : ''}`} ref={locationRef}>
-					{Object.entries(CarLocation).length > 0 ? Object.entries(CarLocation).map(([key, value]) => {
+					{Object.entries(CarLocation).map(([key, value]) => {
 						return (
 							<div onClick={() => carLocationSelectHandler(value)} key={key}>
 								<img src={`/img/banner/cities/${key}.webp`} alt="" />
 								<span>{value}</span>
 							</div>
 						);
-					}) : (
-						<div style={{padding: '20px', color: 'red'}}>No locations found</div>
-					)}
+					})}
 				</div>
 
 				<div className={`filter-type ${openType ? 'on' : ''}`} ref={typeRef}>
 					{carTransactionType.map((type: CarTransactionType) => {
 						return (
 							<div
-								style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.webp)` }}
+								style={{ backgroundImage: `url(/img/banner/types/${type.toLowerCase()}.svg)` }}
 								onClick={() => carTransactionTypeSelectHandler(type)}
 								key={type}
 							>
@@ -427,15 +419,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 				</div>
 
 				<div className={`filter-category ${openCategory ? 'on' : ''}`} ref={categoryRef}>
-					{carCategory.length > 0 ? carCategory.map((category: CarCategory) => {
+					{carCategory.map((category: CarCategory) => {
 						return (
 							<div onClick={() => carCategorySelectHandler(category)} key={category} className="condition-item">
 								<span>{category}</span>
 							</div>
 						);
-					}) : (
-						<div style={{padding: '20px', color: 'red'}}>No categories found</div>
-					)}
+					})}
 				</div>
 
 				{/* Condition Dropdown for Secondary Filters */}
