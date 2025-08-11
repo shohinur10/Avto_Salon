@@ -120,7 +120,7 @@ TopAgents.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 10,
-		sort: 'memberRank',
+		sort: 'createdAt',
 		direction: 'DESC',
 		search: {},
 	},

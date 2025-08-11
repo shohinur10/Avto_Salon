@@ -137,7 +137,7 @@ TopCars.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 8,
-		sort: 'propertyRank',
+		sort: 'carRank',
 		direction: 'DESC',
 		search: {},
 	},

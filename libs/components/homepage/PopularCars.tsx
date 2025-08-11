@@ -123,7 +123,7 @@ PopularCars.defaultProps = {
 	initialInput: {
 		page: 1,
 		limit: 7,
-		sort: 'propertyViews',
+		sort: 'carViews',
 		direction: 'DESC',
 		search: {},
 	},
