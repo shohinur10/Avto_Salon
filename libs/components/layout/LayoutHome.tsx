@@ -62,26 +62,7 @@ const withLayoutMain = (Component: any) => {
 							<Top />
 						</Stack>
 
-						<Stack className={'header-main'}>
-							<FiberContainer />
-							<Stack className={'container'}>
-								<EnhancedHeaderFilter 
-									initialInput={{
-										page: 1,
-										limit: 9,
-										search: {
-											yearRange: [1990, 2024],
-											pricesRange: {
-												start: 0,
-												end: 500000,
-											},
-											minMileage: 0,
-											maxMileage: 200000,
-										},
-									}}
-								/>
-							</Stack>
-						</Stack>
+						{/* Header main section removed - filter now integrated in luxury homepage */}
 
 						<Stack id={'main'}>
 							<Component {...props} />

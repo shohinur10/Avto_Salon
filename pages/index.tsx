@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import useDeviceDetect from '../libs/hooks/useDeviceDetect';
 import withLayoutMain from '../libs/components/layout/LayoutHome';
+import LuxuryHomepage from '../libs/components/homepage/LuxuryHomepage';
 import CommunityBoards from '../libs/components/homepage/CommunityBoards';
 import PopularProperties from '../libs/components/homepage/PopularCars';
 import TopAgents from '../libs/components/homepage/TopAgents';
@@ -23,33 +24,37 @@ export const getStaticProps = async ({ locale }: any) => ({
 const Home: NextPage = () => {
 	const device = useDeviceDetect();
 
-	if (device === 'mobile') {
-		return (
-			<Stack className={'home-page'}>
-				<InspiringExcellence />
-				<TrendProperties />
-				<PopularProperties />
-				<CraftsmanshipHeritage />
-				<TopProperties />
-				<TopAgents />
-				<SignatureExperience />
-			</Stack>
-		);
-	} else {
-		return (
-			<Stack className={'home-page'}>
-				<InspiringExcellence />
-				<TrendCars />
-				<PopularProperties />
-				<CraftsmanshipHeritage />
-				<TopProperties />
-				<TopAgents />
-				<Events />
-				<SignatureExperience />
-				<CommunityBoards />
-			</Stack>
-		);
-	}
+	// Use the new luxury homepage design
+	return <LuxuryHomepage />;
+
+	// Fallback to original design if needed
+	// if (device === 'mobile') {
+	// 	return (
+	// 		<Stack className={'home-page'}>
+	// 			<InspiringExcellence />
+	// 			<TrendProperties />
+	// 			<PopularProperties />
+	// 			<CraftsmanshipHeritage />
+	// 			<TopProperties />
+	// 			<TopAgents />
+	// 			<SignatureExperience />
+	// 		</Stack>
+	// 	);
+	// } else {
+	// 	return (
+	// 		<Stack className={'home-page'}>
+	// 			<InspiringExcellence />
+	// 			<TrendCars />
+	// 			<PopularProperties />
+	// 			<CraftsmanshipHeritage />
+	// 			<TopProperties />
+	// 			<TopAgents />
+	// 			<Events />
+	// 			<SignatureExperience />
+	// 			<CommunityBoards />
+	// 		</Stack>
+	// 	);
+	// }
 };
 
 export default withLayoutMain(Home);
