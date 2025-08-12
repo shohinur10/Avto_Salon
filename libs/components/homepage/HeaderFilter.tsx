@@ -297,13 +297,13 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 					<div className="all-filters-row">
 						{/* Primary Filters: Transaction Type, Category, Location */}
 						<div className={'primary-filters'}>
-							<Box className={`filter-box transaction-box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
-								<div className="filter-label">Deal Type</div>
+						<Box className={`filter-box transaction-box ${openType ? 'on' : ''}`} onClick={typeStateChangeHandler}>
+							<div className="filter-label">Deal Type</div>
 								<span className="filter-value">{selectedTransactionType ? selectedTransactionType : 'Buy/Rent/Loan'}</span>
-								<ExpandMoreIcon className="dropdown-icon" />
-							</Box>
-							
-							<Box className={`filter-box category-box ${openCategory ? 'on' : ''}`} onClick={categoryStateChangeHandler}>
+							<ExpandMoreIcon className="dropdown-icon" />
+						</Box>
+						
+						<Box className={`filter-box category-box ${openCategory ? 'on' : ''}`} onClick={categoryStateChangeHandler}>
 								<div className="filter-label">Car Category</div>
 								<span className="filter-value">{selectedCategory ? selectedCategory : 'Any Category'}</span>
 								<ExpandMoreIcon className="dropdown-icon" />
@@ -322,14 +322,14 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 								<Box component={'div'} className={`filter-box brand-box ${openBrand ? 'on' : ''}`} onClick={brandStateChangeHandler}>
 									<div className="filter-label">Car Brand</div>
 									<span className="filter-value">Any Brand</span>
-									<ExpandMoreIcon className="dropdown-icon" />
-								</Box>
-								
-								<Box className={`filter-box condition-box ${openCondition ? 'on' : ''}`} onClick={() => setOpenCondition(!openCondition)}>
-									<div className="filter-label">Condition</div>
-									<span className="filter-value">New/Used</span>
-									<ExpandMoreIcon className="dropdown-icon" />
-								</Box>
+							<ExpandMoreIcon className="dropdown-icon" />
+						</Box>
+						
+						<Box className={`filter-box condition-box ${openCondition ? 'on' : ''}`} onClick={() => setOpenCondition(!openCondition)}>
+							<div className="filter-label">Condition</div>
+							<span className="filter-value">New/Used</span>
+							<ExpandMoreIcon className="dropdown-icon" />
+						</Box>
 								
 								<Box className={`filter-box fuel-box ${openFuel ? 'on' : ''}`} onClick={() => setOpenFuel(!openFuel)}>
 									<div className="filter-label">Fuel Type</div>
@@ -339,22 +339,22 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 							</div>
 						)}
 
-						{/* Price Range Display */}
+					{/* Price Range Display */}
 						<div className={'price-range-display'}>
-							<div className="price-label">Price Range</div>
-							<div className="price-value">${priceRange.min.toLocaleString()} - ${priceRange.max.toLocaleString()}</div>
+						<div className="price-label">Price Range</div>
+						<div className="price-value">${priceRange.min.toLocaleString()} - ${priceRange.max.toLocaleString()}</div>
 						</div>
 
-						{/* Action Buttons */}
+					{/* Action Buttons */}
 						<div className={'search-actions'}>
-							<Box className={'advanced-filter-btn'} onClick={() => advancedFilterHandler(true)}>
-								<img src="/img/icons/tune.svg" alt="" />
+						<Box className={'advanced-filter-btn'} onClick={() => advancedFilterHandler(true)}>
+							<img src="/img/icons/tune.svg" alt="" />
 								<span>Filters</span>
-							</Box>
-							<Box className={'search-btn-primary'} onClick={pushSearchHandler}>
-								<img src="/img/icons/search_white.svg" alt="" />
+						</Box>
+						<Box className={'search-btn-primary'} onClick={pushSearchHandler}>
+							<img src="/img/icons/search_white.svg" alt="" />
 								<span>Search</span>
-							</Box>
+						</Box>
 						</div>
 					</div>
 

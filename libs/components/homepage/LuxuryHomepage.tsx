@@ -3,37 +3,35 @@ import { motion } from 'framer-motion';
 import { Stack } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
-// Import luxury components
+// Import essential components only
 import LuxuryHeroSection from './LuxuryHeroSection';
 import EnhancedHeaderFilter from './filters/EnhancedHeaderFilter';
-import BestSellingCars from './BestSellingCars';
-import NewCarsGrid from './NewCarsGrid';
+import PopularCars from './PopularCars';
+import TopCars from './TopCars';
 import AgentsSpotlight from './AgentsSpotlight';
-import EventsTeaser from './EventsTeaser';
 
 // Import existing components for data
 import { useQuery } from '@apollo/client';
-import { GET_CARS, GET_AGENTS, GET_BOARD_ARTICLES } from '../../../apollo/user/query';
+import { GET_CARS, GET_AGENTS } from '../../../apollo/user/query';
 import { CarsInquiry } from '../../types/car/car.input';
 import { AgentsInquiry } from '../../types/member/member.input';
-import { BoardArticlesInquiry } from '../../types/board-article/board-article.input';
 
 const LuxuryHomepage: React.FC = () => {
 	const device = useDeviceDetect();
 
-	// GraphQL queries for data
-	const bestSellingCarsInput: CarsInquiry = {
+	// GraphQL queries for essential data only
+	const popularCarsInput: CarsInquiry = {
 		page: 1,
 		limit: 8,
 		search: {},
-		sort: 'carLikes'
+		sort: 'carViews'
 	};
 
-	const newCarsInput: CarsInquiry = {
+	const topCarsInput: CarsInquiry = {
 		page: 1,
 		limit: 6,
 		search: {},
-		sort: 'createdAt'
+		sort: 'carRank'
 	};
 
 	const agentsInput: AgentsInquiry = {
@@ -43,32 +41,18 @@ const LuxuryHomepage: React.FC = () => {
 		sort: 'memberRank'
 	};
 
-	const eventsInput: BoardArticlesInquiry = {
-		page: 1,
-		limit: 6,
-		search: {
-			articleCategory: 'EVENT'
-		},
-		sort: 'createdAt'
-	};
-
-	const { data: bestSellingCarsData, loading: bestSellingLoading } = useQuery(GET_CARS, {
-		variables: { input: bestSellingCarsInput },
+	const { data: popularCarsData, loading: popularLoading } = useQuery(GET_CARS, {
+		variables: { input: popularCarsInput },
 		notifyOnNetworkStatusChange: true,
 	});
 
-	const { data: newCarsData, loading: newCarsLoading } = useQuery(GET_CARS, {
-		variables: { input: newCarsInput },
+	const { data: topCarsData, loading: topLoading } = useQuery(GET_CARS, {
+		variables: { input: topCarsInput },
 		notifyOnNetworkStatusChange: true,
 	});
 
 	const { data: agentsData, loading: agentsLoading } = useQuery(GET_AGENTS, {
 		variables: { input: agentsInput },
-		notifyOnNetworkStatusChange: true,
-	});
-
-	const { data: eventsData, loading: eventsLoading } = useQuery(GET_BOARD_ARTICLES, {
-		variables: { input: eventsInput },
 		notifyOnNetworkStatusChange: true,
 	});
 
@@ -123,18 +107,18 @@ const LuxuryHomepage: React.FC = () => {
 			</motion.section>
 
 			<Stack className="homepage-content">
-				{/* Best Selling Cars Section */}
-				{!bestSellingLoading && bestSellingCarsData?.getCars?.list && (
-					<BestSellingCars
-						cars={bestSellingCarsData.getCars.list}
+				{/* Popular Cars Section */}
+				{!popularLoading && popularCarsData?.getCars?.list && (
+					<PopularCars
+						cars={popularCarsData.getCars.list}
 						onLikeToggle={handleCarLikeToggle}
 					/>
 				)}
 
-				{/* New Cars Grid Section */}
-				{!newCarsLoading && newCarsData?.getCars?.list && (
-					<NewCarsGrid
-						cars={newCarsData.getCars.list}
+				{/* Top Cars Section */}
+				{!topLoading && topCarsData?.getCars?.list && (
+					<TopCars
+						cars={topCarsData.getCars.list}
 						onLikeToggle={handleCarLikeToggle}
 					/>
 				)}
@@ -145,17 +129,10 @@ const LuxuryHomepage: React.FC = () => {
 						agents={agentsData.getAgents.list}
 					/>
 				)}
-
-				{/* Events Teaser Section */}
-				{!eventsLoading && eventsData?.getBoardArticles?.list && (
-					<EventsTeaser
-						events={eventsData.getBoardArticles.list}
-					/>
-				)}
 			</Stack>
 
 			{/* Loading States */}
-			{(bestSellingLoading || newCarsLoading || agentsLoading || eventsLoading) && (
+			{(popularLoading || topLoading || agentsLoading) && (
 				<motion.div
 					initial={{ opacity: 0 }}
 					animate={{ opacity: 1 }}

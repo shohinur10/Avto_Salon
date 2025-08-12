@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { Box, Typography, Card, CardContent, Avatar, IconButton, Chip, Button } from '@mui/material';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination, Autoplay } from 'swiper/modules';
+import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import StarIcon from '@mui/icons-material/Star';
@@ -13,6 +13,9 @@ import { useRouter } from 'next/router';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+
+// Install Swiper modules
+SwiperCore.use([Navigation, Pagination, Autoplay]);
 
 interface AgentsSpotlightProps {
 	agents: Member[];
@@ -77,7 +80,6 @@ const AgentsSpotlight: React.FC<AgentsSpotlightProps> = ({ agents = [] }) => {
 				className="agents-carousel-container"
 			>
 				<Swiper
-					modules={[Navigation, Pagination, Autoplay]}
 					spaceBetween={30}
 					slidesPerView={1}
 					navigation={{
