@@ -78,14 +78,6 @@ const HeaderFilter = (props: HeaderFilterProps) => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		// Debug: Log all available data on component mount
-		console.log('=== Filter Data Debug ===');
-		console.log('Car Categories:', carCategory);
-		console.log('Car Locations:', carLocation);
-		console.log('Transaction Types:', carTransactionType);
-		console.log('Car Brands:', carBrand);
-		console.log('Car Conditions:', carCondition);
-		console.log('Fuel Types:', fuelTypes);
 		
 		const clickHandler = (event: MouseEvent) => {
 			if (!locationRef?.current?.contains(event.target)) {

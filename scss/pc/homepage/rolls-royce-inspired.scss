@@ -1,6 +1,9 @@
 // Rolls-Royce Inspired Design System
 // Premium, elegant, and sophisticated styling
 
+// Import Enhanced Filter Components
+@import './enhanced-filters.scss';
+
 // Color Variables inspired by Rolls-Royce
 $rr-white: #ffffff;
 $rr-cream: #faf9f7;
@@ -1745,13 +1748,11 @@ $rr-font-elegant: 'Crimson Text', Georgia, serif;
 				flex-wrap: wrap !important;
 				gap: 12px !important;
 				
-				// Debug: Make sure dropdowns are visible when opened
 				&.on {
 					transform: translateY(0) !important;
 					opacity: 1 !important;
 					visibility: visible !important;
 					display: flex !important;
-					border: 2px solid red !important; // Debug border
 				}
 				
 				// Brand items with logos

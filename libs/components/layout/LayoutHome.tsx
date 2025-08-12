@@ -6,6 +6,7 @@ import Footer from '../Footer';
 import { Stack } from '@mui/material';
 import FiberContainer from '../common/FiberContainer';
 import HeaderFilter from '../homepage/HeaderFilter';
+import EnhancedHeaderFilter from '../homepage/filters/EnhancedHeaderFilter';
 import { userVar } from '../../../apollo/store';
 import { useReactiveVar } from '@apollo/client';
 import { getJwtToken, updateUserInfo } from '../../auth';
@@ -64,7 +65,21 @@ const withLayoutMain = (Component: any) => {
 						<Stack className={'header-main'}>
 							<FiberContainer />
 							<Stack className={'container'}>
-								<HeaderFilter />
+								<EnhancedHeaderFilter 
+									initialInput={{
+										page: 1,
+										limit: 9,
+										search: {
+											yearRange: [1990, 2024],
+											pricesRange: {
+												start: 0,
+												end: 500000,
+											},
+											minMileage: 0,
+											maxMileage: 200000,
+										},
+									}}
+								/>
 							</Stack>
 						</Stack>
 
