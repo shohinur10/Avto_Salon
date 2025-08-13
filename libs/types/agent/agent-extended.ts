@@ -15,9 +15,9 @@ export interface AgentProfile extends Member {
 	satisfactionRate: number; // percentage 0-100
 	
 	// Specializations
-	brandExpertise: CarBrand[]; // BMW, Mercedes, etc.
-	vehicleTypes: CarCategory[]; // SUV, Sedan, Sports, etc.
-	fuelExpertise: FuelType[]; // GASOLINE, ELECTRIC, HYBRID
+	brandExpertise: string[]; // BMW, Mercedes, etc.
+	vehicleTypes: string[]; // SUV, Sedan, Sports, etc.
+	fuelExpertise: string[]; // GASOLINE, ELECTRIC, HYBRID
 	priceRange: { min: number; max: number };
 	
 	// Contact & Availability
@@ -54,7 +54,7 @@ export interface AgentProfile extends Member {
 
 export interface AgentSale {
 	_id: string;
-	carBrand: CarBrand;
+	carBrand: string;
 	carModel: string;
 	carImage: string;
 	salePrice: number;
@@ -82,9 +82,9 @@ export interface AgentFilterState {
 	serviceArea?: string;
 	
 	// Expertise Filters
-	brandExpertise?: CarBrand[];
-	vehicleTypes?: CarCategory[];
-	fuelExpertise?: FuelType[];
+	brandExpertise?: string[];
+	vehicleTypes?: string[];
+	fuelExpertise?: string[];
 	
 	// Experience & Performance
 	minExperience?: number;
@@ -92,7 +92,7 @@ export interface AgentFilterState {
 	priceRange?: { min: number; max: number };
 	
 	// Availability
-	availability?: ('online' | 'busy' | 'offline')[];
+	availability?: string[];
 	languages?: string[];
 	
 	// Sorting
@@ -106,9 +106,9 @@ export interface AgentFilterState {
 
 export interface AgentMatchingCriteria {
 	userPreferences: {
-		carBrand?: CarBrand;
-		carCategory?: CarCategory;
-		fuelType?: FuelType;
+		carBrand?: string;
+		carCategory?: string;
+		fuelType?: string;
 		priceRange?: { min: number; max: number };
 		location?: string;
 		language?: string;

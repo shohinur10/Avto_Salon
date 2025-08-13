@@ -7,7 +7,7 @@
   // Simple Header with Car Background
   .homepage-header {
     position: relative;
-    height: 400px;
+    height: 1400px;
     overflow: hidden;
 
     .header-background {
@@ -124,7 +124,7 @@
 @media (max-width: 768px) {
   .clean-homepage {
     .homepage-header {
-      height: 300px;
+      height: 400px;
     }
   }
 }

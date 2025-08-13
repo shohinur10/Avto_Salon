@@ -216,7 +216,7 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 								}))}
 							>
 								<MenuItem value="">Any Brand</MenuItem>
-								{Object.values(CarBrand).map(brand => (
+								{['BMW', 'Mercedes', 'Toyota', 'Honda', 'Ford', 'Audi', 'Volkswagen', 'Hyundai'].map(brand => (
 									<MenuItem key={brand} value={brand}>{brand}</MenuItem>
 								))}
 							</Select>
@@ -232,7 +232,7 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 								}))}
 							>
 								<MenuItem value="">Any Category</MenuItem>
-								{Object.values(CarCategory).map(category => (
+								{['SUV', 'SEDAN', 'HATCHBACK', 'CONVERTIBLE', 'COUPE', 'PICKUP'].map(category => (
 									<MenuItem key={category} value={category}>{category}</MenuItem>
 								))}
 							</Select>
@@ -248,7 +248,7 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 								}))}
 							>
 								<MenuItem value="">Any Fuel Type</MenuItem>
-								{Object.values(FuelType).map(fuel => (
+								{['GASOLINE', 'ELECTRIC', 'HYBRID', 'DIESEL'].map(fuel => (
 									<MenuItem key={fuel} value={fuel}>{fuel}</MenuItem>
 								))}
 							</Select>

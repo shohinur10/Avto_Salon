@@ -36,7 +36,7 @@ import {
 	Search as SearchIcon
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
-import AdvancedAgentFilter from './AdvancedAgentFilter';
+import { AdvancedAgentFilter } from './SimpleAgentFilter';
 import EnhancedAgentCard from './EnhancedAgentCard';
 import AgentMatcher from './AgentMatcher';
 import { AgentProfile, AgentFilterState } from '../../types/agent/agent-extended';
@@ -141,19 +141,19 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 	};
 
 	const getRandomBrands = () => {
-		const brands = Object.values(CarBrand);
+		const brands = ['BMW', 'Mercedes', 'Toyota', 'Honda', 'Ford', 'Audi', 'Volkswagen', 'Hyundai'];
 		const count = Math.floor(Math.random() * 4) + 2;
 		return brands.slice(0, count);
 	};
 
 	const getRandomCategories = () => {
-		const categories = Object.values(CarCategory);
+		const categories = ['SUV', 'SEDAN', 'HATCHBACK', 'CONVERTIBLE', 'COUPE', 'PICKUP'];
 		const count = Math.floor(Math.random() * 3) + 2;
 		return categories.slice(0, count);
 	};
 
 	const getRandomFuels = () => {
-		const fuels = Object.values(FuelType);
+		const fuels = ['GASOLINE', 'ELECTRIC', 'HYBRID', 'DIESEL'];
 		const count = Math.floor(Math.random() * 2) + 1;
 		return fuels.slice(0, count);
 	};
@@ -280,7 +280,7 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 						<Grid item xs={12} sm={6} md={3}>
 							<motion.div variants={itemVariants}>
 								<Card>
-									<CardContent textAlign="center">
+									<CardContent sx={{ textAlign: 'center' }}>
 										<Typography variant="h4" color="primary" fontWeight="bold">
 											{stats.totalAgents}
 										</Typography>
@@ -294,7 +294,7 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 						<Grid item xs={12} sm={6} md={3}>
 							<motion.div variants={itemVariants}>
 								<Card>
-									<CardContent textAlign="center">
+									<CardContent sx={{ textAlign: 'center' }}>
 										<Typography variant="h4" color="success.main" fontWeight="bold">
 											{stats.onlineAgents}
 										</Typography>
@@ -308,7 +308,7 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 						<Grid item xs={12} sm={6} md={3}>
 							<motion.div variants={itemVariants}>
 								<Card>
-									<CardContent textAlign="center">
+									<CardContent sx={{ textAlign: 'center' }}>
 										<Typography variant="h4" color="warning.main" fontWeight="bold">
 											{stats.avgRating.toFixed(1)}
 										</Typography>
@@ -322,7 +322,7 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 						<Grid item xs={12} sm={6} md={3}>
 							<motion.div variants={itemVariants}>
 								<Card>
-									<CardContent textAlign="center">
+									<CardContent sx={{ textAlign: 'center' }}>
 										<Typography variant="h4" color="info.main" fontWeight="bold">
 											{stats.totalSales.toLocaleString()}
 										</Typography>
