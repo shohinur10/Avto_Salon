@@ -129,10 +129,7 @@ const withLayoutBasic = (Component: any) => {
 						<Stack
 							className={`header-basic ${authHeader && 'auth'}`}
 							style={{
-								backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url(${memoizedValues.bgImage})`,
-								backgroundSize: 'cover',
-								backgroundPosition: 'center',
-								backgroundRepeat: 'no-repeat',
+								background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 20, 0.98) 100%)',
 								boxShadow: 'inset 0px 0px 100px 20px rgba(0, 0, 0, 0.3)',
 							}}
 						>

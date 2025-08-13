@@ -2,13 +2,17 @@ import React, { ChangeEvent, MouseEvent, useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Stack, Box, Button, Pagination } from '@mui/material';
+import { Stack, Box, Button, Pagination, Typography, Container, Fab, Backdrop, Dialog, DialogContent, IconButton } from '@mui/material';
 import { Menu, MenuItem } from '@mui/material';
 import KeyboardArrowDownRoundedIcon from '@mui/icons-material/KeyboardArrowDownRounded';
+import MenuIcon from '@mui/icons-material/Menu';
+import CloseIcon from '@mui/icons-material/Close';
 import AgentCard from '../../libs/components/common/AgentCard';
+import EnhancedAgentsPage from '../../libs/components/agent/EnhancedAgentsPage';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Member } from '../../libs/types/member/member';
+import { AgentFilterState } from '../../libs/types/agent/agent-extended';
 import { useMutation, useQuery } from '@apollo/client';
 import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
 import { T } from '../../libs/types/common';
@@ -38,6 +42,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const [total, setTotal] = useState<number>(0);
 	const [currentPage, setCurrentPage] = useState<number>(1);
 	const [searchText, setSearchText] = useState<string>('');
+	const [showAgentsMenu, setShowAgentsMenu] = useState(false);
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
@@ -62,11 +67,12 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 		if (router.query.input) {
 			const input_obj = JSON.parse(router?.query?.input as string);
 			setSearchFilter(input_obj);
-		} else
+		} else if (router.isReady) {
 			router.replace(`/agent?input=${JSON.stringify(searchFilter)}`, `/agent?input=${JSON.stringify(searchFilter)}`);
+		}
 
 		setCurrentPage(searchFilter.page === undefined ? 1 : searchFilter.page);
-	}, [router]);
+	}, [router.query.input, router.isReady]);
 
 	/** HANDLERS **/
 	const sortingClickHandler = (e: MouseEvent<HTMLElement>) => {
@@ -126,88 +132,154 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
+	// Handle filter changes for enhanced page
+	const handleFilterChange = (newFilters: AgentFilterState) => {
+		const updatedSearchFilter = {
+			...searchFilter,
+			page: newFilters.page,
+			limit: newFilters.limit,
+			sort: newFilters.sortBy === 'rating' ? 'memberRank' : 
+				  newFilters.sortBy === 'experience' ? 'createdAt' :
+				  newFilters.sortBy === 'carsSold' ? 'memberViews' :
+				  newFilters.sortBy,
+			direction: newFilters.sortDirection.toUpperCase(),
+			search: {
+				...searchFilter.search,
+				text: newFilters.searchText || searchFilter.search?.text
+			}
+		};
+		
+		setSearchFilter(updatedSearchFilter);
+		router.push(`/agent?input=${JSON.stringify(updatedSearchFilter)}`, undefined, { scroll: false });
+	};
+
+	// Handle agent contact
+	const handleAgentContact = (agentId: string, method: string) => {
+		console.log(`Contacting agent ${agentId} via ${method}`);
+		// Implement contact logic here
+	};
+
+	// Handle page change
+	const handlePageChange = (page: number) => {
+		paginationChangeHandler({} as any, page);
+	};
+
 	if (device === 'mobile') {
-		return <h1>AGENTS PAGE MOBILE</h1>;
+		return (
+			<div style={{
+				padding: '2rem',
+				textAlign: 'center',
+				background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 20, 0.98) 100%)',
+				minHeight: '100vh',
+				color: 'white'
+			}}>
+				<h1>👥 Meet Our Agents</h1>
+				<p>Mobile enhanced version coming soon!</p>
+			</div>
+		);
 	} else {
 		return (
-			<Stack className={'agent-list-page'}>
-				<Stack className={'container'}>
-					<Stack className={'filter'}>
-						<Box component={'div'} className={'left'}>
-							<input
-								type="text"
-								placeholder={'Search for an agent'}
-								value={searchText}
-								onChange={(e: any) => setSearchText(e.target.value)}
-								onKeyDown={(event: any) => {
-									if (event.key == 'Enter') {
-										setSearchFilter({
-											...searchFilter,
-											search: { ...searchFilter.search, text: searchText },
-										});
-									}
-								}}
-							/>
-						</Box>
-						<Box component={'div'} className={'right'}>
-							<span>Sort by</span>
-							<div>
-								<Button onClick={sortingClickHandler} endIcon={<KeyboardArrowDownRoundedIcon />}>
-									{filterSortName}
-								</Button>
-								<Menu anchorEl={anchorEl} open={sortingOpen} onClose={sortingCloseHandler} sx={{ paddingTop: '5px' }}>
-									<MenuItem onClick={sortingHandler} id={'recent'} disableRipple>
-										Recent
-									</MenuItem>
-									<MenuItem onClick={sortingHandler} id={'old'} disableRipple>
-										Oldest
-									</MenuItem>
-									<MenuItem onClick={sortingHandler} id={'likes'} disableRipple>
-										Likes
-									</MenuItem>
-									<MenuItem onClick={sortingHandler} id={'views'} disableRipple>
-										Views
-									</MenuItem>
-								</Menu>
-							</div>
-						</Box>
+			<>
+				{/* Simple Agent Page Layout */}
+				<Container maxWidth="xl" sx={{ py: 4 }}>
+					<Stack 
+						direction="row" 
+						justifyContent="space-between" 
+						alignItems="center" 
+						mb={4}
+					>
+						<Typography variant="h3" fontWeight="bold" color="white">
+							Our Professional Agents
+						</Typography>
+						
+						<Button
+							variant="contained"
+							size="large"
+							startIcon={<MenuIcon />}
+							onClick={() => setShowAgentsMenu(true)}
+							sx={{
+								background: 'linear-gradient(135deg, #3B82F6 0%, #1D4ED8 100%)',
+								color: 'white',
+								fontWeight: 600,
+								padding: '12px 32px',
+								borderRadius: '12px',
+								textTransform: 'none',
+								fontSize: '1.1rem',
+								boxShadow: '0 6px 20px rgba(59, 130, 246, 0.4)',
+								'&:hover': {
+									background: 'linear-gradient(135deg, #2563EB 0%, #1E40AF 100%)',
+									boxShadow: '0 8px 24px rgba(59, 130, 246, 0.5)',
+									transform: 'translateY(-2px)'
+								}
+							}}
+						>
+							Browse All Agents
+						</Button>
 					</Stack>
-					<Stack className={'card-wrap'}>
-						{agents?.length === 0 ? (
-							<div className={'no-data'}>
-								<img src="/img/icons/icoAlert.svg" alt="" />
-								<p>No Agents found!</p>
-							</div>
-						) : (
-							agents.map((agent: Member) => {
-								return <AgentCard agent={agent} key={agent._id} likeMemberHandler={likeMemberHandler}
-								/>;
-							})
-						)}
-					</Stack>
-					<Stack className={'pagination'}>
-						<Stack className="pagination-box">
-							{agents.length !== 0 && Math.ceil(total / searchFilter.limit) > 1 && (
-								<Stack className="pagination-box">
-									<Pagination
-										page={currentPage}
-										count={Math.ceil(total / searchFilter.limit)}
-										onChange={paginationChangeHandler}
-										shape="circular"
-										color="primary"
-									/>
-								</Stack>
-							)}
-						</Stack>
 
-						{agents.length !== 0 && (
-							<span>
-								Total {total} agent{total > 1 ? 's' : ''} available
-							</span>
-						)}
-					</Stack>
-				</Stack>
-			</Stack>
+					<Typography variant="h6" color="text.secondary" gutterBottom>
+						Find the perfect car consultant for your needs. Click "Browse All Agents" to explore our complete team.
+					</Typography>
+
+					{/* Basic stats */}
+					<Box sx={{ mt: 4, p: 3, bgcolor: 'rgba(255, 255, 255, 0.05)', borderRadius: 2 }}>
+						<Typography variant="h5" color="primary" gutterBottom>
+							Total Agents: {total}
+						</Typography>
+						<Typography variant="body1" color="text.secondary">
+							Professional car consultants ready to help you find your perfect vehicle.
+						</Typography>
+					</Box>
+				</Container>
+
+				{/* Full Agents Menu Dialog */}
+				<Dialog
+					open={showAgentsMenu}
+					onClose={() => setShowAgentsMenu(false)}
+					maxWidth="xl"
+					fullWidth
+					fullScreen
+					PaperProps={{
+						sx: {
+							background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 20, 0.98) 100%)',
+							backdropFilter: 'blur(20px)',
+						}
+					}}
+				>
+					<DialogContent sx={{ p: 0, position: 'relative' }}>
+						{/* Close Button */}
+						<IconButton
+							onClick={() => setShowAgentsMenu(false)}
+							sx={{
+								position: 'absolute',
+								top: 16,
+								right: 16,
+								zIndex: 1000,
+								bgcolor: 'rgba(255, 255, 255, 0.1)',
+								color: 'white',
+								'&:hover': {
+									bgcolor: 'rgba(255, 255, 255, 0.2)',
+								}
+							}}
+						>
+							<CloseIcon />
+						</IconButton>
+
+						{/* Enhanced Agents Page Inside Dialog */}
+						<EnhancedAgentsPage
+							agents={agents}
+							loading={getAgentsLoading}
+							total={total}
+							onFilterChange={handleFilterChange}
+							onAgentLike={likeMemberHandler}
+							onAgentContact={handleAgentContact}
+							currentPage={currentPage}
+							totalPages={Math.ceil(total / searchFilter.limit)}
+							onPageChange={handlePageChange}
+						/>
+					</DialogContent>
+				</Dialog>
+			</>
 		);
 	}
 };
