@@ -1,6 +1,8 @@
 /** IMPORTS **/
 @import 'variables.scss';
 @import 'reset.scss';
+@import './pc/car/advanced-filter.scss';
+@import './pc/car/car-list-page.scss';
 
 a {
 	white-space: nowrap;

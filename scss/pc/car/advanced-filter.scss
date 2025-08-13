@@ -1,0 +1,670 @@
+// Advanced Car Filter Styles
+.advanced-car-filter {
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(20, 20, 30, 0.98) 100%);
+  border-radius: 20px;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  margin: 2rem 0;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+
+  // Filter Header
+  .filter-header {
+    padding: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.02);
+
+    .filter-header-content {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+
+      @media (max-width: 768px) {
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+    }
+
+    .search-container {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 15px;
+      padding: 0 1rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s ease;
+      min-width: 300px;
+
+      @media (max-width: 768px) {
+        min-width: 100%;
+      }
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(212, 175, 55, 0.3);
+      }
+
+      .search-icon {
+        color: rgba(255, 255, 255, 0.6);
+        margin-right: 1rem;
+        font-size: 1.5rem;
+      }
+
+      .search-input {
+        flex: 1;
+
+        .MuiOutlinedInput-root {
+          border: none;
+          background: transparent;
+
+          .MuiOutlinedInput-notchedOutline {
+            border: none;
+          }
+
+          input {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            padding: 1rem 0;
+
+            &::placeholder {
+              color: rgba(255, 255, 255, 0.5);
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      .clear-search-btn {
+        color: rgba(255, 255, 255, 0.6);
+        transition: all 0.3s ease;
+
+        &:hover {
+          color: rgba(212, 175, 55, 0.8);
+          background: rgba(212, 175, 55, 0.1);
+        }
+      }
+    }
+
+    .filter-controls {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+
+      .filter-stats {
+        .total-cars {
+          color: rgba(255, 255, 255, 0.8);
+          font-size: 0.95rem;
+          font-weight: 500;
+        }
+      }
+
+      .filter-badge {
+        .MuiBadge-badge {
+          background: linear-gradient(135deg, #D4AF37, #F4E992);
+          color: rgba(0, 0, 0, 0.9);
+          font-weight: 600;
+        }
+      }
+
+      .filter-toggle-btn {
+        background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
+        border: 1px solid rgba(212, 175, 55, 0.4);
+        color: #D4AF37;
+        padding: 0.75rem 1.5rem;
+        border-radius: 10px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.2));
+          border-color: #D4AF37;
+          box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+          transform: translateY(-2px);
+        }
+
+        .MuiSvgIcon-root {
+          color: #D4AF37;
+        }
+      }
+
+      .clear-filters-btn {
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.8);
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+          border-color: rgba(255, 255, 255, 0.5);
+          color: rgba(255, 255, 255, 0.9);
+        }
+      }
+    }
+  }
+
+  // Filter Panel
+  .filter-panel {
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+
+    .filter-content {
+      padding: 2rem;
+    }
+
+    .quick-sort-section {
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+      .section-title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        color: rgba(255, 255, 255, 0.95);
+        margin-bottom: 1.5rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+
+        .section-icon {
+          color: #D4AF37;
+          font-size: 1.5rem;
+        }
+      }
+
+      .sort-options {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        .sort-chip {
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          color: rgba(255, 255, 255, 0.8);
+          font-weight: 500;
+          transition: all 0.3s ease;
+          cursor: pointer;
+
+          &:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.3);
+            color: #D4AF37;
+            transform: translateY(-2px);
+          }
+
+          &.MuiChip-filled {
+            background: linear-gradient(135deg, #D4AF37, #F4E992);
+            color: rgba(0, 0, 0, 0.9);
+            border-color: #D4AF37;
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+          }
+        }
+      }
+    }
+
+    .filter-sections {
+      .filter-accordion {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        overflow: hidden;
+
+        &:before {
+          display: none;
+        }
+
+        .MuiAccordionSummary-root {
+          background: rgba(255, 255, 255, 0.02);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          padding: 1rem 1.5rem;
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.05);
+          }
+
+          .accordion-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+
+            .section-icon {
+              color: #D4AF37;
+              font-size: 1.5rem;
+            }
+
+            .MuiTypography-h6 {
+              color: rgba(255, 255, 255, 0.95);
+              font-weight: 600;
+            }
+          }
+
+          .MuiAccordionSummary-expandIconWrapper {
+            color: rgba(255, 255, 255, 0.7);
+
+            &:hover {
+              color: #D4AF37;
+            }
+          }
+        }
+
+        .MuiAccordionDetails-root {
+          padding: 1.5rem;
+          background: rgba(0, 0, 0, 0.2);
+        }
+      }
+
+      // Brand Grid
+      .brand-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        gap: 1rem;
+
+        .brand-option {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 1rem 0.5rem;
+          border-radius: 10px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+
+          &:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.3);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+          }
+
+          &.selected {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.1));
+            border-color: #D4AF37;
+            box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3);
+
+            .brand-name {
+              color: #D4AF37;
+            }
+          }
+
+          .brand-icon {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+            filter: brightness(0) invert(1);
+            transition: all 0.3s ease;
+          }
+
+          &.selected .brand-icon {
+            filter: none;
+          }
+
+          .brand-name {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.7rem;
+            font-weight: 500;
+            text-align: center;
+            transition: all 0.3s ease;
+          }
+        }
+      }
+
+      // Category Chips
+      .category-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+
+        .category-chip {
+          font-weight: 500;
+          transition: all 0.3s ease;
+          cursor: pointer;
+          border-width: 2px;
+
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+          }
+        }
+      }
+
+      // Range Sections
+      .range-section {
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+
+        .section-title {
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+          color: rgba(255, 255, 255, 0.95);
+          margin-bottom: 1.5rem;
+          font-size: 1.1rem;
+          font-weight: 600;
+
+          .section-icon {
+            color: #D4AF37;
+          }
+        }
+
+        .range-container {
+          .MuiSlider-root {
+            color: #D4AF37;
+
+            .MuiSlider-track {
+              background: linear-gradient(90deg, #D4AF37, #F4E992);
+              border: none;
+              height: 6px;
+            }
+
+            .MuiSlider-rail {
+              background: rgba(255, 255, 255, 0.2);
+              height: 6px;
+            }
+
+            .MuiSlider-thumb {
+              background: linear-gradient(135deg, #D4AF37, #F4E992);
+              border: 2px solid rgba(255, 255, 255, 0.2);
+              width: 20px;
+              height: 20px;
+              box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+
+              &:hover,
+              &.Mui-focusVisible {
+                box-shadow: 0 0 0 8px rgba(212, 175, 55, 0.2);
+              }
+            }
+
+            .MuiSlider-valueLabel {
+              background: linear-gradient(135deg, #D4AF37, #F4E992);
+              color: rgba(0, 0, 0, 0.9);
+              font-weight: 600;
+              border-radius: 6px;
+
+              &:before {
+                border-top-color: #D4AF37;
+              }
+            }
+          }
+
+          .range-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+
+            .MuiTypography-caption {
+              color: rgba(255, 255, 255, 0.7);
+              font-weight: 500;
+            }
+          }
+        }
+      }
+
+      // Additional Filters
+      .MuiFormControl-root {
+        .MuiInputLabel-root {
+          color: rgba(255, 255, 255, 0.7);
+
+          &.Mui-focused {
+            color: #D4AF37;
+          }
+        }
+
+        .MuiOutlinedInput-root {
+          background: rgba(255, 255, 255, 0.05);
+          border-radius: 8px;
+
+          .MuiOutlinedInput-notchedOutline {
+            border-color: rgba(255, 255, 255, 0.2);
+          }
+
+          &:hover .MuiOutlinedInput-notchedOutline {
+            border-color: rgba(212, 175, 55, 0.4);
+          }
+
+          &.Mui-focused .MuiOutlinedInput-notchedOutline {
+            border-color: #D4AF37;
+          }
+
+          .MuiInputBase-input {
+            color: rgba(255, 255, 255, 0.9);
+          }
+
+          .MuiSvgIcon-root {
+            color: rgba(255, 255, 255, 0.7);
+          }
+        }
+
+        .MuiMenuItem-root {
+          color: rgba(255, 255, 255, 0.9);
+
+          &:hover {
+            background: rgba(212, 175, 55, 0.1);
+          }
+
+          &.Mui-selected {
+            background: rgba(212, 175, 55, 0.2);
+          }
+        }
+
+        .MuiChip-root {
+          background: rgba(212, 175, 55, 0.2);
+          color: #D4AF37;
+          border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+      }
+
+      .luxury-toggle {
+        .MuiFormControlLabel-root {
+          .MuiFormControlLabel-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+          }
+
+          .MuiSwitch-root {
+            .MuiSwitch-track {
+              background: rgba(255, 255, 255, 0.2);
+            }
+
+            .MuiSwitch-thumb {
+              background: #D4AF37;
+            }
+
+            &.Mui-checked {
+              .MuiSwitch-track {
+                background: linear-gradient(90deg, #D4AF37, #F4E992);
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .advanced-car-filter {
+    .filter-header {
+      padding: 1.5rem;
+
+      .filter-header-content {
+        gap: 1.5rem;
+      }
+    }
+
+    .filter-panel .filter-content {
+      padding: 1.5rem;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .advanced-car-filter {
+    margin: 1rem 0;
+    border-radius: 15px;
+
+    .filter-header {
+      padding: 1rem;
+
+      .search-container {
+        min-width: 100%;
+      }
+
+      .filter-controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+    }
+
+    .filter-panel .filter-content {
+      padding: 1rem;
+
+      .quick-sort-section .sort-options {
+        gap: 0.5rem;
+
+        .sort-chip {
+          font-size: 0.8rem;
+        }
+      }
+
+      .brand-grid {
+        grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+        gap: 0.75rem;
+
+        .brand-option {
+          padding: 0.75rem 0.25rem;
+
+          .brand-icon {
+            width: 30px;
+            height: 30px;
+          }
+
+          .brand-name {
+            font-size: 0.65rem;
+          }
+        }
+      }
+
+      .range-section {
+        padding: 1rem;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .advanced-car-filter {
+    .filter-header {
+      .filter-controls {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+
+        .filter-toggle-btn,
+        .clear-filters-btn {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+    }
+
+    .filter-panel .filter-content {
+      .quick-sort-section .sort-options {
+        flex-direction: column;
+
+        .sort-chip {
+          width: 100%;
+          justify-content: center;
+        }
+      }
+
+      .brand-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  }
+}
+
+// Animation keyframes
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Loading states
+.filter-loading {
+  animation: pulse 2s infinite;
+}
+
+// Focus and accessibility improvements
+.advanced-car-filter {
+  * {
+    &:focus-visible {
+      outline: 2px solid #D4AF37;
+      outline-offset: 2px;
+      border-radius: 4px;
+    }
+  }
+}
+
+// High contrast mode support
+@media (prefers-contrast: high) {
+  .advanced-car-filter {
+    border: 2px solid #D4AF37;
+
+    .search-container {
+      border: 1px solid #D4AF37;
+    }
+
+    .filter-toggle-btn {
+      border: 2px solid #D4AF37;
+    }
+  }
+}
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce) {
+  .advanced-car-filter {
+    * {
+      transition: none !important;
+      animation: none !important;
+    }
+  }
+}
+
