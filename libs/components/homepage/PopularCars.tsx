@@ -55,7 +55,38 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 	};
 
 	if (!cars || cars.length === 0) {
-		return null;
+		return (
+			<motion.section
+				ref={ref}
+				initial={{ opacity: 0, y: 50 }}
+				animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+				transition={{ duration: 0.8 }}
+				className="popular-cars"
+			>
+				<Box className="section-header">
+					<motion.div
+						initial={{ opacity: 0, x: -30 }}
+						animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+						transition={{ duration: 0.6, delay: 0.2 }}
+					>
+						<Typography variant="h2" className="section-title">
+							Popular Cars
+						</Typography>
+						<Typography variant="body1" className="section-subtitle">
+							Most viewed and loved vehicles by our community
+						</Typography>
+					</motion.div>
+				</Box>
+				<Box className="no-cars-message" style={{ textAlign: 'center', padding: '60px 20px' }}>
+					<Typography variant="h6" style={{ color: '#666', marginBottom: '16px' }}>
+						🚗 No cars available at the moment
+					</Typography>
+					<Typography variant="body2" style={{ color: '#999' }}>
+						Please check back later for our latest vehicle collection
+					</Typography>
+				</Box>
+			</motion.section>
+		);
 	}
 
 	return (
