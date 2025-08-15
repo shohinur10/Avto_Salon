@@ -43,17 +43,17 @@ const Footer = () => {
 							</div>
 							<div className={'contact-item'}>
 								<PhoneIcon className={'contact-icon'} />
-							<div>
+								<div>
 									<span className={'contact-label'}>Call Us Today</span>
 									<p className={'contact-value'}>+82 10 4867 2909</p>
 								</div>
 							</div>
 							<div className={'contact-item'}>
 								<EmailIcon className={'contact-icon'} />
-							<div>
+								<div>
 									<span className={'contact-label'}>Email Us</span>
 									<p className={'contact-value'}>info@autosalon.com</p>
-							</div>
+								</div>
 							</div>
 						</Box>
 					</Stack>
@@ -169,27 +169,27 @@ const Footer = () => {
 								<Box component={'div'} className={'contact-box'}>
 									<div className={'contact-item'}>
 										<LocationOnIcon className={'contact-icon'} />
-							<div>
+										<div>
 											<span className={'contact-label'}>Visit Our Showroom</span>
 											<p className={'contact-value'}>123 Auto Boulevard, Seoul, Korea</p>
 										</div>
-							</div>
+									</div>
 									<div className={'contact-item'}>
 										<PhoneIcon className={'contact-icon'} />
-							<div>
+										<div>
 											<span className={'contact-label'}>Call Us Today</span>
 											<p className={'contact-value'}>+82 10 4867 2909</p>
 										</div>
-							</div>
+									</div>
 									<div className={'contact-item'}>
 										<EmailIcon className={'contact-icon'} />
-							<div>
+										<div>
 											<span className={'contact-label'}>Email Us</span>
 											<p className={'contact-value'}>info@autosalon.com</p>
-							</div>
-							</div>
-						</Box>
-					</Stack>
+										</div>
+									</div>
+								</Box>
+							</Stack>
 						</Grid>
 
 						{/* Services */}
