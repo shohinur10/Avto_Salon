@@ -157,7 +157,7 @@ $transition-elastic: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 		}
 	}
 
-		.scroll-indicator {
+	.scroll-indicator {
 		position: absolute;
 		bottom: 50px;
 		left: 50%;
@@ -281,20 +281,20 @@ $transition-elastic: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	margin-bottom: 60px;
 	padding: 0 20px;
 
-			.section-title {
-			font-size: 2.5rem;
-			font-weight: 300;
+	.section-title {
+		font-size: 2.5rem;
+		font-weight: 300;
 			color: $luxury-dark-gray;
-			margin-bottom: 12px;
-			letter-spacing: -1px;
-		}
+		margin-bottom: 12px;
+		letter-spacing: -1px;
+	}
 
-		.section-subtitle {
-			font-size: 1.1rem;
+	.section-subtitle {
+		font-size: 1.1rem;
 			color: $luxury-medium-gray;
-			line-height: 1.6;
-			max-width: 500px;
-		}
+		line-height: 1.6;
+		max-width: 500px;
+	}
 
 	.navigation-controls {
 		display: flex;
@@ -432,69 +432,69 @@ $transition-elastic: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 
 	.car-card-wrapper {
 		height: 100%;
-		
-		.luxury-car-card {
+
+	.luxury-car-card {
 			background: $luxury-white;
-			border-radius: 20px;
-			overflow: hidden;
+		border-radius: 20px;
+		overflow: hidden;
 			box-shadow: 0 8px 32px rgba($luxury-black, 0.08);
-			transition: $transition-luxury;
-			cursor: pointer;
+		transition: $transition-luxury;
+		cursor: pointer;
 			height: 450px;
-			display: flex;
-			flex-direction: column;
+		display: flex;
+		flex-direction: column;
 			border: 1px solid rgba($luxury-medium-gray, 0.1);
 
-			&:hover {
+		&:hover {
 				box-shadow: 0 25px 60px rgba($luxury-black, 0.15);
 				transform: translateY(-10px);
 
-				.car-image {
+			.car-image {
 					transform: scale(1.08);
-				}
-
-				.image-overlay {
-					opacity: 0.5;
-				}
 			}
 
-			.card-image-container {
-				position: relative;
+			.image-overlay {
+					opacity: 0.5;
+			}
+		}
+
+		.card-image-container {
+			position: relative;
 				height: 260px;
-				overflow: hidden;
+			overflow: hidden;
 
-				.car-image {
-					width: 100%;
-					height: 100%;
-					object-fit: cover;
-					transition: $transition-luxury;
-				}
+			.car-image {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				transition: $transition-luxury;
+			}
 
-				.image-overlay {
-					position: absolute;
-					top: 0;
-					left: 0;
-					width: 100%;
-					height: 100%;
-					background: linear-gradient(
-						to bottom,
-						transparent 0%,
+			.image-overlay {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: linear-gradient(
+					to bottom,
+					transparent 0%,
 						rgba($luxury-black, 0.1) 60%,
 						rgba($luxury-black, 0.3) 100%
-					);
+				);
 					opacity: 0.2;
-					transition: $transition-smooth;
-				}
+				transition: $transition-smooth;
+			}
 
-				.like-button-container {
-					position: absolute;
-					top: 16px;
-					right: 16px;
+			.like-button-container {
+				position: absolute;
+				top: 16px;
+				right: 16px;
 					z-index: 3;
 
-					.like-button {
+				.like-button {
 						background: rgba($luxury-white, 0.95);
-						backdrop-filter: blur(10px);
+					backdrop-filter: blur(10px);
 						color: $luxury-medium-gray;
 						width: 44px;
 						height: 44px;
@@ -502,112 +502,112 @@ $transition-elastic: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 						border-radius: 50%;
 						box-shadow: 0 4px 12px rgba($luxury-black, 0.1);
 
-						&:hover {
+					&:hover {
 							background: $luxury-white;
 							color: $luxury-accent-red;
 							transform: scale(1.15);
 							box-shadow: 0 8px 20px rgba($luxury-accent-red, 0.3);
-						}
+					}
 
-						&.liked {
+					&.liked {
 							color: $luxury-accent-red;
 							background: $luxury-white;
-						}
 					}
-				}
-
-				.car-badge {
-					position: absolute;
-					top: 16px;
-					left: 16px;
-					background: $luxury-gradient-primary;
-					color: $luxury-white;
-					padding: 8px 12px;
-					border-radius: 20px;
-					font-size: 0.75rem;
-					font-weight: 600;
-					backdrop-filter: blur(10px);
-					box-shadow: 0 4px 12px rgba($luxury-gold, 0.3);
 				}
 			}
 
-			.card-content {
-				flex: 1;
-				display: flex;
-				flex-direction: column;
+			.car-badge {
+				position: absolute;
+				top: 16px;
+				left: 16px;
+					background: $luxury-gradient-primary;
+					color: $luxury-white;
+					padding: 8px 12px;
+				border-radius: 20px;
+				font-size: 0.75rem;
+				font-weight: 600;
+					backdrop-filter: blur(10px);
+					box-shadow: 0 4px 12px rgba($luxury-gold, 0.3);
+			}
+		}
+
+		.card-content {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
 				padding: 28px 24px 24px;
 
-				.car-info {
+			.car-info {
 					margin-bottom: 18px;
 
-					.car-title {
+				.car-title {
 						font-size: 1.3rem;
-						font-weight: 600;
+					font-weight: 600;
 						color: $luxury-dark-gray;
 						margin-bottom: 6px;
 						line-height: 1.3;
-					}
+				}
 
-					.car-year {
+				.car-year {
 						color: $luxury-medium-gray;
 						font-size: 0.9rem;
 						font-weight: 400;
-					}
 				}
+			}
 
-				.car-details {
-					display: flex;
+			.car-details {
+				display: flex;
 					gap: 24px;
-					margin-bottom: 20px;
+				margin-bottom: 20px;
 
-					.detail-item {
-						.detail-label {
-							display: block;
+				.detail-item {
+					.detail-label {
+						display: block;
 							color: $luxury-medium-gray;
-							font-size: 0.75rem;
-							text-transform: uppercase;
+						font-size: 0.75rem;
+						text-transform: uppercase;
 							letter-spacing: 0.8px;
 							margin-bottom: 4px;
 							font-weight: 500;
-						}
+					}
 
-						.detail-value {
+					.detail-value {
 							color: $luxury-dark-gray;
 							font-weight: 600;
 							font-size: 0.9rem;
-						}
 					}
 				}
+			}
 
-				.card-footer {
-					display: flex;
-					justify-content: space-between;
-					align-items: center;
-					margin-top: auto;
+			.card-footer {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				margin-top: auto;
 					padding-top: 16px;
 					border-top: 1px solid rgba($luxury-medium-gray, 0.1);
 
-					.car-price {
+				.car-price {
 						font-size: 1.6rem;
-						font-weight: 700;
+					font-weight: 700;
 						color: $luxury-gold;
 						text-shadow: 0 0 10px rgba($luxury-gold, 0.3);
-					}
+				}
 
-					.car-stats {
+				.car-stats {
+					display: flex;
+					align-items: center;
+					gap: 8px;
+
+					.stat-item {
 						display: flex;
 						align-items: center;
-						gap: 8px;
-
-						.stat-item {
-							display: flex;
-							align-items: center;
-							gap: 4px;
+						gap: 4px;
 							color: $luxury-medium-gray;
 							font-size: 0.8rem;
 
-							.stat-icon {
-								font-size: 16px;
+						.stat-icon {
+							font-size: 16px;
 								color: $luxury-accent-red;
 							}
 						}
@@ -2255,20 +2255,20 @@ $transition-elastic: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	.top-cars {
 		padding: 60px 0;
 
-		.section-header {
+	.section-header {
 			padding: 0 20px;
 			flex-direction: column;
 			align-items: flex-start;
 			gap: 20px;
-			margin-bottom: 40px;
+		margin-bottom: 40px;
 
-			.section-title {
+		.section-title {
 				font-size: 2.5rem;
-			}
+		}
 
-			.section-subtitle {
-				font-size: 1rem;
-			}
+		.section-subtitle {
+			font-size: 1rem;
+		}
 
 			.navigation-controls {
 				align-self: center;

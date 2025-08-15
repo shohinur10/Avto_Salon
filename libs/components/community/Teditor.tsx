@@ -13,7 +13,7 @@ const TuiEditor = () => {
 	const editorRef = useRef<Editor>(null),
 		token = getJwtToken(),
 		router = useRouter();
-	const [articleCategory, setArticleCategory] = useState<BoardArticleCategory>(BoardArticleCategory.FREE);
+	const [articleCategory, setArticleCategory] = useState<BoardArticleCategory>(BoardArticleCategory.REVIEWS);
 
 	/** APOLLO REQUESTS **/
 
@@ -98,12 +98,14 @@ const TuiEditor = () => {
 							displayEmpty
 							inputProps={{ 'aria-label': 'Without label' }}
 						>
-							<MenuItem value={BoardArticleCategory.FREE}>
-								<span>Free</span>
-							</MenuItem>
-							<MenuItem value={BoardArticleCategory.HUMOR}>Humor</MenuItem>
-							<MenuItem value={BoardArticleCategory.NEWS}>News</MenuItem>
-							<MenuItem value={BoardArticleCategory.RECOMMEND}>Recommendation</MenuItem>
+							<MenuItem value={BoardArticleCategory.REVIEWS}>🚗 Reviews & Experiences</MenuItem>
+							<MenuItem value={BoardArticleCategory.QNA}>❓ Q&A Forum</MenuItem>
+							<MenuItem value={BoardArticleCategory.EVENTS}>📅 Events & Meetups</MenuItem>
+							<MenuItem value={BoardArticleCategory.CAR_NEWS}>📰 Car News</MenuItem>
+							<MenuItem value={BoardArticleCategory.SHOWCASE}>📸 Photo/Video Showcase</MenuItem>
+							<MenuItem value={BoardArticleCategory.FREE}>💬 Free Board</MenuItem>
+							<MenuItem value={BoardArticleCategory.RECOMMEND}>⭐ Recommendations</MenuItem>
+							<MenuItem value={BoardArticleCategory.HUMOR}>😄 Humor</MenuItem>
 						</Select>
 					</FormControl>
 				</Box>
