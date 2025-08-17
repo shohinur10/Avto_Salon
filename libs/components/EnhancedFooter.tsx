@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
-import { Stack, Box, Typography, TextField, Button, Grid, Divider,IconButton,Chip,Link} from '@mui/material';
+import { Stack, Box, Typography, TextField, Button, Grid, Divider, IconButton, Chip, Link } from '@mui/material';
 import useDeviceDetect from '../hooks/useDeviceDetect';
 import { useRouter } from 'next/router';
 import moment from 'moment';
 // Social Media Icons
-import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined';
 import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import TiktokIcon from '@mui/icons-material/MusicNote'; // Using as TikTok alternative
+import MusicNoteIcon from '@mui/icons-material/MusicNote'; // TikTok alternative
 // Automotive Icons
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import LocalOfferIcon from '@mui/icons-material/LocalOffer';
-import SupportAgentIcon from '@mui/icons-material/SupportAgent';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
-import SecurityIcon from '@mui/icons-material/Security';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 import VerifiedIcon from '@mui/icons-material/Verified';
 import StarIcon from '@mui/icons-material/Star';
 
@@ -36,25 +30,49 @@ const EnhancedFooter = () => {
 	};
 
 	const popularCarBrands = [
-		'Mercedes-Benz', 'BMW', 'Audi', 'Tesla', 'Porsche', 'Ferrari', 'Lamborghini', 'Bentley'
+		'Mercedes-Benz', 'BMW', 'Audi', 'Tesla', 'Porsche', 'Lexus', 'Genesis', 'Hyundai'
+	];
+
+	const carCategories = [
+		{ label: 'Luxury Cars', href: '/car?category=luxury' },
+		{ label: 'Electric Vehicles', href: '/car?category=electric' },
+		{ label: 'SUVs & Crossovers', href: '/car?category=suv' },
+		{ label: 'Sports Cars', href: '/car?category=sports' },
+		{ label: 'Sedans', href: '/car?category=sedan' },
+		{ label: 'Certified Pre-Owned', href: '/car?category=certified' }
+	];
+
+	const ourServices = [
+		{ label: 'Buy New Cars', href: '/car?purpose=buy&type=new' },
+		{ label: 'Buy Used Cars', href: '/car?purpose=buy&type=used' },
+		{ label: 'Sell Your Car', href: '/mypage?category=addCar' },
+		{ label: 'Car Financing', href: '/services/loans' },
+		{ label: 'Detailing & Service', href: '/services/detailing' },
+		{ label: 'Insurance', href: '/services/insurance' },
+		{ label: 'Trade-In Value', href: '/services/trade-in' },
+		{ label: 'Extended Warranty', href: '/services/warranty' },
+		{ label: 'Car Inspection', href: '/services/inspection' },
+		{ label: 'Delivery Service', href: '/services/delivery' }
 	];
 
 	const quickLinks = [
-		{ label: 'Buy Cars', href: '/car?purpose=buy' },
-		{ label: 'Sell Cars', href: '/mypage?category=addCar' },
-		{ label: 'Car Loans', href: '/services/loans' },
-		{ label: 'Insurance', href: '/services/insurance' },
-		{ label: 'Car History', href: '/services/history' },
-		{ label: 'Trade-In', href: '/services/trade-in' }
+		{ label: 'Browse Inventory', href: '/car' },
+		{ label: 'Find Dealers', href: '/agent' },
+		{ label: 'Car Reviews', href: '/community?category=reviews' },
+		{ label: 'Price Calculator', href: '/tools/calculator' },
+		{ label: 'Schedule Test Drive', href: '/services/test-drive' },
+		{ label: 'About Us', href: '/about' }
 	];
 
 	const supportLinks = [
-		{ label: 'Help Center', href: '/cs' },
-		{ label: 'Contact Us', href: '/cs?tab=inquiry' },
+		{ label: 'Customer Support', href: '/cs' },
+		{ label: 'Live Chat (24/7)', href: '/cs?tab=chat' },
 		{ label: 'FAQs', href: '/cs?tab=faq' },
-		{ label: 'Live Chat', href: '#' },
-		{ label: 'Vehicle Reports', href: '/services/reports' },
-		{ label: 'Warranty Info', href: '/services/warranty' }
+		{ label: 'Financing Help', href: '/cs?tab=financing' },
+		{ label: 'Vehicle History', href: '/services/history' },
+		{ label: 'Service Centers', href: '/services/centers' },
+		{ label: 'Warranty Claims', href: '/cs?tab=warranty' },
+		{ label: 'Technical Support', href: '/cs?tab=technical' }
 	];
 
 	const legalLinks = [
@@ -72,8 +90,9 @@ const EnhancedFooter = () => {
 		return (
 			<Box
 				sx={{
-					backgroundColor: '#0a0a0a',
-					color: 'white',
+					backgroundColor: '#121212',
+					color: '#cccccc',
+					fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
 					pt: 6,
 					pb: 3,
 					mt: 8
@@ -88,21 +107,47 @@ const EnhancedFooter = () => {
 								alt="Auto Salon Logo" 
 								style={{ height: '48px' }}
 							/>
-							<Typography variant="h6" fontWeight={600} textAlign="center">
-								Premium Auto Marketplace
+							<Typography 
+								variant="h6" 
+								sx={{ 
+									fontWeight: 700, 
+									textAlign: 'center',
+									color: '#ffffff',
+									fontSize: '18px'
+								}}
+							>
+								Auto Salon
+							</Typography>
+							<Typography 
+								sx={{ 
+									textAlign: 'center',
+									fontSize: '14px',
+									lineHeight: 1.8,
+									color: '#cccccc'
+								}}
+							>
+								Premium automotive marketplace for luxury vehicles
 							</Typography>
 							<Stack direction="row" spacing={1}>
 								<Chip 
-									icon={<VerifiedIcon />} 
-									label="Trusted Dealer" 
-									color="primary" 
+									icon={<VerifiedIcon sx={{ fontSize: '16px' }} />} 
+									label="Verified Dealer" 
 									size="small"
+									sx={{ 
+										backgroundColor: '#2a2a2a',
+										color: '#ffcc00',
+										fontSize: '12px'
+									}}
 								/>
 								<Chip 
-									icon={<StarIcon />} 
+									icon={<StarIcon sx={{ fontSize: '16px' }} />} 
 									label="5-Star Service" 
-									sx={{ backgroundColor: '#FFD700', color: '#000' }}
 									size="small"
+									sx={{ 
+										backgroundColor: '#ffcc00',
+										color: '#121212',
+										fontSize: '12px'
+									}}
 								/>
 							</Stack>
 						</Stack>
@@ -110,31 +155,60 @@ const EnhancedFooter = () => {
 						{/* Newsletter */}
 						<Box
 							sx={{
-								background: 'linear-gradient(135deg, #1976d2, #42a5f5)',
-								borderRadius: '16px',
+								backgroundColor: '#2a2a2a',
+								borderRadius: '12px',
 								p: 3,
-								textAlign: 'center'
+								textAlign: 'center',
+								border: '1px solid #404040'
 							}}
 						>
-							<Typography variant="h6" fontWeight={600} mb={1}>
-								🚗 Get Car Deals & Updates
+							<Typography 
+								variant="h6" 
+								sx={{ 
+									fontWeight: 600, 
+									mb: 1,
+									color: '#ffffff',
+									fontSize: '16px'
+								}}
+							>
+								Stay Connected
 							</Typography>
-							<Typography variant="body2" mb={2} sx={{ opacity: 0.9 }}>
-								Subscribe for exclusive car deals, market insights, and new arrivals
+							<Typography 
+								sx={{ 
+									mb: 2, 
+									fontSize: '14px',
+									lineHeight: 1.8,
+									color: '#cccccc'
+								}}
+							>
+								Subscribe for exclusive deals, market insights, and new arrivals
 							</Typography>
 							{!subscribed ? (
 								<Stack spacing={2}>
 									<TextField
 										fullWidth
-										placeholder="Your email address"
+										placeholder="Enter your email address"
 										value={email}
 										onChange={(e) => setEmail(e.target.value)}
 										variant="outlined"
 										size="small"
 										sx={{
 											'& .MuiOutlinedInput-root': {
-												backgroundColor: 'white',
-												borderRadius: '8px'
+												backgroundColor: '#121212',
+												color: '#cccccc',
+												fontSize: '14px',
+												'& fieldset': {
+													borderColor: '#404040'
+												},
+												'&:hover fieldset': {
+													borderColor: '#ffcc00'
+												},
+												'&.Mui-focused fieldset': {
+													borderColor: '#ffcc00'
+												}
+											},
+											'& .MuiInputBase-input::placeholder': {
+												color: '#888888'
 											}
 										}}
 									/>
@@ -142,17 +216,22 @@ const EnhancedFooter = () => {
 										variant="contained"
 										onClick={handleSubscribe}
 										sx={{
-											backgroundColor: '#FFD700',
-											color: '#000',
+											backgroundColor: '#ffcc00',
+											color: '#121212',
 											fontWeight: 600,
-											'&:hover': { backgroundColor: '#FFC107' }
+											fontSize: '14px',
+											'&:hover': { 
+												backgroundColor: '#e6b800',
+												transform: 'translateY(-1px)'
+											},
+											transition: 'all 0.2s ease'
 										}}
 									>
 										Subscribe Now
 									</Button>
 								</Stack>
 							) : (
-								<Typography variant="body1" sx={{ color: '#4CAF50', fontWeight: 600 }}>
+								<Typography sx={{ color: '#4CAF50', fontWeight: 600, fontSize: '14px' }}>
 									✅ Thanks for subscribing!
 								</Typography>
 							)}
@@ -160,35 +239,125 @@ const EnhancedFooter = () => {
 
 						{/* Contact Info */}
 						<Stack spacing={2}>
-							<Typography variant="h6" fontWeight={600}>Contact & Support</Typography>
-							<Stack spacing={1}>
+							<Typography 
+								variant="h6" 
+								sx={{ 
+									fontWeight: 700,
+									color: '#ffffff',
+									fontSize: '16px'
+								}}
+							>
+								Contact & Support
+							</Typography>
+							<Stack spacing={1.5}>
 								<Stack direction="row" alignItems="center" spacing={1}>
-									<PhoneIcon sx={{ color: '#4CAF50' }} />
-									<Typography>+82 10 4867 2909</Typography>
+									<PhoneIcon sx={{ color: '#ffcc00', fontSize: 16 }} />
+									<Typography sx={{ fontSize: '14px', lineHeight: 1.8 }}>
+										+82 10 4867 2909
+									</Typography>
 								</Stack>
 								<Stack direction="row" alignItems="center" spacing={1}>
-									<EmailIcon sx={{ color: '#2196F3' }} />
-									<Typography>support@autosalon.com</Typography>
+									<EmailIcon sx={{ color: '#ffcc00', fontSize: 16 }} />
+									<Typography sx={{ fontSize: '14px', lineHeight: 1.8 }}>
+										support@autosalon.com
+									</Typography>
 								</Stack>
 								<Stack direction="row" alignItems="center" spacing={1}>
-									<SupportAgentIcon sx={{ color: '#FF9800' }} />
-									<Typography>24/7 Customer Support</Typography>
+									<LocationOnIcon sx={{ color: '#ffcc00', fontSize: 16 }} />
+									<Typography sx={{ fontSize: '14px', lineHeight: 1.8 }}>
+										Seoul, South Korea • 24/7 Support
+									</Typography>
 								</Stack>
 							</Stack>
 						</Stack>
 
-						{/* Quick Links */}
+												{/* Car Categories */}
 						<Stack spacing={2}>
-							<Typography variant="h6" fontWeight={600}>Quick Actions</Typography>
+							<Typography 
+								variant="h6" 
+								sx={{ 
+									fontWeight: 700,
+									color: '#ffffff',
+									fontSize: '16px'
+								}}
+							>
+								Shop by Category
+							</Typography>
 							<Grid container spacing={1}>
-								{quickLinks.map((link, index) => (
+								{carCategories.slice(0, 4).map((category, index) => (
+									<Grid item xs={6} key={index}>
+										<Link
+											href={category.href}
+											sx={{
+												color: '#cccccc',
+												textDecoration: 'none',
+												fontSize: '14px',
+												lineHeight: 1.8,
+												'&:hover': { color: '#ffcc00' }
+											}}
+										>
+											{category.label}
+										</Link>
+									</Grid>
+								))}
+							</Grid>
+						</Stack>
+
+						{/* Our Services */}
+						<Stack spacing={2}>
+							<Typography 
+								variant="h6" 
+								sx={{ 
+									fontWeight: 700,
+									color: '#ffffff',
+									fontSize: '16px'
+								}}
+							>
+								Our Services
+							</Typography>
+							<Grid container spacing={1}>
+								{ourServices.slice(0, 6).map((service, index) => (
+									<Grid item xs={6} key={index}>
+										<Link
+											href={service.href}
+											sx={{
+												color: '#cccccc',
+												textDecoration: 'none',
+												fontSize: '14px',
+												lineHeight: 1.8,
+												'&:hover': { color: '#ffcc00' }
+											}}
+										>
+											{service.label}
+										</Link>
+									</Grid>
+								))}
+							</Grid>
+						</Stack>
+
+						{/* Quick Actions */}
+						<Stack spacing={2}>
+							<Typography 
+								variant="h6" 
+								sx={{ 
+									fontWeight: 700,
+									color: '#ffffff',
+									fontSize: '16px'
+								}}
+							>
+								Quick Actions
+							</Typography>
+							<Grid container spacing={1}>
+								{quickLinks.slice(0, 4).map((link, index) => (
 									<Grid item xs={6} key={index}>
 										<Link
 											href={link.href}
 											sx={{
-												color: '#B0B0B0',
+												color: '#cccccc',
 												textDecoration: 'none',
-												'&:hover': { color: '#FFD700' }
+												fontSize: '14px',
+												lineHeight: 1.8,
+												'&:hover': { color: '#ffcc00' }
 											}}
 										>
 											{link.label}
@@ -198,54 +367,133 @@ const EnhancedFooter = () => {
 							</Grid>
 						</Stack>
 
-						{/* Popular Brands */}
-						<Stack spacing={2}>
-							<Typography variant="h6" fontWeight={600}>Popular Brands</Typography>
-							<Stack direction="row" spacing={1} flexWrap="wrap">
-								{popularCarBrands.slice(0, 4).map((brand, index) => (
-									<Chip
-										key={index}
-										label={brand}
-										size="small"
-										sx={{
-											backgroundColor: '#1a1a1a',
-											color: '#FFD700',
-											'&:hover': { backgroundColor: '#2a2a2a' }
-										}}
-									/>
-								))}
-							</Stack>
-						</Stack>
-
 						{/* Social Media */}
 						<Stack spacing={2}>
-							<Typography variant="h6" fontWeight={600}>Follow Us</Typography>
-							<Stack direction="row" spacing={2} justifyContent="center">
-								<IconButton sx={{ color: '#1877f2' }}>
-									<FacebookOutlinedIcon />
+							<Typography 
+								variant="h6" 
+								sx={{ 
+									fontWeight: 700,
+									color: '#ffffff',
+									fontSize: '16px'
+								}}
+							>
+								Follow Us
+							</Typography>
+							<Stack direction="row" spacing={3} justifyContent="center" flexWrap="wrap">
+								<IconButton 
+									sx={{ 
+										color: '#E4405F',
+										backgroundColor: 'rgba(228, 64, 95, 0.1)',
+										border: '2px solid rgba(228, 64, 95, 0.3)',
+										width: 56,
+										height: 56,
+										'&:hover': { 
+											color: '#E4405F',
+											backgroundColor: 'rgba(228, 64, 95, 0.2)',
+											transform: 'scale(1.1)',
+											borderColor: '#E4405F'
+										},
+										transition: 'all 0.3s ease'
+									}}
+								>
+									<InstagramIcon sx={{ fontSize: 28 }} />
 								</IconButton>
-								<IconButton sx={{ color: '#E4405F' }}>
-									<InstagramIcon />
+								<IconButton 
+									sx={{ 
+										color: '#ff0050',
+										backgroundColor: 'rgba(255, 0, 80, 0.1)',
+										border: '2px solid rgba(255, 0, 80, 0.3)',
+										width: 56,
+										height: 56,
+										'&:hover': { 
+											color: '#ff0050',
+											backgroundColor: 'rgba(255, 0, 80, 0.2)',
+											transform: 'scale(1.1)',
+											borderColor: '#ff0050'
+										},
+										transition: 'all 0.3s ease'
+									}}
+								>
+									<MusicNoteIcon sx={{ fontSize: 28 }} />
 								</IconButton>
-								<IconButton sx={{ color: '#1DA1F2' }}>
-									<TwitterIcon />
+								<IconButton 
+									sx={{ 
+										color: '#FF0000',
+										backgroundColor: 'rgba(255, 0, 0, 0.1)',
+										border: '2px solid rgba(255, 0, 0, 0.3)',
+										width: 56,
+										height: 56,
+										'&:hover': { 
+											color: '#FF0000',
+											backgroundColor: 'rgba(255, 0, 0, 0.2)',
+											transform: 'scale(1.1)',
+											borderColor: '#FF0000'
+										},
+										transition: 'all 0.3s ease'
+									}}
+								>
+									<YouTubeIcon sx={{ fontSize: 28 }} />
 								</IconButton>
-								<IconButton sx={{ color: '#FF0000' }}>
-									<YouTubeIcon />
+								<IconButton 
+									sx={{ 
+										color: '#0A66C2',
+										backgroundColor: 'rgba(10, 102, 194, 0.1)',
+										border: '2px solid rgba(10, 102, 194, 0.3)',
+										width: 56,
+										height: 56,
+										'&:hover': { 
+											color: '#0A66C2',
+											backgroundColor: 'rgba(10, 102, 194, 0.2)',
+											transform: 'scale(1.1)',
+											borderColor: '#0A66C2'
+										},
+										transition: 'all 0.3s ease'
+									}}
+								>
+									<LinkedInIcon sx={{ fontSize: 28 }} />
 								</IconButton>
 							</Stack>
+							<Typography 
+								sx={{ 
+									fontSize: '13px', 
+									textAlign: 'center',
+									color: '#888888',
+									mt: 2
+								}}
+							>
+								Join 50K+ car enthusiasts
+							</Typography>
 						</Stack>
 
-						<Divider sx={{ borderColor: '#2a2a2a' }} />
+						<Divider sx={{ borderColor: '#404040' }} />
 
 						{/* Copyright */}
-						<Stack spacing={1} alignItems="center">
-							<Typography variant="body2" color="#666" textAlign="center">
-								© {moment().year()} Auto Salon. All rights reserved.
+						<Stack spacing={2} alignItems="center">
+							<Typography 
+								sx={{ 
+									fontSize: '14px', 
+									color: '#888888', 
+									textAlign: 'center' 
+								}}
+							>
+								© {moment().year()} Auto Salon Korea. All rights reserved.
 							</Typography>
-							<Typography variant="caption" color="#666" textAlign="center">
-								Premium automotive marketplace for luxury and quality vehicles
-							</Typography>
+							<Stack direction="row" spacing={2}>
+								{legalLinks.slice(0, 2).map((link, index) => (
+									<Link
+										key={index}
+										href={link.href}
+										sx={{
+											color: '#888888',
+											textDecoration: 'none',
+											fontSize: '12px',
+											'&:hover': { color: '#ffcc00' }
+										}}
+									>
+										{link.label}
+									</Link>
+								))}
+							</Stack>
 						</Stack>
 					</Stack>
 				</div>
@@ -257,250 +505,414 @@ const EnhancedFooter = () => {
 	return (
 		<Box
 			sx={{
-				backgroundColor: '#0a0a0a',
-				color: 'white',
-				pt: 8,
+				backgroundColor: '#121212',
+				color: '#cccccc',
+				fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
+				pt: 6,
 				pb: 4,
 				mt: 8,
-				position: 'relative',
-				overflow: 'hidden'
+				position: 'relative'
 			}}
 		>
-			{/* Background Pattern */}
-			<Box
-				sx={{
-					position: 'absolute',
-					top: 0,
-					left: 0,
-					right: 0,
-					bottom: 0,
-					backgroundImage: 'url("/img/patterns/grid.svg")',
-					opacity: 0.05,
-					pointerEvents: 'none'
-				}}
-			/>
-			
 			<div className="container">
-				<Grid container spacing={6}>
-					{/* Company Info */}
-					<Grid item xs={12} md={4}>
-						<Stack spacing={3}>
+				{/* Main Footer Grid - 5 Equal Columns */}
+				<Box
+					sx={{
+						display: 'grid',
+						gridTemplateColumns: { 
+							xs: '1fr', 
+							sm: 'repeat(2, 1fr)', 
+							md: 'repeat(5, 1fr)' 
+						},
+						gap: { xs: 4, md: 4 },
+						mb: 4,
+						width: '100%'
+					}}
+				>
+					{/* Column 1: Company Info & Logo */}
 							<Box>
 								<img 
 									src="/img/logo/logoWhite.svg" 
 									alt="Auto Salon Logo" 
-									style={{ height: '56px', marginBottom: '16px' }}
-								/>
-								<Typography variant="h5" fontWeight={700} mb={1}>
+							style={{ height: '48px', marginBottom: '20px' }}
+						/>
+						<Typography 
+							variant="h6" 
+							sx={{ 
+								fontWeight: 700, 
+								fontSize: '18px',
+								mb: 2,
+								color: '#ffffff'
+							}}
+						>
 									Auto Salon
+						</Typography>
+						<Typography 
+							sx={{ 
+								fontSize: '14px', 
+								lineHeight: 1.8,
+								color: '#cccccc',
+								mb: 3
+							}}
+						>
+							Korea's premier luxury automotive marketplace. Find, buy, and sell premium vehicles with confidence. We connect buyers and sellers across Seoul, Busan, and nationwide with over 10,000+ verified luxury cars.
+						</Typography>
+						
+						{/* Trust Signals */}
+						<Stack spacing={1.5}>
+							<Stack direction="row" alignItems="center" spacing={1}>
+								<PhoneIcon sx={{ color: '#ffcc00', fontSize: 16 }} />
+								<Typography sx={{ fontSize: '14px', lineHeight: 1.8 }}>
+									+82 10 4867 2909
 								</Typography>
-								<Typography variant="body1" color="#B0B0B0" mb={2}>
-									Korea's premier luxury automotive marketplace. Find, buy, and sell premium vehicles with confidence.
+							</Stack>
+							<Stack direction="row" alignItems="center" spacing={1}>
+								<EmailIcon sx={{ color: '#ffcc00', fontSize: 16 }} />
+								<Typography sx={{ fontSize: '14px', lineHeight: 1.8 }}>
+									support@autosalon.com
 								</Typography>
-								<Stack direction="row" spacing={1} mb={3}>
-									<Chip 
-										icon={<VerifiedIcon />} 
-										label="Trusted Dealer Network" 
-										color="primary"
-									/>
-									<Chip 
-										icon={<SecurityIcon />} 
-										label="Secure Transactions" 
-										sx={{ backgroundColor: '#4CAF50', color: 'white' }}
-									/>
+							</Stack>
+							<Stack direction="row" alignItems="center" spacing={1}>
+								<LocationOnIcon sx={{ color: '#ffcc00', fontSize: 16 }} />
+								<Typography sx={{ fontSize: '14px', lineHeight: 1.8 }}>
+									Seoul, South Korea
+								</Typography>
+							</Stack>
 								</Stack>
 							</Box>
 
-							{/* Newsletter Signup */}
-							<Box
-								sx={{
-									background: 'linear-gradient(135deg, #1976d2, #42a5f5)',
-									borderRadius: '16px',
-									p: 3
+										{/* Column 2: Car Categories */}
+					<Box>
+						<Typography 
+							variant="h6" 
+							sx={{ 
+								fontWeight: 700, 
+								fontSize: '16px',
+								mb: 3,
+								color: '#ffffff'
+							}}
+						>
+							Shop by Category
+						</Typography>
+						<Stack spacing={1}>
+							{carCategories.map((category, index) => (
+								<Link
+									key={index}
+									href={category.href}
+									sx={{
+										color: '#cccccc',
+										textDecoration: 'none',
+										fontSize: '14px',
+										lineHeight: 1.8,
+										'&:hover': { 
+											color: '#ffcc00',
+											transition: 'color 0.2s ease'
+										}
+									}}
+								>
+									{category.label}
+								</Link>
+							))}
+						</Stack>
+					</Box>
+
+					{/* Column 3: Our Services */}
+					<Box>
+						<Typography 
+							variant="h6" 
+							sx={{ 
+								fontWeight: 700, 
+								fontSize: '16px',
+								mb: 3,
+								color: '#ffffff'
+							}}
+						>
+							Our Services
+						</Typography>
+						<Stack spacing={1}>
+							{ourServices.map((service, index) => (
+								<Link
+									key={index}
+									href={service.href}
+									sx={{
+										color: '#cccccc',
+										textDecoration: 'none',
+										fontSize: '14px',
+										lineHeight: 1.8,
+										'&:hover': { 
+											color: '#ffcc00',
+											transition: 'color 0.2s ease'
+										}
+									}}
+								>
+									{service.label}
+								</Link>
+							))}
+						</Stack>
+					</Box>
+
+										{/* Column 4: Quick Actions */}
+					<Box>
+						<Typography 
+							variant="h6" 
+							sx={{ 
+								fontWeight: 700, 
+								fontSize: '16px',
+								mb: 3,
+								color: '#ffffff'
+							}}
+						>
+							Quick Actions
+						</Typography>
+						<Stack spacing={1}>
+							{quickLinks.map((link, index) => (
+								<Link
+									key={index}
+									href={link.href}
+									sx={{
+										color: '#cccccc',
+										textDecoration: 'none',
+										fontSize: '14px',
+										lineHeight: 1.8,
+										'&:hover': { 
+											color: '#ffcc00',
+											transition: 'color 0.2s ease'
+										}
+									}}
+								>
+									{link.label}
+								</Link>
+							))}
+						</Stack>
+						
+						{/* Support section within Quick Actions */}
+						<Typography 
+							variant="h6" 
+							sx={{ 
+								fontWeight: 700, 
+								fontSize: '14px',
+								mt: 3,
+								mb: 2,
+								color: '#ffffff'
+							}}
+						>
+							Support
+						</Typography>
+						<Stack spacing={1}>
+							{supportLinks.slice(0, 5).map((link, index) => (
+								<Link
+									key={index}
+									href={link.href}
+									sx={{
+										color: '#cccccc',
+										textDecoration: 'none',
+										fontSize: '14px',
+										lineHeight: 1.8,
+										'&:hover': { 
+											color: '#ffcc00',
+											transition: 'color 0.2s ease'
+										}
+									}}
+								>
+									{link.label}
+								</Link>
+							))}
+						</Stack>
+					</Box>
+
+					{/* Column 5: Newsletter & Social Media */}
+							<Box>
+						<Typography 
+							variant="h6" 
+							sx={{ 
+								fontWeight: 700, 
+								fontSize: '16px',
+								mb: 3,
+								color: '#ffffff'
+							}}
+						>
+							Stay Connected
+						</Typography>
+						
+						{/* Newsletter Signup */}
+						<Box sx={{ mb: 4 }}>
+							<Typography 
+								sx={{ 
+									fontSize: '14px', 
+									lineHeight: 1.8,
+									mb: 2
 								}}
 							>
-								<Typography variant="h6" fontWeight={600} mb={1}>
-									🚗 Stay Updated
+								Subscribe for exclusive deals and market insights
 								</Typography>
-								<Typography variant="body2" mb={2} sx={{ opacity: 0.9 }}>
-									Get exclusive deals and market insights
-								</Typography>
-								{!subscribed ? (
-									<Stack direction="row" spacing={1}>
-										<TextField
-											placeholder="Enter email"
-											value={email}
-											onChange={(e) => setEmail(e.target.value)}
+							{!subscribed ? (
+								<Stack spacing={2}>
+									<TextField
+										placeholder="Enter your email"
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
 											size="small"
 											sx={{
-												flex: 1,
-												'& .MuiOutlinedInput-root': {
-													backgroundColor: 'white',
-													borderRadius: '8px'
+											'& .MuiOutlinedInput-root': {
+												backgroundColor: '#2a2a2a',
+												color: '#cccccc',
+												fontSize: '14px',
+												'& fieldset': {
+													borderColor: '#404040'
+												},
+												'&:hover fieldset': {
+													borderColor: '#ffcc00'
+												},
+												'&.Mui-focused fieldset': {
+													borderColor: '#ffcc00'
+												}
+											},
+											'& .MuiInputBase-input::placeholder': {
+												color: '#888888'
 												}
 											}}
 										/>
-										<Button
-											variant="contained"
-											onClick={handleSubscribe}
-											sx={{
-												backgroundColor: '#FFD700',
-												color: '#000',
-												fontWeight: 600,
-												'&:hover': { backgroundColor: '#FFC107' }
-											}}
-										>
-											Subscribe
-										</Button>
-									</Stack>
-								) : (
-									<Typography variant="body1" sx={{ color: '#4CAF50', fontWeight: 600 }}>
-										✅ Successfully subscribed!
-									</Typography>
-								)}
-							</Box>
-						</Stack>
-					</Grid>
-
-					{/* Quick Links */}
-					<Grid item xs={12} md={2}>
-						<Stack spacing={3}>
-							<Typography variant="h6" fontWeight={600} color="#FFD700">
-								🔧 Services
-							</Typography>
-							<Stack spacing={1}>
-								{quickLinks.map((link, index) => (
-									<Link
-										key={index}
-										href={link.href}
+									<Button
+										variant="contained"
+										onClick={handleSubscribe}
 										sx={{
-											color: '#B0B0B0',
-											textDecoration: 'none',
+											backgroundColor: '#ffcc00',
+											color: '#121212',
+											fontWeight: 600,
 											fontSize: '14px',
 											'&:hover': { 
-												color: '#FFD700',
-												transform: 'translateX(4px)',
-												transition: 'all 0.2s ease'
-											}
+												backgroundColor: '#e6b800',
+												transform: 'translateY(-1px)'
+											},
+											transition: 'all 0.2s ease'
 										}}
 									>
-										{link.label}
-									</Link>
-								))}
-							</Stack>
-						</Stack>
-					</Grid>
+										Subscribe
+									</Button>
+								</Stack>
+							) : (
+								<Typography sx={{ color: '#4CAF50', fontWeight: 600, fontSize: '14px' }}>
+									✅ Successfully subscribed!
+								</Typography>
+							)}
+						</Box>
 
-					{/* Support */}
-					<Grid item xs={12} md={2}>
-						<Stack spacing={3}>
-							<Typography variant="h6" fontWeight={600} color="#FFD700">
-								🛠️ Support
+												{/* Social Media Icons */}
+						<Box>
+							<Typography 
+								sx={{ 
+									fontSize: '16px', 
+									fontWeight: 600,
+									lineHeight: 1.8,
+									mb: 3,
+									color: '#ffffff'
+								}}
+							>
+								Follow Our Journey
 							</Typography>
-							<Stack spacing={1}>
-								{supportLinks.map((link, index) => (
-									<Link
-										key={index}
-										href={link.href}
-										sx={{
-											color: '#B0B0B0',
-											textDecoration: 'none',
-											fontSize: '14px',
+							<Stack spacing={2}>
+								<Stack direction="row" spacing={2} justifyContent="center">
+									<IconButton 
+										sx={{ 
+											color: '#E4405F',
+											backgroundColor: 'rgba(228, 64, 95, 0.1)',
+											border: '2px solid rgba(228, 64, 95, 0.3)',
+											width: 48,
+											height: 48,
 											'&:hover': { 
-												color: '#FFD700',
-												transform: 'translateX(4px)',
-												transition: 'all 0.2s ease'
-											}
+												color: '#E4405F',
+												backgroundColor: 'rgba(228, 64, 95, 0.2)',
+												transform: 'scale(1.15)',
+												borderColor: '#E4405F'
+											},
+											transition: 'all 0.3s ease'
 										}}
 									>
-										{link.label}
-									</Link>
-								))}
+										<InstagramIcon sx={{ fontSize: 24 }} />
+									</IconButton>
+									<IconButton 
+										sx={{ 
+											color: '#ff0050',
+											backgroundColor: 'rgba(255, 0, 80, 0.1)',
+											border: '2px solid rgba(255, 0, 80, 0.3)',
+											width: 48,
+											height: 48,
+											'&:hover': { 
+												color: '#ff0050',
+												backgroundColor: 'rgba(255, 0, 80, 0.2)',
+												transform: 'scale(1.15)',
+												borderColor: '#ff0050'
+											},
+											transition: 'all 0.3s ease'
+										}}
+									>
+										<MusicNoteIcon sx={{ fontSize: 24 }} />
+									</IconButton>
+								</Stack>
+								<Stack direction="row" spacing={2} justifyContent="center">
+									<IconButton 
+										sx={{ 
+											color: '#FF0000',
+											backgroundColor: 'rgba(255, 0, 0, 0.1)',
+											border: '2px solid rgba(255, 0, 0, 0.3)',
+											width: 48,
+											height: 48,
+											'&:hover': { 
+												color: '#FF0000',
+												backgroundColor: 'rgba(255, 0, 0, 0.2)',
+												transform: 'scale(1.15)',
+												borderColor: '#FF0000'
+											},
+											transition: 'all 0.3s ease'
+										}}
+									>
+										<YouTubeIcon sx={{ fontSize: 24 }} />
+									</IconButton>
+									<IconButton 
+										sx={{ 
+											color: '#0A66C2',
+											backgroundColor: 'rgba(10, 102, 194, 0.1)',
+											border: '2px solid rgba(10, 102, 194, 0.3)',
+											width: 48,
+											height: 48,
+											'&:hover': { 
+												color: '#0A66C2',
+												backgroundColor: 'rgba(10, 102, 194, 0.2)',
+												transform: 'scale(1.15)',
+												borderColor: '#0A66C2'
+											},
+											transition: 'all 0.3s ease'
+										}}
+									>
+										<LinkedInIcon sx={{ fontSize: 24 }} />
+									</IconButton>
+								</Stack>
+								<Typography 
+									sx={{ 
+										fontSize: '13px', 
+										textAlign: 'center',
+										color: '#888888',
+										mt: 2
+									}}
+								>
+									Join 50K+ car enthusiasts
+								</Typography>
 							</Stack>
-						</Stack>
-					</Grid>
+						</Box>
+					</Box>
+				</Box>
 
-					{/* Popular Brands & Service Areas */}
-					<Grid item xs={12} md={4}>
-						<Stack spacing={3}>
-							{/* Popular Brands */}
-							<Box>
-								<Typography variant="h6" fontWeight={600} color="#FFD700" mb={2}>
-									🏆 Popular Brands
-								</Typography>
-								<Stack direction="row" spacing={1} flexWrap="wrap">
-									{popularCarBrands.map((brand, index) => (
-										<Chip
-											key={index}
-											label={brand}
-											size="small"
-											sx={{
-												backgroundColor: '#1a1a1a',
-												color: '#FFD700',
-												border: '1px solid #FFD700',
-												mb: 1,
-												'&:hover': { 
-													backgroundColor: '#FFD700',
-													color: '#0a0a0a'
-												}
-											}}
-										/>
-									))}
-								</Stack>
-							</Box>
-
-							{/* Service Areas */}
-							<Box>
-								<Typography variant="h6" fontWeight={600} color="#FFD700" mb={2}>
-									📍 Service Areas
-								</Typography>
-								<Grid container spacing={1}>
-									{serviceAreas.map((area, index) => (
-										<Grid item xs={6} key={index}>
-											<Typography 
-												variant="body2" 
-												color="#B0B0B0"
-												sx={{
-													'&:hover': { color: '#FFD700', cursor: 'pointer' }
-												}}
-											>
-												{area}
-											</Typography>
-										</Grid>
-									))}
-								</Grid>
-							</Box>
-
-							{/* Contact Info */}
-							<Box>
-								<Typography variant="h6" fontWeight={600} color="#FFD700" mb={2}>
-									📞 Contact
-								</Typography>
-								<Stack spacing={1}>
-									<Stack direction="row" alignItems="center" spacing={1}>
-										<PhoneIcon sx={{ color: '#4CAF50', fontSize: 18 }} />
-										<Typography variant="body2">+82 10 4867 2909</Typography>
-									</Stack>
-									<Stack direction="row" alignItems="center" spacing={1}>
-										<EmailIcon sx={{ color: '#2196F3', fontSize: 18 }} />
-										<Typography variant="body2">support@autosalon.com</Typography>
-									</Stack>
-									<Stack direction="row" alignItems="center" spacing={1}>
-										<SupportAgentIcon sx={{ color: '#FF9800', fontSize: 18 }} />
-										<Typography variant="body2">24/7 Premium Support</Typography>
-									</Stack>
-								</Stack>
-							</Box>
-						</Stack>
-					</Grid>
-				</Grid>
-
-				<Divider sx={{ borderColor: '#2a2a2a', my: 4 }} />
+				<Divider sx={{ borderColor: '#404040', my: 3 }} />
 
 				{/* Bottom Section */}
-				<Stack direction="row" alignItems="center" justifyContent="space-between" flexWrap="wrap" spacing={2}>
-					<Stack direction="row" alignItems="center" spacing={4}>
-						<Typography variant="body2" color="#666">
+				<Stack 
+					direction={{ xs: 'column', md: 'row' }} 
+					alignItems="center" 
+					justifyContent="space-between" 
+					spacing={2}
+				>
+					<Stack direction={{ xs: 'column', md: 'row' }} alignItems="center" spacing={3}>
+						<Typography sx={{ fontSize: '14px', color: '#888888' }}>
 							© {moment().year()} Auto Salon Korea. All rights reserved.
 						</Typography>
 						<Stack direction="row" spacing={2}>
@@ -509,10 +921,10 @@ const EnhancedFooter = () => {
 									key={index}
 									href={link.href}
 									sx={{
-										color: '#666',
+										color: '#888888',
 										textDecoration: 'none',
 										fontSize: '12px',
-										'&:hover': { color: '#FFD700' }
+										'&:hover': { color: '#ffcc00' }
 									}}
 								>
 									{link.label}
@@ -521,23 +933,28 @@ const EnhancedFooter = () => {
 						</Stack>
 					</Stack>
 
-					{/* Social Media */}
-					<Stack direction="row" spacing={1}>
-						<IconButton size="small" sx={{ color: '#1877f2', '&:hover': { backgroundColor: '#1877f220' } }}>
-							<FacebookOutlinedIcon />
-						</IconButton>
-						<IconButton size="small" sx={{ color: '#E4405F', '&:hover': { backgroundColor: '#E4405F20' } }}>
-							<InstagramIcon />
-						</IconButton>
-						<IconButton size="small" sx={{ color: '#1DA1F2', '&:hover': { backgroundColor: '#1DA1F220' } }}>
-							<TwitterIcon />
-						</IconButton>
-						<IconButton size="small" sx={{ color: '#FF0000', '&:hover': { backgroundColor: '#FF000020' } }}>
-							<YouTubeIcon />
-						</IconButton>
-						<IconButton size="small" sx={{ color: '#0A66C2', '&:hover': { backgroundColor: '#0A66C220' } }}>
-							<LinkedInIcon />
-						</IconButton>
+					{/* Trust Badges */}
+					<Stack direction="row" spacing={1} alignItems="center">
+						<Chip 
+							icon={<VerifiedIcon sx={{ fontSize: '16px' }} />} 
+							label="Verified Dealer" 
+							size="small"
+							sx={{ 
+								backgroundColor: '#2a2a2a',
+								color: '#ffcc00',
+								fontSize: '12px'
+							}}
+						/>
+						<Chip 
+							icon={<StarIcon sx={{ fontSize: '16px' }} />} 
+							label="5-Star Service" 
+							size="small"
+							sx={{ 
+								backgroundColor: '#ffcc00',
+								color: '#121212',
+								fontSize: '12px'
+							}}
+						/>
 					</Stack>
 				</Stack>
 			</div>
