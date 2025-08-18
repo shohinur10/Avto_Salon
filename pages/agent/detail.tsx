@@ -3,36 +3,54 @@ import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Button, Stack, Typography, Tab, Tabs, IconButton, Backdrop, Pagination } from '@mui/material';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
-import Moment from 'react-moment';
+import { 
+	Box, 
+	Container, 
+	Grid, 
+	Typography, 
+	Avatar, 
+	Card, 
+	CardContent, 
+	Button, 
+	Stack, 
+	Chip, 
+	Rating, 
+	Divider,
+	IconButton,
+	Tab,
+	Tabs,
+	Badge,
+	LinearProgress,
+	List,
+	ListItem,
+	ListItemIcon,
+	ListItemText
+} from '@mui/material';
+import { 
+	Phone as PhoneIcon,
+	Email as EmailIcon,
+	WhatsApp as WhatsAppIcon,
+	Chat as ChatIcon,
+	LocationOn as LocationIcon,
+	Language as LanguageIcon,
+	AccessTime as TimeIcon,
+	TrendingUp as TrendingUpIcon,
+	Star as StarIcon,
+	Verified as VerifiedIcon,
+	DirectionsCar as CarIcon,
+	People as PeopleIcon,
+	Schedule as ScheduleIcon
+} from '@mui/icons-material';
+import { useLazyQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
-import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
-import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import ChatIcon from '@mui/icons-material/Chat';
-import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
-import { CommentInput, CommentsInquiry } from '../../libs/types/comment/comment.input';
-import { Comment } from '../../libs/types/comment/comment';
-import dynamic from 'next/dynamic';
-import { CommentGroup, CommentStatus } from '../../libs/enums/comment.enum';
+import { GET_MEMBER, GET_CARS } from '../../apollo/user/query';
+import { Member } from '../../libs/types/member/member';
+import { Car } from '../../libs/types/car/car';
+import { REACT_APP_API_URL } from '../../libs/config';
 import { T } from '../../libs/types/common';
-import EditIcon from '@mui/icons-material/Edit';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
-import { BoardArticle } from '../../libs/types/board-article/board-article';
-import {  GET_BOARD_ARTICLES, GET_COMMENTS } from '../../apollo/user/query';
-import { CREATE_COMMENT, LIKE_TARGET_BOARD_ARTICLE, UPDATE_COMMENT } from '../../apollo/user/mutation';
-import { Messages } from '../../libs/config';
-import {
-	sweetConfirmAlert,
-	sweetMixinErrorAlert,
-	sweetMixinSuccessAlert,
-	sweetTopSmallSuccessAlert,
-} from '../../libs/sweetAlert';
-import { CommentUpdate } from '../../libs/types/comment/comment.update';
-
-const ToastViewerComponent = dynamic(() => import('../../libs/components/community/TViewer'), { ssr: false });
+import CarCard from '../../libs/components/car/CarCard';
+import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -40,500 +58,537 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
-const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
+interface AgentDetailProps extends T {
+	initialInput?: any;
+}
+
+const AgentDetail: NextPage<AgentDetailProps> = ({ initialInput, ...props }) => {
 	const device = useDeviceDetect();
 	const router = useRouter();
 	const { query } = router;
-
-	const articleId = query?.id as string;
-	const articleCategory = query?.articleCategory as string;
-
-	const [comment, setComment] = useState<string>('');
-	const [wordsCnt, setWordsCnt] = useState<number>(0);
-	const [updatedCommentWordsCnt, setUpdatedCommentWordsCnt] = useState<number>(0);
 	const user = useReactiveVar(userVar);
-	const [comments, setComments] = useState<Comment[]>([]);
-	const [total, setTotal] = useState<number>(0);
-	const [searchFilter, setSearchFilter] = useState<CommentsInquiry>({
-		...initialInput,
-	});
-	const [memberImage, setMemberImage] = useState<string>('/img/community/articleImg.png');
-	const [anchorEl, setAnchorEl] = useState<any | null>(null);
-	const open = Boolean(anchorEl);
-	const id = open ? 'simple-popover' : undefined;
-	const [openBackdrop, setOpenBackdrop] = useState<boolean>(false);
-	const [updatedComment, setUpdatedComment] = useState<string>('');
-	const [updatedCommentId, setUpdatedCommentId] = useState<string>('');
-	const [likeLoading, setLikeLoading] = useState<boolean>(false);
-	const [boardArticle, setBoardArticle] = useState<BoardArticle>();
 
-	/** APOLLO REQUESTS **/
-	const [likeTargetBoardArticle] = useMutation(LIKE_TARGET_BOARD_ARTICLE);
-	const [createComment] = useMutation(CREATE_COMMENT);
-	const [updateComment] = useMutation(UPDATE_COMMENT);
+	const agentId = query?.id as string;
 
-	const {
-		loading: boardArticleLoading,
-		data: boardArticleData,
-		error: boardArticleError,
-		refetch: boardArticleRefetch,
-	} = useQuery(GET_BOARD_ARTICLES, {
-		fetchPolicy: 'network-only',
-		variables: { input: articleId },
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: any) => {
-			setBoardArticle(data?.getBoardArticle);
-			if (data?.getBoardArticle?.memberData?.memberImage) {
-				setMemberImage(`${process.env.REACT_APP_API_URL}/${data?.getBoardArticle?.memberData?.memberImage}`);
+	// State
+	const [agent, setAgent] = useState<Member | null>(null);
+	const [agentCars, setAgentCars] = useState<Car[]>([]);
+	const [activeTab, setActiveTab] = useState(0);
+	const [loading, setLoading] = useState(true);
+
+	// Mock data for enhanced features (same as in EnhancedAgentsPage)
+	const [agentProfile, setAgentProfile] = useState<any>(null);
+
+	        // GraphQL queries
+        const [getAgent] = useLazyQuery(GET_MEMBER, {
+                fetchPolicy: 'cache-and-network',
+                onCompleted: (data) => {
+                        if (data?.getMember) {
+                                const foundAgent = data.getMember;
+                                setAgent(foundAgent);
+                                generateEnhancedProfile(foundAgent);
+                        }
+                        setLoading(false);
+                },
+                onError: (error) => {
+                        console.error('Error fetching agent:', error);
+                        sweetMixinErrorAlert('Failed to load agent details');
+                        setLoading(false);
+                }
+        });
+
+	        const [getAgentCars] = useLazyQuery(GET_CARS, {
+                fetchPolicy: 'cache-and-network',
+                onCompleted: (data) => {
+                        if (data?.getCars?.list) {
+                                setAgentCars(data.getCars.list);
+                        }
+                },
+                onError: (error) => {
+                        console.error('Error fetching agent cars:', error);
+                }
+        });
+
+	// Generate enhanced profile with mock data
+	const generateEnhancedProfile = (agentData: Member) => {
+		const enhanced = {
+			...agentData,
+			title: getAgentTitle(agentData.memberType),
+			experience: Math.floor(Math.random() * 15) + 2,
+			languages: getRandomLanguages(),
+			carsSold: Math.floor(Math.random() * 200) + 50,
+			clientRating: Math.random() * 1.5 + 3.5,
+			responseTime: getRandomResponseTime(),
+			satisfactionRate: Math.floor(Math.random() * 20) + 80,
+			brandExpertise: getRandomBrands(),
+			vehicleTypes: getRandomCategories(),
+			workingHours: '9 AM - 6 PM',
+			timezone: 'Asia/Seoul',
+			certifications: getRandomCertifications(),
+			awards: getRandomAwards(),
+			territory: getRandomTerritory(),
+			serviceAreas: ['Seoul', 'Incheon'],
+			availability: getRandomAvailability(),
+			monthlyStats: {
+				carsSold: Math.floor(Math.random() * 15) + 5,
+				clientsMet: Math.floor(Math.random() * 30) + 20,
+				responseRate: Math.floor(Math.random() * 20) + 80
 			}
-		},
-	});
-
-	const {
-		loading: getCommentsLoading,
-		data: getCommentsData,
-		error: getCommentsError,
-		refetch: getCommentsRefetch,
-	} = useQuery(GET_COMMENTS, {
-		fetchPolicy: 'cache-and-network',
-		variables: { input: searchFilter },
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: any) => {
-			setComments(data?.getComments?.list);
-			setTotal(data?.getComments?.metaCounter?.[0]?.total || 0);
-		},
-	});
-
-	/** LIFECYCLES **/
-	useEffect(() => {
-		if (articleId) setSearchFilter({ ...searchFilter, search: { commentRefId: articleId } });
-	}, [articleId]);
-
-	/** HANDLERS **/
-	const tabChangeHandler = (event: React.SyntheticEvent, value: string) => {
-		router.replace(
-			{
-				pathname: '/community',
-				query: { articleCategory: value },
-			},
-			'/community',
-			{ shallow: true },
-		);
+		};
+		setAgentProfile(enhanced);
 	};
 
-	const likeBoArticleHandler = async (user: any, id: any) => {
-		try {
-			if (likeLoading) return;
-			if (!id) return;
-			if (!user._id) throw new Error(Messages.error2);
+	// Helper functions (same as in EnhancedAgentsPage)
+	const getAgentTitle = (memberType: string) => {
+		const titles = [
+			'Senior Car Consultant',
+			'Luxury Vehicle Specialist',
+			'Electric Vehicle Expert',
+			'Family Car Advisor',
+			'Sports Car Specialist',
+			'Commercial Vehicle Expert'
+		];
+		return titles[Math.floor(Math.random() * titles.length)];
+	};
 
-			setLikeLoading(true);
+	const getRandomLanguages = () => {
+		const languages = ['English', 'Korean', 'Russian', 'Chinese', 'Japanese'];
+		const count = Math.floor(Math.random() * 3) + 2;
+		return languages.slice(0, count);
+	};
 
-			await likeTargetBoardArticle({
-				variables: {
-					input: id,
-				},
-			});
+	const getRandomResponseTime = () => {
+		const times = ['Usually responds in 30 minutes', 'Usually responds in 1 hour', 'Usually responds in 2 hours'];
+		return times[Math.floor(Math.random() * times.length)];
+	};
 
-			await boardArticleRefetch({ input: articleId });
-			await sweetTopSmallSuccessAlert('success', 800);
-		} catch (err: any) {
-			console.log('ERROR, likeCarHandler:', err.message);
-			sweetMixinErrorAlert(err.message).then();
-		} finally {
-			setLikeLoading(false);
+	const getRandomAvailability = () => {
+		const statuses = ['online', 'busy', 'offline'];
+		return statuses[Math.floor(Math.random() * statuses.length)];
+	};
+
+	const getRandomBrands = () => {
+		const brands = ['BMW', 'Mercedes', 'Toyota', 'Honda', 'Ford', 'Audi', 'Volkswagen', 'Hyundai'];
+		const count = Math.floor(Math.random() * 4) + 2;
+		return brands.slice(0, count);
+	};
+
+	const getRandomCategories = () => {
+		const categories = ['SUV', 'SEDAN', 'HATCHBACK', 'CONVERTIBLE', 'COUPE', 'PICKUP'];
+		const count = Math.floor(Math.random() * 3) + 2;
+		return categories.slice(0, count);
+	};
+
+	const getRandomCertifications = () => {
+		const certs = ['Certified Sales Professional', 'Automotive Expert', 'Customer Service Excellence'];
+		return certs.slice(0, Math.floor(Math.random() * 2) + 1);
+	};
+
+	const getRandomAwards = () => {
+		const awards = ['Top Seller 2023', 'Customer Choice Award', 'Excellence in Service'];
+		return awards.slice(0, Math.floor(Math.random() * 2));
+	};
+
+	const getRandomTerritory = () => {
+		const territories = ['Seoul Metropolitan Area', 'Busan Region', 'Incheon Area', 'Daegu District'];
+		return territories[Math.floor(Math.random() * territories.length)];
+	};
+
+	const getAvailabilityColor = (status: string) => {
+		switch (status) {
+			case 'online': return '#4caf50';
+			case 'busy': return '#ff9800';
+			case 'offline': return '#757575';
+			default: return '#757575';
 		}
 	};
 
-	const creteCommentHandler = async () => {
-		if (!comment) return;
-		try {
-			if (!user._id) throw new Error(Messages.error2);
-			const commentInput: CommentInput = {
-				commentGroup: CommentGroup.ARTICLE,
-				commentRefId: articleId,
-				commentContent: comment,
-			};
+	        // Effects
+        useEffect(() => {
+                if (agentId) {
+                        getAgent({
+                                variables: {
+                                        input: agentId
+                                }
+                        });
 
-			await createComment({
-				variables: {
-					input: commentInput,
-				},
-			});
+                        getAgentCars({
+                                variables: {
+                                        input: {
+                                                page: 1,
+                                                limit: 20,
+                                                search: { memberId: agentId }
+                                        }
+                                }
+                        });
+                }
+        }, [agentId]);
 
-			await getCommentsRefetch({ input: searchFilter });
-			await boardArticleRefetch({ input: articleId });
-			setComment('');
-			await sweetMixinSuccessAlert('Successfully commented!');
-		} catch (error: any) {
-			sweetMixinErrorAlert(error.message);
+	// Handlers
+	const handleContact = (method: string) => {
+		if (method === 'phone' && agent?.memberPhone) {
+			window.open(`tel:${agent.memberPhone}`);
+		} else if (method === 'whatsapp' && agent?.memberPhone) {
+			window.open(`https://wa.me/${agent.memberPhone}`);
+		} else if (method === 'email') {
+			// Handle email contact
+			console.log('Email contact');
+		} else if (method === 'chat') {
+			// Handle chat
+			console.log('Chat contact');
 		}
 	};
 
-	const updateButtonHandler = async (commentId: string, commentStatus?: CommentStatus.DELETE) => {
-		try {
-			if (!user?._id) throw new Error(Messages.error2);
-			if (!commentId) throw new Error('Select a comment to update!');
-			if (updatedComment === comments?.find((comment) => comment?._id === commentId)?.commentContent) return;
-
-			const updateData: CommentUpdate = {
-				_id: commentId,
-				...(commentStatus && { commentStatus: commentStatus }),
-				...(updatedComment && { commentContent: updatedComment }),
-			};
-
-			if (!updateData?.commentContent && !updateData?.commentStatus)
-				throw new Error('Provide data to update your comment!');
-
-			if (commentStatus) {
-				if (await sweetConfirmAlert('Do you want to delete the comment?')) {
-					await updateComment({
-						variables: {
-							input: updateData,
-						},
-					});
-				} else return;
-			} else {
-				await updateComment({
-					variables: {
-						input: updateData,
-					},
-				});
-				await sweetMixinSuccessAlert('Successfully updated!');
-			}
-			await getCommentsRefetch({ input: searchFilter });
-		} catch (error: any) {
-			sweetMixinErrorAlert(error.message);
-		} finally {
-			setOpenBackdrop(false);
-			setUpdatedComment('');
-			setUpdatedCommentWordsCnt(0);
-			setUpdatedCommentId('');
-		}
-	};
-
-	const getCommentMemberImage = (imageUrl: string | undefined) => {
-		if (imageUrl) return `${process.env.REACT_APP_API_URL}/${imageUrl}`;
-		else return '/img/community/articleImg.png';
-	};
-
-	const goMemberPage = (id: any) => {
-		if (id === user?._id) router.push('/mypage');
-		else router.push(`/member?memberId=${id}`);
-	};
-
-	const cancelButtonHandler = () => {
-		setOpenBackdrop(false);
-		setUpdatedComment('');
-		setUpdatedCommentWordsCnt(0);
-	};
-
-	const updateCommentInputHandler = (value: string) => {
-		if (value.length > 100) return;
-		setUpdatedCommentWordsCnt(value.length);
-		setUpdatedComment(value);
-	};
-
-	const paginationHandler = (e: T, value: number) => {
-		setSearchFilter({ ...searchFilter, page: value });
+	const handleTabChange = (event: React.SyntheticEvent, newValue: number) => {
+		setActiveTab(newValue);
 	};
 
 	if (device === 'mobile') {
-		return <div>COMMUNITY DETAIL PAGE MOBILE</div>;
-	} else {
+		return <div>Mobile Agent Detail Page - Coming Soon</div>;
+	}
+
+	if (loading) {
 		return (
-			<div id="community-detail-page">
-				<div className="container">
-					<Stack className="main-box">
-						<Stack className="left-config">
-							<Stack className={'image-info'}>
-								<img src={'/img/logo/logoText.svg'} />
-								<Stack className={'community-name'}>
-									<Typography className={'name'}>Community Board Article</Typography>
-								</Stack>
-							</Stack>
-							<Tabs
-								orientation="vertical"
-								aria-label="lab API tabs example"
-								TabIndicatorProps={{
-									style: { display: 'none' },
-								}}
-								onChange={tabChangeHandler}
-								value={articleCategory}
-							>
-								<Tab
-									value={'FREE'}
-									label={'Free Board'}
-									className={`tab-button ${articleCategory === 'FREE' ? 'active' : ''}`}
-								/>
-								<Tab
-									value={'RECOMMEND'}
-									label={'Recommendation'}
-									className={`tab-button ${articleCategory === 'RECOMMEND' ? 'active' : ''}`}
-								/>
-								<Tab
-									value={'NEWS'}
-									label={'News'}
-									className={`tab-button ${articleCategory === 'NEWS' ? 'active' : ''}`}
-								/>
-								<Tab
-									value={'HUMOR'}
-									label={'Humor'}
-									className={`tab-button ${articleCategory === 'HUMOR' ? 'active' : ''}`}
-								/>
-							</Tabs>
-						</Stack>
-						<div className="community-detail-config">
-							<Stack className="title-box">
-								<Stack className="left">
-									<Typography className="title">{articleCategory} BOARD</Typography>
-									<Typography className="sub-title">
-										Express your opinions freely here without content restrictions
-									</Typography>
-								</Stack>
-								<Button
-									onClick={() =>
-										router.push({
-											pathname: '/mypage',
-											query: {
-												category: 'writeArticle',
-											},
-										})
-									}
-									className="right"
-								>
-									Write
-								</Button>
-							</Stack>
-							<div className="config">
-								<Stack className="first-box-config">
-									<Stack className="content-and-info">
-										<Stack className="content">
-											<Typography className="content-data">{boardArticle?.articleTitle}</Typography>
-											<Stack className="member-info">
-												<img
-													src={memberImage}
-													alt=""
-													className="member-img"
-													onClick={() => goMemberPage(boardArticle?.memberData?._id)}
-												/>
-												<Typography className="member-nick" onClick={() => goMemberPage(boardArticle?.memberData?._id)}>
-													{boardArticle?.memberData?.memberNick}
-												</Typography>
-												<Stack className="divider"></Stack>
-												<Moment className={'time-added'} format={'DD.MM.YY HH:mm'}>
-													{boardArticle?.createdAt}
-												</Moment>
-											</Stack>
-										</Stack>
-										<Stack className="info">
-											<Stack className="icon-info">
-												{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
-													<ThumbUpAltIcon onClick={() => likeBoArticleHandler(user, boardArticle?._id)} />
-												) : (
-													<ThumbUpOffAltIcon onClick={() => likeBoArticleHandler(user, boardArticle?._id)} />
-												)}
-
-												<Typography className="text">{boardArticle?.articleLikes}</Typography>
-											</Stack>
-											<Stack className="divider"></Stack>
-											<Stack className="icon-info">
-												<VisibilityIcon />
-												<Typography className="text">{boardArticle?.articleViews}</Typography>
-											</Stack>
-											<Stack className="divider"></Stack>
-											<Stack className="icon-info">
-												{total > 0 ? <ChatIcon /> : <ChatBubbleOutlineRoundedIcon />}
-
-												<Typography className="text">{total}</Typography>
-											</Stack>
-										</Stack>
-									</Stack>
-									<Stack>
-										<ToastViewerComponent markdown={boardArticle?.articleContent} className={'ytb_play'} />
-									</Stack>
-									<Stack className="like-and-dislike">
-										<Stack className="top">
-											<Button>
-												{boardArticle?.meLiked && boardArticle?.meLiked[0]?.myFavorite ? (
-													<ThumbUpAltIcon onClick={() => likeBoArticleHandler(user, boardArticle?._id)} />
-												) : (
-													<ThumbUpOffAltIcon onClick={() => likeBoArticleHandler(user, boardArticle?._id)} />
-												)}
-												<Typography className="text">{boardArticle?.articleLikes}</Typography>
-											</Button>
-										</Stack>
-									</Stack>
-								</Stack>
-								<Stack
-									className="second-box-config"
-									sx={{ borderBottom: total > 0 ? 'none' : '1px solid #eee', border: '1px solid #eee' }}
-								>
-									<Typography className="title-text">Comments ({total})</Typography>
-									<Stack className="leave-comment">
-										<input
-											type="text"
-											placeholder="Leave a comment"
-											value={comment}
-											onChange={(e) => {
-												if (e.target.value.length > 100) return;
-												setWordsCnt(e.target.value.length);
-												setComment(e.target.value);
-											}}
-										/>
-										<Stack className="button-box">
-											<Typography>{wordsCnt}/100</Typography>
-											<Button onClick={creteCommentHandler}>comment</Button>
-										</Stack>
-									</Stack>
-								</Stack>
-								{total > 0 && (
-									<Stack className="comments">
-										<Typography className="comments-title">Comments</Typography>
-									</Stack>
-								)}
-								{comments?.map((commentData, index) => {
-									return (
-										<Stack className="comments-box" key={commentData?._id}>
-											<Stack className="main-comment">
-												<Stack className="member-info">
-													<Stack
-														className="name-date"
-														onClick={() => goMemberPage(commentData?.memberData?._id as string)}
-													>
-														<img src={getCommentMemberImage(commentData?.memberData?.memberImage)} alt="" />
-														<Stack className="name-date-column">
-															<Typography className="name">{commentData?.memberData?.memberNick}</Typography>
-															<Typography className="date">
-																<Moment className={'time-added'} format={'DD.MM.YY HH:mm'}>
-																	{commentData?.createdAt}
-																</Moment>
-															</Typography>
-														</Stack>
-													</Stack>
-													{commentData?.memberId === user?._id && (
-														<Stack className="buttons">
-															<IconButton
-																onClick={() => {
-																	setUpdatedCommentId(commentData?._id);
-																	updateButtonHandler(commentData?._id, CommentStatus.DELETE);
-																}}
-															>
-																<DeleteForeverIcon sx={{ color: '#757575', cursor: 'pointer' }} />
-															</IconButton>
-															<IconButton
-																onClick={() => {
-																	setUpdatedComment(commentData?.commentContent);
-																	setUpdatedCommentWordsCnt(commentData?.commentContent?.length);
-																	setUpdatedCommentId(commentData?._id);
-																	setOpenBackdrop(true);
-																}}
-															>
-																<EditIcon sx={{ color: '#757575' }} />
-															</IconButton>
-															<Backdrop
-																sx={{
-																	top: '40%',
-																	right: '25%',
-																	left: '25%',
-																	width: '1000px',
-																	height: 'fit-content',
-																	borderRadius: '10px',
-																	color: '#ffffff',
-																	zIndex: 999,
-																}}
-																open={openBackdrop}
-															>
-																<Stack
-																	sx={{
-																		width: '100%',
-																		height: '100%',
-																		background: 'white',
-																		border: '1px solid #b9b9b9',
-																		padding: '15px',
-																		gap: '10px',
-																		borderRadius: '10px',
-																		boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-																	}}
-																>
-																	<Typography variant="h4" color={'#b9b9b9'}>
-																		Update comment
-																	</Typography>
-																	<Stack gap={'20px'}>
-																		<input
-																			autoFocus
-																			value={updatedComment}
-																			onChange={(e) => updateCommentInputHandler(e.target.value)}
-																			type="text"
-																			style={{
-																				border: '1px solid #b9b9b9',
-																				outline: 'none',
-																				height: '40px',
-																				padding: '0px 10px',
-																				borderRadius: '5px',
-																			}}
-																		/>
-																		<Stack width={'100%'} flexDirection={'row'} justifyContent={'space-between'}>
-																			<Typography variant="subtitle1" color={'#b9b9b9'}>
-																				{updatedCommentWordsCnt}/100
-																			</Typography>
-																			<Stack sx={{ flexDirection: 'row', alignSelf: 'flex-end', gap: '10px' }}>
-																				<Button
-																					variant="outlined"
-																					color="inherit"
-																					onClick={() => cancelButtonHandler()}
-																				>
-																					Cancel
-																				</Button>
-																				<Button
-																					variant="contained"
-																					color="inherit"
-																					onClick={() => updateButtonHandler(updatedCommentId, undefined)}
-																				>
-																					Update
-																				</Button>
-																			</Stack>
-																		</Stack>
-																	</Stack>
-																</Stack>
-															</Backdrop>
-														</Stack>
-													)}
-												</Stack>
-												<Stack className="content">
-													<Typography>{commentData?.commentContent}</Typography>
-												</Stack>
-											</Stack>
-										</Stack>
-									);
-								})}
-								{total > 0 && (
-									<Stack className="pagination-box">
-										<Pagination
-											count={Math.ceil(total / searchFilter.limit) || 1}
-											page={searchFilter.page}
-											shape="circular"
-											color="primary"
-											onChange={paginationHandler}
-										/>
-									</Stack>
-								)}
-							</div>
-						</div>
-					</Stack>
-				</div>
-			</div>
+			<Container maxWidth="lg" sx={{ py: 4 }}>
+				<Typography>Loading agent details...</Typography>
+			</Container>
 		);
 	}
-};
-CommunityDetail.defaultProps = {
-	initialInput: {
-		page: 1,
-		limit: 5,
-		sort: 'createdAt',
-		direction: 'DESC',
-		search: { commentRefId: '' },
-	},
+
+	if (!agent || !agentProfile) {
+		return (
+			<Container maxWidth="lg" sx={{ py: 4 }}>
+				<Typography>Agent not found</Typography>
+			</Container>
+		);
+	}
+
+	return (
+		<Container maxWidth="lg" sx={{ py: 4 }}>
+			{/* Agent Header */}
+			<Card sx={{ mb: 4 }}>
+				<CardContent sx={{ p: 4 }}>
+					<Grid container spacing={3}>
+						{/* Avatar and Basic Info */}
+						<Grid item xs={12} md={4}>
+							<Stack alignItems="center" spacing={2}>
+								<Badge
+									overlap="circular"
+									anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+									badgeContent={
+										<Box
+											sx={{
+												width: 20,
+												height: 20,
+												borderRadius: '50%',
+												backgroundColor: getAvailabilityColor(agentProfile.availability),
+												border: '3px solid white'
+											}}
+										/>
+									}
+								>
+									<Avatar
+										src={agent.memberImage ? `${REACT_APP_API_URL}/${agent.memberImage}` : '/img/profile/defaultUser.svg'}
+										alt={agent.memberNick}
+										sx={{ width: 150, height: 150 }}
+									/>
+								</Badge>
+								
+								<Stack alignItems="center" spacing={1}>
+									<Box display="flex" alignItems="center" gap={1}>
+										<Typography variant="h4" fontWeight="bold">
+											{agent.memberFullName || agent.memberNick}
+										</Typography>
+										{agentProfile.certifications?.length > 0 && (
+											<VerifiedIcon color="primary" />
+										)}
+									</Box>
+									
+									<Typography variant="h6" color="text.secondary">
+										{agentProfile.title}
+									</Typography>
+									
+									<Box display="flex" alignItems="center" gap={1}>
+										<Rating value={agentProfile.clientRating} precision={0.1} readOnly />
+										<Typography variant="body2">
+											({agentProfile.clientRating.toFixed(1)})
+										</Typography>
+									</Box>
+
+									<Chip
+										label={agentProfile.availability}
+										sx={{
+											backgroundColor: getAvailabilityColor(agentProfile.availability),
+											color: 'white'
+										}}
+									/>
+								</Stack>
+							</Stack>
+						</Grid>
+
+						{/* Stats and Info */}
+						<Grid item xs={12} md={8}>
+							<Grid container spacing={3}>
+								{/* Quick Stats */}
+								<Grid item xs={6} sm={3}>
+									<Card variant="outlined">
+										<CardContent sx={{ textAlign: 'center', py: 2 }}>
+											<Typography variant="h5" color="primary" fontWeight="bold">
+												{agentProfile.experience}
+											</Typography>
+											<Typography variant="caption">Years Experience</Typography>
+										</CardContent>
+									</Card>
+								</Grid>
+								<Grid item xs={6} sm={3}>
+									<Card variant="outlined">
+										<CardContent sx={{ textAlign: 'center', py: 2 }}>
+											<Typography variant="h5" color="primary" fontWeight="bold">
+												{agentProfile.carsSold}
+											</Typography>
+											<Typography variant="caption">Cars Sold</Typography>
+										</CardContent>
+									</Card>
+								</Grid>
+								<Grid item xs={6} sm={3}>
+									<Card variant="outlined">
+										<CardContent sx={{ textAlign: 'center', py: 2 }}>
+											<Typography variant="h5" color="primary" fontWeight="bold">
+												{agentProfile.satisfactionRate}%
+											</Typography>
+											<Typography variant="caption">Satisfaction</Typography>
+										</CardContent>
+									</Card>
+								</Grid>
+								<Grid item xs={6} sm={3}>
+									<Card variant="outlined">
+										<CardContent sx={{ textAlign: 'center', py: 2 }}>
+											<Typography variant="h5" color="primary" fontWeight="bold">
+												{agentProfile.monthlyStats.carsSold}
+											</Typography>
+											<Typography variant="caption">This Month</Typography>
+										</CardContent>
+									</Card>
+								</Grid>
+
+								{/* Contact Methods */}
+								<Grid item xs={12}>
+									<Typography variant="h6" gutterBottom>Contact Information</Typography>
+									<Stack direction="row" spacing={2} flexWrap="wrap">
+										<Button
+											variant="contained"
+											startIcon={<PhoneIcon />}
+											onClick={() => handleContact('phone')}
+											sx={{ minWidth: 120 }}
+										>
+											Call
+										</Button>
+										<Button
+											variant="contained"
+											color="success"
+											startIcon={<WhatsAppIcon />}
+											onClick={() => handleContact('whatsapp')}
+											sx={{ minWidth: 120 }}
+										>
+											WhatsApp
+										</Button>
+										<Button
+											variant="contained"
+											color="info"
+											startIcon={<ChatIcon />}
+											onClick={() => handleContact('chat')}
+											sx={{ minWidth: 120 }}
+										>
+											Chat
+										</Button>
+										<Button
+											variant="outlined"
+											startIcon={<EmailIcon />}
+											onClick={() => handleContact('email')}
+											sx={{ minWidth: 120 }}
+										>
+											Email
+										</Button>
+									</Stack>
+								</Grid>
+
+								{/* Quick Info */}
+								<Grid item xs={12}>
+									<Stack direction="row" spacing={3} flexWrap="wrap">
+										<Box display="flex" alignItems="center" gap={1}>
+											<LocationIcon color="action" />
+											<Typography variant="body2">{agentProfile.territory}</Typography>
+										</Box>
+										<Box display="flex" alignItems="center" gap={1}>
+											<LanguageIcon color="action" />
+											<Typography variant="body2">{agentProfile.languages?.join(', ')}</Typography>
+										</Box>
+										<Box display="flex" alignItems="center" gap={1}>
+											<TimeIcon color="action" />
+											<Typography variant="body2">{agentProfile.workingHours}</Typography>
+										</Box>
+									</Stack>
+								</Grid>
+							</Grid>
+						</Grid>
+					</Grid>
+				</CardContent>
+			</Card>
+
+			{/* Tabs Section */}
+			<Box sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+				<Tabs value={activeTab} onChange={handleTabChange}>
+					<Tab label="About" />
+					<Tab label={`Cars (${agentCars.length})`} />
+					<Tab label="Specializations" />
+					<Tab label="Reviews" />
+				</Tabs>
+			</Box>
+
+			{/* Tab Content */}
+			{activeTab === 0 && (
+				<Grid container spacing={3}>
+					{/* About Section */}
+					<Grid item xs={12} md={8}>
+						<Card>
+							<CardContent>
+								<Typography variant="h6" gutterBottom>About {agent.memberFullName || agent.memberNick}</Typography>
+								<Typography variant="body1" paragraph>
+									{agent.memberDesc || 'Experienced automotive professional dedicated to helping clients find their perfect vehicle.'}
+								</Typography>
+								
+								<Typography variant="h6" gutterBottom sx={{ mt: 3 }}>Response Time</Typography>
+								<Typography variant="body2" color="text.secondary">
+									{agentProfile.responseTime}
+								</Typography>
+
+								{agentProfile.certifications?.length > 0 && (
+									<>
+										<Typography variant="h6" gutterBottom sx={{ mt: 3 }}>Certifications</Typography>
+										<Stack direction="row" spacing={1} flexWrap="wrap">
+											{agentProfile.certifications.map((cert: string, index: number) => (
+												<Chip key={index} label={cert} variant="outlined" />
+											))}
+										</Stack>
+									</>
+								)}
+
+								{agentProfile.awards?.length > 0 && (
+									<>
+										<Typography variant="h6" gutterBottom sx={{ mt: 3 }}>Awards & Recognition</Typography>
+										<Stack direction="row" spacing={1} flexWrap="wrap">
+											{agentProfile.awards.map((award: string, index: number) => (
+												<Chip key={index} label={award} color="primary" />
+											))}
+										</Stack>
+									</>
+								)}
+							</CardContent>
+						</Card>
+					</Grid>
+
+					{/* Sidebar */}
+					<Grid item xs={12} md={4}>
+						<Card>
+							<CardContent>
+								<Typography variant="h6" gutterBottom>Monthly Performance</Typography>
+								<Stack spacing={2}>
+									<Box>
+										<Box display="flex" justifyContent="space-between" mb={1}>
+											<Typography variant="body2">Cars Sold</Typography>
+											<Typography variant="body2">{agentProfile.monthlyStats.carsSold}</Typography>
+										</Box>
+										<LinearProgress 
+											variant="determinate" 
+											value={(agentProfile.monthlyStats.carsSold / 20) * 100} 
+										/>
+									</Box>
+									<Box>
+										<Box display="flex" justifyContent="space-between" mb={1}>
+											<Typography variant="body2">Response Rate</Typography>
+											<Typography variant="body2">{agentProfile.monthlyStats.responseRate}%</Typography>
+										</Box>
+										<LinearProgress 
+											variant="determinate" 
+											value={agentProfile.monthlyStats.responseRate} 
+										/>
+									</Box>
+									<Box>
+										<Box display="flex" justifyContent="space-between" mb={1}>
+											<Typography variant="body2">Client Satisfaction</Typography>
+											<Typography variant="body2">{agentProfile.satisfactionRate}%</Typography>
+										</Box>
+										<LinearProgress 
+											variant="determinate" 
+											value={agentProfile.satisfactionRate} 
+										/>
+									</Box>
+								</Stack>
+							</CardContent>
+						</Card>
+					</Grid>
+				</Grid>
+			)}
+
+			{activeTab === 1 && (
+				<Grid container spacing={3}>
+					{agentCars.length > 0 ? (
+						agentCars.map((car) => (
+							<Grid item xs={12} sm={6} md={4} key={car._id}>
+								<CarCard car={car} />
+							</Grid>
+						))
+					) : (
+						<Grid item xs={12}>
+							<Typography variant="h6" textAlign="center" color="text.secondary">
+								No cars available from this agent
+							</Typography>
+						</Grid>
+					)}
+				</Grid>
+			)}
+
+			{activeTab === 2 && (
+				<Grid container spacing={3}>
+					<Grid item xs={12} md={6}>
+						<Card>
+							<CardContent>
+								<Typography variant="h6" gutterBottom>Brand Expertise</Typography>
+								<Stack direction="row" spacing={1} flexWrap="wrap">
+									{agentProfile.brandExpertise?.map((brand: string, index: number) => (
+										<Chip key={index} label={brand} color="primary" />
+									))}
+								</Stack>
+							</CardContent>
+						</Card>
+					</Grid>
+					<Grid item xs={12} md={6}>
+						<Card>
+							<CardContent>
+								<Typography variant="h6" gutterBottom>Vehicle Types</Typography>
+								<Stack direction="row" spacing={1} flexWrap="wrap">
+									{agentProfile.vehicleTypes?.map((type: string, index: number) => (
+										<Chip key={index} label={type} variant="outlined" />
+									))}
+								</Stack>
+							</CardContent>
+						</Card>
+					</Grid>
+				</Grid>
+			)}
+
+			{activeTab === 3 && (
+				<Card>
+					<CardContent>
+						<Typography variant="h6" gutterBottom>Client Reviews</Typography>
+						<Typography variant="body2" color="text.secondary">
+							Reviews feature coming soon...
+						</Typography>
+					</CardContent>
+				</Card>
+			)}
+		</Container>
+	);
 };
 
-export default withLayoutBasic(CommunityDetail);
+export default withLayoutBasic(AgentDetail);

@@ -114,18 +114,10 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 				whileHover="hover"
 				transition={{ duration: 0.3 }}
 			>
-				<Card 
-					className={`enhanced-agent-card enhanced-agent-card--${variant}`}
-					sx={{
-						height: '100%',
-						display: 'flex',
-						flexDirection: 'column',
-						minHeight: variant === 'detailed' ? '600px' : '500px'
-					}}
-				>
+				<Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', minHeight: '500px' }}>
 					{/* Header Section */}
-					<Box className="agent-header">
-						<Box className="agent-basic-info">
+					<CardContent sx={{ pb: 1 }}>
+						<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
 							<Badge
 								overlap="circular"
 								anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
@@ -148,7 +140,7 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 								/>
 							</Badge>
 							
-							<Box className="agent-details" ml={2} flex={1}>
+							<Box sx={{ ml: 2, flex: 1 }}>
 								<Box display="flex" alignItems="center" gap={1}>
 									<Typography variant="h6" fontWeight="bold">
 										{agent.memberFullName || agent.memberNick}
@@ -187,19 +179,19 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 									</Box>
 								</Box>
 							</Box>
-						</Box>
 
-						{/* Action Buttons */}
-						<Box className="agent-actions">
-							<IconButton
-								onClick={() => onLike?.(agent._id)}
-								color={isLiked ? "error" : "default"}
-								size="small"
-							>
-								{isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-							</IconButton>
+							{/* Action Buttons */}
+							<Box sx={{ display: 'flex', alignItems: 'center' }}>
+								<IconButton
+									onClick={() => onLike?.(agent._id)}
+									color={isLiked ? "error" : "default"}
+									size="small"
+								>
+									{isLiked ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+								</IconButton>
+							</Box>
 						</Box>
-					</Box>
+					</CardContent>
 
 					<CardContent sx={{ pt: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
 						{/* Specializations */}
