@@ -585,7 +585,7 @@ const EnhancedFooter = () => {
 					<Box>
 						<Typography 
 							variant="h6" 
-							sx={{ 
+								sx={{
 								fontWeight: 700, 
 								fontSize: '16px',
 								mb: 3,
@@ -593,13 +593,13 @@ const EnhancedFooter = () => {
 							}}
 						>
 							Shop by Category
-						</Typography>
+								</Typography>
 						<Stack spacing={1}>
 							{carCategories.map((category, index) => (
 								<Link
 									key={index}
 									href={category.href}
-									sx={{
+											sx={{
 										color: '#cccccc',
 										textDecoration: 'none',
 										fontSize: '14px',
@@ -620,7 +620,7 @@ const EnhancedFooter = () => {
 					<Box>
 						<Typography 
 							variant="h6" 
-							sx={{ 
+											sx={{
 								fontWeight: 700, 
 								fontSize: '16px',
 								mb: 3,
@@ -628,7 +628,7 @@ const EnhancedFooter = () => {
 							}}
 						>
 							Our Services
-						</Typography>
+									</Typography>
 						<Stack spacing={1}>
 							{ourServices.map((service, index) => (
 								<Link
@@ -663,27 +663,27 @@ const EnhancedFooter = () => {
 							}}
 						>
 							Quick Actions
-						</Typography>
-						<Stack spacing={1}>
-							{quickLinks.map((link, index) => (
-								<Link
-									key={index}
-									href={link.href}
-									sx={{
+							</Typography>
+							<Stack spacing={1}>
+								{quickLinks.map((link, index) => (
+									<Link
+										key={index}
+										href={link.href}
+										sx={{
 										color: '#cccccc',
-										textDecoration: 'none',
-										fontSize: '14px',
+											textDecoration: 'none',
+											fontSize: '14px',
 										lineHeight: 1.8,
-										'&:hover': { 
+											'&:hover': { 
 											color: '#ffcc00',
 											transition: 'color 0.2s ease'
-										}
-									}}
-								>
-									{link.label}
-								</Link>
-							))}
-						</Stack>
+											}
+										}}
+									>
+										{link.label}
+									</Link>
+								))}
+							</Stack>
 						
 						{/* Support section within Quick Actions */}
 						<Typography 
@@ -697,27 +697,27 @@ const EnhancedFooter = () => {
 							}}
 						>
 							Support
-						</Typography>
-						<Stack spacing={1}>
+							</Typography>
+							<Stack spacing={1}>
 							{supportLinks.slice(0, 5).map((link, index) => (
-								<Link
-									key={index}
-									href={link.href}
-									sx={{
+									<Link
+										key={index}
+										href={link.href}
+										sx={{
 										color: '#cccccc',
-										textDecoration: 'none',
-										fontSize: '14px',
+											textDecoration: 'none',
+											fontSize: '14px',
 										lineHeight: 1.8,
-										'&:hover': { 
+											'&:hover': { 
 											color: '#ffcc00',
 											transition: 'color 0.2s ease'
-										}
-									}}
-								>
-									{link.label}
-								</Link>
-							))}
-						</Stack>
+											}
+										}}
+									>
+										{link.label}
+									</Link>
+								))}
+							</Stack>
 					</Box>
 
 					{/* Column 5: Newsletter & Social Media */}
@@ -799,8 +799,8 @@ const EnhancedFooter = () => {
 
 												{/* Social Media Icons */}
 						<Box>
-							<Typography 
-								sx={{ 
+											<Typography 
+												sx={{
 									fontSize: '16px', 
 									fontWeight: 600,
 									lineHeight: 1.8,
@@ -809,7 +809,7 @@ const EnhancedFooter = () => {
 								}}
 							>
 								Follow Our Journey
-							</Typography>
+											</Typography>
 							<Stack spacing={2}>
 								<Stack direction="row" spacing={2} justifyContent="center">
 									<IconButton 
@@ -897,8 +897,8 @@ const EnhancedFooter = () => {
 								>
 									Join 50K+ car enthusiasts
 								</Typography>
-							</Stack>
-						</Box>
+								</Stack>
+							</Box>
 					</Box>
 				</Box>
 

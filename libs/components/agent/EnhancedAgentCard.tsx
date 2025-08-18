@@ -114,7 +114,15 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 				whileHover="hover"
 				transition={{ duration: 0.3 }}
 			>
-				<Card className={`enhanced-agent-card enhanced-agent-card--${variant}`}>
+				<Card 
+					className={`enhanced-agent-card enhanced-agent-card--${variant}`}
+					sx={{
+						height: '100%',
+						display: 'flex',
+						flexDirection: 'column',
+						minHeight: variant === 'detailed' ? '600px' : '500px'
+					}}
+				>
 					{/* Header Section */}
 					<Box className="agent-header">
 						<Box className="agent-basic-info">
@@ -193,7 +201,7 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 						</Box>
 					</Box>
 
-					<CardContent sx={{ pt: 1 }}>
+					<CardContent sx={{ pt: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
 						{/* Specializations */}
 						<Box mb={2}>
 							<Typography variant="subtitle2" gutterBottom>
@@ -301,6 +309,9 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 								}}
 							/>
 						</Box>
+						
+						{/* Spacer to push actions to bottom */}
+						<Box sx={{ flex: 1 }} />
 					</CardContent>
 
 					{/* Action Buttons */}

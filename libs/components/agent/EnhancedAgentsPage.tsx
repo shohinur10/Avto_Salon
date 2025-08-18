@@ -78,39 +78,6 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 		limit: 12
 	});
 
-	// Convert Member[] to AgentProfile[] with mock data
-	const enhancedAgents: AgentProfile[] = useMemo(() => {
-		return agents.map((agent, index) => ({
-			...agent,
-			title: getAgentTitle(agent.memberType, index),
-			experience: Math.floor(Math.random() * 15) + 2,
-			languages: getRandomLanguages(),
-			carsSold: Math.floor(Math.random() * 200) + 50,
-			clientRating: Math.random() * 1.5 + 3.5,
-			responseTime: getRandomResponseTime(),
-			satisfactionRate: Math.floor(Math.random() * 20) + 80,
-			brandExpertise: getRandomBrands(),
-			vehicleTypes: getRandomCategories(),
-			fuelExpertise: getRandomFuels(),
-			priceRange: { min: 10000, max: 150000 },
-			whatsapp: agent.memberPhone,
-			availability: getRandomAvailability(),
-			workingHours: '9 AM - 6 PM',
-			timezone: 'Asia/Seoul',
-			certifications: getRandomCertifications(),
-			awards: getRandomAwards(),
-			recentSales: [],
-			clientTestimonials: [],
-			territory: getRandomTerritory(),
-			serviceAreas: ['Seoul', 'Incheon'],
-			monthlyStats: {
-				carsSold: Math.floor(Math.random() * 15) + 5,
-				clientsMet: Math.floor(Math.random() * 30) + 20,
-				responseRate: Math.floor(Math.random() * 20) + 80
-			}
-		}));
-	}, [agents]);
-
 	// Helper functions for mock data
 	const getAgentTitle = (memberType: string, index: number) => {
 		const titles = [
@@ -172,6 +139,39 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 		const territories = ['Seoul Metropolitan Area', 'Busan Region', 'Incheon Area', 'Daegu District'];
 		return territories[Math.floor(Math.random() * territories.length)];
 	};
+
+	// Convert Member[] to AgentProfile[] with mock data
+	const enhancedAgents: AgentProfile[] = useMemo(() => {
+		return agents.map((agent, index) => ({
+			...agent,
+			title: getAgentTitle(agent.memberType, index),
+			experience: Math.floor(Math.random() * 15) + 2,
+			languages: getRandomLanguages(),
+			carsSold: Math.floor(Math.random() * 200) + 50,
+			clientRating: Math.random() * 1.5 + 3.5,
+			responseTime: getRandomResponseTime(),
+			satisfactionRate: Math.floor(Math.random() * 20) + 80,
+			brandExpertise: getRandomBrands(),
+			vehicleTypes: getRandomCategories(),
+			fuelExpertise: getRandomFuels(),
+			priceRange: { min: 10000, max: 150000 },
+			whatsapp: agent.memberPhone,
+			availability: getRandomAvailability(),
+			workingHours: '9 AM - 6 PM',
+			timezone: 'Asia/Seoul',
+			certifications: getRandomCertifications(),
+			awards: getRandomAwards(),
+			recentSales: [],
+			clientTestimonials: [],
+			territory: getRandomTerritory(),
+			serviceAreas: ['Seoul', 'Incheon'],
+			monthlyStats: {
+				carsSold: Math.floor(Math.random() * 15) + 5,
+				clientsMet: Math.floor(Math.random() * 30) + 20,
+				responseRate: Math.floor(Math.random() * 20) + 80
+			}
+		}));
+	}, [agents]);
 
 	// Handlers
 	const handleFilterChange = (newFilters: AgentFilterState) => {

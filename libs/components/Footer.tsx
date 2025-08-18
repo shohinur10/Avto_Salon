@@ -96,7 +96,7 @@ const Footer = () => {
 					mt: 8
 				}}
 			>
-				<Box sx={{ maxWidth: '1600px', margin: '0 auto', px: { xs: 2, md: 6 } }}>
+				<Box sx={{ maxWidth: '1800px', margin: '0 auto', px: { xs: 2, md: 8 } }}>
 					<Stack spacing={4}>
 						{/* Logo & Brand */}
 						<Stack alignItems="center" spacing={2}>
@@ -234,7 +234,7 @@ const Footer = () => {
 								</Typography>
 							)}
 						</Box>
-
+						
 						{/* Contact Info */}
 						<Stack spacing={2}>
 							<Typography 
@@ -299,7 +299,7 @@ const Footer = () => {
 									</Grid>
 								))}
 							</Grid>
-						</Stack>
+					</Stack>
 
 						{/* Our Services */}
 						<Stack spacing={2}>
@@ -311,8 +311,8 @@ const Footer = () => {
 									fontSize: '16px'
 								}}
 							>
-								Our Services
-							</Typography>
+							Our Services
+						</Typography>
 							<Grid container spacing={1}>
 								{ourServices.slice(0, 6).map((service, index) => (
 									<Grid item xs={6} key={index}>
@@ -331,7 +331,7 @@ const Footer = () => {
 									</Grid>
 								))}
 							</Grid>
-						</Stack>
+					</Stack>
 
 						{/* Quick Actions */}
 						<Stack spacing={2}>
@@ -344,7 +344,7 @@ const Footer = () => {
 								}}
 							>
 								Quick Actions
-							</Typography>
+						</Typography>
 							<Grid container spacing={1}>
 								{quickLinks.slice(0, 4).map((link, index) => (
 									<Grid item xs={6} key={index}>
@@ -363,7 +363,7 @@ const Footer = () => {
 									</Grid>
 								))}
 							</Grid>
-						</Stack>
+					</Stack>
 
 						{/* Social Media */}
 						<Stack spacing={2}>
@@ -376,7 +376,7 @@ const Footer = () => {
 								}}
 							>
 								Follow Us
-							</Typography>
+						</Typography>
 							<Stack direction="row" spacing={3} justifyContent="center" flexWrap="wrap">
 								<IconButton 
 									sx={{ 
@@ -450,7 +450,7 @@ const Footer = () => {
 								>
 									<LinkedInIcon sx={{ fontSize: 28 }} />
 								</IconButton>
-							</Stack>
+					</Stack>
 							<Typography 
 								sx={{ 
 									fontSize: '13px', 
@@ -461,7 +461,7 @@ const Footer = () => {
 							>
 								Join 50K+ car enthusiasts
 							</Typography>
-						</Stack>
+				</Stack>
 
 						<Divider sx={{ borderColor: '#404040' }} />
 
@@ -495,7 +495,7 @@ const Footer = () => {
 						</Stack>
 					</Stack>
 				</Box>
-			</Box>
+								</Box>
 		);
 	}
 
@@ -512,7 +512,7 @@ const Footer = () => {
 				position: 'relative'
 			}}
 		>
-			<Box sx={{ maxWidth: '1600px', margin: '0 auto', px: { xs: 2, md: 6 } }}>
+			<Box sx={{ maxWidth: '1800px', margin: '0 auto', px: { xs: 2, md: 8 } }}>
 				{/* Main Footer Grid - 5 Equal Columns */}
 				<Box
 					sx={{
@@ -522,7 +522,7 @@ const Footer = () => {
 							sm: 'repeat(2, 1fr)', 
 							md: '2fr 1fr 1fr 1fr 1.5fr' 
 						},
-						gap: { xs: 4, md: 8 },
+						gap: { xs: 4, md: 12 },
 						mb: 4,
 						width: '100%'
 					}}
@@ -806,7 +806,7 @@ const Footer = () => {
 									color: '#ffffff'
 								}}
 							>
-								Follow Our Journey
+									Follow Our Journey
 							</Typography>
 							<Stack spacing={2}>
 								<Stack direction="row" spacing={2} justifyContent="center">
@@ -958,7 +958,7 @@ const Footer = () => {
 				</Stack>
 			</Box>
 		</Box>
-	);
+		);
 };
 
 export default Footer;
