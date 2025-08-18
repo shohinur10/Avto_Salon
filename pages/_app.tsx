@@ -6,9 +6,16 @@ import { light } from '../scss/MaterialTheme';
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../apollo/client';
 import { appWithTranslation } from 'next-i18next';
+import useAuth from '../libs/hooks/useAuth';
 import '../scss/app.scss';
 import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
+
+// Component to initialize auth inside ApolloProvider context
+const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
+	useAuth(); // Initialize authentication state
+	return <>{children}</>;
+};
 
 const App = ({ Component, pageProps }: AppProps) => {
 	// @ts-ignore
@@ -19,7 +26,9 @@ const App = ({ Component, pageProps }: AppProps) => {
 		<ApolloProvider client={client}>
 			<ThemeProvider theme={theme}>
 				<CssBaseline />
-				<Component {...pageProps} />
+				<AuthInitializer>
+					<Component {...pageProps} />
+				</AuthInitializer>
 			</ThemeProvider>
 		</ApolloProvider>
 	);

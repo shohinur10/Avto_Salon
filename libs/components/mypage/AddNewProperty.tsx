@@ -1,6 +1,28 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { Button, Stack, Typography } from '@mui/material';
+import { 
+	Button, 
+	Stack, 
+	Typography, 
+	TextField, 
+	Select, 
+	MenuItem, 
+	FormControl, 
+	InputLabel, 
+	Box,
+	Switch,
+	FormControlLabel,
+	Chip,
+	IconButton,
+	Card,
+	CardContent,
+	Divider,
+	Paper,
+	CircularProgress
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
+import DeleteIcon from '@mui/icons-material/Delete';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 
 import { carYear, REACT_APP_API_URL } from '../../config';
@@ -11,11 +33,122 @@ import { sweetErrorHandling, sweetMixinErrorAlert, sweetMixinSuccessAlert } from
 import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { CarInput } from '../../types/car/car.input';
-import { CarCategory, CarLocation } from '../../enums/car.enum';
+import { 
+	CarCategory, 
+	CarLocation, 
+	CarTransactionType, 
+	CarBrand,
+	FuelType,
+	TransmissionType,
+	CarCondition 
+} from '../../enums/car.enum';
 import { CREATE_CAR, UPDATE_CAR } from '../../../apollo/user/mutation';
 import { GET_CAR } from '../../../apollo/user/query';
 
+// Styled Components with Gold/White Theme
+const GoldCard = styled(Card)(({ theme }) => ({
+	backgroundColor: '#ffffff',
+	border: '2px solid #FFD700',
+	borderRadius: '20px',
+	boxShadow: '0px 8px 32px rgba(255, 215, 0, 0.15)',
+	marginBottom: '24px',
+	'&:hover': {
+		boxShadow: '0px 12px 40px rgba(255, 215, 0, 0.25)',
+		transform: 'translateY(-2px)',
+	},
+	transition: 'all 0.3s ease',
+}));
 
+const GoldTextField = styled(TextField)(({ theme }) => ({
+	'& .MuiOutlinedInput-root': {
+		backgroundColor: '#ffffff',
+		borderRadius: '12px',
+		'& fieldset': {
+			borderColor: '#FFD700',
+			borderWidth: '2px',
+		},
+		'&:hover fieldset': {
+			borderColor: '#DAA520',
+		},
+		'&.Mui-focused fieldset': {
+			borderColor: '#B8860B',
+		},
+	},
+	'& .MuiInputLabel-root': {
+		color: '#B8860B',
+		fontWeight: 600,
+		'&.Mui-focused': {
+			color: '#DAA520',
+		},
+	},
+	'& .MuiInputBase-input': {
+		color: '#333',
+		fontWeight: 500,
+	},
+}));
+
+const GoldFormControl = styled(FormControl)(({ theme }) => ({
+	'& .MuiOutlinedInput-root': {
+		backgroundColor: '#ffffff',
+		borderRadius: '12px',
+		'& fieldset': {
+			borderColor: '#FFD700',
+			borderWidth: '2px',
+		},
+		'&:hover fieldset': {
+			borderColor: '#DAA520',
+		},
+		'&.Mui-focused fieldset': {
+			borderColor: '#B8860B',
+		},
+	},
+	'& .MuiInputLabel-root': {
+		color: '#B8860B',
+		fontWeight: 600,
+		'&.Mui-focused': {
+			color: '#DAA520',
+		},
+	},
+}));
+
+const GoldButton = styled(Button)(({ theme }) => ({
+	backgroundColor: 'linear-gradient(135deg, #FFD700 0%, #DAA520 100%)',
+	background: 'linear-gradient(135deg, #FFD700 0%, #DAA520 100%)',
+	color: '#ffffff',
+	borderRadius: '15px',
+	padding: '12px 32px',
+	fontWeight: 700,
+	fontSize: '16px',
+	textTransform: 'none',
+	boxShadow: '0px 4px 12px rgba(255, 215, 0, 0.3)',
+	border: 'none',
+	'&:hover': {
+		background: 'linear-gradient(135deg, #DAA520 0%, #B8860B 100%)',
+		boxShadow: '0px 6px 20px rgba(255, 215, 0, 0.4)',
+		transform: 'translateY(-2px)',
+	},
+	'&:disabled': {
+		background: '#E5E5E5',
+		color: '#999',
+		boxShadow: 'none',
+	},
+	transition: 'all 0.3s ease',
+}));
+
+const ImageUploadBox = styled(Box)(({ theme }) => ({
+	border: '3px dashed #FFD700',
+	borderRadius: '20px',
+	padding: '40px',
+	textAlign: 'center',
+	backgroundColor: '#fefefe',
+	cursor: 'pointer',
+	transition: 'all 0.3s ease',
+	'&:hover': {
+		borderColor: '#DAA520',
+		backgroundColor: '#fffef8',
+		transform: 'translateY(-2px)',
+	},
+}));
 
 const AddCar = ({ initialValues, ...props }: any) => {
 	const device = useDeviceDetect();
@@ -24,6 +157,13 @@ const AddCar = ({ initialValues, ...props }: any) => {
 	const [insertCarData, setInsertCarData] = useState<CarInput>(initialValues);
 	const [carType, setCarType] = useState<CarCategory[]>(Object.values(CarCategory));
 	const [carLocation, setCarLocation] = useState<CarLocation[]>(Object.values(CarLocation));
+	const [carBrands] = useState<CarBrand[]>(Object.values(CarBrand));
+	const [transactionTypes] = useState<CarTransactionType[]>(Object.values(CarTransactionType));
+	const [fuelTypes] = useState<FuelType[]>(Object.values(FuelType));
+	const [transmissionTypes] = useState<TransmissionType[]>(Object.values(TransmissionType));
+	const [carConditions] = useState<CarCondition[]>(Object.values(CarCondition));
+	const [uploadProgress, setUploadProgress] = useState<number>(0);
+	const [isUploading, setIsUploading] = useState<boolean>(false);
 	const token = getJwtToken();
 	const user = useReactiveVar(userVar);
 
@@ -45,86 +185,90 @@ const AddCar = ({ initialValues, ...props }: any) => {
 
 	/** LIFECYCLES **/
 	useEffect(() => {
-		setInsertCarData({
-			...insertCarData,
-			carTitle: getCarData?.getCar ? getCarData?.getCar?.carTitle : '',
-			carPrice: getCarData?.getCar ? getCarData?.getCar?.carPrice : 0,
-			carCategory: getCarData?.getCar ? getCarData?.getCar?.carCategory : '',
-			carLocation: getCarData?.getCar ? getCarData?.getCar?.carLocation : '',
-			carAddress: getCarData?.getCar ? getCarData?.getCar?.carAddress : '',
-			isBarterAvailable: getCarData?.getCar ? getCarData?.getCar?.isBarterAvailable : false,
-			isForRent: getCarData?.getCar ? getCarData?.getCar?.isForRent : false,
-			carDoors: getCarData?.getCar ? getCarData?.getCar?.carDoors : 0,
-			carSeats: getCarData?.getCar ? getCarData?.getCar?.carSeats : 0,
-			carYear: getCarData?.getCar ? getCarData?.getCar?.carYear : 0,
-			carMileage: getCarData?.getCar ? getCarData?.getCar?.carMileage : 0,
-			carDesc: getCarData?.getCar ? getCarData?.getCar?.carDesc : '',
-			carImages: getCarData?.getCar ? getCarData?.getCar?.carImages : [],
-		});
-	}, [getCarLoading, getCarData]);
+		if (getCarData?.getCar) {
+			setInsertCarData(getCarData?.getCar);
+		}
+	}, [getCarData]);
 
 	/** HANDLERS **/
+
 	async function uploadImages() {
 		try {
-			const formData = new FormData();
-			const selectedFiles = inputRef.current.files;
+			setIsUploading(true);
+			setUploadProgress(0);
 
-			if (selectedFiles.length == 0) return false;
-			if (selectedFiles.length > 5) throw new Error('Cannot upload more than 5 images!');
-
-			formData.append(
-				'operations',
-				JSON.stringify({
-					query: `mutation ImagesUploader($files: [Upload!]!, $target: String!) { 
-						imagesUploader(files: $files, target: $target)
-				  }`,
-					variables: {
-						files: [null, null, null, null, null],
-						target: 'car',
-					},
-				}),
-			);
-			formData.append(
-				'map',
-				JSON.stringify({
-					'0': ['variables.files.0'],
-					'1': ['variables.files.1'],
-					'2': ['variables.files.2'],
-					'3': ['variables.files.3'],
-					'4': ['variables.files.4'],
-				}),
-			);
-			for (const key in selectedFiles) {
-				if (/^\d+$/.test(key)) formData.append(`${key}`, selectedFiles[key]);
+			const files = inputRef.current.files;
+			if (!files || files.length === 0) {
+				setIsUploading(false);
+				return;
 			}
 
-			const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, {
+			const responseImages: string[] = [];
+			
+			// Upload each file individually using GraphQL mutation
+			for (let i = 0; i < files.length; i++) {
+				const file = files[i];
+				
+				// Update progress based on current file
+				const currentProgress = Math.round(((i + 0.5) / files.length) * 100);
+				setUploadProgress(currentProgress);
+
+				const formData = new FormData();
+				formData.append(
+					'operations',
+					JSON.stringify({
+						query: `mutation ImageUploader($file: Upload!, $target: String!) {
+							imageUploader(file: $file, target: $target) 
+						}`,
+						variables: {
+							file: null,
+							target: 'car',
+						},
+					}),
+				);
+				formData.append(
+					'map',
+					JSON.stringify({
+						'0': ['variables.file'],
+					}),
+				);
+				formData.append('0', file);
+
+				const response = await axios.post(`${process.env.REACT_APP_API_GRAPHQL_URL}`, formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
-					'apollo-require-preflight': true,
+						'apollo-require-preflight': true,
 					Authorization: `Bearer ${token}`,
 				},
-			});
+				});
 
-			const responseImages = response.data.data.imagesUploader;
+				const responseImage = response.data.data.imageUploader;
+				if (responseImage) {
+					responseImages.push(responseImage);
+				}
+			}
 
-			console.log('+responseImages: ', responseImages);
-			setInsertCarData({ ...insertCarData, carImages: responseImages });
+			setInsertCarData({ ...insertCarData, carImages: [...insertCarData.carImages, ...responseImages] });
+			setIsUploading(false);
+			setUploadProgress(100);
+			
+			// Clear progress after a short delay
+			setTimeout(() => setUploadProgress(0), 1000);
 		} catch (err: any) {
 			console.log('err: ', err.message);
-			await sweetMixinErrorAlert(err.message);
+			setIsUploading(false);
+			setUploadProgress(0);
+			await sweetMixinErrorAlert(err.message || 'Failed to upload images. Please try again.');
 		}
 	}
 
 	const doDisabledCheck = () => {
 		if (
 			insertCarData.carTitle === '' ||
-			insertCarData.carPrice === 0 || // @ts-ignore
-			insertCarData.carCategory === '' || // @ts-ignore
-			insertCarData.carLocation === '' || // @ts-ignore
-			insertCarData.carAddress === '' || // @ts-ignore
-			insertCarData.isBarterAvailable === '' || // @ts-ignore
-			insertCarData.isForRent === '' ||
+			insertCarData.carPrice === 0 ||
+			insertCarData.carCategory === CarCategory.CAR ||
+			insertCarData.carLocation === CarLocation.CAR ||
+			insertCarData.carAddress === '' ||
 			insertCarData.carDoors === 0 ||
 			insertCarData.carSeats === 0 ||
 			insertCarData.carYear === 0 ||
@@ -146,7 +290,7 @@ const AddCar = ({ initialValues, ...props }: any) => {
 			await router.push({
 				pathname: '/mypage',
 				query: {
-					category: 'myCars',
+					category: 'myProperties',
 				},
 			});
 		} catch (err: any) {
@@ -167,7 +311,7 @@ const AddCar = ({ initialValues, ...props }: any) => {
 			await router.push({
 				pathname: '/mypage',
 				query: {
-					category: 'myCars',
+					category: 'myProperties',
 				},
 			});
 		} catch (err: any) {
@@ -175,359 +319,544 @@ const AddCar = ({ initialValues, ...props }: any) => {
 		}
 	}, [insertCarData]);
 
-	if (user?.memberType !== 'AGENT') {
-		router.back();
-	}
+	// Redirect if user is not an agent
+	useEffect(() => {
+		if (user?._id && user?.memberType !== 'AGENT') {
+			sweetMixinErrorAlert('Only agents can add cars').then(() => {
+				router.push('/');
+			});
+		}
+	}, [user, router]);
 
 	console.log('+insertCarData', insertCarData);
 
+	// Show loading while authentication is being checked
+	if (!user?._id) {
+		return (
+			<Box sx={{ 
+				display: 'flex', 
+				justifyContent: 'center', 
+				alignItems: 'center', 
+				minHeight: '50vh' 
+			}}>
+				<Stack alignItems="center" spacing={2}>
+					<CircularProgress sx={{ color: '#FFD700' }} />
+					<Typography sx={{ color: '#B8860B' }}>
+						Loading user authentication...
+					</Typography>
+				</Stack>
+			</Box>
+		);
+	}
+
 	if (device === 'mobile') {
-		return <div>ADD NEW PROPERTY MOBILE PAGE</div>;
+		return <div>ADD NEW CAR MOBILE PAGE</div>;
 	} else {
 		return (
-			<div id="add-property-page">
-				<Stack className="main-title-box">
-					<Typography className="main-title">Add New Property</Typography>
-					<Typography className="sub-title">We are glad to see you again!</Typography>
-				</Stack>
+			<Box sx={{ 
+				background: 'linear-gradient(135deg, #ffffff 0%, #fafafa 100%)',
+				minHeight: '100vh',
+				padding: '20px'
+			}}>
+				<Stack spacing={3} sx={{ maxWidth: '1200px', margin: '0 auto' }}>
+					{/* Header Section */}
+					<GoldCard>
+						<CardContent sx={{ textAlign: 'center', py: 4 }}>
+							<Typography 
+								variant="h3" 
+								sx={{ 
+									color: '#DAA520', 
+									fontWeight: 700, 
+									mb: 2,
+									textShadow: '0px 2px 4px rgba(218, 165, 32, 0.15)'
+								}}
+							>
+								{getCarData?.getCar ? 'Edit Car' : 'Add New Car'}
+							</Typography>
+							<Typography 
+								variant="h6" 
+								sx={{ 
+									color: '#B8860B', 
+									fontWeight: 500 
+								}}
+							>
+								Create your perfect car listing with our premium form
+							</Typography>
+						</CardContent>
+					</GoldCard>
 
-				<div>
-					<Stack className="config">
-						<Stack className="description-box">
-							<Stack className="config-column">
-								<Typography className="title">Title</Typography>
-								<input
-									type="text"
-									className="description-input"
-									placeholder={'Title'}
-									value={insertCarData.carTitle}
+					{/* Basic Information */}
+					<GoldCard>
+						<CardContent>
+							<Typography 
+								variant="h5" 
+								sx={{ 
+									color: '#DAA520', 
+									fontWeight: 600, 
+									mb: 3,
+									borderBottom: '2px solid #FFD700',
+									pb: 1
+								}}
+							>
+								Basic Information
+							</Typography>
+							
+							<Stack spacing={3}>
+								<Stack direction={{ xs: 'column', md: 'row' }} spacing={3}>
+									<GoldTextField
+										fullWidth
+										label="Car Title"
+										placeholder="Enter car title"
+										value={insertCarData.carTitle}
+										onChange={({ target: { value } }) =>
+											setInsertCarData({ ...insertCarData, carTitle: value })
+										}
+									/>
+									
+									<GoldFormControl fullWidth>
+										<InputLabel>Brand</InputLabel>
+										<Select
+											value={insertCarData.brand || ''}
+											label="Brand"
+											onChange={({ target: { value } }) =>
+												setInsertCarData({ ...insertCarData, brand: value as string })
+											}
+										>
+											{carBrands.map((brand) => (
+												<MenuItem key={brand} value={brand}>
+													{brand.replace('_', ' ')}
+												</MenuItem>
+											))}
+										</Select>
+									</GoldFormControl>
+								</Stack>
+
+								<Stack direction={{ xs: 'column', md: 'row' }} spacing={3}>
+									<GoldFormControl fullWidth>
+										<InputLabel>Transaction Type</InputLabel>
+										<Select
+											value={insertCarData.carTransactionType || ''}
+											label="Transaction Type"
+											onChange={({ target: { value } }) =>
+												setInsertCarData({ ...insertCarData, carTransactionType: value as CarTransactionType })
+											}
+										>
+											{transactionTypes.map((type) => (
+												<MenuItem key={type} value={type}>
+													{type}
+												</MenuItem>
+											))}
+										</Select>
+									</GoldFormControl>
+
+									<GoldFormControl fullWidth>
+										<InputLabel>Category</InputLabel>
+										<Select
+											value={insertCarData.carCategory || ''}
+											label="Category"
+											onChange={({ target: { value } }) =>
+												setInsertCarData({ ...insertCarData, carCategory: value as CarCategory })
+											}
+										>
+											{carType.map((type) => (
+												<MenuItem key={type} value={type}>
+													{type}
+												</MenuItem>
+											))}
+										</Select>
+									</GoldFormControl>
+								</Stack>
+							</Stack>
+						</CardContent>
+					</GoldCard>
+
+					{/* Pricing & Location */}
+					<GoldCard>
+						<CardContent>
+							<Typography 
+								variant="h5" 
+								sx={{ 
+									color: '#DAA520', 
+									fontWeight: 600, 
+									mb: 3,
+									borderBottom: '2px solid #FFD700',
+									pb: 1
+								}}
+							>
+								Pricing & Location
+							</Typography>
+							
+							<Stack spacing={3}>
+								<Stack direction={{ xs: 'column', md: 'row' }} spacing={3}>
+									<GoldTextField
+										fullWidth
+										label="Price ($)"
+										type="number"
+										placeholder="Enter price"
+										value={insertCarData.carPrice || ''}
+										onChange={({ target: { value } }) =>
+											setInsertCarData({ ...insertCarData, carPrice: parseInt(value) || 0 })
+										}
+									/>
+									
+									<GoldFormControl fullWidth>
+										<InputLabel>Location</InputLabel>
+										<Select
+											value={insertCarData.carLocation || ''}
+											label="Location"
+											onChange={({ target: { value } }) =>
+												setInsertCarData({ ...insertCarData, carLocation: value as CarLocation })
+											}
+										>
+											{carLocation.map((location) => (
+												<MenuItem key={location} value={location}>
+													{/* Display the enum value (readable text) but use enum key for backend */}
+													{location === CarLocation.LOS_ANGELES ? 'Los Angeles' :
+													 location === CarLocation.NEW_YORK ? 'New York' :
+													 location === CarLocation.RIO_DE_JANEIRO ? 'Rio de Janeiro' :
+													 location === CarLocation.CAR ? 'Select Location' :
+													 location}
+												</MenuItem>
+											))}
+										</Select>
+									</GoldFormControl>
+								</Stack>
+
+								<GoldTextField
+									fullWidth
+									label="Address"
+									placeholder="Enter detailed address"
+									value={insertCarData.carAddress}
 									onChange={({ target: { value } }) =>
-										setInsertCarData({ ...insertCarData, carTitle: value })
+										setInsertCarData({ ...insertCarData, carAddress: value })
 									}
 								/>
 							</Stack>
+						</CardContent>
+					</GoldCard>
 
-							<Stack className="config-row">
-								<Stack className="price-year-after-price">
-									<Typography className="title">Price</Typography>
-									<input
-										type="text"
-										className="description-input"
-										placeholder={'Price'}
-										value={insertCarData.carPrice}
+					{/* Vehicle Specifications */}
+					<GoldCard>
+						<CardContent>
+							<Typography 
+								variant="h5" 
+								sx={{ 
+									color: '#DAA520', 
+									fontWeight: 600, 
+									mb: 3,
+									borderBottom: '2px solid #FFD700',
+									pb: 1
+								}}
+							>
+								Vehicle Specifications
+							</Typography>
+							
+							<Stack spacing={3}>
+								<Stack direction={{ xs: 'column', md: 'row' }} spacing={3}>
+									<GoldTextField
+										fullWidth
+										label="Year"
+										type="number"
+										placeholder="Enter year"
+										value={insertCarData.carYear || ''}
 										onChange={({ target: { value } }) =>
-											setInsertCarData({ ...insertCarData, carPrice: parseInt(value) })
+											setInsertCarData({ ...insertCarData, carYear: parseInt(value) || 0 })
+										}
+									/>
+									
+									<GoldTextField
+										fullWidth
+										label="Mileage"
+										type="number"
+										placeholder="Enter mileage"
+										value={insertCarData.carMileage || ''}
+										onChange={({ target: { value } }) =>
+											setInsertCarData({ ...insertCarData, carMileage: parseInt(value) || 0 })
 										}
 									/>
 								</Stack>
-								<Stack className="price-year-after-price">
-									<Typography className="title">Select Type</Typography>
-									<select
-										className={'select-description'}
-										defaultValue={insertCarData.carCategory || 'select'}
-			value={insertCarData.carCategory || 'select'}
-										onChange={({ target: { value } }) =>
-											// @ts-ignore
-											setInsertCarData({ ...insertCarData, carCategory: value })
-										}
-									>
-										<>
-											<option selected={true} disabled={true} value={'select'}>
-												Select
-											</option>
-											{carType.map((type: any) => (
-												<option value={`${type}`} key={type}>
-													{type}
-												</option>
-											))}
-										</>
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-								</Stack>
-							</Stack>
 
-							<Stack className="config-row">
-								<Stack className="price-year-after-price">
-									<Typography className="title">Select Location</Typography>
-									<select
-										className={'select-description'}
-										defaultValue={insertCarData.carLocation || 'select'}
-										value={insertCarData.carLocation || 'select'}
+								<Stack direction={{ xs: 'column', md: 'row' }} spacing={3}>
+									<GoldTextField
+										fullWidth
+										label="Doors"
+										type="number"
+										placeholder="Number of doors"
+										value={insertCarData.carDoors || ''}
 										onChange={({ target: { value } }) =>
-											// @ts-ignore
-											setInsertCarData({ ...insertCarData, carLocation: value })
+											setInsertCarData({ ...insertCarData, carDoors: parseInt(value) || 0 })
 										}
-									>
-										<>
-											<option selected={true} disabled={true} value={'select'}>
-												Select
-											</option>
-											{carLocation.map((location: any) => (
-												<option value={`${location}`} key={location}>
-													{location}
-												</option>
-											))}
-										</>
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-								</Stack>
-								<Stack className="price-year-after-price">
-									<Typography className="title">Address</Typography>
-									<input
-										type="text"
-										className="description-input"
-										placeholder={'Address'}
-										value={insertCarData.carAddress}
+									/>
+									
+									<GoldTextField
+										fullWidth
+										label="Seats"
+										type="number"
+										placeholder="Number of seats"
+										value={insertCarData.carSeats || ''}
 										onChange={({ target: { value } }) =>
-											setInsertCarData({ ...insertCarData, carAddress: value })
+											setInsertCarData({ ...insertCarData, carSeats: parseInt(value) || 0 })
 										}
 									/>
 								</Stack>
 							</Stack>
+						</CardContent>
+					</GoldCard>
 
-							<Stack className="config-row">
-								<Stack className="price-year-after-price">
-									<Typography className="title">Barter</Typography>
-									<select
-										className={'select-description'}
-										value={insertCarData.isBarterAvailable ? 'yes' : 'no'}
-										defaultValue={insertCarData.isBarterAvailable ? 'yes' : 'no'}
-										onChange={({ target: { value } }) =>
-											setInsertCarData({ ...insertCarData, isBarterAvailable: value === 'yes' })
-										}
-									>
-										<option disabled={true} selected={true}>
-											Select
-										</option>
-										<option value={'yes'}>Yes</option>
-										<option value={'no'}>No</option>
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-								</Stack>
-								<Stack className="price-year-after-price">
-									<Typography className="title">Rent</Typography>
-									<select
-										className={'select-description'}
-										value={insertCarData.isForRent ? 'yes' : 'no'}
-										defaultValue={insertCarData.isForRent ? 'yes' : 'no'}
-										onChange={({ target: { value } }) =>
-											setInsertCarData({ ...insertCarData, isForRent: value === 'yes' })
-										}
-									>
-										<option disabled={true} selected={true}>
-											Select
-										</option>
-										<option value={'yes'}>Yes</option>
-										<option value={'no'}>No</option>
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-								</Stack>
-							</Stack>
-
-							<Stack className="config-row">
-								<Stack className="price-year-after-price">
-									<Typography className="title">Rooms</Typography>
-									<select
-										className={'select-description'}
-										value={insertCarData.carDoors || 'select'}
-										defaultValue={insertCarData.carDoors || 'select'}
-										onChange={({ target: { value } }) =>
-											setInsertCarData({ ...insertCarData, carDoors: parseInt(value) })
-										}
-									>
-										<option disabled={true} selected={true} value={'select'}>
-											Select
-										</option>
-										{[1, 2, 3, 4, 5].map((room: number) => (
-											<option value={`${room}`}>{room}</option>
-										))}
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-								</Stack>
-								<Stack className="price-year-after-price">
-									<Typography className="title">Bed</Typography>
-									<select
-										className={'select-description'}
-										value={insertCarData.carSeats || 'select'}
-										defaultValue={insertCarData.carSeats || 'select'}
-										onChange={({ target: { value } }) =>
-											setInsertCarData({ ...insertCarData, carSeats: parseInt(value) })
-										}
-									>
-										<option disabled={true} selected={true} value={'select'}>
-											Select
-										</option>
-										{[1, 2, 3, 4, 5].map((bed: number) => (
-											<option value={`${bed}`}>{bed}</option>
-										))}
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-								</Stack>
-								<Stack className="price-year-after-price">
-									<Typography className="title">Square</Typography>
-									<select
-										className={'select-description'}
-										value={insertCarData.carYear || 'select'}
-										defaultValue={insertCarData.carYear || 'select'}
-										onChange={({ target: { value } }) =>
-											setInsertCarData({ ...insertCarData, carYear: parseInt(value) })
-										}
-									>
-										<option disabled={true} selected={true} value={'select'}>
-											Select
-										</option>
-										{carYear.map((square: number) => {
-											if (square !== 0) {
-												return <option value={`${square}`}>{square}</option>;
-											}
-										})}
-									</select>
-									<div className={'divider'}></div>
-									<img src={'/img/icons/Vector.svg'} className={'arrow-down'} />
-								</Stack>
-							</Stack>
-
-							<Typography className="property-title">Property Description</Typography>
-							<Stack className="config-column">
-								<Typography className="title">Description</Typography>
-								<textarea
-									name=""
-									id=""
-									className="description-text"
-									value={insertCarData.carDesc}
-									onChange={({ target: { value } }) =>
-										setInsertCarData({ ...insertCarData, carDesc: value })
-									}
-								></textarea>
-							</Stack>
-						</Stack>
-
-						<Typography className="upload-title">Upload photos of your property</Typography>
-						<Stack className="images-box">
-							<Stack className="upload-box">
-								<svg xmlns="http://www.w3.org/2000/svg" width="121" height="120" viewBox="0 0 121 120" fill="none">
-									<g clipPath="url(#clip0_7037_5336)">
-										<path
-											d="M68.9453 52.0141H52.9703C52.4133 52.0681 51.8511 52.005 51.32 51.8289C50.7888 51.6528 50.3004 51.3675 49.886 50.9914C49.4716 50.6153 49.1405 50.1567 48.9139 49.645C48.6874 49.1333 48.5703 48.5799 48.5703 48.0203C48.5703 47.4607 48.6874 46.9073 48.9139 46.3956C49.1405 45.884 49.4716 45.4253 49.886 45.0492C50.3004 44.6731 50.7888 44.3878 51.32 44.2117C51.8511 44.0356 52.4133 43.9725 52.9703 44.0266H68.9828C69.5397 43.9725 70.1019 44.0356 70.633 44.2117C71.1642 44.3878 71.6527 44.6731 72.067 45.0492C72.4814 45.4253 72.8125 45.884 73.0391 46.3956C73.2657 46.9073 73.3827 47.4607 73.3827 48.0203C73.3827 48.5799 73.2657 49.1333 73.0391 49.645C72.8125 50.1567 72.4814 50.6153 72.067 50.9914C71.6527 51.3675 71.1642 51.6528 70.633 51.8289C70.1019 52.005 69.5397 52.0681 68.9828 52.0141H68.9453Z"
-											fill="#DDDDDD"
-										/>
-										<path
-											d="M72.4361 65.0288L63.6236 57.0413C62.8704 56.3994 61.9132 56.0469 60.9236 56.0469C59.934 56.0469 58.9768 56.3994 58.2236 57.0413L49.4111 65.0288C48.6807 65.7585 48.2597 66.7415 48.2355 67.7736C48.2113 68.8057 48.5859 69.8074 49.2813 70.5704C49.9767 71.3335 50.9394 71.7991 51.9693 71.8705C52.9992 71.9419 54.017 71.6136 54.8111 70.9538L56.9111 69.0413V88.0163C57.0074 89.0088 57.4697 89.9298 58.208 90.6C58.9464 91.2701 59.9077 91.6414 60.9048 91.6414C61.9019 91.6414 62.8633 91.2701 63.6016 90.6C64.34 89.9298 64.8023 89.0088 64.8986 88.0163V69.0413L66.9986 70.9538C67.3823 71.3372 67.8398 71.6387 68.3434 71.8403C68.8469 72.0418 69.3861 72.1392 69.9284 72.1265C70.4706 72.1138 71.0046 71.9913 71.4982 71.7664C71.9918 71.5415 72.4346 71.2188 72.8 70.8179C73.1653 70.417 73.4456 69.9463 73.6239 69.434C73.8022 68.9217 73.8748 68.3786 73.8373 67.8375C73.7997 67.2965 73.6529 66.7686 73.4056 66.2858C73.1584 65.8031 72.8158 65.3755 72.3986 65.0288H72.4361Z"
-											fill="#DDDDDD"
-										/>
-										<path
-											d="M100.975 120.003C100.418 120.057 99.8558 119.994 99.3247 119.818C98.7935 119.642 98.3051 119.357 97.8907 118.98C97.4763 118.604 97.1452 118.146 96.9186 117.634C96.6921 117.122 96.575 116.569 96.575 116.009C96.575 115.45 96.6921 114.896 96.9186 114.385C97.1452 113.873 97.4763 113.414 97.8907 113.038C98.3051 112.662 98.7935 112.377 99.3247 112.201C99.8558 112.025 100.418 111.962 100.975 112.016C104.158 112.016 107.21 110.751 109.46 108.501C111.711 106.25 112.975 103.198 112.975 100.016V19.9906C112.975 16.808 111.711 13.7558 109.46 11.5053C107.21 9.25491 104.158 7.99063 100.975 7.99063H36.9624C36.4055 8.04466 35.8433 7.98159 35.3122 7.80547C34.781 7.62935 34.2926 7.34408 33.8782 6.96797C33.4638 6.59186 33.1327 6.13324 32.9061 5.62156C32.6796 5.10989 32.5625 4.55648 32.5625 3.99688C32.5625 3.43728 32.6796 2.88386 32.9061 2.37219C33.1327 1.86051 33.4638 1.40189 33.8782 1.02578C34.2926 0.649674 34.781 0.364397 35.3122 0.188277C35.8433 0.0121578 36.4055 -0.05091 36.9624 0.00312538H100.975C106.273 0.0130374 111.351 2.12204 115.097 5.86828C118.844 9.61451 120.953 14.6927 120.962 19.9906V100.016C120.953 105.314 118.844 110.392 115.097 114.138C111.351 117.884 106.273 119.993 100.975 120.003Z"
-											fill="#DDDDDD"
-										/>
-										<path
-											d="M84.9609 120.003H20.9484C15.6505 119.993 10.5723 117.884 6.82609 114.138C3.07985 110.392 0.97085 105.314 0.960938 100.016L0.960938 19.9906C0.97085 14.6927 3.07985 9.61451 6.82609 5.86828C10.5723 2.12204 15.6505 0.0130374 20.9484 0.00312538C21.5054 -0.05091 22.0676 0.0121578 22.5987 0.188277C23.1299 0.364397 23.6183 0.649674 24.0327 1.02578C24.4471 1.40189 24.7782 1.86051 25.0047 2.37219C25.2313 2.88386 25.3484 3.43728 25.3484 3.99688C25.3484 4.55648 25.2313 5.10989 25.0047 5.62156C24.7782 6.13324 24.4471 6.59186 24.0327 6.96797C23.6183 7.34408 23.1299 7.62935 22.5987 7.80547C22.0676 7.98159 21.5054 8.04466 20.9484 7.99063C17.7658 7.99063 14.7136 9.25491 12.4632 11.5053C10.2127 13.7558 8.94844 16.808 8.94844 19.9906V100.016C8.94844 103.198 10.2127 106.25 12.4632 108.501C14.7136 110.751 17.7658 112.016 20.9484 112.016H84.9609C85.5179 111.962 86.08 112.025 86.6112 112.201C87.1424 112.377 87.6308 112.662 88.0452 113.038C88.4595 113.414 88.7907 113.873 89.0172 114.385C89.2438 114.896 89.3609 115.45 89.3609 116.009C89.3609 116.569 89.2438 117.122 89.0172 117.634C88.7907 118.146 88.4595 118.604 88.0452 118.98C87.6308 119.357 87.1424 119.642 86.6112 119.818C86.08 119.994 85.5179 120.057 84.9609 120.003Z"
-											fill="#DDDDDD"
-										/>
-										<path
-											d="M28.9704 24.0031H20.9454C19.9529 23.9068 19.0319 23.4445 18.3617 22.7062C17.6916 21.9679 17.3203 21.0065 17.3203 20.0094C17.3203 19.0123 17.6916 18.0509 18.3617 17.3126C19.0319 16.5743 19.9529 16.1119 20.9454 16.0156H28.9704C29.9628 16.1119 30.8839 16.5743 31.554 17.3126C32.2242 18.0509 32.5954 19.0123 32.5954 20.0094C32.5954 21.0065 32.2242 21.9679 31.554 22.7062C30.8839 23.4445 29.9628 23.9068 28.9704 24.0031Z"
-											fill="#DDDDDD"
-										/>
-										<path
-											d="M76.9736 24.0016C76.4485 24.0065 75.9275 23.9074 75.4409 23.7098C74.9543 23.5123 74.5117 23.2203 74.1386 22.8507C73.7655 22.481 73.4693 22.0412 73.2672 21.5564C73.0651 21.0717 72.9611 20.5517 72.9611 20.0266C72.9537 19.2314 73.1827 18.452 73.619 17.7872C74.0554 17.1224 74.6794 16.6023 75.4119 16.2929C76.1444 15.9834 76.9524 15.8986 77.7332 16.0491C78.514 16.1997 79.2324 16.5789 79.7973 17.1385C80.3623 17.6981 80.7482 18.413 80.906 19.1924C81.0639 19.9717 80.9867 20.7804 80.6841 21.5158C80.3816 22.2512 79.8673 22.8801 79.2067 23.3226C78.546 23.7652 77.7688 24.0015 76.9736 24.0016Z"
-											fill="#DDDDDD"
-										/>
-										<path
-											d="M88.9736 24.0016C88.4485 24.0065 87.9275 23.9074 87.4409 23.7098C86.9543 23.5123 86.5117 23.2203 86.1386 22.8507C85.7655 22.481 85.4693 22.0412 85.2672 21.5564C85.0651 21.0717 84.9611 20.5517 84.9611 20.0266C84.9537 19.2314 85.1827 18.452 85.619 17.7872C86.0554 17.1224 86.6794 16.6023 87.4119 16.2929C88.1444 15.9834 88.9524 15.8986 89.7332 16.0491C90.514 16.1997 91.2324 16.5789 91.7974 17.1385C92.3623 17.6981 92.7482 18.413 92.9061 19.1924C93.0639 19.9717 92.9867 20.7804 92.6841 21.5158C92.3816 22.2512 91.8673 22.8801 91.2067 23.3226C90.5461 23.7652 89.7688 24.0015 88.9736 24.0016Z"
-											fill="#DDDDDD"
-										/>
-										<path
-											d="M100.974 24.0016C100.448 24.0065 99.9275 23.9074 99.4409 23.7098C98.9543 23.5123 98.5117 23.2203 98.1386 22.8507C97.7655 22.481 97.4693 22.0412 97.2672 21.5564C97.0651 21.0717 96.9611 20.5517 96.9611 20.0266C96.9537 19.2314 97.1827 18.452 97.619 17.7872C98.0554 17.1224 98.6794 16.6023 99.4119 16.2929C100.144 15.9834 100.952 15.8986 101.733 16.0491C102.514 16.1997 103.232 16.5789 103.797 17.1385C104.362 17.6981 104.748 18.413 104.906 19.1924C105.064 19.9717 104.987 20.7804 104.684 21.5158C104.382 22.2512 103.867 22.8801 103.207 23.3226C102.546 23.7652 101.769 24.0015 100.974 24.0016Z"
-											fill="#DDDDDD"
-										/>
-									</g>
-									<defs>
-										<clipPath id="clip0_7037_5336">
-											<rect width="120" height="120" fill="white" transform="translate(0.960938)" />
-										</clipPath>
-									</defs>
-								</svg>
-								<Stack className="text-box">
-									<Typography className="drag-title">Drag and drop images here</Typography>
-									<Typography className="format-title">Photos must be JPEG or PNG format and least 2048x768</Typography>
-								</Stack>
-								<Button
-									className="browse-button"
-									onClick={() => {
-										inputRef.current.click();
-									}}
-								>
-									<Typography className="browse-button-text">Browse Files</Typography>
-									<input
-										ref={inputRef}
-										type="file"
-										hidden={true}
-										onChange={uploadImages}
-										multiple={true}
-										accept="image/jpg, image/jpeg, image/png"
-									/>
-									<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-										<g clipPath="url(#clip0_7309_3249)">
-											<path
-												d="M15.5556 0H5.7778C5.53214 0 5.33334 0.198792 5.33334 0.444458C5.33334 0.690125 5.53214 0.888917 5.7778 0.888917H14.4827L0.130219 15.2413C-0.0434062 15.415 -0.0434062 15.6962 0.130219 15.8698C0.21701 15.9566 0.33076 16 0.444469 16C0.558177 16 0.671885 15.9566 0.758719 15.8698L15.1111 1.51737V10.2222C15.1111 10.4679 15.3099 10.6667 15.5556 10.6667C15.8013 10.6667 16.0001 10.4679 16.0001 10.2222V0.444458C16 0.198792 15.8012 0 15.5556 0Z"
-												fill="#181A20"
+					{/* Additional Options */}
+					<GoldCard>
+						<CardContent>
+							<Typography 
+								variant="h5" 
+								sx={{ 
+									color: '#DAA520', 
+									fontWeight: 600, 
+									mb: 3,
+									borderBottom: '2px solid #FFD700',
+									pb: 1
+								}}
+							>
+								Additional Options
+							</Typography>
+							
+							<Stack spacing={3}>
+								<Stack direction={{ xs: 'column', md: 'row' }} spacing={3}>
+									<FormControlLabel
+										control={
+											<Switch
+												checked={insertCarData.isBarterAvailable || false}
+												onChange={(e) =>
+													setInsertCarData({ ...insertCarData, isBarterAvailable: e.target.checked })
+												}
+												sx={{
+													'& .MuiSwitch-switchBase.Mui-checked': {
+														color: '#FFD700',
+													},
+													'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+														backgroundColor: '#DAA520',
+													},
+												}}
 											/>
-										</g>
-										<defs>
-											<clipPath id="clip0_7309_3249">
-												<rect width="16" height="16" fill="white" />
-											</clipPath>
-										</defs>
-									</svg>
-								</Button>
+										}
+										label={
+											<Typography sx={{ color: '#B8860B', fontWeight: 600 }}>
+												Barter Available
+											</Typography>
+										}
+									/>
+									
+									<FormControlLabel
+										control={
+											<Switch
+												checked={insertCarData.isForRent || false}
+												onChange={(e) =>
+													setInsertCarData({ ...insertCarData, isForRent: e.target.checked })
+												}
+												sx={{
+													'& .MuiSwitch-switchBase.Mui-checked': {
+														color: '#FFD700',
+													},
+													'& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track': {
+														backgroundColor: '#DAA520',
+													},
+												}}
+											/>
+										}
+										label={
+											<Typography sx={{ color: '#B8860B', fontWeight: 600 }}>
+												Available for Rent
+											</Typography>
+										}
+									/>
+								</Stack>
 							</Stack>
-							<Stack className="gallery-box">
-								{insertCarData?.carImages.map((image: string) => {
-									const imagePath: string = `${REACT_APP_API_URL}/${image}`;
-									return (
-										<Stack className="image-box">
-											<img src={imagePath} alt="" />
-										</Stack>
-									);
-								})}
-							</Stack>
-						</Stack>
+						</CardContent>
+					</GoldCard>
 
-						<Stack className="buttons-row">
-							{router.query.carId ? (
-								<Button className="next-button" disabled={doDisabledCheck()} onClick={updateCarHandler}>
-									<Typography className="next-button-text">Save</Typography>
-								</Button>
-							) : (
-								<Button className="next-button" disabled={doDisabledCheck()} onClick={insertCarHandler}>
-									<Typography className="next-button-text">Save</Typography>
-								</Button>
+					{/* Description */}
+					<GoldCard>
+						<CardContent>
+							<Typography 
+								variant="h5" 
+								sx={{ 
+									color: '#DAA520', 
+									fontWeight: 600, 
+									mb: 3,
+									borderBottom: '2px solid #FFD700',
+									pb: 1
+								}}
+							>
+								Description
+							</Typography>
+							
+							<GoldTextField
+								fullWidth
+								multiline
+								rows={4}
+								label="Car Description"
+								placeholder="Enter detailed description of your car..."
+								value={insertCarData.carDesc}
+								onChange={({ target: { value } }) => 
+									setInsertCarData({ ...insertCarData, carDesc: value })
+								}
+							/>
+						</CardContent>
+					</GoldCard>
+
+					{/* Image Upload */}
+					<GoldCard>
+						<CardContent>
+							<Typography 
+								variant="h5" 
+								sx={{ 
+									color: '#DAA520', 
+									fontWeight: 600, 
+									mb: 3,
+									borderBottom: '2px solid #FFD700',
+									pb: 1
+								}}
+							>
+								Car Images
+							</Typography>
+							
+							<input
+								type="file"
+								ref={inputRef}
+								multiple={true}
+								accept="image/*"
+								onChange={uploadImages}
+								style={{ display: 'none' }}
+							/>
+							
+							<ImageUploadBox onClick={() => inputRef.current?.click()}>
+								{isUploading ? (
+									<Stack alignItems="center" spacing={2}>
+										<CircularProgress 
+											variant="determinate" 
+											value={uploadProgress}
+											sx={{ color: '#FFD700' }}
+										/>
+										<Typography sx={{ color: '#B8860B', fontWeight: 600 }}>
+											Uploading... {uploadProgress}%
+										</Typography>
+									</Stack>
+								) : (
+									<Stack alignItems="center" spacing={2}>
+										<AddPhotoAlternateIcon 
+											sx={{ fontSize: 48, color: '#FFD700' }} 
+										/>
+										<Typography 
+											variant="h6" 
+											sx={{ color: '#DAA520', fontWeight: 600 }}
+										>
+											Click to Upload Images
+										</Typography>
+										<Typography sx={{ color: '#B8860B' }}>
+											Support: JPG, PNG, GIF (Max 5MB each)
+										</Typography>
+									</Stack>
+								)}
+							</ImageUploadBox>
+
+							{/* Image Preview */}
+							{insertCarData.carImages.length > 0 && (
+								<Box sx={{ mt: 3 }}>
+									<Typography 
+										variant="h6" 
+										sx={{ color: '#DAA520', fontWeight: 600, mb: 2 }}
+									>
+										Uploaded Images ({insertCarData.carImages.length})
+									</Typography>
+									<Stack 
+										direction="row" 
+										spacing={2} 
+										sx={{ flexWrap: 'wrap', gap: 2 }}
+									>
+										{insertCarData.carImages.map((image: string, index: number) => (
+											<Paper
+												key={index}
+												sx={{
+													position: 'relative',
+													width: 120,
+													height: 120,
+													borderRadius: 3,
+													overflow: 'hidden',
+													border: '2px solid #FFD700',
+												}}
+											>
+												<img
+													src={`${REACT_APP_API_URL}/${image}`}
+													alt={`Car ${index + 1}`}
+													style={{
+														width: '100%',
+														height: '100%',
+														objectFit: 'cover',
+													}}
+												/>
+												<IconButton
+													size="small"
+													sx={{
+														position: 'absolute',
+														top: 4,
+														right: 4,
+														backgroundColor: 'rgba(255, 255, 255, 0.9)',
+														'&:hover': {
+															backgroundColor: 'rgba(255, 255, 255, 1)',
+														},
+													}}
+													onClick={() => {
+														const newImages = insertCarData.carImages.filter((_, i) => i !== index);
+														setInsertCarData({ ...insertCarData, carImages: newImages });
+													}}
+												>
+													<DeleteIcon sx={{ fontSize: 16, color: '#ff4444' }} />
+												</IconButton>
+											</Paper>
+										))}
+									</Stack>
+								</Box>
 							)}
-						</Stack>
-					</Stack>
-				</div>
-			</div>
+						</CardContent>
+					</GoldCard>
+
+					{/* Submit Button */}
+					<Box sx={{ textAlign: 'center', mt: 4 }}>
+						<GoldButton
+							size="large"
+							disabled={doDisabledCheck() || isUploading}
+							onClick={getCarData?.getCar ? updateCarHandler : insertCarHandler}
+							sx={{ px: 6, py: 2 }}
+						>
+							{isUploading ? (
+								<>
+									<CircularProgress size={20} sx={{ color: 'white', mr: 1 }} />
+									Uploading...
+								</>
+							) : (
+								getCarData?.getCar ? 'Update Car' : 'Add Car'
+							)}
+						</GoldButton>
+					</Box>
+				</Stack>
+			</Box>
 		);
 	}
 };
 
 AddCar.defaultProps = {
 	initialValues: {
+		carTransactionType: CarTransactionType.BUY,
 		carTitle: '',
+		brand: '',
 		carPrice: 0,
-		carCategory: '',
-		carLocation: '',
+		carCategory: CarCategory.SEDAN,
+		carLocation: CarLocation.NEW_YORK,
 		carAddress: '',
 		isBarterAvailable: false,
 		isForRent: false,
-		carDoors: 0,
-		carSeats: 0,
-		carYear: 0,
+		carDoors: 4,
+		carSeats: 5,
+		carYear: new Date().getFullYear(),
 		carMileage: 0,
 		carDesc: '',
 		carImages: [],
