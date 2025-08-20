@@ -198,7 +198,7 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 
 	const handleViewProfile = (agentId: string) => {
 		// Navigate to agent detail page
-		window.open(`/agent/detail?id=${agentId}`, '_blank');
+		window.open(`/agent/${agentId}`, '_blank');
 	};
 
 	const handleAgentSelect = (agent: AgentProfile) => {

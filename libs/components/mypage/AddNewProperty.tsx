@@ -24,6 +24,7 @@ import { styled } from '@mui/material/styles';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteIcon from '@mui/icons-material/Delete';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
+import { getLocationDisplayName } from '../../utils/locationHelper';
 
 import { carYear, REACT_APP_API_URL } from '../../config';
 
@@ -268,6 +269,7 @@ const AddCar = ({ initialValues, ...props }: any) => {
 			insertCarData.carPrice === 0 ||
 			insertCarData.carCategory === CarCategory.CAR ||
 			insertCarData.carLocation === CarLocation.CAR ||
+			!insertCarData.carLocation || // Also check if location is not set
 			insertCarData.carAddress === '' ||
 			insertCarData.carDoors === 0 ||
 			insertCarData.carSeats === 0 ||
@@ -508,16 +510,13 @@ const AddCar = ({ initialValues, ...props }: any) => {
 												setInsertCarData({ ...insertCarData, carLocation: value as CarLocation })
 											}
 										>
-											{carLocation.map((location) => (
-												<MenuItem key={location} value={location}>
-													{/* Display the enum value (readable text) but use enum key for backend */}
-													{location === CarLocation.LOS_ANGELES ? 'Los Angeles' :
-													 location === CarLocation.NEW_YORK ? 'New York' :
-													 location === CarLocation.RIO_DE_JANEIRO ? 'Rio de Janeiro' :
-													 location === CarLocation.CAR ? 'Select Location' :
-													 location}
-												</MenuItem>
-											))}
+											{carLocation
+												.filter(location => location !== CarLocation.CAR) // Filter out the placeholder
+												.map((location) => (
+													<MenuItem key={location} value={location}>
+														{getLocationDisplayName(location)}
+													</MenuItem>
+												))}
 										</Select>
 									</GoldFormControl>
 								</Stack>
@@ -850,7 +849,7 @@ AddCar.defaultProps = {
 		brand: '',
 		carPrice: 0,
 		carCategory: CarCategory.SEDAN,
-		carLocation: CarLocation.NEW_YORK,
+		carLocation: CarLocation.LOS_ANGELES, // Use a valid location enum
 		carAddress: '',
 		isBarterAvailable: false,
 		isForRent: false,

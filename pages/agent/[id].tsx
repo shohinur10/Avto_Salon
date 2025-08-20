@@ -52,6 +52,14 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import CarCard from '../../libs/components/car/CarCard';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
 
+export async function getStaticPaths() {
+	// Return empty paths for now, generate pages on-demand
+	return {
+		paths: [],
+		fallback: 'blocking'
+	};
+}
+
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
 		...(await serverSideTranslations(locale, ['common'])),

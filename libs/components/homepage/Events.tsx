@@ -3,6 +3,7 @@ import { Stack, Box } from '@mui/material';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { CarLocation } from '../../enums/car.enum';
+import { getLocationDisplayName } from '../../utils/locationHelper';
 
 
 interface EventData {
@@ -63,7 +64,7 @@ const EventCard = ({ event }: { event: EventData }) => {
 				}}
 			>
 				<Box component={'div'} className={'info'}>
-					<strong>{event?.city}</strong>
+					<strong>{getLocationDisplayName(event?.city)}</strong>
 					<span>{event?.eventTitle}</span>
 				</Box>
 				<Box component={'div'} className={'more'}>

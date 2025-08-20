@@ -38,7 +38,7 @@ const withLayoutBasic = (Component: any) => {
 					desc = 'Professional car dealers';
 					bgImage = '/img/mainBanner/main.jpg';
 					break;
-				case '/agent/detail':
+				case '/agent/[id]':
 					title = 'Agent Details';
 					desc = 'Professional dealer profile';
 					bgImage = '/img/mainBanner/main.jpg';
