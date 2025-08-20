@@ -51,7 +51,15 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
   const [searchInput, setSearchInput] = useState<CarsInquiry>({
     page: currentPage,
     limit: itemsPerPage,
-    search: {},
+    search: {
+      pricesRange: {
+        start: 0,
+        end: 1000000,
+      },
+      yearRange: [1990, 2024],
+      minMileage: 0,
+      maxMileage: 200000,
+    },
     sort: 'createdAt',
     direction: 'DESC',
     ...initialFilters
