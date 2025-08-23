@@ -10,6 +10,7 @@ import TopCars from './TopCars';
 import TopAgents from './TopAgents';
 import Events from './Events';
 import PlatformStats from './PlatformStats';
+import AutoTempestSearch from './AutoTempestSearch';
 
 // Import GraphQL and types
 import { GET_CARS, GET_AGENTS } from '../../../apollo/user/query';
@@ -218,6 +219,11 @@ const LuxuryHomepage: React.FC = () => {
 					<Typography className="scroll-text">Discover More</Typography>
 				</div>
 			</div>
+
+			{/* AutoTempest-style Search Section */}
+			<Box className="search-section">
+				<AutoTempestSearch />
+			</Box>
 
 			{/* Premium Features Section */}
 			<Box className="premium-features-section">
