@@ -33,7 +33,7 @@ const CarList: NextPage = ({ initialInput, ...props }: any) => {
 	}, [router.query.input, initialInput]);
 
 	if (device === 'mobile') {
-					return (
+		return (
 			<div style={{ 
 				padding: '2rem', 
 				textAlign: 'center',

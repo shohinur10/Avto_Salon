@@ -10,6 +10,7 @@ import useAuth from '../libs/hooks/useAuth';
 import '../scss/app.scss';
 import '../scss/pc/main.scss';
 import '../scss/mobile/main.scss';
+import '../scss/pc/car/car-list-new.scss';
 
 // Component to initialize auth inside ApolloProvider context
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {

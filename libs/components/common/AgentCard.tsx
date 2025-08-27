@@ -71,4 +71,3 @@ const AgentCard = (props: AgentCardProps) => {
 	}
 };
 
-export default AgentCard;

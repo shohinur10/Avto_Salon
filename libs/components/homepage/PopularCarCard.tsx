@@ -31,7 +31,11 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 				<Box
 					component={'div'}
 					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${car?.carImages[0]})` }}
+					style={{ 
+						backgroundImage: `url(${car?.carImages?.[0] ? 
+							(car.carImages[0].startsWith('http') ? car.carImages[0] : `${REACT_APP_API_URL}/${car.carImages[0]}`) : 
+							'/img/cars/default-car.jpg'})` 
+					}}
 					onClick={() => {
 						pushDetailHandler(car._id);
 					}}
@@ -83,7 +87,11 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 				<Box
 					component={'div'}
 					className={'card-img'}
-					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${car?.carImages[0]})` }}
+					style={{ 
+						backgroundImage: `url(${car?.carImages?.[0] ? 
+							(car.carImages[0].startsWith('http') ? car.carImages[0] : `${REACT_APP_API_URL}/${car.carImages[0]}`) : 
+							'/img/cars/default-car.jpg'})` 
+					}}
 					onClick={() => {
 						pushDetailHandler(car._id);
 					}}
