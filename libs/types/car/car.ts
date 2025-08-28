@@ -1,11 +1,5 @@
-PORT_API=3005
-PORT_BATCH=3006
 
-NODE_ENV=development
-MONGO_DEV=mongodb+srv://Adam:uXxanQ7wECkOgqgT@cluster0.fme80.mongodb.net/Brand?retryWrites=true&w=majority
-MONGO_PROD=mongodb+srv://Adam:uXxanQ7wECkOgqgT@cluster0.fme80.mongodb.net/Brand?retryWrites=true&w=majority
-
-SECRET_TOKEN=123ndnn3u437392jshdsdkldakdd@1w!import { CarTransactionType, CarCategory, CarStatus, CarLocation } from '../../enums/car.enum';
+import { CarTransactionType, CarCategory, CarStatus, CarLocation } from '../../enums/car.enum';
 import { Member } from '../member/member';
 
 export interface MeLiked {
