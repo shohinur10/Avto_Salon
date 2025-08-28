@@ -1,35 +1,42 @@
-import React from 'react';
-import { Box, Typography, Grid, Card, CardContent } from '@mui/material';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import PeopleIcon from '@mui/icons-material/People';
-import StarIcon from '@mui/icons-material/Star';
-import TrendingUpIcon from '@mui/icons-material/TrendingUp';
+import React from "react";
+import { Box, Typography, Grid, Button } from "@mui/material";
+import { useRouter } from "next/router";
 
 const PlatformStats: React.FC = () => {
+	const router = useRouter();
+	
 	const stats = [
 		{
-			icon: <DirectionsCarIcon />,
-			number: '500+',
-			label: 'Premium Cars',
-			description: 'Curated collection of luxury vehicles'
+			number: "500+",
+			label: "Premium Cars",
+			description: "Curated collection of luxury vehicles",
+			image: "/img/cars/bmw-x7.jpg",
+			alt: "Cars in showroom",
+			link: "/car"
 		},
 		{
-			icon: <PeopleIcon />,
-			number: '50+',
-			label: 'Expert Agents',
-			description: 'Professional automotive consultants'
+			number: "50+",
+			label: "Expert Agents",
+			description: "Professional automotive consultants",
+			image: "/img/cars/ferrari-488.jpg",
+			alt: "Handshake agreement",
+			link: "/agent"
 		},
 		{
-			icon: <StarIcon />,
-			number: '4.9',
-			label: 'Rating',
-			description: 'Average customer satisfaction'
-		},
+			number: "4.9",
+			label: "Rating",
+			description: "Average customer satisfaction",
+			image: "/img/cars/porsche-cayenne.jpg",
+			alt: "Happy customers",
+			link: "/about"
+			},
 		{
-			icon: <TrendingUpIcon />,
-			number: '1000+',
-			label: 'Happy Customers',
-			description: 'Successful car purchases'
+			number: "1000+",
+			label: "Happy Customers",
+			description: "Successful car purchases",
+			image: "/img/cars/lambo-huracan.jpg",
+			alt: "Customer celebration",
+			link: "/about"
 		}
 	];
 
@@ -48,12 +55,17 @@ const PlatformStats: React.FC = () => {
 				<Grid container spacing={4} className="stats-grid">
 					{stats.map((stat, index) => (
 						<Grid item xs={12} sm={6} md={3} key={index}>
-							<Card className="stat-card">
-								<CardContent className="stat-content">
-									<Box className="stat-icon-container">
-										{stat.icon}
-									</Box>
-									<Typography variant="h3" className="stat-number">
+							<Box className="stat-image-card">
+								<Box className="card-background">
+									<img 
+										src={stat.image} 
+										alt={stat.alt} 
+										className="card-bg-image"
+									/>
+									<Box className="card-overlay"></Box>
+								</Box>
+								<Box className="card-content">
+									<Typography variant="h2" className="stat-number">
 										{stat.number}
 									</Typography>
 									<Typography variant="h6" className="stat-label">
@@ -62,8 +74,15 @@ const PlatformStats: React.FC = () => {
 									<Typography variant="body2" className="stat-description">
 										{stat.description}
 									</Typography>
-								</CardContent>
-							</Card>
+									<Button 
+										className="stat-cta-btn"
+										variant="contained"
+										onClick={() => router.push(stat.link)}
+									>
+										Learn More
+									</Button>
+								</Box>
+							</Box>
 						</Grid>
 					))}
 				</Grid>

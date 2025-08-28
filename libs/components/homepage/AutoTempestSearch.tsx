@@ -15,7 +15,11 @@ import {
 	Link,
 	Stack,
 	Tooltip,
-	SelectChangeEvent
+	SelectChangeEvent,
+	Slider,
+	Collapse,
+	IconButton,
+	Chip
 } from '@mui/material';
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
@@ -23,6 +27,9 @@ import { CarBrand, CarLocation } from '../../enums/car.enum';
 import { CarsInquiry } from '../../types/car/car.input';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import ExpandLessIcon from '@mui/icons-material/ExpandLess';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 
 interface AutoTempestSearchProps {
 	onSearch?: (searchData: CarsInquiry) => void;
@@ -31,8 +38,17 @@ interface AutoTempestSearchProps {
 		model?: string;
 		zipCode?: string;
 		distance?: number;
+		priceRange?: [number, number];
+		bodyType?: string;
+		fuelType?: string;
+		transmission?: string;
 	};
 }
+
+// Quick filter options
+const bodyTypes = ['SUV', 'Sedan', 'Coupe', 'Convertible', 'Hatchback', 'Truck', 'Wagon'];
+const fuelTypes = ['Gasoline', 'Electric', 'Hybrid', 'Diesel'];
+const transmissionTypes = ['Automatic', 'Manual', 'CVT'];
 
 // Car models by brand
 const carModels: { [key in CarBrand]: string[] } = {
@@ -82,8 +98,15 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 		model: defaultValues.model || '',
 		zipCode: defaultValues.zipCode || '',
 		distance: defaultValues.distance || 100,
+		priceRange: defaultValues.priceRange || [10000, 500000] as [number, number],
+		bodyType: defaultValues.bodyType || '',
+		fuelType: defaultValues.fuelType || '',
+		transmission: defaultValues.transmission || '',
 		includeInternational: false
 	});
+
+	// State for expanded quick filters
+	const [showQuickFilters, setShowQuickFilters] = useState(false);
 
 	// Get available models for selected make
 	const availableModels = searchData.make && searchData.make !== '' 
@@ -137,6 +160,32 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 			...prev,
 			includeInternational: event.target.checked
 		}));
+	};
+
+	const handlePriceRangeChange = (event: Event, newValue: number | number[]) => {
+		setSearchData(prev => ({
+			...prev,
+			priceRange: newValue as [number, number]
+		}));
+	};
+
+	const handleQuickFilterChange = (filterType: 'bodyType' | 'fuelType' | 'transmission', value: string) => {
+		setSearchData(prev => ({
+			...prev,
+			[filterType]: prev[filterType] === value ? '' : value
+		}));
+	};
+
+	const toggleQuickFilters = () => {
+		setShowQuickFilters(prev => !prev);
+	};
+
+	const formatPrice = (value: number) => {
+		return new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'USD',
+			maximumFractionDigits: 0,
+		}).format(value);
 	};
 
 	const handleSearch = useCallback(() => {
@@ -305,33 +354,34 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 	}
 
 	return (
-		<Box className="autotempest-search desktop-search">
-			<Box className="search-container desktop-container">
-				{/* Desktop Tabs */}
-				<Box className="search-tabs desktop-tabs">
+		<Box className="luxury-autotempest-search desktop-search">
+			<Box className="luxury-search-container desktop-container">
+				{/* Pill-style Tabs */}
+				<Box className="luxury-search-tabs desktop-tabs">
 					<Tabs 
 						value={activeTab} 
 						onChange={handleTabChange} 
 						centered
-						className="search-tabs-container"
+						className="luxury-tabs-container"
 					>
-						<Tab label="Used Cars" />
-						<Tab label="Price Trends" />
-						<Tab label="New Cars" />
+						<Tab label="Used Cars" className="luxury-tab" />
+						<Tab label="Trends" className="luxury-tab" />
+						<Tab label="New Cars" className="luxury-tab" />
 					</Tabs>
 				</Box>
 
-				{/* Desktop Search Form */}
-				<Box className="search-form desktop-form">
-					<Box className="search-row desktop-row">
+				{/* Main Search Form */}
+				<Box className="luxury-search-form desktop-form">
+					<Box className="luxury-search-row desktop-row">
 						{/* Make Dropdown */}
-						<Box className="search-field make-field">
+						<Box className="luxury-search-field make-field">
 							<FormControl fullWidth size="medium">
 								<InputLabel>Make</InputLabel>
 								<Select
 									value={searchData.make}
 									onChange={handleMakeChange}
 									label="Make"
+									className="luxury-select"
 								>
 									<MenuItem value="">All Makes</MenuItem>
 									{Object.values(CarBrand)
@@ -343,19 +393,20 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 									))}
 								</Select>
 							</FormControl>
-							<Typography variant="caption" className="helper-link">
-								<Link href="#" color="primary">Don't know what to search for?</Link>
+							<Typography variant="caption" className="luxury-helper-link">
+								<Link href="#" className="luxury-link">Don't know what to search for?</Link>
 							</Typography>
 						</Box>
 
 						{/* Model Dropdown */}
-						<Box className="search-field model-field">
+						<Box className="luxury-search-field model-field">
 							<FormControl fullWidth size="medium">
 								<InputLabel>Model</InputLabel>
 								<Select
 									value={searchData.model}
 									onChange={handleModelChange}
 									label="Model"
+									className="luxury-select"
 								>
 									<MenuItem value="">All Models</MenuItem>
 									{searchData.make ? (
@@ -371,78 +422,190 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 									)}
 								</Select>
 							</FormControl>
-							<Typography variant="caption" className="helper-link">
-								<Link href="#" color="primary">Missing or Wrong Model?</Link>
+							<Typography variant="caption" className="luxury-helper-link">
+								<Link href="#" className="luxury-link">Missing or Wrong Model?</Link>
 							</Typography>
 						</Box>
 
-						{/* Zip Code */}
-						<Box className="search-field zip-field">
-							<TextField
-								fullWidth
-								size="medium"
-								label="Zip/Postal Code"
-								value={searchData.zipCode}
-								onChange={handleZipCodeChange}
-								placeholder="Enter zip code"
-								InputProps={{
-									startAdornment: <LocationOnIcon color="action" sx={{ mr: 1 }} />
-								}}
+						{/* Price Range Slider */}
+						<Box className="luxury-search-field price-field">
+							<Typography className="luxury-field-label">
+								<AttachMoneyIcon className="price-icon" />
+								Price Range
+							</Typography>
+							<Box className="luxury-price-slider-container">
+								<Slider
+									value={searchData.priceRange}
+									onChange={handlePriceRangeChange}
+									valueLabelDisplay="auto"
+									valueLabelFormat={formatPrice}
+									min={5000}
+									max={1000000}
+									step={5000}
+									className="luxury-price-slider"
+									sx={{
+										color: '#D4AF37',
+										'& .MuiSlider-thumb': {
+											background: 'linear-gradient(135deg, #D4AF37 0%, #FFD700 100%)',
+											border: '2px solid #fff',
+											boxShadow: '0 4px 12px rgba(212, 175, 55, 0.4)',
+										},
+										'& .MuiSlider-track': {
+											background: 'linear-gradient(135deg, #D4AF37 0%, #FFD700 100%)',
+										},
+										'& .MuiSlider-rail': {
+											backgroundColor: 'rgba(212, 175, 55, 0.2)',
+										}
+									}}
+								/>
+								<Box className="price-range-display">
+									<Typography variant="caption" className="price-min">
+										{formatPrice(searchData.priceRange[0])}
+									</Typography>
+									<Typography variant="caption" className="price-max">
+										{formatPrice(searchData.priceRange[1])}
+									</Typography>
+								</Box>
+							</Box>
+						</Box>
+
+						{/* Location Fields Group */}
+						<Box className="luxury-search-field location-group">
+							<Box className="location-fields-row">
+								{/* Zip Code */}
+								<TextField
+									size="medium"
+									label="Zip Code"
+									value={searchData.zipCode}
+									onChange={handleZipCodeChange}
+									placeholder="12345"
+									className="luxury-input zip-input"
+									InputProps={{
+										startAdornment: <LocationOnIcon className="location-icon" />
+									}}
+								/>
+
+								{/* Distance */}
+								<FormControl size="medium" className="distance-select">
+									<InputLabel>Distance</InputLabel>
+									<Select
+										value={searchData.distance.toString()}
+										onChange={handleDistanceChange}
+										label="Distance"
+										className="luxury-select"
+									>
+										{distanceOptions.map((option) => (
+											<MenuItem key={option.value} value={option.value.toString()}>
+												{option.label}
+											</MenuItem>
+										))}
+									</Select>
+								</FormControl>
+							</Box>
+							
+							{/* Include International Checkbox */}
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={searchData.includeInternational}
+										onChange={handleInternationalChange}
+										className="luxury-checkbox"
+									/>
+								}
+								label="Include International"
+								className="international-checkbox"
 							/>
 						</Box>
 
-						{/* Distance */}
-						<Box className="search-field distance-field">
-							<FormControl fullWidth size="medium">
-								<InputLabel>Distance</InputLabel>
-								<Select
-									value={searchData.distance.toString()}
-									onChange={handleDistanceChange}
-									label="Distance"
-								>
-									{distanceOptions.map((option) => (
-										<MenuItem key={option.value} value={option.value.toString()}>
-											{option.label}
-										</MenuItem>
-									))}
-								</Select>
-							</FormControl>
-						</Box>
-
 						{/* Search Button */}
-						<Box className="search-field search-button-field">
+						<Box className="luxury-search-field search-button-field">
 							<Button
 								variant="contained"
 								size="large"
 								onClick={handleSearch}
 								startIcon={<SearchIcon />}
-								className="search-button desktop-search-btn"
+								className="luxury-search-button"
 							>
-								Search
+								Search Cars
 							</Button>
 						</Box>
 					</Box>
 
-					{/* Options Row */}
-					<Box className="search-options desktop-options">
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={searchData.includeInternational}
-									onChange={handleInternationalChange}
-									color="primary"
-								/>
-							}
-							label="Include International"
-						/>
-						<Link 
-							href="#" 
-							color="primary" 
+					{/* Quick Filters Section */}
+					<Box className="luxury-quick-filters-section">
+						<Box className="quick-filters-header">
+							<Typography className="quick-filters-label">Quick Filters</Typography>
+							<IconButton 
+								onClick={toggleQuickFilters} 
+								className="expand-filters-button"
+								size="small"
+							>
+								{showQuickFilters ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+							</IconButton>
+						</Box>
+						
+						<Collapse in={showQuickFilters}>
+							<Box className="quick-filters-content">
+								{/* Body Type */}
+								<Box className="filter-group">
+									<Typography className="filter-group-label">Body Type</Typography>
+									<Box className="filter-chips">
+										{bodyTypes.map((type) => (
+											<Chip
+												key={type}
+												label={type}
+												onClick={() => handleQuickFilterChange('bodyType', type)}
+												className={`luxury-filter-chip ${searchData.bodyType === type ? 'selected' : ''}`}
+												variant={searchData.bodyType === type ? 'filled' : 'outlined'}
+											/>
+										))}
+									</Box>
+								</Box>
+
+								{/* Fuel Type */}
+								<Box className="filter-group">
+									<Typography className="filter-group-label">Fuel Type</Typography>
+									<Box className="filter-chips">
+										{fuelTypes.map((type) => (
+											<Chip
+												key={type}
+												label={type}
+												onClick={() => handleQuickFilterChange('fuelType', type)}
+												className={`luxury-filter-chip ${searchData.fuelType === type ? 'selected' : ''}`}
+												variant={searchData.fuelType === type ? 'filled' : 'outlined'}
+											/>
+										))}
+									</Box>
+								</Box>
+
+								{/* Transmission */}
+								<Box className="filter-group">
+									<Typography className="filter-group-label">Transmission</Typography>
+									<Box className="filter-chips">
+										{transmissionTypes.map((type) => (
+											<Chip
+												key={type}
+												label={type}
+												onClick={() => handleQuickFilterChange('transmission', type)}
+												className={`luxury-filter-chip ${searchData.transmission === type ? 'selected' : ''}`}
+												variant={searchData.transmission === type ? 'filled' : 'outlined'}
+											/>
+										))}
+									</Box>
+								</Box>
+							</Box>
+						</Collapse>
+					</Box>
+
+					{/* Advanced Search Link */}
+					<Box className="luxury-advanced-search">
+						<Button 
 							onClick={handleAdvancedSearch}
-							className="advanced-search-link"
+							className="luxury-advanced-search-button"
+							variant="text"
 						>
 							Advanced Search
-						</Link>
+						</Button>
 					</Box>
 				</Box>
 			</Box>

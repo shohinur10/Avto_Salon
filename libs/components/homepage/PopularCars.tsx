@@ -151,7 +151,7 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 											component="img"
 											height="240"
 											image={car.carImages?.[0] ? `${REACT_APP_API_URL}/${car.carImages[0]}` : '/img/cars/default-car.jpg'}
-											alt={`${car.carBrand} ${car.carModel}`}
+											alt={`${car.brand} ${car.model}`}
 											className="car-image"
 										/>
 										
@@ -195,10 +195,10 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 									<CardContent className="card-content">
 										<Box className="car-info">
 											<Typography variant="h6" className="car-title">
-												{car.carBrand} {car.carModel}
+												{car.brand}
 											</Typography>
 											<Typography variant="body2" className="car-year">
-												{car.carYear} • {car.carMileage?.toLocaleString()} miles
+												{car.carYear} • {car.carMileage ? car.carMileage.toLocaleString() : 'N/A'} miles
 											</Typography>
 										</Box>
 
@@ -207,8 +207,8 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 												<Typography variant="caption" className="detail-label">
 													Engine
 												</Typography>
-												<Typography variant="body2" className="detail-value">
-													{car.carFuelType || 'Gasoline'}
+																							<Typography variant="body2" className="detail-value">
+													N/A
 												</Typography>
 											</Box>
 											

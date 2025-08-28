@@ -1,5 +1,5 @@
 
-import { CarTransactionType, CarCategory, CarStatus, CarLocation } from '../../enums/car.enum';
+import { CarTransactionType, CarCategory, CarStatus, CarLocation, FuelType, TransmissionType, CarCondition, CarColor } from '../../enums/car.enum';
 import { Member } from '../member/member';
 
 export interface MeLiked {
@@ -42,6 +42,13 @@ export interface Car {
 	discountedPrice?: number;
 	createdAt: Date;
 	updatedAt: Date;
+
+	// Additional fields from GraphQL query (currently commented out due to backend schema issues)
+	// fuelType?: FuelType;
+	// transmissionType?: TransmissionType;
+	// carCondition?: CarCondition;
+	// carColor?: CarColor;
+	// model?: string;
 
 	/** from aggregation **/
 	meLiked?: MeLiked[];

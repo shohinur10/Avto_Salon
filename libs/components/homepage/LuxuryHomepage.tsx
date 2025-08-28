@@ -220,13 +220,13 @@ const LuxuryHomepage: React.FC = () => {
 				</div>
 			</div>
 
-			{/* AutoTempest-style Search Section */}
-			<Box className="search-section">
+			{/* Luxury Car Search Section */}
+			<Box className="luxury-search-section">
 				<AutoTempestSearch />
 			</Box>
 
-			{/* Premium Features Section */}
-			<Box className="premium-features-section">
+			{/* Why Choose Our Salon Section - Image Card Style */}
+			<Box className="why-choose-section">
 				<Box className="container">
 					<Typography variant="h2" className="section-title">
 						Why Choose Our Salon
@@ -235,51 +235,87 @@ const LuxuryHomepage: React.FC = () => {
 						Experience excellence in every aspect of our service
 					</Typography>
 					
-					<Grid container spacing={4} sx={{ mt: 4 }}>
+					<Grid container spacing={4} sx={{ mt: 6 }}>
 						<Grid item xs={12} md={4}>
-							<Card className="feature-card">
-								<CardContent className="feature-content">
-									<Box className="feature-icon-container">
-										<VerifiedIcon className="feature-icon" />
-									</Box>
-									<Typography variant="h6" className="feature-title">
+							<Box className="feature-image-card certified-quality-card">
+								<Box className="card-background">
+									<img 
+										src="/img/cars/audi-q8.jpg" 
+										alt="Mechanic inspecting luxury car" 
+										className="card-bg-image"
+									/>
+									<Box className="card-overlay"></Box>
+								</Box>
+								<Box className="card-content">
+									<Typography variant="h5" className="card-title">
 										Certified Quality
 									</Typography>
-									<Typography variant="body2" className="feature-description">
+									<Typography variant="body2" className="card-description">
 										Every vehicle undergoes rigorous inspection to ensure the highest quality standards.
 									</Typography>
-								</CardContent>
-							</Card>
+									<Button 
+										className="card-cta-btn"
+										variant="contained"
+										onClick={() => router.push('/about')}
+									>
+										Learn More
+									</Button>
+								</Box>
+							</Box>
 						</Grid>
 						<Grid item xs={12} md={4}>
-							<Card className="feature-card">
-								<CardContent className="feature-content">
-									<Box className="feature-icon-container">
-										<SupportAgentIcon className="feature-icon" />
-									</Box>
-									<Typography variant="h6" className="feature-title">
+							<Box className="feature-image-card expert-consultation-card">
+								<Box className="card-background">
+									<img 
+										src="/img/cars/mercedes-s.jpg" 
+										alt="Agent consulting client" 
+										className="card-bg-image"
+									/>
+									<Box className="card-overlay"></Box>
+								</Box>
+								<Box className="card-content">
+									<Typography variant="h5" className="card-title">
 										Expert Consultation
 									</Typography>
-									<Typography variant="body2" className="feature-description">
+									<Typography variant="body2" className="card-description">
 										Our knowledgeable agents provide personalized guidance for your perfect match.
 									</Typography>
-								</CardContent>
-							</Card>
+									<Button 
+										className="card-cta-btn"
+										variant="contained"
+										onClick={() => router.push('/agent')}
+									>
+										Learn More
+									</Button>
+								</Box>
+							</Box>
 						</Grid>
 						<Grid item xs={12} md={4}>
-							<Card className="feature-card">
-								<CardContent className="feature-content">
-									<Box className="feature-icon-container">
-										<SecurityIcon className="feature-icon" />
-									</Box>
-									<Typography variant="h6" className="feature-title">
+							<Box className="feature-image-card secure-transactions-card">
+								<Box className="card-background">
+									<img 
+										src="/img/cars/rolls-phantom.jpg" 
+										alt="Customer receiving car keys" 
+										className="card-bg-image"
+									/>
+									<Box className="card-overlay"></Box>
+								</Box>
+								<Box className="card-content">
+									<Typography variant="h5" className="card-title">
 										Secure Transactions
 									</Typography>
-									<Typography variant="body2" className="feature-description">
+									<Typography variant="body2" className="card-description">
 										Safe and transparent dealings with comprehensive warranty coverage.
 									</Typography>
-								</CardContent>
-							</Card>
+									<Button 
+										className="card-cta-btn"
+										variant="contained"
+										onClick={() => router.push('/cs')}
+									>
+										Learn More
+									</Button>
+								</Box>
+							</Box>
 						</Grid>
 					</Grid>
 				</Box>

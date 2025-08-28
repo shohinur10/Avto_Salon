@@ -90,7 +90,7 @@ query GetMember($input: String!) {
 `);
 
 /**************************
- *        PROPERTY        *
+ *        CAR       *
  *************************/
 
 export const GET_CAR = gql`
@@ -161,6 +161,12 @@ export const GET_CAR = gql`
             }
         }
         brand
+        fuelType
+        transmissionType
+        carCondition
+        carColor
+        model
+        carMileage
     }
 }
 `;
@@ -234,14 +240,19 @@ export const GET_CARS = gql`
                     myFollowing
                 }
             }
+            # Temporarily removing problematic fields until backend schema is updated
+            # fuelType
+            # transmissionType
+            # carCondition
+            # carColor
+            # model
+            # carMileage
         }
         metaCounter {
             total
         }
     }
 }
-
-
 `;
 
 export const GET_AGENT_CARS= gql`

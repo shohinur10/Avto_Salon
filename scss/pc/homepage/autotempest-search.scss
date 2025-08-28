@@ -1,12 +1,19 @@
-/* AutoTempest-style Homepage Search Filter */
+/* Luxury Car Search Filter - Premium Design */
 
-.autotempest-search {
+// Import luxury color variables
+@import '/scss/variables.scss';
+
+.luxury-autotempest-search {
   width: 100%;
-  padding: 60px 0 40px;
-  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 50%, #1a1a1a 100%);
+  padding: 80px 0 60px;
+  background: linear-gradient(135deg, 
+    rgba(10, 10, 10, 0.95) 0%, 
+    rgba(26, 26, 26, 0.98) 50%, 
+    rgba(10, 10, 10, 0.95) 100%);
   position: relative;
   overflow: hidden;
 
+  // Luxury background effects
   &::before {
     content: '';
     position: absolute;
@@ -14,215 +21,508 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+    background: 
+      radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.05) 0%, transparent 50%);
     pointer-events: none;
   }
 
-  .search-container {
-    max-width: 1200px;
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="luxury-grid" width="50" height="50" patternUnits="userSpaceOnUse"><path d="M0 25 L25 25 L25 0 L50 0 L50 25 L25 25 L25 50 L0 50 Z" fill="none" stroke="rgba(212,175,55,0.06)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23luxury-grid)"/></svg>');
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  // Luxury Search Container
+  .luxury-search-container {
+    max-width: 1400px;
     margin: 0 auto;
     padding: 0 40px;
     position: relative;
-    z-index: 1;
+    z-index: 10;
 
     &.desktop-container {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 249, 250, 0.98) 100%);
-      border-radius: 20px;
-      padding: 40px;
+      background: linear-gradient(145deg, 
+        rgba(255, 255, 255, 0.95) 0%, 
+        rgba(248, 250, 252, 0.98) 100%);
+      border-radius: 24px;
+      padding: 48px;
       box-shadow: 
-        0 20px 60px rgba(0, 0, 0, 0.15),
-        0 8px 20px rgba(0, 0, 0, 0.08);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
+        0 32px 80px rgba(0, 0, 0, 0.25),
+        0 16px 40px rgba(0, 0, 0, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      position: relative;
+      
+      // Premium glow effect
+      &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(135deg, 
+          rgba(212, 175, 55, 0.3) 0%, 
+          rgba(0, 212, 255, 0.2) 50%, 
+          rgba(212, 175, 55, 0.3) 100%);
+        border-radius: 26px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      &:hover::before {
+        opacity: 1;
+      }
     }
 
     &.mobile-container {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 249, 250, 1) 100%);
-      border-radius: 16px;
-      padding: 24px;
+      background: linear-gradient(135deg, 
+        rgba(255, 255, 255, 0.98) 0%, 
+        rgba(248, 250, 252, 1) 100%);
+      border-radius: 20px;
+      padding: 32px;
       box-shadow: 
-        0 12px 40px rgba(0, 0, 0, 0.12),
-        0 4px 16px rgba(0, 0, 0, 0.06);
-      margin: 0 16px;
+        0 20px 60px rgba(0, 0, 0, 0.2),
+        0 8px 24px rgba(0, 0, 0, 0.1);
+      margin: 0 20px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
     }
   }
 
-  /* Tabs Styling */
-  .search-tabs {
-    margin-bottom: 30px;
+  // Luxury Pill-Style Tabs
+  .luxury-search-tabs {
+    margin-bottom: 40px;
 
-    .search-tabs-container {
-      background: rgba(0, 0, 0, 0.02);
-      border-radius: 12px;
-      padding: 4px;
-      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.06);
+    .luxury-tabs-container {
+      background: linear-gradient(135deg, 
+        rgba(212, 175, 55, 0.08) 0%, 
+        rgba(0, 212, 255, 0.05) 100%);
+      border-radius: 16px;
+      padding: 6px;
+      box-shadow: 
+        inset 0 2px 12px rgba(0, 0, 0, 0.1),
+        0 4px 20px rgba(212, 175, 55, 0.15);
+      border: 1px solid rgba(212, 175, 55, 0.2);
 
-      .MuiTab-root {
+      .luxury-tab.MuiTab-root {
+        font-family: $font-heading;
         font-weight: 600;
         font-size: 16px;
         text-transform: none;
-        border-radius: 8px;
-        margin: 0 4px;
-        color: #666;
-        transition: all 0.3s ease;
-        min-height: 48px;
+        border-radius: 12px;
+        margin: 0 6px;
+        color: $text-dark;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        min-height: 52px;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+
+        // Luxury gradient overlay
+        &::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: $gradient-gold;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          border-radius: 12px;
+        }
 
         &.Mui-selected {
-          background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
-          color: white;
-          box-shadow: 0 4px 16px rgba(255, 107, 53, 0.4);
+          background: $gradient-gold;
+          color: $text-light;
+          box-shadow: 
+            0 8px 24px rgba(212, 175, 55, 0.4),
+            0 4px 12px rgba(212, 175, 55, 0.3);
+          transform: translateY(-2px);
+          
+          &::before {
+            opacity: 1;
+          }
         }
 
         &:hover:not(.Mui-selected) {
-          background: rgba(255, 107, 53, 0.1);
-          color: #ff6b35;
+          background: rgba(212, 175, 55, 0.15);
+          color: $accent-gold;
+          transform: translateY(-1px);
+          box-shadow: 0 4px 16px rgba(212, 175, 55, 0.2);
+        }
+
+        .MuiTab-wrapper {
+          position: relative;
+          z-index: 2;
         }
       }
 
       .MuiTabs-indicator {
-        display: none; // Hide default indicator
+        display: none;
       }
     }
 
     &.mobile-tabs {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
 
-      .search-tabs-container {
-        .MuiTab-root {
+      .luxury-tabs-container {
+        padding: 4px;
+
+        .luxury-tab.MuiTab-root {
           font-size: 14px;
-          min-height: 40px;
+          min-height: 44px;
+          margin: 0 3px;
         }
       }
     }
   }
 
-  /* Search Form */
-  .search-form {
+  // Luxury Search Form
+  .luxury-search-form {
     &.desktop-form {
-      .search-row {
+      .luxury-search-row {
         display: grid;
-        grid-template-columns: 1fr 1fr 0.8fr 0.8fr 0.6fr;
-        gap: 20px;
+        grid-template-columns: 1fr 1fr 1.2fr 1fr 0.8fr;
+        gap: 24px;
         align-items: start;
+        margin-bottom: 32px;
 
-        .search-field {
+        .luxury-search-field {
           display: flex;
           flex-direction: column;
           gap: 8px;
 
+          // Luxury Input Styling
           .MuiFormControl-root,
           .MuiTextField-root {
+            &.luxury-select,
+            &.luxury-input {
             .MuiOutlinedInput-root {
-              border-radius: 12px;
-              background: rgba(255, 255, 255, 0.9);
-              border: 2px solid rgba(0, 0, 0, 0.08);
-              transition: all 0.3s ease;
+                border-radius: 16px;
+                background: linear-gradient(145deg, 
+                  rgba(255, 255, 255, 0.95) 0%, 
+                  rgba(248, 250, 252, 0.98) 100%);
+                border: 2px solid rgba(212, 175, 55, 0.2);
+                transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+                font-family: $font;
+                backdrop-filter: blur(10px);
 
               &:hover {
-                border-color: rgba(255, 107, 53, 0.3);
+                  border-color: rgba(212, 175, 55, 0.4);
                 background: rgba(255, 255, 255, 1);
+                  transform: translateY(-1px);
+                  box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
               }
 
               &.Mui-focused {
-                border-color: #ff6b35;
+                  border-color: $accent-gold;
                 background: rgba(255, 255, 255, 1);
-                box-shadow: 0 0 0 4px rgba(255, 107, 53, 0.1);
+                  box-shadow: 
+                    0 0 0 4px rgba(212, 175, 55, 0.15),
+                    0 8px 24px rgba(212, 175, 55, 0.2);
+                  transform: translateY(-2px);
               }
 
               .MuiOutlinedInput-notchedOutline {
                 border: none;
               }
+
+                .location-icon,
+                .price-icon {
+                  color: $accent-gold;
+                  margin-right: 8px;
+                }
             }
 
             .MuiInputLabel-root {
-              font-weight: 600;
-              color: #666;
+                font-family: $font-heading;
+                font-weight: 600;
+                color: $text-dark;
+                font-size: 16px;
 
-              &.Mui-focused {
-                color: #ff6b35;
+                &.Mui-focused {
+                  color: $accent-gold;
+                }
               }
             }
           }
 
-          .helper-link {
-            font-size: 12px;
-            margin-top: 4px;
-            text-align: center;
+          // Price Range Styling
+          &.price-field {
+            .luxury-field-label {
+              display: flex;
+              align-items: center;
+              font-family: $font-heading;
+              font-weight: 600;
+              color: $text-dark;
+              margin-bottom: 12px;
+              font-size: 16px;
 
-            a {
-              color: #666;
-              text-decoration: none;
-              transition: color 0.3s ease;
+              .price-icon {
+                color: $accent-gold;
+                margin-right: 8px;
+              }
+            }
+
+            .luxury-price-slider-container {
+              padding: 16px 20px;
+              background: linear-gradient(145deg, 
+                rgba(255, 255, 255, 0.95) 0%, 
+                rgba(248, 250, 252, 0.98) 100%);
+              border-radius: 16px;
+              border: 2px solid rgba(212, 175, 55, 0.2);
+              transition: all 0.3s ease;
 
               &:hover {
-                color: #ff6b35;
+                border-color: rgba(212, 175, 55, 0.4);
+                box-shadow: 0 8px 24px rgba(212, 175, 55, 0.15);
+              }
+
+              .price-range-display {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 8px;
+
+                .price-min,
+                .price-max {
+                  font-family: $font-heading;
+                  font-weight: 600;
+                  color: $accent-gold;
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+
+          // Location Group Styling
+          &.location-group {
+            .location-fields-row {
+              display: flex;
+              gap: 12px;
+              margin-bottom: 12px;
+
+              .zip-input {
+                flex: 1;
+              }
+
+              .distance-select {
+                flex: 1;
+              }
+            }
+
+            .international-checkbox {
+              margin-left: 8px;
+
+              .luxury-checkbox.MuiCheckbox-root {
+                color: rgba(212, 175, 55, 0.6);
+
+                &.Mui-checked {
+                  color: $accent-gold;
+                }
+              }
+
+              .MuiFormControlLabel-label {
+                font-family: $font;
+                font-weight: 500;
+                color: $text-dark;
+                font-size: 14px;
+              }
+            }
+          }
+
+          // Helper Links
+          .luxury-helper-link {
+            font-size: 12px;
+            margin-top: 6px;
+            text-align: center;
+
+            .luxury-link {
+              color: $text-gray;
+              text-decoration: none;
+              transition: all 0.3s ease;
+              font-weight: 500;
+
+              &:hover {
+                color: $accent-gold;
                 text-decoration: underline;
               }
             }
           }
 
+          // Search Button
           &.search-button-field {
-            .search-button {
-              height: 56px;
-              border-radius: 12px;
-              background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+            .luxury-search-button {
+              height: 60px;
+              border-radius: 16px;
+              background: $gradient-gold;
+              font-family: $font-heading;
               font-weight: 700;
               font-size: 16px;
               text-transform: none;
+              letter-spacing: 0.5px;
+              color: $text-light;
               box-shadow: 
-                0 8px 24px rgba(255, 107, 53, 0.4),
-                0 4px 12px rgba(255, 107, 53, 0.2);
-              transition: all 0.3s ease;
+                0 12px 32px rgba(212, 175, 55, 0.4),
+                0 6px 16px rgba(212, 175, 55, 0.3);
+              transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+              border: none;
 
               &:hover {
-                background: linear-gradient(135deg, #e55a2b 0%, #e67a35 100%);
-                transform: translateY(-2px);
+                background: linear-gradient(135deg, darken($accent-gold, 10%) 0%, $accent-gold 100%);
+                transform: translateY(-3px);
                 box-shadow: 
-                  0 12px 32px rgba(255, 107, 53, 0.5),
-                  0 6px 16px rgba(255, 107, 53, 0.3);
+                  0 16px 40px rgba(212, 175, 55, 0.5),
+                  0 8px 20px rgba(212, 175, 55, 0.4);
               }
 
               &:active {
-                transform: translateY(0);
+                transform: translateY(-1px);
+              }
+
+              .MuiButton-startIcon {
+                margin-right: 12px;
               }
             }
           }
         }
       }
 
-      .search-options {
+      // Luxury Quick Filters Section
+      .luxury-quick-filters-section {
+        margin: 32px 0 24px;
+        padding: 24px;
+        background: linear-gradient(145deg, 
+          rgba(212, 175, 55, 0.05) 0%, 
+          rgba(0, 212, 255, 0.03) 100%);
+        border-radius: 20px;
+        border: 1px solid rgba(212, 175, 55, 0.15);
+
+        .quick-filters-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        margin-top: 20px;
-        padding-top: 20px;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
+          margin-bottom: 16px;
 
-        .MuiFormControlLabel-root {
-          .MuiCheckbox-root {
-            color: #666;
-
-            &.Mui-checked {
-              color: #ff6b35;
-            }
+          .quick-filters-label {
+            font-family: $font-heading;
+            font-weight: 600;
+            color: $text-dark;
+            font-size: 16px;
+            letter-spacing: 0.5px;
           }
 
-          .MuiFormControlLabel-label {
-            font-weight: 500;
-            color: #666;
+          .expand-filters-button {
+            color: $accent-gold;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+
+            &:hover {
+              background: rgba(212, 175, 55, 0.2);
+              transform: scale(1.1);
+            }
           }
         }
 
-        .advanced-search-link {
-          color: #666;
+        .quick-filters-content {
+          .filter-group {
+            margin-bottom: 24px;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+
+            .filter-group-label {
+              font-family: $font-heading;
+              font-weight: 600;
+              color: $text-dark;
+              font-size: 14px;
+              margin-bottom: 12px;
+              text-transform: uppercase;
+              letter-spacing: 1px;
+            }
+
+            .filter-chips {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 8px;
+
+              .luxury-filter-chip {
+                font-family: $font;
+            font-weight: 500;
+                border-radius: 20px;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                cursor: pointer;
+                border: 1px solid rgba(212, 175, 55, 0.3);
+                color: $text-dark;
+
+                &:hover {
+                  transform: translateY(-2px);
+                  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.2);
+                  border-color: rgba(212, 175, 55, 0.6);
+                }
+
+                &.selected {
+                  background: $gradient-gold;
+                  color: $text-light;
+                  border-color: $accent-gold;
+                  box-shadow: 0 4px 16px rgba(212, 175, 55, 0.4);
+                }
+              }
+            }
+          }
+        }
+      }
+
+      // Luxury Advanced Search
+      .luxury-advanced-search {
+        text-align: right;
+        margin-top: 20px;
+
+        .luxury-advanced-search-button {
+          font-family: $font-heading;
           font-weight: 600;
-          text-decoration: none;
-          transition: color 0.3s ease;
-          cursor: pointer;
+          color: $accent-gold;
+          text-transform: none;
+          letter-spacing: 0.5px;
+          padding: 8px 16px;
+          border-radius: 8px;
+          transition: all 0.3s ease;
+          position: relative;
+          overflow: hidden;
+
+          &::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+              transparent, 
+              rgba(212, 175, 55, 0.2), 
+              transparent);
+            transition: left 0.5s ease;
+          }
 
           &:hover {
-            color: #ff6b35;
+            background: rgba(212, 175, 55, 0.1);
+            color: darken($accent-gold, 10%);
             text-decoration: underline;
+
+            &::before {
+              left: 100%;
+            }
           }
         }
       }
@@ -237,31 +537,34 @@
         }
 
         a {
-          color: #666;
+          color: $text-gray;
           text-decoration: none;
           font-size: 12px;
 
           &:hover {
-            color: #ff6b35;
+            color: $accent-gold;
             text-decoration: underline;
           }
         }
       }
 
+      // Mobile styling - simplified luxury version
       .MuiFormControl-root,
       .MuiTextField-root {
         .MuiOutlinedInput-root {
-          border-radius: 12px;
-          background: rgba(255, 255, 255, 0.9);
-          border: 2px solid rgba(0, 0, 0, 0.08);
+          border-radius: 14px;
+          background: linear-gradient(145deg, 
+            rgba(255, 255, 255, 0.95) 0%, 
+            rgba(248, 250, 252, 0.98) 100%);
+          border: 2px solid rgba(212, 175, 55, 0.2);
 
           &:hover {
-            border-color: rgba(255, 107, 53, 0.3);
+            border-color: rgba(212, 175, 55, 0.4);
           }
 
           &.Mui-focused {
-            border-color: #ff6b35;
-            box-shadow: 0 0 0 3px rgba(255, 107, 53, 0.1);
+            border-color: $accent-gold;
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
           }
 
           .MuiOutlinedInput-notchedOutline {
@@ -271,40 +574,42 @@
 
         .MuiInputLabel-root {
           font-weight: 600;
-          color: #666;
+          color: $text-dark;
 
           &.Mui-focused {
-            color: #ff6b35;
+            color: $accent-gold;
           }
         }
       }
 
       .search-button {
-        height: 50px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%);
+        height: 54px;
+        border-radius: 14px;
+        background: $gradient-gold;
+        font-family: $font-heading;
         font-weight: 700;
         font-size: 16px;
         text-transform: none;
-        box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        letter-spacing: 0.5px;
+        box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
 
         &.mobile-search-btn {
-          margin-top: 8px;
+          margin-top: 12px;
         }
 
         &:hover {
-          background: linear-gradient(135deg, #e55a2b 0%, #e67a35 100%);
-          box-shadow: 0 8px 24px rgba(255, 107, 53, 0.5);
+          background: linear-gradient(135deg, darken($accent-gold, 10%) 0%, $accent-gold 100%);
+          box-shadow: 0 12px 32px rgba(212, 175, 55, 0.5);
         }
       }
 
       .search-options {
         display: flex;
         flex-direction: column;
-        gap: 12px;
-        margin-top: 16px;
-        padding-top: 16px;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        gap: 16px;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(212, 175, 55, 0.2);
 
         &.mobile-options {
           align-items: flex-start;
@@ -314,28 +619,28 @@
           margin: 0;
 
           .MuiCheckbox-root {
-            color: #666;
+            color: rgba(212, 175, 55, 0.6);
 
             &.Mui-checked {
-              color: #ff6b35;
+              color: $accent-gold;
             }
           }
 
           .MuiFormControlLabel-label {
             font-weight: 500;
-            color: #666;
+            color: $text-dark;
           }
         }
 
         .advanced-search-link {
-          color: #666;
+          color: $accent-gold;
           font-weight: 600;
           text-decoration: none;
           font-size: 14px;
           cursor: pointer;
 
           &:hover {
-            color: #ff6b35;
+            color: darken($accent-gold, 10%);
             text-decoration: underline;
           }
         }
@@ -344,23 +649,29 @@
   }
 }
 
-/* Responsive adjustments */
-@media (max-width: 1024px) {
-  .autotempest-search {
-    .search-container.desktop-container {
-      .search-form.desktop-form {
-        .search-row {
-          grid-template-columns: 1fr 1fr;
-          gap: 16px;
+// Responsive Design
+@media (max-width: 1200px) {
+  .luxury-autotempest-search {
+    .luxury-search-container.desktop-container {
+      .luxury-search-form.desktop-form {
+        .luxury-search-row {
+          grid-template-columns: 1fr 1fr 1fr;
+          gap: 20px;
 
-          .search-field:nth-child(3),
-          .search-field:nth-child(4),
-          .search-field:nth-child(5) {
+          .luxury-search-field:nth-child(4),
+          .luxury-search-field:nth-child(5) {
             grid-column: span 1;
           }
 
           .search-button-field {
-            grid-column: span 2;
+            grid-column: span 3;
+            
+            .luxury-search-button {
+              width: 100%;
+              max-width: 300px;
+              margin: 0 auto;
+              display: block;
+            }
           }
         }
       }
@@ -369,29 +680,136 @@
 }
 
 @media (max-width: 768px) {
-  .autotempest-search {
-    padding: 40px 0 30px;
+  .luxury-autotempest-search {
+    padding: 60px 0 40px;
 
-    .search-container.desktop-container {
-      padding: 24px;
+    .luxury-search-container.desktop-container {
+      padding: 32px 24px;
       margin: 0 16px;
+      border-radius: 20px;
+
+      .luxury-search-form.desktop-form {
+        .luxury-search-row {
+          grid-template-columns: 1fr;
+          gap: 20px;
+
+          .luxury-search-field {
+            &.location-group {
+              .location-fields-row {
+                flex-direction: column;
+                gap: 16px;
+              }
+            }
+          }
+        }
+
+        .luxury-quick-filters-section {
+          margin: 24px 0 20px;
+          padding: 20px;
+
+          .quick-filters-content {
+            .filter-group {
+              margin-bottom: 20px;
+
+              .filter-chips {
+                gap: 6px;
+
+                .luxury-filter-chip {
+                  font-size: 12px;
+                  padding: 6px 12px;
+                }
+              }
+            }
+          }
+        }
+
+        .luxury-advanced-search {
+          text-align: center;
+          margin-top: 16px;
+        }
+      }
     }
   }
 }
 
-/* Animation classes */
-@keyframes searchButtonPulse {
-  0% {
-    box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4), 0 4px 12px rgba(255, 107, 53, 0.2);
-  }
-  50% {
-    box-shadow: 0 12px 32px rgba(255, 107, 53, 0.6), 0 6px 16px rgba(255, 107, 53, 0.4);
-  }
-  100% {
-    box-shadow: 0 8px 24px rgba(255, 107, 53, 0.4), 0 4px 12px rgba(255, 107, 53, 0.2);
+@media (max-width: 480px) {
+  .luxury-autotempest-search {
+    padding: 40px 0 30px;
+
+    .luxury-search-container.desktop-container {
+      padding: 24px 16px;
+      margin: 0 12px;
+
+      .luxury-search-tabs {
+        margin-bottom: 24px;
+
+        .luxury-tabs-container {
+          padding: 4px;
+
+          .luxury-tab.MuiTab-root {
+            font-size: 14px;
+            min-height: 44px;
+            margin: 0 2px;
+          }
+        }
+      }
+
+      .luxury-search-form.desktop-form {
+        .luxury-search-field {
+          &.price-field {
+            .luxury-price-slider-container {
+              padding: 12px 16px;
+            }
+          }
+
+          &.search-button-field {
+            .luxury-search-button {
+              height: 52px;
+              font-size: 15px;
+            }
+          }
+        }
+      }
+    }
   }
 }
 
-.search-button:focus {
-  animation: searchButtonPulse 2s infinite;
+/* Luxury Animation Effects */
+@keyframes luxuryButtonPulse {
+  0% {
+    box-shadow: 0 12px 32px rgba(212, 175, 55, 0.4), 0 6px 16px rgba(212, 175, 55, 0.3);
+  }
+  50% {
+    box-shadow: 0 16px 40px rgba(212, 175, 55, 0.6), 0 8px 20px rgba(212, 175, 55, 0.5);
+  }
+  100% {
+    box-shadow: 0 12px 32px rgba(212, 175, 55, 0.4), 0 6px 16px rgba(212, 175, 55, 0.3);
+  }
 }
+
+@keyframes luxuryGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(212, 175, 55, 0.4);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.luxury-search-button:focus {
+  animation: luxuryButtonPulse 2s infinite;
+}
+
+.luxury-search-container:hover {
+  animation: luxuryGlow 3s ease-in-out infinite;
+}
+
