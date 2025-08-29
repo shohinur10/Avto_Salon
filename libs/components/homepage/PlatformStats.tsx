@@ -52,34 +52,38 @@ const PlatformStats: React.FC = () => {
 					</Typography>
 				</Box>
 
-				<Grid container spacing={4} className="stats-grid">
+				<Grid container spacing={3} className="enhanced-stats-grid">
 					{stats.map((stat, index) => (
 						<Grid item xs={12} sm={6} md={3} key={index}>
-							<Box className="stat-image-card">
-								<Box className="card-background">
+							<Box className="enhanced-stat-card">
+								<Box className="stat-image-container">
 									<img 
 										src={stat.image} 
 										alt={stat.alt} 
-										className="card-bg-image"
+										className="stat-background-image"
 									/>
-									<Box className="card-overlay"></Box>
+									<Box className="stat-image-overlay"></Box>
 								</Box>
-								<Box className="card-content">
-									<Typography variant="h2" className="stat-number">
-										{stat.number}
-									</Typography>
-									<Typography variant="h6" className="stat-label">
-										{stat.label}
-									</Typography>
-									<Typography variant="body2" className="stat-description">
-										{stat.description}
-									</Typography>
+								<Box className="stat-content-wrapper">
+									<Box className="stat-badge">
+										<Typography variant="h2" className="stat-number">
+											{stat.number}
+										</Typography>
+									</Box>
+									<Box className="stat-info">
+										<Typography variant="h6" className="stat-label">
+											{stat.label}
+										</Typography>
+										<Typography variant="body2" className="stat-description">
+											{stat.description}
+										</Typography>
+									</Box>
 									<Button 
-										className="stat-cta-btn"
+										className="enhanced-stat-btn"
 										variant="contained"
 										onClick={() => router.push(stat.link)}
 									>
-										Learn More
+										Explore
 									</Button>
 								</Box>
 							</Box>

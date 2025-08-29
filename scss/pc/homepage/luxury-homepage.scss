@@ -1992,10 +1992,10 @@ $transition-elastic: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 		}
 	}
 
-	// Why Choose Our Salon Section - Image Card Style
+	// Why Choose Our Salon Section - Enhanced Image Card Style
 	.why-choose-section {
-		background: linear-gradient(135deg, $luxury-white 0%, #f8f9fa 100%);
-		padding: 80px 0;
+		background: linear-gradient(135deg, $luxury-cream 0%, $luxury-white 50%, #f8f9fa 100%);
+		padding: 100px 0;
 		position: relative;
 		overflow: hidden;
 
@@ -2014,176 +2014,439 @@ $transition-elastic: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 		.container {
 			position: relative;
 			z-index: 2;
+			max-width: 1400px;
+			margin: 0 auto;
+			padding: 0 40px;
 		}
 
-		.section-title {
-			font-family: $font-heading;
-			font-size: 3rem;
-			font-weight: 700;
-			color: $primary-dark;
+		.section-header-content {
 			text-align: center;
-			margin-bottom: 1rem;
-			letter-spacing: 1px;
-			text-transform: uppercase;
-		}
+			margin-bottom: 80px;
 
-		.section-subtitle {
-			font-family: $font;
-			font-size: 1.2rem;
-			color: $text-gray;
-			text-align: center;
-			margin-bottom: 3rem;
-			max-width: 600px;
-			margin-left: auto;
-			margin-right: auto;
-			line-height: 1.6;
-		}
-
-		// Feature Image Cards
-		.feature-image-card {
-			position: relative;
-			height: 400px;
-			border-radius: 24px;
-			overflow: hidden;
-			box-shadow: 
-				0 20px 60px rgba(0, 0, 0, 0.15),
-				0 8px 24px rgba(0, 0, 0, 0.1);
-			transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-			cursor: pointer;
-
-			&:hover {
-				transform: translateY(-12px) scale(1.02);
-				box-shadow: 
-					0 32px 80px rgba(0, 0, 0, 0.25),
-					0 12px 32px rgba(0, 0, 0, 0.15);
-
-				.card-background .card-bg-image {
-					transform: scale(1.1);
-				}
-
-				.card-overlay {
-					background: linear-gradient(135deg, 
-						rgba(0, 0, 0, 0.4) 0%, 
-						rgba(0, 0, 0, 0.6) 50%, 
-						rgba(0, 0, 0, 0.8) 100%);
-				}
-
-				.card-content {
-					transform: translateY(-8px);
-				}
+			.section-title {
+				font-size: 3.5rem;
+				font-weight: 200;
+				color: $luxury-dark-gray;
+				margin-bottom: 24px;
+				letter-spacing: -1px;
 			}
 
-			.card-background {
-				position: relative;
-				width: 100%;
-				height: 100%;
+			.section-subtitle {
+				font-size: 1.4rem;
+				color: $luxury-medium-gray;
+				max-width: 800px;
+				margin: 0 auto;
+				line-height: 1.6;
+				font-weight: 300;
+			}
+		}
 
-				.card-bg-image {
+				// Enhanced Luxury Feature Cards Layout
+		.feature-cards-container {
+			width: 100%;
+
+			// Large Top Card
+			.large-feature-card {
+				position: relative;
+				height: 550px;
+				width: 100%;
+				border-radius: 24px;
+				overflow: hidden;
+				box-shadow: 0 25px 80px rgba($luxury-black, 0.15);
+				transition: $transition-luxury;
+				cursor: pointer;
+				border: 1px solid rgba($luxury-white, 0.1);
+				margin-bottom: 50px;
+
+				&:hover {
+					transform: translateY(-10px) scale(1.01);
+					box-shadow: 0 35px 100px rgba($luxury-black, 0.25);
+
+					.feature-bg-image {
+						transform: scale(1.05);
+					}
+
+					.feature-overlay {
+						background: linear-gradient(
+							135deg,
+							rgba($luxury-black, 0.4) 0%,
+							rgba($luxury-black, 0.6) 50%,
+							rgba($luxury-black, 0.8) 100%
+						);
+					}
+
+					.feature-content {
+						transform: translateY(-8px);
+					}
+
+					.feature-cta-btn {
+						background: $luxury-white;
+						color: $luxury-dark-gray;
+						transform: translateY(-3px);
+						box-shadow: 0 15px 40px rgba($luxury-white, 0.4);
+					}
+				}
+
+				.feature-background {
+					position: relative;
 					width: 100%;
 					height: 100%;
-					object-fit: cover;
-					transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+
+					.feature-bg-image {
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+						transition: $transition-luxury;
+					}
+
+					.feature-overlay {
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						background: linear-gradient(
+							135deg,
+							rgba($luxury-black, 0.3) 0%,
+							rgba($luxury-black, 0.5) 50%,
+							rgba($luxury-black, 0.7) 100%
+						);
+						transition: $transition-smooth;
+					}
 				}
 
-				.card-overlay {
+				.feature-content {
 					position: absolute;
-					top: 0;
+					bottom: 0;
 					left: 0;
 					right: 0;
-					bottom: 0;
-					background: linear-gradient(135deg, 
-						rgba(0, 0, 0, 0.3) 0%, 
-						rgba(0, 0, 0, 0.5) 50%, 
-						rgba(0, 0, 0, 0.7) 100%);
-					transition: background 0.4s ease;
-				}
-			}
+					padding: 50px 40px 40px;
+					color: $luxury-white;
+					transition: $transition-smooth;
+					z-index: 2;
 
-			.card-content {
-				position: absolute;
-				bottom: 0;
-				left: 0;
-				right: 0;
-				padding: 32px;
-				color: $text-light;
-				transition: transform 0.4s ease;
-				z-index: 2;
+					.feature-title {
+						font-size: 2.5rem;
+						font-weight: 700;
+						color: $luxury-white;
+						margin-bottom: 20px;
+						letter-spacing: 0.5px;
+						text-shadow: 0 3px 12px rgba($luxury-black, 0.8);
+					}
 
-				.card-title {
-					font-family: $font-heading;
-					font-size: 1.5rem;
-					font-weight: 700;
-					color: $text-light;
-					margin-bottom: 12px;
-					letter-spacing: 0.5px;
-					text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-				}
+					.feature-description {
+						font-size: 1.2rem;
+						color: rgba($luxury-white, 0.9);
+						line-height: 1.7;
+						margin-bottom: 30px;
+						max-width: 600px;
+						text-shadow: 0 2px 8px rgba($luxury-black, 0.7);
+					}
 
-				.card-description {
-					font-family: $font;
-					font-size: 0.95rem;
-					color: rgba(255, 255, 255, 0.9);
-					margin-bottom: 20px;
-					line-height: 1.5;
-					text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-				}
+					.feature-cta-btn {
+						background: $luxury-gradient-primary;
+						color: $luxury-dark-gray;
+						font-weight: 700;
+						font-size: 1.1rem;
+						padding: 16px 32px;
+						border-radius: 14px;
+						border: none;
+						box-shadow: 0 10px 30px rgba($luxury-gold, 0.4);
+						transition: $transition-smooth;
+						text-transform: none;
+						letter-spacing: 1px;
+						min-width: 180px;
 
-				.card-cta-btn {
-					background: $gradient-gold !important;
-					color: $primary-dark !important;
-					font-family: $font-heading;
-					font-weight: 600;
-					font-size: 0.9rem;
-					text-transform: uppercase;
-					letter-spacing: 1px;
-					padding: 12px 24px;
-					border-radius: 12px;
-					border: none;
-					box-shadow: 0 8px 24px rgba(212, 175, 55, 0.4);
-					transition: all 0.3s ease;
-
-					&:hover {
-						background: linear-gradient(135deg, darken($accent-gold, 10%) 0%, $accent-gold 100%) !important;
-						transform: translateY(-2px);
-						box-shadow: 0 12px 32px rgba(212, 175, 55, 0.6);
+						&:hover {
+							background: $luxury-white;
+							color: $luxury-dark-gray;
+							transform: translateY(-3px);
+							box-shadow: 0 15px 40px rgba($luxury-white, 0.4);
+						}
 					}
 				}
 			}
 
-			// Individual card variations
-			&.certified-quality-card {
-				.card-overlay {
-					background: linear-gradient(135deg, 
-						rgba(0, 0, 0, 0.3) 0%, 
-						rgba(0, 0, 0, 0.5) 50%, 
-						rgba(0, 0, 0, 0.7) 100%);
+			// Small Cards Row
+			.small-cards-row {
+				display: flex;
+				gap: 30px;
+				width: 100%;
+				margin-top: 0;
+
+				.small-feature-card {
+					flex: 1;
+					position: relative;
+					height: 380px;
+					border-radius: 20px;
+					overflow: hidden;
+					box-shadow: 0 15px 50px rgba($luxury-black, 0.12);
+					transition: $transition-luxury;
+					cursor: pointer;
+					border: 1px solid rgba($luxury-white, 0.1);
+
+					&:hover {
+						transform: translateY(-8px) scale(1.02);
+						box-shadow: 0 25px 70px rgba($luxury-black, 0.2);
+
+						.feature-bg-image {
+							transform: scale(1.08);
+						}
+
+						.feature-overlay {
+							background: linear-gradient(
+								135deg,
+								rgba($luxury-black, 0.4) 0%,
+								rgba($luxury-black, 0.6) 50%,
+								rgba($luxury-black, 0.8) 100%
+							);
+						}
+
+						.feature-content {
+							transform: translateY(-5px);
+						}
+
+						.feature-cta-btn {
+							background: $luxury-white;
+							color: $luxury-dark-gray;
+							transform: translateY(-2px);
+							box-shadow: 0 12px 35px rgba($luxury-white, 0.4);
+						}
+					}
+
+					.feature-background {
+						position: relative;
+						width: 100%;
+						height: 100%;
+
+						.feature-bg-image {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+							transition: $transition-luxury;
+						}
+
+						.feature-overlay {
+							position: absolute;
+							top: 0;
+							left: 0;
+							right: 0;
+							bottom: 0;
+							background: linear-gradient(
+								135deg,
+								rgba($luxury-black, 0.3) 0%,
+								rgba($luxury-black, 0.5) 50%,
+								rgba($luxury-black, 0.7) 100%
+							);
+							transition: $transition-smooth;
+						}
+					}
+
+					.feature-content {
+						position: absolute;
+						bottom: 0;
+						left: 0;
+						right: 0;
+						padding: 30px 24px 24px;
+						color: $luxury-white;
+						transition: $transition-smooth;
+						z-index: 2;
+
+						.feature-title {
+							font-size: 1.4rem;
+							font-weight: 600;
+							color: $luxury-white;
+							margin-bottom: 12px;
+							letter-spacing: 0.5px;
+							text-shadow: 0 2px 8px rgba($luxury-black, 0.7);
+						}
+
+						.feature-description {
+							font-size: 0.95rem;
+							color: rgba($luxury-white, 0.9);
+							line-height: 1.5;
+							margin-bottom: 20px;
+							max-width: 280px;
+							text-shadow: 0 1px 4px rgba($luxury-black, 0.7);
+						}
+
+						.feature-cta-btn {
+							background: $luxury-gradient-primary;
+							color: $luxury-dark-gray;
+							font-weight: 600;
+							font-size: 0.9rem;
+							padding: 12px 24px;
+							border-radius: 10px;
+							border: none;
+							box-shadow: 0 6px 20px rgba($luxury-gold, 0.3);
+							transition: $transition-smooth;
+							text-transform: none;
+							letter-spacing: 0.6px;
+							min-width: 140px;
+
+							&:hover {
+								background: $luxury-white;
+								color: $luxury-dark-gray;
+								transform: translateY(-2px);
+								box-shadow: 0 12px 35px rgba($luxury-white, 0.4);
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// Mobile Responsive Styles for Enhanced Luxury Layout
+		@media (max-width: 768px) {
+			.section-header-content {
+				margin-bottom: 60px;
+
+				.section-title {
+					font-size: 2.8rem;
+					margin-bottom: 20px;
+				}
+
+				.section-subtitle {
+					font-size: 1.2rem;
+					max-width: 100%;
 				}
 			}
 
-			&.expert-consultation-card {
-				.card-overlay {
-					background: linear-gradient(135deg, 
-						rgba(0, 0, 0, 0.3) 0%, 
-						rgba(0, 0, 0, 0.5) 50%, 
-						rgba(0, 0, 0, 0.7) 100%);
+			.feature-cards-container {
+				.large-feature-card {
+					height: 400px;
+					margin-bottom: 40px;
+
+					.feature-content {
+						padding: 40px 30px 30px;
+
+						.feature-title {
+							font-size: 2rem;
+							margin-bottom: 16px;
+						}
+
+						.feature-description {
+							font-size: 1.1rem;
+							margin-bottom: 24px;
+							max-width: 100%;
+						}
+
+						.feature-cta-btn {
+							font-size: 1rem;
+							padding: 14px 28px;
+							min-width: 160px;
+						}
+					}
+				}
+
+				.small-cards-row {
+					flex-direction: column;
+					gap: 25px;
+
+					.small-feature-card {
+						height: 320px;
+						width: 100%;
+
+						.feature-content {
+							padding: 30px 24px 24px;
+
+							.feature-title {
+								font-size: 1.4rem;
+								margin-bottom: 12px;
+							}
+
+							.feature-description {
+								font-size: 1rem;
+								margin-bottom: 20px;
+								max-width: 100%;
+							}
+
+							.feature-cta-btn {
+								font-size: 0.9rem;
+								padding: 12px 24px;
+								min-width: 140px;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		@media (max-width: 480px) {
+			.section-header-content {
+				margin-bottom: 50px;
+
+				.section-title {
+					font-size: 2.2rem;
+					margin-bottom: 16px;
+				}
+
+				.section-subtitle {
+					font-size: 1.1rem;
 				}
 			}
 
-			&.secure-transactions-card {
-				.card-overlay {
-					background: linear-gradient(135deg, 
-						rgba(0, 0, 0, 0.3) 0%, 
-						rgba(0, 0, 0, 0.5) 50%, 
-						rgba(0, 0, 0, 0.7) 100%);
+			.feature-cards-container {
+				.large-feature-card {
+					height: 350px;
+					margin-bottom: 30px;
+
+					.feature-content {
+						padding: 30px 24px 24px;
+
+						.feature-title {
+							font-size: 1.8rem;
+							margin-bottom: 12px;
+						}
+
+						.feature-description {
+							font-size: 1rem;
+							margin-bottom: 20px;
+						}
+
+						.feature-cta-btn {
+							font-size: 0.9rem;
+							padding: 12px 24px;
+							min-width: 140px;
+						}
+					}
+				}
+
+				.small-cards-row {
+					gap: 20px;
+
+					.small-feature-card {
+						height: 280px;
+
+						.feature-content {
+							padding: 24px 20px 20px;
+
+							.feature-title {
+								font-size: 1.2rem;
+								margin-bottom: 10px;
+							}
+
+							.feature-description {
+								font-size: 0.9rem;
+								margin-bottom: 16px;
+							}
+
+							.feature-cta-btn {
+								font-size: 0.85rem;
+								padding: 10px 20px;
+								min-width: 120px;
+							}
+						}
+					}
 				}
 			}
 		}
 	}
 
-	// Platform Statistics Section - Image Card Style
+	// Enhanced Platform Statistics Section
 	.platform-stats {
-		background: linear-gradient(135deg, $primary-dark 0%, #1a1a1a 100%);
-		padding: 80px 0;
+		background: linear-gradient(135deg, $luxury-dark-gray 0%, $luxury-black 100%);
+		padding: 100px 0;
 		position: relative;
 		overflow: hidden;
 
@@ -2202,164 +2465,178 @@ $transition-elastic: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 		.container {
 			position: relative;
 			z-index: 2;
+			max-width: 1400px;
+			margin: 0 auto;
+			padding: 0 40px;
 		}
 
 		.stats-header {
 			text-align: center;
-			margin-bottom: 4rem;
+			margin-bottom: 60px;
 
 			.stats-title {
-				font-family: $font-heading;
-				font-size: 3rem;
-				font-weight: 700;
-				color: $text-light;
-				margin-bottom: 1rem;
-				letter-spacing: 1px;
-				text-transform: uppercase;
+				font-size: 3.5rem;
+				font-weight: 200;
+				color: $luxury-white;
+				margin-bottom: 20px;
+				letter-spacing: -1px;
 			}
 
 			.stats-subtitle {
-				font-family: $font;
 				font-size: 1.2rem;
-				color: rgba(255, 255, 255, 0.8);
-				max-width: 600px;
+				color: rgba($luxury-white, 0.8);
+				max-width: 700px;
 				margin: 0 auto;
 				line-height: 1.6;
+				font-weight: 300;
 			}
 		}
 
-		.stats-grid {
-			.stat-image-card {
+		// Enhanced Statistics Grid
+		.enhanced-stats-grid {
+			.enhanced-stat-card {
 				position: relative;
-				height: 320px;
+				height: 380px;
 				border-radius: 20px;
 				overflow: hidden;
-				box-shadow: 
-					0 16px 48px rgba(0, 0, 0, 0.3),
-					0 6px 20px rgba(0, 0, 0, 0.2);
-				transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+				background: $luxury-white;
+				box-shadow: 0 20px 60px rgba($luxury-black, 0.15);
+				transition: $transition-luxury;
 				cursor: pointer;
+				border: 1px solid rgba($luxury-white, 0.1);
 
 				&:hover {
-					transform: translateY(-8px) scale(1.03);
-					box-shadow: 
-						0 24px 64px rgba(0, 0, 0, 0.4),
-						0 10px 28px rgba(0, 0, 0, 0.3);
+					transform: translateY(-12px) scale(1.03);
+					box-shadow: 0 35px 90px rgba($luxury-black, 0.25);
 
-					.card-background .card-bg-image {
-						transform: scale(1.08);
+					.stat-background-image {
+						transform: scale(1.1);
 					}
 
-					.card-overlay {
-						background: linear-gradient(135deg, 
-							rgba(0, 0, 0, 0.4) 0%, 
-							rgba(0, 0, 0, 0.6) 50%, 
-							rgba(0, 0, 0, 0.8) 100%);
+					.stat-image-overlay {
+						opacity: 0.8;
 					}
 
-					.card-content {
-						transform: translateY(-6px);
+					.stat-content-wrapper {
+						transform: translateY(-8px);
 					}
 
-					.stat-number {
-						color: $accent-gold;
-						text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+					.stat-badge {
+						transform: scale(1.05);
+						background: $luxury-gradient-primary;
+
+						.stat-number {
+							color: $luxury-white;
+							text-shadow: 0 0 25px rgba($luxury-gold, 0.8);
+						}
+					}
+
+					.enhanced-stat-btn {
+						transform: translateY(-3px);
+						box-shadow: 0 15px 40px rgba($luxury-gold, 0.5);
 					}
 				}
 
-				.card-background {
+				.stat-image-container {
 					position: relative;
-					width: 100%;
-					height: 100%;
+					height: 220px;
+					overflow: hidden;
 
-					.card-bg-image {
+					.stat-background-image {
 						width: 100%;
 						height: 100%;
 						object-fit: cover;
-						transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+						transition: $transition-luxury;
 					}
 
-					.card-overlay {
+					.stat-image-overlay {
 						position: absolute;
 						top: 0;
 						left: 0;
 						right: 0;
 						bottom: 0;
-						background: linear-gradient(135deg, 
-							rgba(0, 0, 0, 0.4) 0%, 
-							rgba(0, 0, 0, 0.6) 50%, 
-							rgba(0, 0, 0, 0.7) 100%);
-						transition: background 0.4s ease;
+						background: linear-gradient(
+							to bottom,
+							rgba($luxury-black, 0.3) 0%,
+							rgba($luxury-black, 0.5) 60%,
+							rgba($luxury-black, 0.7) 100%
+						);
+						opacity: 0.6;
+						transition: $transition-smooth;
 					}
 				}
 
-				.card-content {
-					position: absolute;
-					top: 0;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					padding: 32px;
-					color: $text-light;
-					transition: transform 0.4s ease;
-					z-index: 2;
+				.stat-content-wrapper {
+					position: relative;
+					padding: 30px 24px 24px;
+					height: 160px;
 					display: flex;
 					flex-direction: column;
-					justify-content: center;
-					align-items: center;
+					justify-content: space-between;
 					text-align: center;
+					transition: $transition-smooth;
 
-					.stat-number {
-						font-family: $font-heading;
-						font-size: 3.5rem;
-						font-weight: 800;
-						color: $text-light;
-						margin-bottom: 8px;
-						letter-spacing: 1px;
-						text-shadow: 0 4px 16px rgba(0, 0, 0, 0.7);
-						transition: all 0.4s ease;
+					.stat-badge {
+						position: absolute;
+						top: -30px;
+						left: 50%;
+						transform: translateX(-50%);
+						width: 80px;
+						height: 60px;
+						background: rgba($luxury-gold, 0.1);
+						border-radius: 15px;
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						transition: $transition-smooth;
+						border: 4px solid $luxury-white;
+						box-shadow: 0 10px 30px rgba($luxury-black, 0.15);
+
+						.stat-number {
+							font-size: 2.2rem;
+							font-weight: 800;
+							color: $luxury-gold;
+							transition: $transition-smooth;
+							letter-spacing: -1px;
+						}
 					}
 
-					.stat-label {
-						font-family: $font-heading;
-						font-size: 1.1rem;
+					.stat-info {
+						margin-top: 20px;
+
+						.stat-label {
+							font-size: 1.2rem;
+							font-weight: 600;
+							color: $luxury-dark-gray;
+							margin-bottom: 8px;
+							letter-spacing: 0.5px;
+						}
+
+						.stat-description {
+							font-size: 0.9rem;
+							color: $luxury-medium-gray;
+							line-height: 1.5;
+							margin-bottom: 20px;
+						}
+					}
+
+					.enhanced-stat-btn {
+						background: $luxury-gradient-primary;
+						color: $luxury-white;
 						font-weight: 600;
-						color: $accent-gold;
-						margin-bottom: 12px;
-						letter-spacing: 0.5px;
-						text-transform: uppercase;
-						text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
-					}
-
-					.stat-description {
-						font-family: $font;
-						font-size: 0.9rem;
-						color: rgba(255, 255, 255, 0.9);
-						margin-bottom: 20px;
-						line-height: 1.4;
-						text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
-						max-width: 200px;
-					}
-
-					.stat-cta-btn {
-						background: rgba(212, 175, 55, 0.9) !important;
-						color: $primary-dark !important;
-						font-family: $font-heading;
-						font-weight: 600;
-						font-size: 0.8rem;
-						text-transform: uppercase;
-						letter-spacing: 1px;
+						font-size: 0.85rem;
 						padding: 10px 20px;
-						border-radius: 10px;
+						border-radius: 8px;
 						border: none;
-						box-shadow: 0 6px 20px rgba(212, 175, 55, 0.3);
-						transition: all 0.3s ease;
-						backdrop-filter: blur(10px);
+						box-shadow: 0 8px 25px rgba($luxury-gold, 0.3);
+						transition: $transition-smooth;
+						text-transform: none;
+						letter-spacing: 0.5px;
+						align-self: center;
+						min-width: 100px;
 
 						&:hover {
-							background: $accent-gold !important;
-							transform: translateY(-2px);
-							box-shadow: 0 10px 28px rgba(212, 175, 55, 0.5);
+							background: linear-gradient(135deg, darken($luxury-gold, 8%) 0%, $luxury-gold 100%);
 						}
 					}
 				}

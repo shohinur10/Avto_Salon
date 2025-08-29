@@ -225,99 +225,130 @@ const LuxuryHomepage: React.FC = () => {
 				<AutoTempestSearch />
 			</Box>
 
-			{/* Why Choose Our Salon Section - Image Card Style */}
+			{/* Why Choose Our Salon Section - Enhanced Luxury Layout */}
 			<Box className="why-choose-section">
 				<Box className="container">
-					<Typography variant="h2" className="section-title">
-						Why Choose Our Salon
-					</Typography>
-					<Typography variant="body1" className="section-subtitle">
-						Experience excellence in every aspect of our service
-					</Typography>
+					<Box className="section-header-content">
+						<Typography variant="h2" className="section-title">
+							Why Choose Our Salon
+						</Typography>
+						<Typography variant="h5" className="section-subtitle">
+							Experience excellence in every aspect of our luxury automotive service
+						</Typography>
+					</Box>
 					
-					<Grid container spacing={4} sx={{ mt: 6 }}>
-						<Grid item xs={12} md={4}>
-							<Box className="feature-image-card certified-quality-card">
-								<Box className="card-background">
-									<img 
-										src="/img/cars/audi-q8.jpg" 
-										alt="Mechanic inspecting luxury car" 
-										className="card-bg-image"
-									/>
-									<Box className="card-overlay"></Box>
-								</Box>
-								<Box className="card-content">
-									<Typography variant="h5" className="card-title">
-										Certified Quality
-									</Typography>
-									<Typography variant="body2" className="card-description">
-										Every vehicle undergoes rigorous inspection to ensure the highest quality standards.
-									</Typography>
-									<Button 
-										className="card-cta-btn"
-										variant="contained"
-										onClick={() => router.push('/about')}
-									>
-										Learn More
-									</Button>
-								</Box>
+					<Box className="feature-cards-container">
+						{/* Large Top Card - Certified Quality */}
+						<Box className="large-feature-card certified-quality-card">
+							<Box className="feature-background">
+								<img 
+									src="/img/cars/bmw-x7.jpg" 
+									alt="Premium car inspection process" 
+									className="feature-bg-image"
+								/>
+								<Box className="feature-overlay"></Box>
 							</Box>
-						</Grid>
-						<Grid item xs={12} md={4}>
-							<Box className="feature-image-card expert-consultation-card">
-								<Box className="card-background">
+							<Box className="feature-content">
+								<Typography variant="h3" className="feature-title">
+									Certified Quality
+								</Typography>
+								<Typography variant="body1" className="feature-description">
+									Every vehicle undergoes comprehensive 200-point inspection to ensure pristine condition and reliability. Our certified technicians use state-of-the-art diagnostic equipment to guarantee the highest standards of quality and safety.
+								</Typography>
+								<Button 
+									className="feature-cta-btn"
+									variant="contained"
+									onClick={() => router.push('/about')}
+								>
+									Explore Quality
+								</Button>
+							</Box>
+						</Box>
+						
+						{/* Three Smaller Cards Row */}
+						<Box className="small-cards-row">
+							{/* Expert Consultation */}
+							<Box className="small-feature-card expert-consultation-card">
+								<Box className="feature-background">
 									<img 
 										src="/img/cars/mercedes-s.jpg" 
-										alt="Agent consulting client" 
-										className="card-bg-image"
+										alt="Expert automotive consultation" 
+										className="feature-bg-image"
 									/>
-									<Box className="card-overlay"></Box>
+									<Box className="feature-overlay"></Box>
 								</Box>
-								<Box className="card-content">
-									<Typography variant="h5" className="card-title">
+								<Box className="feature-content">
+									<Typography variant="h5" className="feature-title">
 										Expert Consultation
 									</Typography>
-									<Typography variant="body2" className="card-description">
-										Our knowledgeable agents provide personalized guidance for your perfect match.
+									<Typography variant="body2" className="feature-description">
+										Our certified automotive specialists provide personalized guidance to find your perfect luxury vehicle.
 									</Typography>
 									<Button 
-										className="card-cta-btn"
+										className="feature-cta-btn"
 										variant="contained"
 										onClick={() => router.push('/agent')}
 									>
-										Learn More
+										Meet Experts
 									</Button>
 								</Box>
 							</Box>
-						</Grid>
-						<Grid item xs={12} md={4}>
-							<Box className="feature-image-card secure-transactions-card">
-								<Box className="card-background">
+							
+							{/* Secure Transactions */}
+							<Box className="small-feature-card secure-transactions-card">
+								<Box className="feature-background">
 									<img 
-										src="/img/cars/rolls-phantom.jpg" 
-										alt="Customer receiving car keys" 
-										className="card-bg-image"
+										src="/img/cars/porsche-cayenne.jpg" 
+										alt="Secure automotive transactions" 
+										className="feature-bg-image"
 									/>
-									<Box className="card-overlay"></Box>
+									<Box className="feature-overlay"></Box>
 								</Box>
-								<Box className="card-content">
-									<Typography variant="h5" className="card-title">
+								<Box className="feature-content">
+									<Typography variant="h5" className="feature-title">
 										Secure Transactions
 									</Typography>
-									<Typography variant="body2" className="card-description">
-										Safe and transparent dealings with comprehensive warranty coverage.
+									<Typography variant="body2" className="feature-description">
+										Bank-level security with comprehensive warranty coverage and transparent pricing protection.
 									</Typography>
 									<Button 
-										className="card-cta-btn"
+										className="feature-cta-btn"
 										variant="contained"
 										onClick={() => router.push('/cs')}
 									>
-										Learn More
+										Start Secure Deal
 									</Button>
 								</Box>
 							</Box>
-						</Grid>
-					</Grid>
+							
+							{/* Premium Cars */}
+							<Box className="small-feature-card premium-cars-card">
+								<Box className="feature-background">
+									<img 
+										src="/img/cars/ferrari-488.jpg" 
+										alt="Premium luxury car collection" 
+										className="feature-bg-image"
+									/>
+									<Box className="feature-overlay"></Box>
+								</Box>
+								<Box className="feature-content">
+									<Typography variant="h5" className="feature-title">
+										Premium Cars
+									</Typography>
+									<Typography variant="body2" className="feature-description">
+										Discover our curated collection of luxury vehicles, from exotic supercars to elegant sedans.
+									</Typography>
+									<Button 
+										className="feature-cta-btn"
+										variant="contained"
+										onClick={() => router.push('/car')}
+									>
+										View Cars
+									</Button>
+								</Box>
+							</Box>
+						</Box>
+					</Box>
 				</Box>
 			</Box>
 
