@@ -112,7 +112,7 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 						delay: 4000,
 						disableOnInteraction: false,
 					}}
-					loop={true}
+					loop={cars.length > 4}
 					breakpoints={{
 						640: {
 							slidesPerView: 2,
@@ -133,8 +133,10 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 					}}
 					className="cars-swiper"
 				>
-					{cars.map((car, index) => (
-						<SwiperSlide key={car._id}>
+					{cars.filter(
+						(car, index, self) => index === self.findIndex(c => c._id === car._id)
+					).map((car, index) => (
+						<SwiperSlide key={`popular-${car._id}`}>
 							<motion.div
 								initial={{ opacity: 0, y: 30 }}
 								animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}

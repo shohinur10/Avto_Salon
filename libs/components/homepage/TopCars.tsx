@@ -163,8 +163,10 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 					}}
 					className="cars-swiper"
 				>
-					{cars.map((car, index) => (
-						<SwiperSlide key={car._id}>
+					{cars.filter(
+						(car, index, self) => index === self.findIndex(c => c._id === car._id)
+					).map((car, index) => (
+						<SwiperSlide key={`top-${car._id}`}>
 							<motion.div
 								initial={{ opacity: 0, y: 30 }}
 								animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}

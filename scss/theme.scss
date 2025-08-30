@@ -1,0 +1,102 @@
+// Theme System - Light/Dark Mode Styles
+
+:root {
+  --theme-bg: #f8f9fa;
+  --theme-text: #1a1a1a;
+  --theme-accent: #ffb400;
+  --theme-card: #ffffff;
+  --theme-border: #e9ecef;
+  --theme-shadow: rgba(0, 0, 0, 0.1);
+  --theme-button-bg: #ffb400;
+  --theme-button-text: #1a1a1a;
+}
+
+.dark-mode {
+  --theme-bg: linear-gradient(180deg, #0f0f0f, #1a1a1a);
+  --theme-text: #e5e5e5;
+  --theme-accent: #ffb400;
+  --theme-card: rgba(26, 26, 26, 0.9);
+  --theme-border: #2d2d2d;
+  --theme-shadow: rgba(0, 0, 0, 0.3);
+  --theme-button-bg: #ffb400;
+  --theme-button-text: #1a1a1a;
+}
+
+.light-mode {
+  --theme-bg: #f8f9fa;
+  --theme-text: #1a1a1a;
+  --theme-accent: #ffb400;
+  --theme-card: #ffffff;
+  --theme-border: #e9ecef;
+  --theme-shadow: rgba(0, 0, 0, 0.1);
+  --theme-button-bg: #ffb400;
+  --theme-button-text: #1a1a1a;
+}
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  
+  &.light-mode {
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  
+  &.dark-mode {
+    background: var(--theme-bg);
+    color: var(--theme-text);
+  }
+}
+
+#pc-wrap #main,
+#mobile-wrap #main {
+  transition: all 0.3s ease;
+  
+  .light-mode & {
+    background-color: var(--theme-bg);
+    color: var(--theme-text);
+  }
+  
+  .dark-mode & {
+    background: var(--theme-bg);
+    color: var(--theme-text);
+  }
+}
+
+.light-mode,
+.dark-mode {
+  .MuiCard-root,
+  .MuiPaper-root,
+  .card,
+  .container-card {
+    background-color: var(--theme-card) !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-border) !important;
+    box-shadow: 0 2px 8px var(--theme-shadow) !important;
+  }
+  
+  .MuiButton-root.MuiButton-contained {
+    background-color: var(--theme-button-bg) !important;
+    color: var(--theme-button-text) !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6,
+  .MuiTypography-root {
+    color: var(--theme-text) !important;
+  }
+  
+  .car-list-page,
+  .community-page,
+  .agent-page,
+  .mypage-content,
+  .about-content,
+  .cs-content {
+    background-color: var(--theme-bg) !important;
+    color: var(--theme-text) !important;
+  }
+}
+
+* {
+  transition: background-color 0.3s ease, 
+              color 0.3s ease, 
+              border-color 0.3s ease;
+}

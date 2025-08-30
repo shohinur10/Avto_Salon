@@ -33,24 +33,12 @@ query GetAgents($input: AgentsInquiry!) {
             createdAt
             updatedAt
             accessToken
-            meLiked {
-                memberId
-                likeRefId
-                myFavorite
-            }
-            meFollowed {
-                followingId
-                followerId
-                myFollowing
-            }
         }
         metaCounter {
             total
         }
     }
 }
-
-
 `;
 
 export const GET_MEMBER = gql(`
