@@ -22,7 +22,8 @@ import {
   Chip,
   Divider,
   TextField,
-  InputAdornment
+  InputAdornment,
+  IconButton
 } from '@mui/material';
 import {
   ViewModule as GridViewIcon,
@@ -33,18 +34,16 @@ import {
   LocationOn as LocationIcon,
   DirectionsCar as CarIcon,
   Speed as SpeedIcon,
-  Settings as SettingsIcon
+  Settings as SettingsIcon,
+  ExpandMore as ExpandMoreIcon,
+  ExpandLess as ExpandLessIcon
 } from '@mui/icons-material';
 
 import { 
   CarBrand, 
   CarCategory, 
   FuelType, 
-  TransmissionType, 
-  CarCondition, 
   CarLocation,
-  CarColor,
-  CarStatus,
   CarTransactionType
 } from '../../enums/car.enum';
 
@@ -93,33 +92,42 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
   // Filter states
   const [searchText, setSearchText] = useState('');
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedCategories, setSelectedCategories] = useState<CarCategory[]>([]);
   const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [selectedFuelTypes, setSelectedFuelTypes] = useState<string[]>([]);
-  const [selectedTransmissions, setSelectedTransmissions] = useState<string[]>([]);
-  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
-  const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [selectedSeats, setSelectedSeats] = useState<string>('Any');
-  const [selectedDoors, setSelectedDoors] = useState<string>('Any');
-  const [selectedTransactionTypes, setSelectedTransactionTypes] = useState<string[]>([]);
+  const [selectedTransactionTypes, setSelectedTransactionTypes] = useState<CarTransactionType[]>([]);
+  // Remove seats and doors state since they're not supported by GraphQL schema
+  // const [selectedSeats, setSelectedSeats] = useState<number[]>([]);
+  // const [selectedDoors, setSelectedDoors] = useState<number[]>([]);
+
+  const [expandedSections, setExpandedSections] = useState({
+    location: true,
+    carType: true,
+    brand: true,
+    fuelType: true,
+    transactionType: true,
+    // Remove seats and doors from expanded sections
+    // seats: true,
+    // doors: true,
+  });
   
   const [searchInput, setSearchInput] = useState<CarsInquiry>({
-    page: currentPage,
-    limit: itemsPerPage,
+    page: 1,
+    limit: 12,
     search: {
       searchText: '',
       locationList: [],
       carCategoryList: [],
-      carBrandList: [],
-      fuelTypeList: [],
-      transmissionTypeList: [],
-      carConditionList: [],
-      carColorList: [],
-      transactionTypeList: [],
+      brands: [],
+      fuelTypes: [],
+      typeList: [],
+      yearRange: [1990, 2024],
+      minMileage: 0,
+      maxMileage: 200000,
+      // Remove seatsList and doorsList since they're not supported by GraphQL schema
+      // seatsList: [],
+      // doorsList: [],
     },
-    sort: 'createdAt',
-    direction: 'DESC',
-    ...initialFilters
   });
 
   const [cars, setCars] = useState<Car[]>([]);
@@ -163,27 +171,14 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
   }, []);
 
   // Update search when filters change
-  const handleFilterChange = () => {
-    const newSearchInput = {
-      ...searchInput,
-      page: 1,
+  const handleFilterChange = (filterType: string, value: any) => {
+    setSearchInput(prev => ({
+      ...prev,
       search: {
-        searchText: searchText || undefined,
-        locationList: selectedLocations.length > 0 ? selectedLocations : undefined,
-        carCategoryList: selectedCategories.length > 0 ? selectedCategories : undefined,
-        carBrandList: selectedBrands.length > 0 ? selectedBrands : undefined,
-        fuelTypeList: selectedFuelTypes.length > 0 ? selectedFuelTypes : undefined,
-        transmissionTypeList: selectedTransmissions.length > 0 ? selectedTransmissions : undefined,
-        carConditionList: selectedConditions.length > 0 ? selectedConditions : undefined,
-        carColorList: selectedColors.length > 0 ? selectedColors : undefined,
-        transactionTypeList: selectedTransactionTypes.length > 0 ? selectedTransactionTypes : undefined,
+        ...prev.search,
+        [filterType]: value,
       },
-      sort: 'createdAt',
-      direction: 'DESC'
-    };
-
-    setSearchInput(newSearchInput);
-    setCurrentPage(1);
+    }));
   };
 
   // Apply filters
@@ -191,19 +186,41 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
     handleFilterChange();
   };
 
+  // Toggle filter section expansion
+  const toggleSection = (section: string) => {
+    setExpandedSections(prev => ({
+      ...prev,
+      [section]: !prev[section as keyof typeof prev],
+    }));
+  };
+
   // Clear all filters
   const clearFilters = () => {
-    setSearchText('');
-    setSelectedLocations([]);
     setSelectedCategories([]);
     setSelectedBrands([]);
     setSelectedFuelTypes([]);
-    setSelectedTransmissions([]);
-    setSelectedConditions([]);
-    setSelectedColors([]);
-    setSelectedSeats('Any');
-    setSelectedDoors('Any');
     setSelectedTransactionTypes([]);
+    // Remove seats and doors clearing
+    // setSelectedSeats([]);
+    // setSelectedDoors([]);
+    
+    setSearchInput(prev => ({
+      ...prev,
+      search: {
+        searchText: '',
+        locationList: [],
+        carCategoryList: [],
+        brands: [],
+        fuelTypes: [],
+        typeList: [],
+        yearRange: [1990, 2024],
+        minMileage: 0,
+        maxMileage: 200000,
+        // Remove seatsList and doorsList clearing
+        // seatsList: [],
+        // doorsList: [],
+      },
+    }));
   };
 
   // Pagination
@@ -310,23 +327,37 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
       <Box className="main-content">
         {/* Left Sidebar - Filters */}
         <motion.div
-          className="filter-sidebar"
+          className="filter-sidebar filters"
           initial={{ x: -50, opacity: 0 }}
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <Box className="filter-container">
+            <Box className="filter-header">
             <Typography variant="h5" className="filter-title">
-              Find Your Car
+                <FilterIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
+                Filters
             </Typography>
+              <Button
+                variant="outlined"
+                size="small"
+                onClick={clearFilters}
+                sx={{ fontSize: '0.75rem' }}
+              >
+                Clear All
+              </Button>
+            </Box>
 
             {/* Search Bar */}
             <Box className="search-section">
               <TextField
                 fullWidth
-                placeholder="What are you looking for?"
+                placeholder="Search cars..."
                 value={searchText}
-                onChange={(e) => setSearchText(e.target.value)}
+                onChange={(e) => {
+                  setSearchText(e.target.value);
+                  handleFilterChange('searchText', e.target.value);
+                }}
                 InputProps={{
                   startAdornment: (
                     <InputAdornment position="start">
@@ -334,17 +365,46 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                     </InputAdornment>
                   ),
                 }}
-                className="search-input"
+                size="small"
               />
             </Box>
 
             {/* Location Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <LocationIcon className="section-icon" />
+            <Box sx={{ mb: 3 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer',
+                  p: 2,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                }}
+                onClick={() => toggleSection('location')}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <LocationIcon sx={{ mr: 1, color: 'primary.main' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Location
               </Typography>
-              <Box className="checkbox-group">
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {selectedLocations.length > 0 && (
+                    <Chip
+                      label={selectedLocations.length}
+                      size="small"
+                      color="primary"
+                    />
+                  )}
+                  {expandedSections.location ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </Box>
+              </Box>
+              
+              {expandedSections.location && (
+                <Box sx={{ mt: 2, pl: 2 }}>
                 {Object.values(CarLocation).map((location) => (
                   <FormControlLabel
                     key={location}
@@ -353,28 +413,60 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                         checked={selectedLocations.includes(location)}
                         onChange={(e) => {
                           if (e.target.checked) {
-                            setSelectedLocations([...selectedLocations, location]);
+                              const newLocations = [...selectedLocations, location];
+                              setSelectedLocations(newLocations);
+                              handleFilterChange('locationList', newLocations);
                           } else {
-                            setSelectedLocations(selectedLocations.filter(l => l !== location));
+                              const filtered = selectedLocations.filter(l => l !== location);
+                              setSelectedLocations(filtered);
+                              handleFilterChange('locationList', filtered);
                           }
                         }}
-                        color="primary"
                       />
                     }
                     label={location}
-                    className="filter-checkbox"
                   />
                 ))}
               </Box>
+              )}
             </Box>
 
             {/* Car Type Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <CarIcon className="section-icon" />
+            <Box sx={{ mb: 3 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer',
+                  p: 2,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                }}
+                onClick={() => toggleSection('carType')}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <CarIcon sx={{ mr: 1, color: 'primary.main' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Car Type
               </Typography>
-              <Box className="checkbox-group">
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {selectedCategories.length > 0 && (
+                    <Chip
+                      label={selectedCategories.length}
+                      size="small"
+                      color="primary"
+                    />
+                  )}
+                  {expandedSections.carType ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </Box>
+              </Box>
+              
+              {expandedSections.carType && (
+                <Box sx={{ mt: 2, pl: 2 }}>
                 {Object.values(CarCategory).map((category) => (
                   <FormControlLabel
                     key={category}
@@ -383,288 +475,302 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                         checked={selectedCategories.includes(category)}
                         onChange={(e) => {
                           if (e.target.checked) {
-                            setSelectedCategories([...selectedCategories, category]);
+                              const newCategories = [...selectedCategories, category];
+                              setSelectedCategories(newCategories);
+                              handleFilterChange('carCategoryList', newCategories);
                           } else {
-                            setSelectedCategories(selectedCategories.filter(c => c !== category));
+                              const filtered = selectedCategories.filter(c => c !== category);
+                              setSelectedCategories(filtered);
+                              handleFilterChange('carCategoryList', filtered);
                           }
                         }}
-                        color="primary"
                       />
                     }
                     label={category}
-                    className="filter-checkbox"
                   />
                 ))}
               </Box>
+              )}
             </Box>
 
             {/* Brand Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <CarIcon className="section-icon" />
-                Brand
+            <Box sx={{ mb: 3 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer',
+                  p: 2,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                }}
+                onClick={() => toggleSection('brand')}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <CarIcon sx={{ mr: 1, color: 'primary.main' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    Brand
               </Typography>
-              <Box className="checkbox-group">
-                {Object.values(CarBrand).map((brand) => (
-                  <FormControlLabel
-                    key={brand}
-                    control={
-                      <Checkbox
-                        checked={selectedBrands.includes(brand)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedBrands([...selectedBrands, brand]);
-                          } else {
-                            setSelectedBrands(selectedBrands.filter(b => b !== brand));
-                          }
-                        }}
-                        color="primary"
-                      />
-                    }
-                    label={brand}
-                    className="filter-checkbox"
-                  />
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {selectedBrands.length > 0 && (
+                    <Chip
+                      label={selectedBrands.length}
+                    size="small"
+                      color="primary"
+                    />
+                  )}
+                  {expandedSections.brand ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </Box>
+              </Box>
+              
+              {expandedSections.brand && (
+                <Box sx={{ mt: 2, pl: 2 }}>
+                  {Object.values(CarBrand).map((brand) => (
+                    <FormControlLabel
+                      key={brand}
+                      control={
+                        <Checkbox
+                          checked={selectedBrands.includes(brand)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              const newBrands = [...selectedBrands, brand];
+                              setSelectedBrands(newBrands);
+                              handleFilterChange('brands', newBrands);
+                            } else {
+                              const filtered = selectedBrands.filter(b => b !== brand);
+                              setSelectedBrands(filtered);
+                              handleFilterChange('brands', filtered);
+                            }
+                          }}
+                        />
+                      }
+                      label={brand}
+                    />
                 ))}
               </Box>
+              )}
             </Box>
 
             {/* Fuel Type Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <SpeedIcon className="section-icon" />
-                Fuel Type
+            <Box sx={{ mb: 3 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer',
+                  p: 2,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                }}
+                onClick={() => toggleSection('fuelType')}
+              >
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <SpeedIcon sx={{ mr: 1, color: 'primary.main' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    Fuel Type
               </Typography>
-              <Box className="checkbox-group">
-                {Object.values(FuelType).map((fuelType) => (
-                  <FormControlLabel
-                    key={fuelType}
-                    control={
-                      <Checkbox
-                        checked={selectedFuelTypes.includes(fuelType)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedFuelTypes([...selectedFuelTypes, fuelType]);
-                          } else {
-                            setSelectedFuelTypes(selectedFuelTypes.filter(f => f !== fuelType));
-                          }
-                        }}
-                        color="primary"
-                      />
-                    }
-                    label={fuelType}
-                    className="filter-checkbox"
-                  />
-                ))}
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {selectedFuelTypes.length > 0 && (
+                    <Chip
+                      label={selectedFuelTypes.length}
+                    size="small"
+                      color="primary"
+                    />
+                  )}
+                  {expandedSections.fuelType ? <ExpandLessIcon /> : <ExpandMoreIcon />}
               </Box>
             </Box>
 
-            {/* Transmission Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <SettingsIcon className="section-icon" />
-                Transmission
-              </Typography>
-              <Box className="checkbox-group">
-                {Object.values(TransmissionType).map((transmission) => (
-                  <FormControlLabel
-                    key={transmission}
-                    control={
-                      <Checkbox
-                        checked={selectedTransmissions.includes(transmission)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedTransmissions([...selectedTransmissions, transmission]);
-                          } else {
-                            setSelectedTransmissions(selectedTransmissions.filter(t => t !== transmission));
-                          }
-                        }}
-                        color="primary"
-                      />
-                    }
-                    label={transmission}
-                    className="filter-checkbox"
-                  />
-                ))}
-              </Box>
-            </Box>
-
-            {/* Condition Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <CarIcon className="section-icon" />
-                Condition
-              </Typography>
-              <Box className="checkbox-group">
-                {Object.values(CarCondition).map((condition) => (
-                  <FormControlLabel
-                    key={condition}
-                    control={
-                      <Checkbox
-                        checked={selectedConditions.includes(condition)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedConditions([...selectedConditions, condition]);
-                          } else {
-                            setSelectedConditions(selectedConditions.filter(c => c !== condition));
-                          }
-                        }}
-                        color="primary"
-                      />
-                    }
-                    label={condition}
-                    className="filter-checkbox"
-                  />
-                ))}
-              </Box>
-            </Box>
-
-            {/* Color Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <SettingsIcon className="section-icon" />
-                Color
-              </Typography>
-              <Box className="checkbox-group">
-                {Object.values(CarColor).map((color) => (
-                  <FormControlLabel
-                    key={color}
-                    control={
-                      <Checkbox
-                        checked={selectedColors.includes(color)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedColors([...selectedColors, color]);
-                          } else {
-                            setSelectedColors(selectedColors.filter(c => c !== color));
-                          }
-                        }}
-                        color="primary"
-                      />
-                    }
-                    label={color}
-                    className="filter-checkbox"
-                  />
-                ))}
-              </Box>
+              {expandedSections.fuelType && (
+                <Box sx={{ mt: 2, pl: 2 }}>
+                  {Object.values(FuelType).map((fuelType) => (
+                <FormControlLabel
+                      key={fuelType}
+                  control={
+                    <Checkbox
+                          checked={selectedFuelTypes.includes(fuelType)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                              const newFuelTypes = [...selectedFuelTypes, fuelType];
+                              setSelectedFuelTypes(newFuelTypes);
+                              handleFilterChange('fuelTypes', newFuelTypes);
+                        } else {
+                              const filtered = selectedFuelTypes.filter(f => f !== fuelType);
+                              setSelectedFuelTypes(filtered);
+                              handleFilterChange('fuelTypes', filtered);
+                            }
+                          }}
+                        />
+                      }
+                      label={fuelType}
+                    />
+                  ))}
+                </Box>
+              )}
             </Box>
 
             {/* Transaction Type Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <SettingsIcon className="section-icon" />
-                Transaction Type
-              </Typography>
-              <Box className="checkbox-group">
-                {Object.values(CarTransactionType).map((type) => (
-                  <FormControlLabel
-                    key={type}
-                    control={
-                      <Checkbox
-                        checked={selectedTransactionTypes.includes(type)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedTransactionTypes([...selectedTransactionTypes, type]);
-                          } else {
-                            setSelectedTransactionTypes(selectedTransactionTypes.filter(t => t !== type));
-                          }
-                        }}
-                        color="primary"
-                      />
-                    }
-                    label={type}
-                    className="filter-checkbox"
-                  />
-                ))}
-              </Box>
-            </Box>
-
-            {/* Seats Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <SpeedIcon className="section-icon" />
-                Seats
-              </Typography>
-              <Box className="button-group">
-                {['Any', '2', '4', '5', '6', '7+'].map((seat) => (
-                  <Button
-                    key={seat}
-                    variant={selectedSeats === seat ? "contained" : "outlined"}
-                    size="small"
-                    onClick={() => setSelectedSeats(seat)}
-                    className="filter-button"
-                  >
-                    {seat}
-                  </Button>
-                ))}
-              </Box>
-            </Box>
-
-            {/* Doors Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <CarIcon className="section-icon" />
-                Doors
-              </Typography>
-              <Box className="button-group">
-                {['Any', '2', '3', '4', '5'].map((door) => (
-                  <Button
-                    key={door}
-                    variant={selectedDoors === door ? "contained" : "outlined"}
-                    size="small"
-                    onClick={() => setSelectedDoors(door)}
-                    className="filter-button"
-                  >
-                    {door}
-                  </Button>
-                ))}
-              </Box>
-            </Box>
-
-
-
-
-
-
-
-
-
-            {/* Action Buttons */}
-            <Box className="filter-actions">
-              <Button
-                variant="contained"
-                fullWidth
-                onClick={applyFilters}
-                className="apply-filters-btn"
+            <Box sx={{ mb: 3 }}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  cursor: 'pointer',
+                  p: 2,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                  border: '1px solid',
+                  borderColor: 'divider',
+                }}
+                onClick={() => toggleSection('transactionType')}
               >
-                Apply Filters
-              </Button>
-              <Button
-                variant="outlined"
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <SettingsIcon sx={{ mr: 1, color: 'primary.main' }} />
+                  <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                    Transaction Type
+                  </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  {selectedTransactionTypes.length > 0 && (
+                    <Chip
+                      label={selectedTransactionTypes.length}
+                      size="small"
+                      color="primary"
+                    />
+                  )}
+                  {expandedSections.transactionType ? <ExpandLessIcon /> : <ExpandMoreIcon />}
+                </Box>
+              </Box>
+              
+              {expandedSections.transactionType && (
+                <Box sx={{ mt: 2, pl: 2 }}>
+                  {Object.values(CarTransactionType).map((type) => (
+                <FormControlLabel
+                      key={type}
+                  control={
+                    <Checkbox
+                          checked={selectedTransactionTypes.includes(type)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                              const newTypes = [...selectedTransactionTypes, type];
+                              setSelectedTransactionTypes(newTypes);
+                              handleFilterChange('typeList', newTypes);
+                        } else {
+                              const filtered = selectedTransactionTypes.filter(t => t !== type);
+                              setSelectedTransactionTypes(filtered);
+                              handleFilterChange('typeList', filtered);
+                        }
+                      }}
+                    />
+                  }
+                      label={type}
+                />
+                  ))}
+              </Box>
+              )}
+            </Box>
+
+            {/* Year Range Filter */}
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, p: 2 }}>
+                Year Range
+              </Typography>
+              <Box sx={{ px: 2 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="From"
+                      type="number"
+                      value={searchInput.search.yearRange?.[0] || 1990}
+                      onChange={(e) => {
+                        const newYearRange = [
+                          parseInt(e.target.value) || 1990,
+                          searchInput.search.yearRange?.[1] || 2024
+                        ];
+                        handleFilterChange('yearRange', newYearRange);
+                      }}
+                      size="small"
                 fullWidth
-                onClick={clearFilters}
-                className="clear-filters-btn"
-              >
-                Clear All
-              </Button>
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="To"
+                      type="number"
+                      value={searchInput.search.yearRange?.[1] || 2024}
+                      onChange={(e) => {
+                        const newYearRange = [
+                          searchInput.search.yearRange?.[0] || 1990,
+                          parseInt(e.target.value) || 2024
+                        ];
+                        handleFilterChange('yearRange', newYearRange);
+                      }}
+                      size="small"
+                fullWidth
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
+            </Box>
+
+            {/* Mileage Range Filter */}
+            <Box sx={{ mb: 3 }}>
+              <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, p: 2 }}>
+                Mileage Range
+              </Typography>
+              <Box sx={{ px: 2 }}>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="Min"
+                      type="number"
+                      value={searchInput.search.minMileage || 0}
+                      onChange={(e) => {
+                        handleFilterChange('minMileage', parseInt(e.target.value) || 0);
+                      }}
+                      size="small"
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      label="Max"
+                      type="number"
+                      value={searchInput.search.maxMileage || 200000}
+                      onChange={(e) => {
+                        handleFilterChange('maxMileage', parseInt(e.target.value) || 200000);
+                      }}
+                      size="small"
+                      fullWidth
+                    />
+                  </Grid>
+                </Grid>
+              </Box>
             </Box>
           </Box>
         </motion.div>
 
-        {/* Right Panel - Car Listings */}
-        <motion.div
-          className="listings-panel"
-          initial={{ x: 50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-        >
-          {/* Results Header */}
-          <Box className="results-header">
+        {/* Main Content Area with Cars Grid */}
+        <Box className="content-area cars-list">
+          {/* Top Controls Bar */}
+          <Box className="top-controls">
+            {/* Results Info */}
             <Box className="results-info">
-              <Typography variant="h4" className="results-title">
-                {totalCount > 0 ? (
+              <Typography variant="h6" className="results-count">
+                {carsLoading ? (
+                  'Loading...'
+                ) : cars.length > 0 ? (
                   <>
                     <motion.span
-                      key={totalCount}
                       initial={{ scale: 1.2, color: '#D4AF37' }}
                       animate={{ scale: 1, color: 'inherit' }}
                       transition={{ duration: 0.5 }}
@@ -684,8 +790,27 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
               )}
             </Box>
 
+            {/* View Mode and Sort Controls */}
+            <Box className="controls-group">
+              {/* View Mode Toggle */}
+              <Box className="view-mode-toggle">
+                <IconButton
+                  onClick={() => setViewMode('grid')}
+                  color={viewMode === 'grid' ? 'primary' : 'default'}
+                  size="small"
+                >
+                  <GridViewIcon />
+                </IconButton>
+                <IconButton
+                  onClick={() => setViewMode('list')}
+                  color={viewMode === 'list' ? 'primary' : 'default'}
+                  size="small"
+                >
+                  <ListViewIcon />
+                </IconButton>
+            </Box>
+
             {/* Sort Controls */}
-            <Box className="sort-controls">
               <FormControl size="small" className="sort-select">
                 <InputLabel>Sort by</InputLabel>
                 <Select
@@ -771,21 +896,11 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                   exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.4 }}
                 >
-                  <Grid 
-                    container 
-                    spacing={3}
-                    className="cars-grid"
-                  >
+                  <div className="cars-grid">
                     {cars.map((car, index) => (
-                      <Grid
-                        item
-                        xs={12}
-                        sm={6}
-                        md={4}
-                        lg={4}
-                        key={car._id}
-                      >
                         <motion.div
+                        key={car._id}
+                        className="car-card-wrapper"
                           initial={{ opacity: 0, y: 30 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ 
@@ -801,9 +916,8 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                             likeCarHandler={likeCarHandler}
                           />
                         </motion.div>
-                      </Grid>
                     ))}
-                  </Grid>
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </motion.div>
@@ -841,7 +955,9 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
               />
             </motion.div>
           )}
-        </motion.div>
+        </Box>
+
+
       </Box>
       </motion.div>
     </ErrorBoundary>
