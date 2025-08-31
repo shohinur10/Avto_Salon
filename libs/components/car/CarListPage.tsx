@@ -33,12 +33,20 @@ import {
   LocationOn as LocationIcon,
   DirectionsCar as CarIcon,
   Speed as SpeedIcon,
-  LocalGasStation as FuelIcon,
-  Settings as SettingsIcon,
-  AttachMoney as PriceIcon,
-  CalendarToday as YearIcon,
-  Straighten as MileageIcon
+  Settings as SettingsIcon
 } from '@mui/icons-material';
+
+import { 
+  CarBrand, 
+  CarCategory, 
+  FuelType, 
+  TransmissionType, 
+  CarCondition, 
+  CarLocation,
+  CarColor,
+  CarStatus,
+  CarTransactionType
+} from '../../enums/car.enum';
 
 import CarCard from './CarCard';
 import GraphQLTest from './GraphQLTest';
@@ -53,14 +61,7 @@ import { Message } from '../../enums/common.enum';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../sweetAlert';
 import { useReactiveVar, useMutation } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
-import { 
-  CarBrand, 
-  CarCategory, 
-  FuelType, 
-  TransmissionType, 
-  CarCondition, 
-  CarLocation 
-} from '../../enums/car.enum';
+
 
 interface CarListPageProps {
   initialFilters?: Partial<any>;
@@ -93,24 +94,28 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
   const [searchText, setSearchText] = useState('');
   const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
+  const [selectedFuelTypes, setSelectedFuelTypes] = useState<string[]>([]);
+  const [selectedTransmissions, setSelectedTransmissions] = useState<string[]>([]);
+  const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
+  const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSeats, setSelectedSeats] = useState<string>('Any');
   const [selectedDoors, setSelectedDoors] = useState<string>('Any');
-  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
-  const [priceRange, setPriceRange] = useState<[number, number]>([0, 1000000]);
-  const [yearRange, setYearRange] = useState<[number, number]>([1990, 2024]);
-  const [mileageRange, setMileageRange] = useState<[number, number]>([0, 200000]);
+  const [selectedTransactionTypes, setSelectedTransactionTypes] = useState<string[]>([]);
   
   const [searchInput, setSearchInput] = useState<CarsInquiry>({
     page: currentPage,
     limit: itemsPerPage,
     search: {
-      pricesRange: {
-        start: 0,
-        end: 1000000,
-      },
-      yearRange: [1990, 2024],
-      minMileage: 0,
-      maxMileage: 200000,
+      searchText: '',
+      locationList: [],
+      carCategoryList: [],
+      carBrandList: [],
+      fuelTypeList: [],
+      transmissionTypeList: [],
+      carConditionList: [],
+      carColorList: [],
+      transactionTypeList: [],
     },
     sort: 'createdAt',
     direction: 'DESC',
@@ -166,13 +171,12 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
         searchText: searchText || undefined,
         locationList: selectedLocations.length > 0 ? selectedLocations : undefined,
         carCategoryList: selectedCategories.length > 0 ? selectedCategories : undefined,
-        pricesRange: {
-          start: priceRange[0],
-          end: priceRange[1]
-        },
-        yearRange: yearRange,
-        minMileage: mileageRange[0],
-        maxMileage: mileageRange[1]
+        carBrandList: selectedBrands.length > 0 ? selectedBrands : undefined,
+        fuelTypeList: selectedFuelTypes.length > 0 ? selectedFuelTypes : undefined,
+        transmissionTypeList: selectedTransmissions.length > 0 ? selectedTransmissions : undefined,
+        carConditionList: selectedConditions.length > 0 ? selectedConditions : undefined,
+        carColorList: selectedColors.length > 0 ? selectedColors : undefined,
+        transactionTypeList: selectedTransactionTypes.length > 0 ? selectedTransactionTypes : undefined,
       },
       sort: 'createdAt',
       direction: 'DESC'
@@ -192,12 +196,14 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
     setSearchText('');
     setSelectedLocations([]);
     setSelectedCategories([]);
+    setSelectedBrands([]);
+    setSelectedFuelTypes([]);
+    setSelectedTransmissions([]);
+    setSelectedConditions([]);
+    setSelectedColors([]);
     setSelectedSeats('Any');
     setSelectedDoors('Any');
-    setSelectedOptions([]);
-    setPriceRange([0, 1000000]);
-    setYearRange([1990, 2024]);
-    setMileageRange([0, 200000]);
+    setSelectedTransactionTypes([]);
   };
 
   // Pagination
@@ -392,6 +398,186 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
               </Box>
             </Box>
 
+            {/* Brand Filter */}
+            <Box className="filter-section">
+              <Typography variant="h6" className="section-title">
+                <CarIcon className="section-icon" />
+                Brand
+              </Typography>
+              <Box className="checkbox-group">
+                {Object.values(CarBrand).map((brand) => (
+                  <FormControlLabel
+                    key={brand}
+                    control={
+                      <Checkbox
+                        checked={selectedBrands.includes(brand)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedBrands([...selectedBrands, brand]);
+                          } else {
+                            setSelectedBrands(selectedBrands.filter(b => b !== brand));
+                          }
+                        }}
+                        color="primary"
+                      />
+                    }
+                    label={brand}
+                    className="filter-checkbox"
+                  />
+                ))}
+              </Box>
+            </Box>
+
+            {/* Fuel Type Filter */}
+            <Box className="filter-section">
+              <Typography variant="h6" className="section-title">
+                <SpeedIcon className="section-icon" />
+                Fuel Type
+              </Typography>
+              <Box className="checkbox-group">
+                {Object.values(FuelType).map((fuelType) => (
+                  <FormControlLabel
+                    key={fuelType}
+                    control={
+                      <Checkbox
+                        checked={selectedFuelTypes.includes(fuelType)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedFuelTypes([...selectedFuelTypes, fuelType]);
+                          } else {
+                            setSelectedFuelTypes(selectedFuelTypes.filter(f => f !== fuelType));
+                          }
+                        }}
+                        color="primary"
+                      />
+                    }
+                    label={fuelType}
+                    className="filter-checkbox"
+                  />
+                ))}
+              </Box>
+            </Box>
+
+            {/* Transmission Filter */}
+            <Box className="filter-section">
+              <Typography variant="h6" className="section-title">
+                <SettingsIcon className="section-icon" />
+                Transmission
+              </Typography>
+              <Box className="checkbox-group">
+                {Object.values(TransmissionType).map((transmission) => (
+                  <FormControlLabel
+                    key={transmission}
+                    control={
+                      <Checkbox
+                        checked={selectedTransmissions.includes(transmission)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedTransmissions([...selectedTransmissions, transmission]);
+                          } else {
+                            setSelectedTransmissions(selectedTransmissions.filter(t => t !== transmission));
+                          }
+                        }}
+                        color="primary"
+                      />
+                    }
+                    label={transmission}
+                    className="filter-checkbox"
+                  />
+                ))}
+              </Box>
+            </Box>
+
+            {/* Condition Filter */}
+            <Box className="filter-section">
+              <Typography variant="h6" className="section-title">
+                <CarIcon className="section-icon" />
+                Condition
+              </Typography>
+              <Box className="checkbox-group">
+                {Object.values(CarCondition).map((condition) => (
+                  <FormControlLabel
+                    key={condition}
+                    control={
+                      <Checkbox
+                        checked={selectedConditions.includes(condition)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedConditions([...selectedConditions, condition]);
+                          } else {
+                            setSelectedConditions(selectedConditions.filter(c => c !== condition));
+                          }
+                        }}
+                        color="primary"
+                      />
+                    }
+                    label={condition}
+                    className="filter-checkbox"
+                  />
+                ))}
+              </Box>
+            </Box>
+
+            {/* Color Filter */}
+            <Box className="filter-section">
+              <Typography variant="h6" className="section-title">
+                <SettingsIcon className="section-icon" />
+                Color
+              </Typography>
+              <Box className="checkbox-group">
+                {Object.values(CarColor).map((color) => (
+                  <FormControlLabel
+                    key={color}
+                    control={
+                      <Checkbox
+                        checked={selectedColors.includes(color)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedColors([...selectedColors, color]);
+                          } else {
+                            setSelectedColors(selectedColors.filter(c => c !== color));
+                          }
+                        }}
+                        color="primary"
+                      />
+                    }
+                    label={color}
+                    className="filter-checkbox"
+                  />
+                ))}
+              </Box>
+            </Box>
+
+            {/* Transaction Type Filter */}
+            <Box className="filter-section">
+              <Typography variant="h6" className="section-title">
+                <SettingsIcon className="section-icon" />
+                Transaction Type
+              </Typography>
+              <Box className="checkbox-group">
+                {Object.values(CarTransactionType).map((type) => (
+                  <FormControlLabel
+                    key={type}
+                    control={
+                      <Checkbox
+                        checked={selectedTransactionTypes.includes(type)}
+                        onChange={(e) => {
+                          if (e.target.checked) {
+                            setSelectedTransactionTypes([...selectedTransactionTypes, type]);
+                          } else {
+                            setSelectedTransactionTypes(selectedTransactionTypes.filter(t => t !== type));
+                          }
+                        }}
+                        color="primary"
+                      />
+                    }
+                    label={type}
+                    className="filter-checkbox"
+                  />
+                ))}
+              </Box>
+            </Box>
+
             {/* Seats Filter */}
             <Box className="filter-section">
               <Typography variant="h6" className="section-title">
@@ -434,49 +620,13 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
               </Box>
             </Box>
 
-            {/* Options Filter */}
-            <Box className="filter-section">
-              <Typography variant="h6" className="section-title">
-                <SettingsIcon className="section-icon" />
-                Options
-              </Typography>
-              <Box className="checkbox-group">
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedOptions.includes('Rent')}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedOptions([...selectedOptions, 'Rent']);
-                        } else {
-                          setSelectedOptions(selectedOptions.filter(o => o !== 'Rent'));
-                        }
-                      }}
-                      color="primary"
-                    />
-                  }
-                  label="Rent"
-                  className="filter-checkbox"
-                />
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={selectedOptions.includes('Barter')}
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedOptions([...selectedOptions, 'Barter']);
-                        } else {
-                          setSelectedOptions(selectedOptions.filter(o => o !== 'Barter'));
-                        }
-                      }}
-                      color="primary"
-                    />
-                  }
-                  label="Barter"
-                  className="filter-checkbox"
-                />
-              </Box>
-            </Box>
+
+
+
+
+
+
+
 
             {/* Action Buttons */}
             <Box className="filter-actions">

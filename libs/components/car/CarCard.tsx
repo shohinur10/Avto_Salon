@@ -24,7 +24,11 @@ const CarCard = (props: CarCardType) => {
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = car?.carImages[0]
-		? `${REACT_APP_API_URL}/${car?.carImages[0]}`
+		? car?.carImages[0].startsWith('http') 
+			? car?.carImages[0]
+			: car?.carImages[0].startsWith('/') 
+				? car?.carImages[0]
+				: `/${car?.carImages[0]}`
 		: '/img/banner/header1.svg';
 
 	if (device === 'mobile') {
