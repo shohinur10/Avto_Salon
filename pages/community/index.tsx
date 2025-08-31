@@ -172,7 +172,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 					<div className="container">
 						<Stack direction="row" alignItems="center" justifyContent="space-between" py={2}>
 							<Stack direction="row" alignItems="center" spacing={3}>
-								<img src={'/img/logo/logoText.svg'} alt="Logo" style={{ height: '40px' }} />
+								<img src={'/img/logo/logo.png'} alt="Logo" style={{ height: '50px' }} />
 								<Typography variant="h4" fontWeight={700} color="#1a1a1a">
 									Auto Salon Community
 								</Typography>

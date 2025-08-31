@@ -515,9 +515,9 @@ const AutoFooter = () => {
 						{/* Company Info with Live Stats */}
 						<Box>
 								<motion.img 
-									src="/img/logo/logoWhite.svg" 
+									src="/img/logo/logo.png" 
 									alt="Auto Salon" 
-									style={{ height: '48px', marginBottom: '16px' }}
+									style={{ height: '60px', marginBottom: '16px' }}
 									whileHover={{ scale: 1.05 }}
 								/>
 								<Typography variant="h4" fontWeight="bold" mb={2} sx={{ color: '#FFD700' }}>

@@ -84,6 +84,7 @@ const Footer = () => {
 		'Seoul', 'Busan', 'Incheon', 'Daegu', 'Daejeon', 'Gwangju', 'Ulsan', 'Jeju'
 	];
 
+	// Mobile Version
 	if (device === 'mobile') {
 		return (
 			<Box
@@ -93,17 +94,27 @@ const Footer = () => {
 					fontFamily: 'Inter, -apple-system, BlinkMacSystemFont, sans-serif',
 					pt: 6,
 					pb: 3,
-					mt: 8
+					mt: 8,
+					width: '100vw',
+					position: 'relative',
+					left: '50%',
+					right: '50%',
+					marginLeft: '-50vw',
+					marginRight: '-50vw'
 				}}
 			>
-				<Box sx={{ maxWidth: '1800px', margin: '0 auto', px: { xs: 2, md: 8 } }}>
+				<Box sx={{ 
+					maxWidth: '1600px', 
+					margin: '0 auto', 
+					px: { xs: 3, sm: 4 } // Increased padding on mobile
+				}}>
 					<Stack spacing={4}>
 						{/* Logo & Brand */}
 						<Stack alignItems="center" spacing={2}>
 							<img 
-								src="/img/logo/logoWhite.svg" 
+								src="/img/logo/logo.png" 
 								alt="Auto Salon Logo" 
-								style={{ height: '48px' }}
+								style={{ height: '60px' }}
 							/>
 							<Typography 
 								variant="h6" 
@@ -442,7 +453,7 @@ const Footer = () => {
 										'&:hover': { 
 											color: '#0A66C2',
 											backgroundColor: 'rgba(10, 102, 194, 0.2)',
-											transform: 'scale(1.1)',
+											transform: 'scale(1.15)',
 											borderColor: '#0A66C2'
 										},
 										transition: 'all 0.3s ease'
@@ -495,7 +506,7 @@ const Footer = () => {
 						</Stack>
 					</Stack>
 				</Box>
-								</Box>
+			</Box>
 		);
 	}
 
@@ -509,31 +520,43 @@ const Footer = () => {
 				pt: 6,
 				pb: 4,
 				mt: 8,
-				position: 'relative'
+				width: '100vw',
+				position: 'relative',
+				left: '50%',
+				right: '50%',
+				marginLeft: '-50vw',
+				marginRight: '-50vw'
 			}}
 		>
-			<Box sx={{ maxWidth: '1800px', margin: '0 auto', px: { xs: 2, md: 8 } }}>
-				{/* Main Footer Grid - 5 Equal Columns */}
+			<Box sx={{ 
+				maxWidth: '1600px', 
+				margin: '0 auto', 
+				px: { xs: 3, sm: 4, md: 6, lg: 8 } // Responsive padding
+			}}>
+				{/* Main Footer Grid - Responsive Columns */}
 				<Box
 					sx={{
 						display: 'grid',
 						gridTemplateColumns: { 
 							xs: '1fr', 
 							sm: 'repeat(2, 1fr)', 
-							md: '2fr 1fr 1fr 1fr 1.5fr' 
+							md: 'repeat(3, 1fr)',
+							lg: '2fr 1fr 1fr 1fr 1.5fr' 
 						},
-						gap: { xs: 4, md: 12 },
+						gap: { xs: 4, sm: 6, md: 8, lg: 12 },
 						mb: 4,
 						width: '100%'
 					}}
 				>
 					{/* Column 1: Company Info & Logo */}
-					<Box>
-						<img 
-							src="/img/logo/logoWhite.svg" 
-							alt="Auto Salon Logo" 
-							style={{ height: '48px', marginBottom: '20px' }}
-						/>
+					<Box sx={{ 
+						gridColumn: { xs: '1', sm: 'span 2', md: 'span 3', lg: '1' }
+					}}>
+										<img 
+					src="/img/logo/logo.png" 
+					alt="Auto Salon Logo" 
+					style={{ height: '60px', marginBottom: '20px' }}
+				/>
 						<Typography 
 							variant="h6" 
 							sx={{ 
@@ -580,7 +603,9 @@ const Footer = () => {
 					</Box>
 
 					{/* Column 2: Car Categories */}
-					<Box>
+					<Box sx={{ 
+						gridColumn: { xs: '1', sm: '1', md: '1', lg: '2' }
+					}}>
 						<Typography 
 							variant="h6" 
 							sx={{ 
@@ -615,7 +640,9 @@ const Footer = () => {
 					</Box>
 
 					{/* Column 3: Our Services */}
-					<Box>
+					<Box sx={{ 
+						gridColumn: { xs: '1', sm: '2', md: '2', lg: '3' }
+					}}>
 						<Typography 
 							variant="h6" 
 							sx={{ 
@@ -650,7 +677,9 @@ const Footer = () => {
 					</Box>
 
 					{/* Column 4: Quick Actions */}
-					<Box>
+					<Box sx={{ 
+						gridColumn: { xs: '1', sm: '1', md: '3', lg: '4' }
+					}}>
 						<Typography 
 							variant="h6" 
 							sx={{ 
@@ -719,7 +748,9 @@ const Footer = () => {
 					</Box>
 
 					{/* Column 5: Newsletter & Social Media */}
-					<Box>
+					<Box sx={{ 
+						gridColumn: { xs: '1', sm: '2', md: 'span 3', lg: '5' }
+					}}>
 						<Typography 
 							variant="h6" 
 							sx={{ 
