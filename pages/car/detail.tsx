@@ -48,6 +48,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [carId, setCarId] = useState<string | null>(null);
 	const [car, setCar] = useState<Car | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
+	const [imageError, setImageError] = useState<boolean>(false);
 	const [destinationCars, setDestinationCars] = useState<Car[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [carComments, setCarComments] = useState<Comment[]>([]);
@@ -73,9 +74,16 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 		skip: !carId,
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
-			if(data?.getCar)setCar(data?.getCar);
-			if (data?.getCar) setSlideImage(data?.getCar?.carImages[0]);
-			
+			if(data?.getCar) {
+				setCar(data?.getCar);
+				// Set slide image to first car image or default if no images
+				if (data?.getCar?.carImages && data?.getCar?.carImages.length > 0) {
+					setSlideImage(data?.getCar?.carImages[0]);
+				} else {
+					setSlideImage('');
+				}
+				setImageError(false);
+			}
 		},
 	});
 	const {
@@ -143,8 +151,58 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 	}, [commentInquiry.search.commentRefId, commentInquiry.page]);
 
 	/** HANDLERS **/
+	// Default car images based on car type/brand
+	const getDefaultCarImage = (car?: Car | null): string => {
+		if (!car) return '/img/car/default-car.jpg';
+		
+		const brand = car.brand?.toLowerCase();
+		const category = car.carCategory?.toLowerCase();
+		
+		// Brand-specific default images
+		const brandImages: { [key: string]: string } = {
+			'mercedes': '/img/car/brands/mercedes-default.jpg',
+			'bmw': '/img/car/brands/bmw-default.jpg',
+			'audi': '/img/car/brands/audi-default.jpg',
+			'tesla': '/img/car/brands/tesla-default.jpg',
+			'toyota': '/img/car/brands/toyota-default.jpg',
+			'honda': '/img/car/brands/honda-default.jpg',
+			'ford': '/img/car/brands/ford-default.jpg',
+			'nissan': '/img/car/brands/nissan-default.jpg',
+		};
+		
+		// Category-specific default images
+		const categoryImages: { [key: string]: string } = {
+			'sedan': '/img/car/categories/sedan-default.jpg',
+			'suv': '/img/car/categories/suv-default.jpg',
+			'coupe': '/img/car/categories/coupe-default.jpg',
+			'hatchback': '/img/car/categories/hatchback-default.jpg',
+			'convertible': '/img/car/categories/convertible-default.jpg',
+			'truck': '/img/car/categories/truck-default.jpg',
+			'sports': '/img/car/categories/sports-default.jpg',
+			'luxury': '/img/car/categories/luxury-default.jpg',
+		};
+		
+		// Return brand-specific image if available
+		if (brand && brandImages[brand]) {
+			return brandImages[brand];
+		}
+		
+		// Return category-specific image if available
+		if (category && categoryImages[category]) {
+			return categoryImages[category];
+		}
+		
+		// Return generic default car image
+		return '/img/car/default-car.jpg';
+	};
+
 	const changeImageHandler = (image: string) => {
 		setSlideImage(image);
+		setImageError(false);
+	};
+
+	const handleImageError = () => {
+		setImageError(true);
 	};
 
 	const likeCarHandler = async (user: T, id: string) => {
@@ -201,7 +259,234 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 		);
 	}
 	if (device === 'mobile') {
-		return <div> CAR DETAIL PAGE</div>;
+		return (
+			<div id={'car-detail-page-mobile'} style={{ 
+				minHeight: '100vh', 
+				background: 'linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 20, 0.98) 100%)',
+				color: 'white',
+				padding: '1rem'
+			}}>
+				{getCarLoading ? (
+					<Stack sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+						<CircularProgress size={'2rem'} sx={{ color: 'white' }} />
+						<Typography sx={{ mt: 2, color: 'white' }}>Loading car details...</Typography>
+					</Stack>
+				) : (
+					<Stack spacing={3}>
+						{/* Car Title and Price */}
+						<Stack spacing={2}>
+							<Typography variant="h4" sx={{ fontWeight: 'bold', color: 'white' }}>
+								{car?.carTitle || 'Car Details'}
+							</Typography>
+							<Typography variant="h5" sx={{ color: '#3B82F6', fontWeight: 'bold' }}>
+								${formatterStr(car?.carPrice)}
+							</Typography>
+							<Stack direction="row" spacing={2} alignItems="center">
+								<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+									📍 {car?.carLocation}
+								</Typography>
+								<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+									🕒 {moment().diff(car?.createdAt, 'days')} days ago
+								</Typography>
+							</Stack>
+						</Stack>
+
+						{/* Main Image */}
+						<Box sx={{ 
+							width: '100%', 
+							height: '250px', 
+							borderRadius: 2, 
+							overflow: 'hidden',
+							position: 'relative'
+						}}>
+							<img
+								src={
+									imageError || !slideImage 
+										? getDefaultCarImage(car)
+										: `${REACT_APP_API_URL}/${slideImage}`
+								}
+								alt={car?.carTitle || 'Car image'}
+								onError={handleImageError}
+								style={{
+									width: '100%',
+									height: '100%',
+									objectFit: 'cover'
+								}}
+							/>
+							<Stack 
+								direction="row" 
+								spacing={1} 
+								sx={{ 
+									position: 'absolute', 
+									top: 16, 
+									right: 16,
+									backgroundColor: 'rgba(0, 0, 0, 0.5)',
+									padding: '8px',
+									borderRadius: 1
+								}}
+							>
+								<Stack direction="row" alignItems="center" spacing={0.5}>
+									<RemoveRedEyeIcon fontSize="small" />
+									<Typography variant="body2">{car?.carViews || 0}</Typography>
+								</Stack>
+								<Stack 
+									direction="row" 
+									alignItems="center" 
+									spacing={0.5}
+									onClick={() => likeCarHandler(user, car?._id)}
+									sx={{ cursor: 'pointer' }}
+								>
+									{car?.meLiked && car?.meLiked[0]?.myFavorite ? (
+										<FavoriteIcon color="primary" fontSize="small" />
+									) : (
+										<FavoriteBorderIcon fontSize="small" />
+									)}
+									<Typography variant="body2">{car?.carLikes || 0}</Typography>
+								</Stack>
+							</Stack>
+						</Box>
+
+						{/* Thumbnail Images */}
+						{car?.carImages && car?.carImages.length > 0 && (
+							<Stack direction="row" spacing={1} sx={{ overflowX: 'auto', pb: 1 }}>
+								{car.carImages.map((subImg: string) => (
+									<Box
+										key={subImg}
+										onClick={() => changeImageHandler(subImg)}
+										sx={{
+											minWidth: '80px',
+											height: '60px',
+											borderRadius: 1,
+											overflow: 'hidden',
+											cursor: 'pointer',
+											border: slideImage === subImg ? '2px solid #3B82F6' : '1px solid rgba(255, 255, 255, 0.2)'
+										}}
+									>
+										<img
+											src={`${REACT_APP_API_URL}/${subImg}`}
+											alt="Car thumbnail"
+											style={{
+												width: '100%',
+												height: '100%',
+												objectFit: 'cover'
+											}}
+											onError={(e) => {
+												const target = e.target as HTMLImageElement;
+												target.src = getDefaultCarImage(car);
+											}}
+										/>
+									</Box>
+								))}
+							</Stack>
+						)}
+
+						{/* Car Basic Info */}
+						<Stack direction="row" spacing={2} justifyContent="space-around" sx={{ 
+							backgroundColor: 'rgba(255, 255, 255, 0.1)',
+							padding: 2,
+							borderRadius: 2
+						}}>
+							<Stack alignItems="center" spacing={0.5}>
+								<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Year</Typography>
+								<Typography variant="body1" sx={{ fontWeight: 'bold' }}>{car?.carYear}</Typography>
+							</Stack>
+							<Stack alignItems="center" spacing={0.5}>
+								<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Seats</Typography>
+								<Typography variant="body1" sx={{ fontWeight: 'bold' }}>{car?.carSeats}</Typography>
+							</Stack>
+							<Stack alignItems="center" spacing={0.5}>
+								<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Doors</Typography>
+								<Typography variant="body1" sx={{ fontWeight: 'bold' }}>{car?.carDoors}</Typography>
+							</Stack>
+							<Stack alignItems="center" spacing={0.5}>
+								<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>Brand</Typography>
+								<Typography variant="body1" sx={{ fontWeight: 'bold' }}>{car?.brand}</Typography>
+							</Stack>
+						</Stack>
+
+						{/* Description */}
+						<Stack spacing={1}>
+							<Typography variant="h6" sx={{ fontWeight: 'bold' }}>Description</Typography>
+							<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)', lineHeight: 1.6 }}>
+								{car?.carDesc || 'No description available for this car.'}
+							</Typography>
+						</Stack>
+
+						{/* Contact Agent */}
+						<Stack spacing={2} sx={{ 
+							backgroundColor: 'rgba(255, 255, 255, 0.1)',
+							padding: 2,
+							borderRadius: 2
+						}}>
+							<Typography variant="h6" sx={{ fontWeight: 'bold' }}>Contact Agent</Typography>
+							<Stack direction="row" spacing={2} alignItems="center">
+								<img
+									src={
+										car?.memberData?.memberImage
+											? `${REACT_APP_API_URL}/${car?.memberData?.memberImage}`
+											: '/img/profile/defaultUser.svg'
+									}
+									alt="Agent"
+									style={{
+										width: '50px',
+										height: '50px',
+										borderRadius: '50%',
+										objectFit: 'cover'
+									}}
+								/>
+								<Stack spacing={0.5}>
+									<Typography variant="body1" sx={{ fontWeight: 'bold' }}>
+										{car?.memberData?.memberNick}
+									</Typography>
+									<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+										{car?.memberData?.memberPhone}
+									</Typography>
+								</Stack>
+							</Stack>
+							<Button
+								variant="contained"
+								fullWidth
+								sx={{
+									backgroundColor: '#3B82F6',
+									color: 'white',
+									fontWeight: 'bold',
+									padding: '12px',
+									borderRadius: 2,
+									'&:hover': {
+										backgroundColor: '#2563EB'
+									}
+								}}
+							>
+								Contact Agent
+							</Button>
+						</Stack>
+
+						{/* Reviews Section */}
+						{commentTotal > 0 && (
+							<Stack spacing={2}>
+								<Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+									Reviews ({commentTotal})
+								</Typography>
+								{carComments?.slice(0, 3).map((comment: Comment) => (
+									<Box key={comment._id} sx={{ 
+										backgroundColor: 'rgba(255, 255, 255, 0.1)',
+										padding: 2,
+										borderRadius: 2
+									}}>
+										<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.8)' }}>
+											{comment.commentContent}
+										</Typography>
+										<Typography variant="caption" sx={{ color: 'rgba(255, 255, 255, 0.6)', mt: 1 }}>
+											- {comment.memberData?.memberNick}
+										</Typography>
+									</Box>
+								))}
+							</Stack>
+						)}
+					</Stack>
+				)}
+			</div>
+		);
 	} else {
 					return (
 			<div id={'car-detail-page'}>
@@ -210,7 +495,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 						<Stack className={'car-info-config'}>
 							<Stack className={'info'}>
 								<Stack className={'left-box'}>
-									<Typography className={'title-main'}>{car?.carTitle}</Typography>
+									<Typography className={'title-main'}>{car?.carTitle || 'Car Details'}</Typography>
 									<Stack className={'top-box'}>
 										<Typography className={'city'}>{car?.carLocation}</Typography>
 										<Stack className={'divider'}></Stack>
@@ -259,13 +544,13 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 									</Stack>
 									<Stack className={'bottom-box'}>
 																		<Stack className="option">
-									<img src="/img/icons/seat.svg" alt="" /> <Typography>{car?.carSeats} seats</Typography>
+											<img src="/img/icons/seat.svg" alt="" /> <Typography>{car?.carSeats || 'N/A'} seats</Typography>
 								</Stack>
 								<Stack className="option">
-									<img src="/img/icons/door.svg" alt="" /> <Typography>{car?.carDoors} doors</Typography>
+											<img src="/img/icons/door.svg" alt="" /> <Typography>{car?.carDoors || 'N/A'} doors</Typography>
 								</Stack>
 								<Stack className="option">
-									<img src="/img/icons/year.svg" alt="" /> <Typography>{car?.carYear}</Typography>
+											<img src="/img/icons/year.svg" alt="" /> <Typography>{car?.carYear || 'N/A'}</Typography>
 								</Stack>
 									</Stack>
 								</Stack>
@@ -288,25 +573,48 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 											<Typography>{car?.carLikes}</Typography>
 										</Stack>
 									</Stack>
-									<Typography>${formatterStr(car?.carPrice)}</Typography>
+									<Typography>${formatterStr(car?.carPrice || 0)}</Typography>
 								</Stack>
 							</Stack>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
 									<img
-										src={slideImage ? `${REACT_APP_API_URL}/${slideImage}` : '/img/car/bigImage.png'}
-										alt={'main-image'}
+										src={
+											imageError || !slideImage 
+												? getDefaultCarImage(car)
+												: `${REACT_APP_API_URL}/${slideImage}`
+										}
+										alt={car?.carTitle || 'Car image'}
+										onError={handleImageError}
+										onLoad={() => setImageError(false)}
 									/>
 								</Stack>
 								<Stack className={'sub-images'}>
-									{car?.carImages.map((subImg: string) => {
+									{car?.carImages && car?.carImages.length > 0 ? (
+										car.carImages.map((subImg: string) => {
 										const imagePath: string = `${REACT_APP_API_URL}/${subImg}`;
 										return (
 											<Stack className={'sub-img-box'} onClick={() => changeImageHandler(subImg)} key={subImg}>
-												<img src={imagePath} alt={'sub-image'} />
+													<img 
+														src={imagePath} 
+														alt={'Car thumbnail'} 
+														onError={(e) => {
+															const target = e.target as HTMLImageElement;
+															target.src = getDefaultCarImage(car);
+														}}
+													/>
 											</Stack>
 										);
-									})}
+										})
+									) : (
+										// Show default thumbnails when no images available
+										<Stack className={'sub-img-box'} onClick={() => changeImageHandler('')}>
+											<img 
+												src={getDefaultCarImage(car)} 
+												alt={'Default car thumbnail'} 
+											/>
+										</Stack>
+									)}
 								</Stack>
 							</Stack>
 						</Stack>

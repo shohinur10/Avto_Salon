@@ -137,27 +137,55 @@
            display: flex;
            flex-direction: column;
            align-items: center;
-           .type-option {
-             display: flex;
-             flex-direction: row;
-             align-items: center;
-             span.text {
-               font-family: $font;
-               font-size: 14px;
-               font-style: normal;
-               font-weight: 600;
-               line-height: normal;
-               color:  #181A20;
-             }
-             div {
-               margin-left: 20px;
-               display: flex;
-               flex-direction: row;
-               &:nth-child(1){
-                 margin-right: 25px;
-               }
-             }
-           }
+                     .type-option {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            margin-bottom: 20px;
+            
+            span.text {
+              font-family: $font;
+              font-size: 16px;
+              font-style: normal;
+              font-weight: 600;
+              line-height: normal;
+              color: #181A20;
+              margin-bottom: 15px;
+            }
+            
+            > div {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              gap: 30px;
+              width: 100%;
+              justify-content: flex-start;
+              
+              .MuiFormGroup-root {
+                margin: 0;
+                
+                .MuiFormControlLabel-root {
+                  margin: 0;
+                  
+                  .MuiFormControlLabel-label {
+                    font-family: $font;
+                    font-size: 15px;
+                    font-weight: 500;
+                    color: #181A20;
+                  }
+                  
+                  .MuiCheckbox-root {
+                    color: #C9A96E;
+                    
+                    &.Mui-checked {
+                      color: #C9A96E;
+                    }
+                  }
+                }
+              }
+            }
+          }
            .remember-info {
              width: 100%;
              display: flex;
@@ -309,6 +337,205 @@
    }
   }
   
+  // Mobile styles
+  .join-page-mobile {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%);
+    padding: 0;
+    
+    .mobile-header {
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      
+      .logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        img {
+          width: 35px;
+          height: 35px;
+        }
+        
+        span {
+          margin-left: 10px;
+          font-family: $font;
+          font-size: 20px;
+          font-weight: 700;
+          color: #FFF;
+          background: linear-gradient(135deg, #C9A96E 0%, #B8860B 100%);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+        }
+      }
+    }
+    
+    .mobile-content {
+      padding: 30px 20px;
+      
+      .welcome-section {
+        text-align: center;
+        margin-bottom: 40px;
+        
+        .main-title {
+          font-family: $font;
+          font-size: 28px;
+          font-weight: 700;
+          color: #FFF;
+          margin: 0 0 15px 0;
+        }
+        
+        .subtitle {
+          font-family: $font;
+          font-size: 16px;
+          font-weight: 400;
+          color: rgba(255, 255, 255, 0.8);
+          line-height: 1.5;
+          margin: 0;
+        }
+      }
+      
+      .input-wrap {
+        margin-bottom: 30px;
+        
+        .input-box {
+          margin-bottom: 20px;
+          
+          span {
+            display: block;
+            margin-bottom: 8px;
+            font-family: $font;
+            font-size: 14px;
+            font-weight: 600;
+            color: #FFF;
+          }
+          
+          input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.1);
+            font-family: $font;
+            font-size: 16px;
+            color: #FFF;
+            transition: all 0.3s ease;
+            
+            &:focus {
+              outline: none;
+              border-color: #C9A96E;
+              background: rgba(255, 255, 255, 0.15);
+            }
+            
+            &::placeholder {
+              color: rgba(255, 255, 255, 0.6);
+            }
+          }
+        }
+      }
+      
+      .register {
+        margin-bottom: 30px;
+        
+        .type-option {
+          margin-bottom: 20px;
+          
+          .text {
+            display: block;
+            margin-bottom: 15px;
+            font-family: $font;
+            font-size: 16px;
+            font-weight: 600;
+            color: #FFF;
+          }
+          
+          > div {
+            display: flex;
+            gap: 20px;
+            
+            .MuiFormControlLabel-root {
+              .MuiFormControlLabel-label {
+                color: #FFF;
+                font-family: $font;
+              }
+              
+              .MuiCheckbox-root {
+                color: #C9A96E;
+                
+                &.Mui-checked {
+                  color: #C9A96E;
+                }
+              }
+            }
+          }
+        }
+        
+        .remember-info {
+          margin-bottom: 20px;
+          
+          .MuiFormControlLabel-label {
+            color: #FFF;
+            font-family: $font;
+          }
+          
+          .MuiCheckbox-root {
+            color: #C9A96E;
+            
+            &.Mui-checked {
+              color: #C9A96E;
+            }
+          }
+        }
+        
+        button {
+          width: 100%;
+          height: 55px;
+          border-radius: 12px;
+          background: linear-gradient(135deg, #C9A96E 0%, #B8860B 100%);
+          font-family: $font;
+          font-size: 16px;
+          font-weight: 700;
+          color: #FFF;
+          border: none;
+          transition: all 0.3s ease;
+          
+          &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(201, 169, 110, 0.4);
+          }
+          
+          &:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.5);
+            transform: none;
+            box-shadow: none;
+          }
+        }
+      }
+      
+      .ask-info {
+        text-align: center;
+        
+        p {
+          font-family: $font;
+          font-size: 16px;
+          color: rgba(255, 255, 255, 0.8);
+          margin: 0;
+          
+          b {
+            margin-left: 8px;
+            color: #C9A96E;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+
   // Responsive Design
   @media (max-width: 1450px) {
     .join-page .container .main {
@@ -320,6 +547,16 @@
     .join-page .container .main {
       width: 1000px;
       height: 700px;
+      
+      .left {
+        .input-wrap {
+          width: 400px;
+        }
+        
+        .register {
+          width: 400px;
+        }
+      }
     }
   }
   
@@ -340,6 +577,16 @@
       .left {
         padding: 40px 20px;
         order: 2;
+        
+        .input-wrap {
+          width: 100%;
+          max-width: 400px;
+        }
+        
+        .register {
+          width: 100%;
+          max-width: 400px;
+        }
       }
       
       .right {

@@ -1,9 +1,11 @@
 #pc-wrap {
 	#car-detail-page {
 		position: relative;
-		background: #fff;
+		background: linear-gradient(135deg, rgba(0, 0, 0, 0.95) 0%, rgba(10, 10, 20, 0.98) 100%);
+		color: white;
 		padding-top: 87px;
 		padding-bottom: 200px;
+		min-height: 100vh;
 		.car-detail-config {
 			width: 100%;
 			height: auto;
@@ -162,11 +164,26 @@
 					.main-image {
 						width: 100%;
 						height: 600px;
+						border-radius: 12px;
+						overflow: hidden;
+						position: relative;
+						box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+						transition: all 0.3s ease;
+						
+						&:hover {
+							transform: translateY(-2px);
+							box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+						}
+						
 						img {
 							width: 100%;
 							height: 100%;
 							object-fit: cover;
-							border-radius: 12px;
+							transition: transform 0.3s ease;
+							
+							&:hover {
+								transform: scale(1.02);
+							}
 						}
 					}
 					.sub-images {
@@ -174,15 +191,38 @@
 						height: auto;
 						flex-direction: row;
 						gap: 10px;
+						flex-wrap: wrap;
+						
 						.sub-img-box {
 							width: 120px;
 							height: 120px;
 							cursor: pointer;
+							border-radius: 12px;
+							overflow: hidden;
+							border: 2px solid transparent;
+							transition: all 0.3s ease;
+							box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+							
+							&:hover {
+								border-color: #3B82F6;
+								transform: translateY(-2px);
+								box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
+							}
+							
+							&.active {
+								border-color: #3B82F6;
+								box-shadow: 0 4px 16px rgba(59, 130, 246, 0.4);
+							}
+							
 							img {
 								width: 100%;
 								height: 100%;
 								object-fit: cover;
-								border-radius: 12px;
+								transition: transform 0.3s ease;
+								
+								&:hover {
+									transform: scale(1.1);
+								}
 							}
 						}
 					}
@@ -247,13 +287,16 @@
 						gap: 50px;
 						padding: 29px 38px 50px 38px;
 						border-radius: 12px;
-						border: 1px solid #c4c4c4;
+						border: 1px solid rgba(255, 255, 255, 0.1);
+						background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+						backdrop-filter: blur(10px);
+						box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 						.top {
 							width: 100%;
 							height: auto;
 							gap: 30px;
 							.title {
-								color: #181a20;
+								color: white;
 								font-family: $font;
 								font-size: 17px;
 								font-style: normal;
@@ -261,7 +304,7 @@
 								line-height: normal;
 							}
 							.desc {
-								color: #181a20;
+								color: rgba(255, 255, 255, 0.8);
 								font-family: $font;
 								font-size: 14px;
 								font-style: normal;
@@ -748,6 +791,68 @@
 						.similar-homes-slide {
 							width: 411px;
 						}
+					}
+				}
+			}
+		}
+	}
+}
+
+// Mobile-specific styles for car detail page
+@media (max-width: 768px) {
+	#car-detail-page-mobile {
+		.main-image {
+			border-radius: 8px !important;
+			height: 200px !important;
+			
+			img {
+				border-radius: 8px !important;
+			}
+		}
+		
+		.sub-images {
+			.sub-img-box {
+				min-width: 60px !important;
+				height: 45px !important;
+				border-radius: 6px !important;
+			}
+		}
+		
+		.car-info-grid {
+			display: grid !important;
+			grid-template-columns: 1fr 1fr !important;
+			gap: 1rem !important;
+		}
+		
+		.contact-section {
+			position: sticky;
+			bottom: 0;
+			background: rgba(0, 0, 0, 0.9);
+			backdrop-filter: blur(20px);
+			border-top: 1px solid rgba(255, 255, 255, 0.1);
+			padding: 1rem;
+			margin: 0 -1rem;
+		}
+	}
+}
+
+// Tablet responsiveness
+@media (max-width: 1024px) and (min-width: 769px) {
+	#pc-wrap {
+		#car-detail-page {
+			.car-detail-config {
+				padding-top: 30px;
+				
+				.car-desc-config {
+					flex-direction: column !important;
+					gap: 30px !important;
+					
+					.left-config {
+						width: 100% !important;
+					}
+					
+					.right-config {
+						width: 100% !important;
 					}
 				}
 			}

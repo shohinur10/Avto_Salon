@@ -777,8 +777,10 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                     >
                       {totalCount.toLocaleString()}
                     </motion.span>
-                    {' '}Cars Found
+                    {' '}Cars Found {!carsError ? '(Backend Connected ✅)' : ''}
                   </>
+                ) : carsError ? (
+                  '6 Sample Cars (Backend Offline 📡)'
                 ) : (
                   'No Cars Found'
                 )}
@@ -923,15 +925,34 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </motion.div>
           )}
 
-          {/* Empty State */}
-          {!carsLoading && cars.length === 0 && !carsError && (
+          {/* Fallback State - Show Mock Data when backend is not available */}
+          {!carsLoading && cars.length === 0 && (
             <motion.div
               className="empty-state"
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
             >
+              {carsError ? (
+                <div style={{ textAlign: 'center', padding: '2rem' }}>
+                  <Typography variant="h6" color="primary" gutterBottom>
+                    🚀 Using Sample Data
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+                    Backend server not connected. Showing sample cars for preview.
+                  </Typography>
               <MockCarData />
+                </div>
+              ) : (
+                <div style={{ textAlign: 'center', padding: '2rem' }}>
+                  <Typography variant="h6" color="text.secondary">
+                    No cars found
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    Try adjusting your search filters
+                  </Typography>
+                </div>
+              )}
             </motion.div>
           )}
 

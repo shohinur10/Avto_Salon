@@ -2,7 +2,9 @@ import React, { useCallback, useState } from 'react';
 import { NextPage } from 'next';
 import useDeviceDetect from '../../libs/hooks/useDeviceDetect';
 import withLayoutBasic from '../../libs/components/layout/LayoutBasic';
-import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack } from '@mui/material';
+import { Box, Button, Checkbox, FormControlLabel, FormGroup, Stack, Typography, IconButton, InputAdornment, TextField } from '@mui/material';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 import { useRouter } from 'next/router';
 import { logIn, signUp } from '../../libs/auth';
 import { sweetMixinErrorAlert } from '../../libs/sweetAlert';
@@ -19,10 +21,16 @@ const Join: NextPage = () => {
 	const device = useDeviceDetect();
 	const [input, setInput] = useState({ nick: '', password: '', phone: '', type: 'USER' });
 	const [loginView, setLoginView] = useState<boolean>(true);
+	const [showPassword, setShowPassword] = useState<boolean>(false);
+	const [errors, setErrors] = useState({ nick: '', password: '', phone: '' });
 
 	/** HANDLERS **/
 	const viewChangeHandler = (state: boolean) => {
 		setLoginView(state);
+		// Clear errors when switching views
+		setErrors({ nick: '', password: '', phone: '' });
+		// Clear inputs when switching views for better UX
+		setInput({ nick: '', password: '', phone: '', type: 'USER' });
 	};
 
 	const checkUserTypeHandler = (e: any) => {
@@ -35,11 +43,43 @@ const Join: NextPage = () => {
 		}
 	};
 
+	const validateInput = (name: string, value: string) => {
+		let error = '';
+		
+		switch (name) {
+			case 'nick':
+				if (value.length < 3) {
+					error = 'Nickname must be at least 3 characters';
+				} else if (value.length > 20) {
+					error = 'Nickname must be less than 20 characters';
+				}
+				break;
+			case 'password':
+				if (value.length < 6) {
+					error = 'Password must be at least 6 characters';
+				}
+				break;
+			case 'phone':
+				if (value.length < 10) {
+					error = 'Please enter a valid phone number';
+				}
+				break;
+		}
+		
+		setErrors(prev => ({ ...prev, [name]: error }));
+		return error === '';
+	};
+
 	const handleInput = useCallback((name: any, value: any) => {
 		setInput((prev) => {
 			return { ...prev, [name]: value };
 		});
+		validateInput(name, value);
 	}, []);
+
+	const togglePasswordVisibility = () => {
+		setShowPassword(!showPassword);
+	};
 
 	const doLogin = useCallback(async () => {
 		console.warn(input);
@@ -90,39 +130,83 @@ const Join: NextPage = () => {
 							<input
 								type="text"
 								placeholder={'Enter Nickname'}
+								value={input.nick}
 								onChange={(e) => handleInput('nick', e.target.value)}
 								required={true}
 								onKeyDown={(event) => {
 									if (event.key == 'Enter' && loginView) doLogin();
 									if (event.key == 'Enter' && !loginView) doSignUp();
 								}}
+								style={{
+									borderColor: errors.nick ? '#ff4444' : input.nick.length > 0 && !errors.nick ? '#44ff44' : '#E8E8E8'
+								}}
 							/>
+							{errors.nick && (
+								<Typography variant="caption" color="error" style={{ marginTop: '5px', display: 'block' }}>
+									{errors.nick}
+								</Typography>
+							)}
 						</div>
 						<div className={'input-box'}>
 							<span>Password</span>
-							<input
-								type="password"
-								placeholder={'Enter Password'}
-								onChange={(e) => handleInput('password', e.target.value)}
-								required={true}
-								onKeyDown={(event) => {
-									if (event.key == 'Enter' && loginView) doLogin();
-									if (event.key == 'Enter' && !loginView) doSignUp();
-								}}
-							/>
+							<div style={{ position: 'relative' }}>
+								<input
+									type={showPassword ? "text" : "password"}
+									placeholder={'Enter Password'}
+									value={input.password}
+									onChange={(e) => handleInput('password', e.target.value)}
+									required={true}
+									autoComplete="current-password"
+									onKeyDown={(event) => {
+										if (event.key == 'Enter' && loginView) doLogin();
+										if (event.key == 'Enter' && !loginView) doSignUp();
+									}}
+									style={{
+										paddingRight: '50px',
+										borderColor: errors.password ? '#ff4444' : input.password.length > 0 && !errors.password ? '#44ff44' : '#E8E8E8'
+									}}
+								/>
+								<IconButton
+									onClick={togglePasswordVisibility}
+									style={{
+										position: 'absolute',
+										right: '10px',
+										top: '50%',
+										transform: 'translateY(-50%)',
+										color: '#666'
+									}}
+									size="small"
+								>
+									{showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+								</IconButton>
+							</div>
+							{errors.password && (
+								<Typography variant="caption" color="error" style={{ marginTop: '5px', display: 'block' }}>
+									{errors.password}
+								</Typography>
+							)}
 						</div>
 						{!loginView && (
 							<div className={'input-box'}>
 								<span>Phone</span>
 								<input
-									type="text"
+									type="tel"
 									placeholder={'Enter Phone'}
+									value={input.phone}
 									onChange={(e) => handleInput('phone', e.target.value)}
 									required={true}
 									onKeyDown={(event) => {
 										if (event.key == 'Enter') doSignUp();
 									}}
+									style={{
+										borderColor: errors.phone ? '#ff4444' : input.phone.length > 0 && !errors.phone ? '#44ff44' : '#E8E8E8'
+									}}
 								/>
+								{errors.phone && (
+									<Typography variant="caption" color="error" style={{ marginTop: '5px', display: 'block' }}>
+										{errors.phone}
+									</Typography>
+								)}
 							</div>
 						)}
 					</Box>
@@ -171,7 +255,12 @@ const Join: NextPage = () => {
 							<Button
 								variant="contained"
 								endIcon={<img src="/img/icons/rightup.svg" alt="" />}
-								disabled={input.nick == '' || input.password == ''}
+								disabled={
+									input.nick == '' || 
+									input.password == '' || 
+									errors.nick !== '' || 
+									errors.password !== ''
+								}
 								onClick={doLogin}
 							>
 								LOGIN
@@ -179,7 +268,15 @@ const Join: NextPage = () => {
 						) : (
 							<Button
 								variant="contained"
-								disabled={input.nick == '' || input.password == '' || input.phone == '' || input.type == ''}
+								disabled={
+									input.nick == '' || 
+									input.password == '' || 
+									input.phone == '' || 
+									input.type == '' ||
+									errors.nick !== '' || 
+									errors.password !== '' || 
+									errors.phone !== ''
+								}
 								onClick={doSignUp}
 								endIcon={<img src="/img/icons/rightup.svg" alt="" />}
 							>
@@ -237,46 +334,90 @@ const Join: NextPage = () => {
 									<input
 										type="text"
 										placeholder={'Enter Nickname'}
+										value={input.nick}
 										onChange={(e) => handleInput('nick', e.target.value)}
 										required={true}
 										onKeyDown={(event) => {
 											if (event.key == 'Enter' && loginView) doLogin();
 											if (event.key == 'Enter' && !loginView) doSignUp();
 										}}
+										style={{
+											borderColor: errors.nick ? '#ff4444' : input.nick.length > 0 && !errors.nick ? '#44ff44' : '#E8E8E8'
+										}}
 									/>
+									{errors.nick && (
+										<Typography variant="caption" color="error" style={{ marginTop: '5px', display: 'block' }}>
+											{errors.nick}
+										</Typography>
+									)}
 								</div>
 								<div className={'input-box'}>
 									<span>Password</span>
-									<input
-										type="password"
-										placeholder={'Enter Password'}
-										onChange={(e) => handleInput('password', e.target.value)}
-										required={true}
-										onKeyDown={(event) => {
-											if (event.key == 'Enter' && loginView) doLogin();
-											if (event.key == 'Enter' && !loginView) doSignUp();
-										}}
-									/>
+									<div style={{ position: 'relative' }}>
+										<input
+											type={showPassword ? "text" : "password"}
+											placeholder={'Enter Password'}
+											value={input.password}
+											onChange={(e) => handleInput('password', e.target.value)}
+											required={true}
+											autoComplete="current-password"
+											onKeyDown={(event) => {
+												if (event.key == 'Enter' && loginView) doLogin();
+												if (event.key == 'Enter' && !loginView) doSignUp();
+											}}
+											style={{
+												paddingRight: '50px',
+												borderColor: errors.password ? '#ff4444' : input.password.length > 0 && !errors.password ? '#44ff44' : '#E8E8E8'
+											}}
+										/>
+										<IconButton
+											onClick={togglePasswordVisibility}
+											style={{
+												position: 'absolute',
+												right: '10px',
+												top: '50%',
+												transform: 'translateY(-50%)',
+												color: '#666'
+											}}
+											size="small"
+										>
+											{showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+										</IconButton>
+									</div>
+									{errors.password && (
+										<Typography variant="caption" color="error" style={{ marginTop: '5px', display: 'block' }}>
+											{errors.password}
+										</Typography>
+									)}
 								</div>
 								{!loginView && (
 									<div className={'input-box'}>
 										<span>Phone</span>
 										<input
-											type="text"
+											type="tel"
 											placeholder={'Enter Phone'}
+											value={input.phone}
 											onChange={(e) => handleInput('phone', e.target.value)}
 											required={true}
 											onKeyDown={(event) => {
 												if (event.key == 'Enter') doSignUp();
 											}}
+											style={{
+												borderColor: errors.phone ? '#ff4444' : input.phone.length > 0 && !errors.phone ? '#44ff44' : '#E8E8E8'
+											}}
 										/>
+										{errors.phone && (
+											<Typography variant="caption" color="error" style={{ marginTop: '5px', display: 'block' }}>
+												{errors.phone}
+											</Typography>
+										)}
 									</div>
 								)}
 							</Box>
 							<Box className={'register'}>
 								{!loginView && (
 									<div className={'type-option'}>
-										<span className={'text'}>I want to be registered as:</span>
+										<span className={'text'}>Register as:</span>
 										<div>
 											<FormGroup>
 												<FormControlLabel
@@ -321,7 +462,12 @@ const Join: NextPage = () => {
 									<Button
 										variant="contained"
 										endIcon={<img src="/img/icons/rightup.svg" alt="" />}
-										disabled={input.nick == '' || input.password == ''}
+										disabled={
+											input.nick == '' || 
+											input.password == '' || 
+											errors.nick !== '' || 
+											errors.password !== ''
+										}
 										onClick={doLogin}
 									>
 										LOGIN
@@ -329,7 +475,15 @@ const Join: NextPage = () => {
 								) : (
 									<Button
 										variant="contained"
-										disabled={input.nick == '' || input.password == '' || input.phone == '' || input.type == ''}
+										disabled={
+											input.nick == '' || 
+											input.password == '' || 
+											input.phone == '' || 
+											input.type == '' ||
+											errors.nick !== '' || 
+											errors.password !== '' || 
+											errors.phone !== ''
+										}
 										onClick={doSignUp}
 										endIcon={<img src="/img/icons/rightup.svg" alt="" />}
 									>
