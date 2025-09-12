@@ -1,0 +1,24 @@
+# Development Docker Compose for Frontend
+# Use this when you want to run frontend in Docker for development
+
+services:
+  avto_salon_dev:
+    container_name: avto-salon-dev
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3001:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=development
+    volumes:
+      - .:/usr/src/avto-salon
+      - /usr/src/avto-salon/node_modules
+    networks: 
+      - monorepo-network
+    command: npm run dev
+
+networks:
+  monorepo-network:
+    external: true

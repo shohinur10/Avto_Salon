@@ -142,7 +142,7 @@ export function useApollo(initialState: any) {
 /**
 import { ApolloClient, InMemoryCache, createHttpLink } from "@apollo/client";
 
-// No Subscription required for develop process
+// No Subscription required for development process
 
 const httpLink = createHttpLink({
   uri: "http://localhost:3005/graphql",

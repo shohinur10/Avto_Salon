@@ -243,7 +243,7 @@ export const GET_CARS = gql`
 }
 `;
 
-export const GET_AGENT_CARS= gql`
+export const GET_AGENT_CARS = gql`
 query GetAgentCars($input:AgentCarsInquiry!) {
     getAgentCars(input:$input) {
         list {

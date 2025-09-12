@@ -1,0 +1,22 @@
+# Frontend Docker Configuration
+# Note: For development, it's recommended to run frontend locally with 'npm run dev'
+# This configuration is for production deployment
+
+services:
+  avto_salon:
+    container_name: avto-salon
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3000"
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    networks: 
+      - monorepo-network
+    
+networks:
+  monorepo-network:
+    driver: bridge

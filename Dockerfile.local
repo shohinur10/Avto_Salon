@@ -1,0 +1,16 @@
+FROM node:20.10.0
+
+# Set working directory
+WORKDIR /usr/src/avto-salon
+
+# Add node_modules/.bin to PATH
+ENV PATH="/usr/src/avto-salon/node_modules/.bin:${PATH}"
+
+# Copy everything including node_modules
+COPY . .
+
+# Expose port
+EXPOSE 3000
+
+# Start development server
+CMD ["npm", "run", "dev"]

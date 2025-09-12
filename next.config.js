@@ -1,21 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
 	reactStrictMode: true,
-	telemetry: false,
-	experimental: {
-		// Disable telemetry and external network calls
-		telemetry: false,
-	},
 	env: {
-		REACT_APP_API_URL: process.env.REACT_APP_API_URL,
-		REACT_APP_API_GRAPHQL_URL: process.env.REACT_APP_API_GRAPHQL_URL,
-		REACT_APP_API_WS: process.env.REACT_APP_API_WS,
+		REACT_APP_API_URL: process.env.REACT_APP_API_URL || 'http://localhost:4001',
+		REACT_APP_API_GRAPHQL_URL: process.env.REACT_APP_API_GRAPHQL_URL || 'http://localhost:4001/graphql',
+		REACT_APP_API_WS: process.env.REACT_APP_API_WS || 'ws://localhost:4001/graphql',
 	},
 	async rewrites() {
+		const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:4001';
 		return [
 			{
 				source: '/uploads/:path*',
-				destination: `${process.env.REACT_APP_API_URL}/uploads/:path*`,
+				destination: `${apiUrl}/uploads/:path*`,
 			},
 		];
 	},

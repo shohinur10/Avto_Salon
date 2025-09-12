@@ -23,6 +23,8 @@ import TelegramIcon from '@mui/icons-material/Telegram';
 import VideocamIcon from '@mui/icons-material/Videocam';
 import PhoneIcon from '@mui/icons-material/Phone';
 import StarIcon from '@mui/icons-material/Star';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { sweetMixinErrorAlert } from '../../sweetAlert';
@@ -30,10 +32,12 @@ import { sweetMixinErrorAlert } from '../../sweetAlert';
 interface AgentCardProps {
 	agent: any;
 	likeMemberHandler: any;
+	subscribeHandler?: any;
+	unsubscribeHandler?: any;
 }
 
 const AgentCard = (props: AgentCardProps) => {
-	const { agent, likeMemberHandler } = props;
+	const { agent, likeMemberHandler, subscribeHandler, unsubscribeHandler } = props;
 	const device = useDeviceDetect();
 	const user = useReactiveVar(userVar);
 	const imagePath: string = agent?.memberImage
@@ -137,6 +141,47 @@ const AgentCard = (props: AgentCardProps) => {
 							}}
 						/>
 					</Stack>
+
+					{/* Follow/Unfollow Button Section - Mobile */}
+					{user?._id && user._id !== agent._id && subscribeHandler && unsubscribeHandler && (
+						<Box sx={{ textAlign: 'center', mb: 2 }}>
+							{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? (
+								<Button
+									variant="outlined"
+									size="small"
+									startIcon={<PersonRemoveIcon />}
+									onClick={() => unsubscribeHandler(agent._id)}
+									sx={{
+										color: '#ff6b6b',
+										borderColor: '#ff6b6b',
+										fontSize: '0.7rem',
+										'&:hover': {
+											backgroundColor: 'rgba(255, 107, 107, 0.1)',
+											borderColor: '#ff5252',
+										}
+									}}
+								>
+									Unfollow
+								</Button>
+							) : (
+								<Button
+									variant="contained"
+									size="small"
+									startIcon={<PersonAddIcon />}
+									onClick={() => subscribeHandler(agent._id)}
+									sx={{
+										backgroundColor: '#4caf50',
+										fontSize: '0.7rem',
+										'&:hover': {
+											backgroundColor: '#45a049',
+										}
+									}}
+								>
+									Follow
+								</Button>
+							)}
+						</Box>
+					)}
 
 					<Grid container spacing={1}>
 						{agent?.memberPhone && (
@@ -279,6 +324,45 @@ const AgentCard = (props: AgentCardProps) => {
 							</Typography>
 					</Box>
 				</Stack>
+
+				{/* Follow/Unfollow Button Section */}
+				{user?._id && user._id !== agent._id && subscribeHandler && unsubscribeHandler && (
+					<Box sx={{ textAlign: 'center', mb: 2 }}>
+						{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? (
+							<Button
+								variant="outlined"
+								size="small"
+								startIcon={<PersonRemoveIcon />}
+								onClick={() => unsubscribeHandler(agent._id)}
+								sx={{
+									color: '#ff6b6b',
+									borderColor: '#ff6b6b',
+									'&:hover': {
+										backgroundColor: 'rgba(255, 107, 107, 0.1)',
+										borderColor: '#ff5252',
+									}
+								}}
+							>
+								Unfollow
+							</Button>
+						) : (
+							<Button
+								variant="contained"
+								size="small"
+								startIcon={<PersonAddIcon />}
+								onClick={() => subscribeHandler(agent._id)}
+								sx={{
+									backgroundColor: '#4caf50',
+									'&:hover': {
+										backgroundColor: '#45a049',
+									}
+								}}
+							>
+								Follow
+							</Button>
+						)}
+					</Box>
+				)}
 
 					<Divider sx={{ my: 2, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
 

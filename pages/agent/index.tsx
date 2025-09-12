@@ -27,11 +27,13 @@ import VideocamIcon from '@mui/icons-material/Videocam';
 import StarIcon from '@mui/icons-material/Star';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import PersonAddIcon from '@mui/icons-material/PersonAdd';
+import PersonRemoveIcon from '@mui/icons-material/PersonRemove';
 import { useRouter } from 'next/router';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { Member } from '../../libs/types/member/member';
 import { useMutation, useQuery } from '@apollo/client';
-import { LIKE_TARGET_MEMBER } from '../../apollo/user/mutation';
+import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { T } from '../../libs/types/common';
 import { GET_AGENTS } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
@@ -61,6 +63,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 	/** APOLLO REQUESTS **/
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
+	const [subscribe] = useMutation(SUBSCRIBE);
+	const [unsubscribe] = useMutation(UNSUBSCRIBE);
 	const {
 		loading: getAgentsLoading,
 		data: getAgentsData,
@@ -107,6 +111,40 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 			await sweetTopSmallSuccessAlert('success', 800);
 		} catch (err: any) {
 			console.log('Error, likeMemberHandler', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const subscribeHandler = async (id: string) => {
+		try {
+			if (!id) throw new Error(Messages.error1);
+			if (!user?._id) throw new Error(Messages.error2);
+
+			await subscribe({
+				variables: { input: id },
+			});
+
+			await getAgentsRefetch({ input: searchFilter });
+			await sweetTopSmallSuccessAlert('Followed successfully!', 800);
+		} catch (err: any) {
+			console.log('Error, subscribeHandler:', err.message);
+			sweetMixinErrorAlert(err.message).then();
+		}
+	};
+
+	const unsubscribeHandler = async (id: string) => {
+		try {
+			if (!id) throw new Error(Messages.error1);
+			if (!user?._id) throw new Error(Messages.error2);
+
+			await unsubscribe({
+				variables: { input: id },
+			});
+
+			await getAgentsRefetch({ input: searchFilter });
+			await sweetTopSmallSuccessAlert('Unfollowed successfully!', 800);
+		} catch (err: any) {
+			console.log('Error, unsubscribeHandler:', err.message);
 			sweetMixinErrorAlert(err.message).then();
 		}
 	};
@@ -263,38 +301,63 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 					{/* Followers and Following Section */}
 					<Stack direction="row" spacing={2} justifyContent="center" mb={2}>
-						<Link href={`/member?memberId=${agent?._id}`} style={{ textDecoration: 'none' }}>
-							<Box sx={{ 
-								textAlign: 'center', 
-								cursor: 'pointer',
-								'&:hover': { transform: 'scale(1.05)' },
-								transition: 'all 0.2s ease'
-							}}>
-								<Typography variant="body2" sx={{ color: 'rgba(128, 128, 128, 0.7)', fontSize: '0.75rem' }}>
-									Followers
-								</Typography>
-								<Typography variant="body1" sx={{ color: 'white', fontWeight: 600 }}>
-									{agent?.memberFollowers || 0}
-								</Typography>
-							</Box>
-						</Link>
+						<Box sx={{ textAlign: 'center' }}>
+							<Typography variant="body2" sx={{ color: 'rgba(128, 128, 128, 0.7)', fontSize: '0.75rem' }}>
+								Followers
+							</Typography>
+							<Typography variant="body1" sx={{ color: 'white', fontWeight: 600 }}>
+								{agent?.memberFollowers || 0}
+							</Typography>
+						</Box>
 						<Box sx={{ width: '1px', bgcolor: 'rgba(128, 128, 128, 0.3)', mx: 1 }} />
-						<Link href={`/member?memberId=${agent?._id}`} style={{ textDecoration: 'none' }}>
-							<Box sx={{ 
-								textAlign: 'center', 
-								cursor: 'pointer',
-								'&:hover': { transform: 'scale(1.05)' },
-								transition: 'all 0.2s ease'
-							}}>
-								<Typography variant="body2" sx={{ color: 'rgba(128, 128, 128, 0.7)', fontSize: '0.75rem' }}>
-									Following
-								</Typography>
-								<Typography variant="body1" sx={{ color: 'white', fontWeight: 600 }}>
-									{agent?.memberFollowings || 0}
-								</Typography>
-							</Box>
-						</Link>
+						<Box sx={{ textAlign: 'center' }}>
+							<Typography variant="body2" sx={{ color: 'rgba(128, 128, 128, 0.7)', fontSize: '0.75rem' }}>
+								Following
+							</Typography>
+							<Typography variant="body1" sx={{ color: 'white', fontWeight: 600 }}>
+								{agent?.memberFollowings || 0}
+							</Typography>
+						</Box>
 					</Stack>
+
+					{/* Follow/Unfollow Button Section */}
+					{user?._id && user._id !== agent._id && (
+						<Box sx={{ textAlign: 'center', mb: 2 }}>
+							{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? (
+								<Button
+									variant="outlined"
+									size="small"
+									startIcon={<PersonRemoveIcon />}
+									onClick={() => unsubscribeHandler(agent._id)}
+									sx={{
+										color: '#ff6b6b',
+										borderColor: '#ff6b6b',
+										'&:hover': {
+											backgroundColor: 'rgba(255, 107, 107, 0.1)',
+											borderColor: '#ff5252',
+										}
+									}}
+								>
+									Unfollow
+								</Button>
+							) : (
+								<Button
+									variant="contained"
+									size="small"
+									startIcon={<PersonAddIcon />}
+									onClick={() => subscribeHandler(agent._id)}
+									sx={{
+										backgroundColor: '#4caf50',
+										'&:hover': {
+											backgroundColor: '#45a049',
+										}
+									}}
+								>
+									Follow
+								</Button>
+							)}
+						</Box>
+					)}
 
 					{/* Views and Likes */}
 					<Stack direction="row" spacing={2} justifyContent="center" mb={2}>
