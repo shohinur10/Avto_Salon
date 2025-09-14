@@ -1,2 +1,0 @@
-// Auto Salon Footer Component
-

@@ -23,7 +23,8 @@ import {
   Divider,
   TextField,
   InputAdornment,
-  IconButton
+  IconButton,
+  SelectChangeEvent
 } from '@mui/material';
 import {
   ViewModule as GridViewIcon,
@@ -183,7 +184,9 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
 
   // Apply filters
   const applyFilters = () => {
-    handleFilterChange();
+    // This function is not currently used but kept for future implementation
+    // handleFilterChange is called directly in the filter change handlers
+    // No parameters needed as filters are applied immediately when changed
   };
 
   // Toggle filter section expansion
@@ -231,8 +234,8 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
   };
 
   // Items per page change
-  const handleItemsPerPageChange = (event: any) => {
-    const newLimit = event.target.value;
+  const handleItemsPerPageChange = (event: SelectChangeEvent<number>) => {
+    const newLimit = event.target.value as number;
     setItemsPerPage(newLimit);
     setCurrentPage(1);
     setSearchInput(prev => ({ 
@@ -274,7 +277,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
       key="home"
       color="inherit"
       href="/"
-      onClick={(e) => {
+      onClick={(e: any) => {
         e.preventDefault();
         router.push('/');
       }}

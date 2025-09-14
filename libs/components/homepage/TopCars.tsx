@@ -63,7 +63,7 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 				transition={{ duration: 0.8 }}
 				className="top-cars"
 			>
-				<Box className="section-header">
+				<Box component="div" className="section-header">
 					<motion.div
 						initial={{ opacity: 0, x: -30 }}
 						animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
@@ -77,7 +77,7 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 						</Typography>
 					</motion.div>
 				</Box>
-				<Box className="no-cars-message" style={{ textAlign: 'center', padding: '60px 20px' }}>
+				<Box component="div" className="no-cars-message" style={{ textAlign: 'center', padding: '60px 20px' }}>
 					<Typography variant="h6" style={{ color: '#666', marginBottom: '16px' }}>
 						⭐ No top cars available at the moment
 					</Typography>
@@ -97,7 +97,7 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 			transition={{ duration: 0.8 }}
 			className="top-cars"
 		>
-			<Box className="section-header">
+			<Box component="div" className="section-header">
 				<motion.div
 					initial={{ opacity: 0, x: -30 }}
 					animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
@@ -111,7 +111,7 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 					</Typography>
 				</motion.div>
 
-				<Box className="navigation-controls">
+				<Box component="div" className="navigation-controls">
 					<IconButton className="nav-btn prev-btn" id="top-cars-prev">
 						<ArrowBackIcon />
 					</IconButton>
@@ -178,16 +178,16 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 									className="luxury-car-card"
 									onClick={() => handleCarClick(car._id)}
 								>
-									<Box className="card-image-container">
+									<Box component="div" className="card-image-container">
 										<CardMedia
 											component="img"
 											height="240"
 											image={car.carImages?.[0] || '/img/cars/default-car.jpg'}
-											alt={`${car.brand} ${car.model}`}
+											alt={`${car.brand} ${car.carTitle}`}
 											className="car-image"
 										/>
 										
-										<Box className="image-overlay" />
+										<Box component="div" className="image-overlay" />
 										
 										<motion.div
 											whileHover={{ scale: 1.1 }}
@@ -225,17 +225,17 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 									</Box>
 
 									<CardContent className="card-content">
-										<Box className="car-info">
+										<Box component="div" className="car-info">
 											<Typography variant="h6" className="car-title">
-												{car.brand} {car.model || 'Unknown Model'}
+                                                                                                {car.brand} {car.carTitle}
 											</Typography>
 											<Typography variant="body2" className="car-year">
 												{car.carYear} • {car.carMileage ? car.carMileage.toLocaleString() : 'N/A'} miles
 											</Typography>
 										</Box>
 
-										<Box className="car-details">
-											<Box className="detail-item">
+										<Box component="div" className="car-details">
+											<Box component="div" className="detail-item">
 												<Typography variant="caption" className="detail-label">
 													Engine
 												</Typography>
@@ -244,7 +244,7 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 												</Typography>
 											</Box>
 											
-											<Box className="detail-item">
+											<Box component="div" className="detail-item">
 												<Typography variant="caption" className="detail-label">
 													Category
 												</Typography>
@@ -254,12 +254,12 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 											</Box>
 										</Box>
 
-										<Box className="card-footer">
+										<Box component="div" className="card-footer">
 											<Typography variant="h5" className="car-price">
 												{formatPrice(car.carPrice)}
 											</Typography>
-											<Box className="car-stats">
-												<Box className="stat-item">
+											<Box component="div" className="car-stats">
+												<Box component="div" className="stat-item">
 													<FavoriteIcon className="stat-icon" />
 													<Typography variant="caption">
 														{car.carLikes || 0}

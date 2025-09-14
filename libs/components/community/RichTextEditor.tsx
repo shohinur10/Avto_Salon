@@ -77,7 +77,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 	};
 
 	const executeCommand = (command: string, value?: string) => {
-		document.execCommand(command, false, value);
+		document.execCommand(command, false, value || '');
 		editorRef.current?.focus();
 		handleInput();
 	};
@@ -107,6 +107,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 		>
 			{/* Toolbar */}
 			<Box
+				component="div"
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
@@ -126,7 +127,9 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 						<Tooltip key={index} title={button.tooltip || ''}>
 							<IconButton
 								size="small"
-								onClick={() => executeCommand(button.command, button.value)}
+								onClick={() => {
+									(executeCommand as any)(button.command, button.value);
+								}}
 								sx={{
 									borderRadius: '8px',
 									'&:hover': {
@@ -144,6 +147,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
 			{/* Editor */}
 			<Box
+				component="div"
 				ref={editorRef}
 				contentEditable
 				suppressContentEditableWarning
@@ -244,6 +248,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
 			{/* Footer with tips */}
 			<Box
+				component="div"
 				sx={{
 					px: 2,
 					py: 1,

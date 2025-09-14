@@ -24,6 +24,7 @@ import {
 import { useRouter } from 'next/router';
 import useDeviceDetect from '../../hooks/useDeviceDetect';
 import { CarBrand, CarLocation } from '../../enums/car.enum';
+import { Direction } from '../../enums/common.enum';
 import { CarsInquiry } from '../../types/car/car.input';
 import SearchIcon from '@mui/icons-material/Search';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -109,7 +110,7 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 	const [showQuickFilters, setShowQuickFilters] = useState(false);
 
 	// Get available models for selected make
-	const availableModels = searchData.make && searchData.make !== '' 
+	const availableModels = searchData.make 
 		? carModels[searchData.make as CarBrand] || [] 
 		: [];
 
@@ -194,7 +195,7 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 			page: 1,
 			limit: 20,
 			sort: 'createdAt',
-			direction: 'DESC',
+                        direction: Direction.DESC,
 			search: {
 				brands: searchData.make ? [searchData.make] : [],
 				searchText: searchData.model ? `${searchData.make || ''} ${searchData.model}`.trim() : searchData.make || undefined,
@@ -218,10 +219,10 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 
 	if (device === 'mobile') {
 		return (
-			<Box className="autotempest-search mobile-search">
-				<Box className="search-container mobile-container">
+                        <Box component="div" className="autotempest-search mobile-search">
+				<Box component="div" className="search-container mobile-container">
 					{/* Mobile Tabs */}
-					<Box className="search-tabs mobile-tabs">
+					<Box component="div" className="search-tabs mobile-tabs">
 						<Tabs 
 							value={activeTab} 
 							onChange={handleTabChange} 
@@ -235,7 +236,7 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 					</Box>
 
 					{/* Mobile Search Form */}
-					<Box className="search-form mobile-form">
+					<Box component="div" className="search-form mobile-form">
 						<Stack spacing={2}>
 							{/* Make Dropdown */}
 							<FormControl fullWidth size="medium">
@@ -326,7 +327,7 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 							</Button>
 
 							{/* Options */}
-							<Box className="search-options mobile-options">
+							<Box component="div" className="search-options mobile-options">
 								<FormControlLabel
 									control={
 										<Checkbox
@@ -354,10 +355,10 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 	}
 
 	return (
-		<Box className="luxury-autotempest-search desktop-search">
-			<Box className="luxury-search-container desktop-container">
+		<Box component="div" className="luxury-autotempest-search desktop-search">
+			<Box component="div" className="luxury-search-container desktop-container">
 				{/* Pill-style Tabs */}
-				<Box className="luxury-search-tabs desktop-tabs">
+				<Box component="div" className="luxury-search-tabs desktop-tabs">
 					<Tabs 
 						value={activeTab} 
 						onChange={handleTabChange} 
@@ -371,10 +372,10 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 				</Box>
 
 				{/* Main Search Form */}
-				<Box className="luxury-search-form desktop-form">
-					<Box className="luxury-search-row desktop-row">
+				<Box component="div" className="luxury-search-form desktop-form">
+					<Box component="div" className="luxury-search-row desktop-row">
 						{/* Make Dropdown */}
-						<Box className="luxury-search-field make-field">
+						<Box component="div" className="luxury-search-field make-field">
 							<FormControl fullWidth size="medium">
 								<InputLabel>Make</InputLabel>
 								<Select
@@ -399,7 +400,7 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 						</Box>
 
 						{/* Model Dropdown */}
-						<Box className="luxury-search-field model-field">
+						<Box component="div" className="luxury-search-field model-field">
 							<FormControl fullWidth size="medium">
 								<InputLabel>Model</InputLabel>
 								<Select
@@ -428,12 +429,12 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 						</Box>
 
 						{/* Price Range Slider */}
-						<Box className="luxury-search-field price-field">
+						<Box component="div" className="luxury-search-field price-field">
 							<Typography className="luxury-field-label">
 								<AttachMoneyIcon className="price-icon" />
 								Price Range
 							</Typography>
-							<Box className="luxury-price-slider-container">
+							<Box component="div" className="luxury-price-slider-container">
 								<Slider
 									value={searchData.priceRange}
 									onChange={handlePriceRangeChange}
@@ -458,7 +459,7 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 										}
 									}}
 								/>
-								<Box className="price-range-display">
+								<Box component="div" className="price-range-display">
 									<Typography variant="caption" className="price-min">
 										{formatPrice(searchData.priceRange[0])}
 									</Typography>
@@ -470,8 +471,8 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 						</Box>
 
 						{/* Location Fields Group */}
-						<Box className="luxury-search-field location-group">
-							<Box className="location-fields-row">
+						<Box component="div" className="luxury-search-field location-group">
+							<Box component="div" className="location-fields-row">
 								{/* Zip Code */}
 								<TextField
 									size="medium"
@@ -518,7 +519,7 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 						</Box>
 
 						{/* Search Button */}
-						<Box className="luxury-search-field search-button-field">
+						<Box component="div" className="luxury-search-field search-button-field">
 							<Button
 								variant="contained"
 								size="large"
@@ -532,8 +533,8 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 					</Box>
 
 					{/* Quick Filters Section */}
-					<Box className="luxury-quick-filters-section">
-						<Box className="quick-filters-header">
+					<Box component="div" className="luxury-quick-filters-section">
+						<Box component="div" className="quick-filters-header">
 							<Typography className="quick-filters-label">Quick Filters</Typography>
 							<IconButton 
 								onClick={toggleQuickFilters} 
@@ -545,11 +546,11 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 						</Box>
 						
 						<Collapse in={showQuickFilters}>
-							<Box className="quick-filters-content">
+							<Box component="div" className="quick-filters-content">
 								{/* Body Type */}
-								<Box className="filter-group">
+								<Box component="div" className="filter-group">
 									<Typography className="filter-group-label">Body Type</Typography>
-									<Box className="filter-chips">
+									<Box component="div" className="filter-chips">
 										{bodyTypes.map((type) => (
 											<Chip
 												key={type}
@@ -563,9 +564,9 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 								</Box>
 
 								{/* Fuel Type */}
-								<Box className="filter-group">
+								<Box component="div" className="filter-group">
 									<Typography className="filter-group-label">Fuel Type</Typography>
-									<Box className="filter-chips">
+									<Box component="div" className="filter-chips">
 										{fuelTypes.map((type) => (
 											<Chip
 												key={type}
@@ -579,9 +580,9 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 								</Box>
 
 								{/* Transmission */}
-								<Box className="filter-group">
+								<Box component="div" className="filter-group">
 									<Typography className="filter-group-label">Transmission</Typography>
-									<Box className="filter-chips">
+									<Box component="div" className="filter-chips">
 										{transmissionTypes.map((type) => (
 											<Chip
 												key={type}
@@ -598,7 +599,7 @@ const AutoTempestSearch: React.FC<AutoTempestSearchProps> = ({
 					</Box>
 
 					{/* Advanced Search Link */}
-					<Box className="luxury-advanced-search">
+					<Box component="div" className="luxury-advanced-search">
 						<Button 
 							onClick={handleAdvancedSearch}
 							className="luxury-advanced-search-button"

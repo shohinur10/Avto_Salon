@@ -99,12 +99,14 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
     [CarBrand.BMW]: '/img/brands/BMW.svg',
     [CarBrand.MERCEDES]: '/img/brands/MERCEDES.svg',
     [CarBrand.AUDI]: '/img/brands/AUDI.svg',
-    [CarBrand.LEXUS]: '/img/brands/LEXUS.svg',
+    [CarBrand.VOLKSWAGEN]: '/img/brands/VOLKSWAGEN.svg',
     [CarBrand.HONDA]: '/img/brands/HONDA.svg',
     [CarBrand.NISSAN]: '/img/brands/NISSAN.svg',
     [CarBrand.HYUNDAI]: '/img/brands/HYUNDAI.svg',
     [CarBrand.KIA]: '/img/brands/KIA.svg',
-    [CarBrand.VOLKSWAGEN]: '/img/brands/VOLKSWAGEN.svg',
+    [CarBrand.FORD]: '/img/brands/FORD.svg',
+    [CarBrand.CHEVROLET]: '/img/brands/CHEVROLET.svg',
+    [CarBrand.LEXUS]: '/img/brands/LEXUS.svg',
     [CarBrand.PORSCHE]: '/img/brands/PORSCHE.svg',
     [CarBrand.FERRARI]: '/img/brands/FERRARI.svg',
     [CarBrand.LAMBORGHINI]: '/img/brands/LAMBORGHINI.svg',
@@ -120,7 +122,8 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
     [CarCategory.HATCHBACK]: '#f57c00',
     [CarCategory.COUPE]: '#d32f2f',
     [CarCategory.LUXURY]: '#d4af37',
-    [CarCategory.TRUCK]: '#616161'
+    [CarCategory.TRUCK]: '#616161',
+    [CarCategory.CAR]: '#9c27b0'
   };
 
   useEffect(() => {
@@ -200,7 +203,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
         whileHover={{ scale: 1.01 }}
         transition={{ type: "spring", stiffness: 300 }}
       >
-        <Box className="filter-header-content">
+        <Box className="filter-header-content" component="div">
           {/* Search Bar */}
           <motion.div
             className="search-container"
@@ -242,7 +245,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
           </motion.div>
 
           {/* Filter Toggle & Stats */}
-          <Box className="filter-controls">
+          <Box className="filter-controls" component="div">
             <motion.div
               className="filter-stats"
               initial={{ opacity: 0 }}
@@ -298,7 +301,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
           >
-            <Box className="filter-content">
+            <Box className="filter-content" component="div">
               {/* Quick Sort Options */}
               <motion.div
                 className="quick-sort-section"
@@ -310,7 +313,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                   <SpeedIcon className="section-icon" />
                   Quick Sort
                 </Typography>
-                <Box className="sort-options">
+                <Box className="sort-options" component="div">
                   {[
                     { label: 'Newest First', value: 'createdAt', direction: 'DESC' },
                     { label: 'Price: Low to High', value: 'carPrice', direction: 'ASC' },
@@ -353,7 +356,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                   >
                     <Accordion className="filter-accordion">
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Box className="accordion-header">
+                        <Box className="accordion-header" component="div">
                           <CarIcon className="section-icon" />
                           <Typography variant="h6">
                             Brands ({activeFilters.brands.length})
@@ -361,7 +364,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                         </Box>
                       </AccordionSummary>
                       <AccordionDetails>
-                        <Box className="brand-grid">
+                        <Box className="brand-grid" component="div">
                           {Object.values(CarBrand).map((brand, index) => (
                             <motion.div
                               key={brand}
@@ -403,7 +406,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                   >
                     <Accordion className="filter-accordion">
                       <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                        <Box className="accordion-header">
+                        <Box className="accordion-header" component="div">
                           <CarIcon className="section-icon" />
                           <Typography variant="h6">
                             Categories ({activeFilters.categories.length})
@@ -411,7 +414,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                         </Box>
                       </AccordionSummary>
                       <AccordionDetails>
-                        <Box className="category-chips">
+                        <Box className="category-chips" component="div">
                           {Object.values(CarCategory).map((category, index) => (
                             <motion.div
                               key={category}
@@ -452,18 +455,18 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                       <PriceIcon className="section-icon" />
                       Price Range
                     </Typography>
-                    <Box className="range-container">
+                    <Box className="range-container" component="div">
                       <Slider
                         value={activeFilters.priceRange}
-                        onChange={(_, value) => handleRangeChange('priceRange', value as [number, number])}
+                        onChange={(_: Event, value: number | number[]) => handleRangeChange('priceRange', value as [number, number])}
                         valueLabelDisplay="auto"
-                        valueLabelFormat={(value) => `$${value.toLocaleString()}`}
+                        valueLabelFormat={(value: number) => `$${value.toLocaleString()}`}
                         min={0}
                         max={1000000}
                         step={5000}
                         className="price-slider"
                       />
-                      <Box className="range-labels">
+                      <Box className="range-labels" component="div">
                         <Typography variant="caption">
                           ${activeFilters.priceRange[0].toLocaleString()}
                         </Typography>
@@ -487,17 +490,17 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                       <YearIcon className="section-icon" />
                       Year Range
                     </Typography>
-                    <Box className="range-container">
+                    <Box className="range-container" component="div">
                       <Slider
                         value={activeFilters.yearRange}
-                        onChange={(_, value) => handleRangeChange('yearRange', value as [number, number])}
+                        onChange={(_: Event, value: number | number[]) => handleRangeChange('yearRange', value as [number, number])}
                         valueLabelDisplay="auto"
                         min={1990}
                         max={2024}
                         step={1}
                         className="year-slider"
                       />
-                      <Box className="range-labels">
+                      <Box className="range-labels" component="div">
                         <Typography variant="caption">
                           {activeFilters.yearRange[0]}
                         </Typography>
@@ -521,18 +524,18 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                       <SpeedIcon className="section-icon" />
                       Mileage Range
                     </Typography>
-                    <Box className="range-container">
+                    <Box className="range-container" component="div">
                       <Slider
                         value={activeFilters.mileageRange}
-                        onChange={(_, value) => handleRangeChange('mileageRange', value as [number, number])}
+                        onChange={(_: Event, value: number | number[]) => handleRangeChange('mileageRange', value as [number, number])}
                         valueLabelDisplay="auto"
-                        valueLabelFormat={(value) => `${value.toLocaleString()} mi`}
+                        valueLabelFormat={(value: number) => `${value.toLocaleString()} mi`}
                         min={0}
                         max={200000}
                         step={1000}
                         className="mileage-slider"
                       />
-                      <Box className="range-labels">
+                      <Box className="range-labels" component="div">
                         <Typography variant="caption">
                           {activeFilters.mileageRange[0].toLocaleString()} mi
                         </Typography>
@@ -569,7 +572,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                               fuelTypes: e.target.value as FuelType[] 
                             }))}
                             renderValue={(selected) => (
-                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                              <Box component="div" sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                 {selected.map((value) => (
                                   <Chip key={value} label={value} size="small" />
                                 ))}
@@ -597,7 +600,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                               transmissions: e.target.value as TransmissionType[] 
                             }))}
                             renderValue={(selected) => (
-                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                              <Box component="div" sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                 {selected.map((value) => (
                                   <Chip key={value} label={value} size="small" />
                                 ))}
@@ -625,7 +628,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                               conditions: e.target.value as CarCondition[] 
                             }))}
                             renderValue={(selected) => (
-                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                              <Box component="div" sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                 {selected.map((value) => (
                                   <Chip key={value} label={value} size="small" />
                                 ))}
@@ -653,7 +656,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                               locations: e.target.value as CarLocation[] 
                             }))}
                             renderValue={(selected) => (
-                              <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
+                              <Box component="div" sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
                                 {selected.map((value) => (
                                   <Chip key={value} label={value} size="small" />
                                 ))}
@@ -672,7 +675,7 @@ const AdvancedCarFilter: React.FC<AdvancedCarFilterProps> = ({
                     </Grid>
 
                     {/* Luxury Toggle */}
-                    <Box className="luxury-toggle" sx={{ mt: 2 }}>
+                    <Box className="luxury-toggle" component="div" sx={{ mt: 2 }}>
                       <FormControlLabel
                         control={
                           <Switch

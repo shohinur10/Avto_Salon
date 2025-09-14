@@ -292,7 +292,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 						</Stack>
 
 						{/* Main Image */}
-						<Box sx={{ 
+                                                <Box component="div" sx={{
 							width: '100%', 
 							height: '250px', 
 							borderRadius: 2, 
@@ -333,7 +333,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 									direction="row" 
 									alignItems="center" 
 									spacing={0.5}
-									onClick={() => likeCarHandler(user, car?._id)}
+									onClick={() => car?._id && likeCarHandler(user, car._id)}
 									sx={{ cursor: 'pointer' }}
 								>
 									{car?.meLiked && car?.meLiked[0]?.myFavorite ? (
@@ -350,7 +350,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 						{car?.carImages && car?.carImages.length > 0 && (
 							<Stack direction="row" spacing={1} sx={{ overflowX: 'auto', pb: 1 }}>
 								{car.carImages.map((subImg: string) => (
-									<Box
+									<Box component="div"
 										key={subImg}
 										onClick={() => changeImageHandler(subImg)}
 										sx={{
@@ -468,7 +468,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 									Reviews ({commentTotal})
 								</Typography>
 								{carComments?.slice(0, 3).map((comment: Comment) => (
-									<Box key={comment._id} sx={{ 
+									<Box component="div" key={comment._id} sx={{ 
 										backgroundColor: 'rgba(255, 255, 255, 0.1)',
 										padding: 2,
 										borderRadius: 2

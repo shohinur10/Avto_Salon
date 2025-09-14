@@ -7,7 +7,11 @@ WORKDIR /usr/src/avto-salon
 COPY package*.json ./
 
 # Install dependencies with npm (more reliable for Docker)
-RUN npm install --legacy-peer-deps
+# Add retry logic and timeout settings for network issues
+RUN npm config set fetch-retry-mintimeout 20000 && \
+    npm config set fetch-retry-maxtimeout 120000 && \
+    npm config set fetch-retries 5 && \
+    npm install --legacy-peer-deps --timeout=300000
 
 # Copy source code
 COPY . .

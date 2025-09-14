@@ -42,7 +42,7 @@ import {
 	Delete as DeleteIcon,
 	Expand as ExpandIcon,
 	ExpandLess as CollapseIcon,
-	Award as AwardIcon,
+	Star as AwardIcon,
 	TrendingUp as TrendingIcon,
 	AccessTime as TimeIcon
 } from '@mui/icons-material';
@@ -67,6 +67,7 @@ export const getStaticProps = async ({ locale }: any) => ({
 // Mock data for demonstration
 const mockArticle: BoardArticle = {
 	_id: '1',
+	memberId: 'user1',
 	articleTitle: '2024 Tesla Model S Review: Game-Changing Performance',
 	articleContent: `<h2>Introduction</h2>
 		<p>After 6 months of driving the 2024 Tesla Model S Plaid, I wanted to share my comprehensive experience with this incredible machine. From the jaw-dropping acceleration to the luxurious interior, this car has completely changed my perspective on electric vehicles.</p>
@@ -88,11 +89,28 @@ const mockArticle: BoardArticle = {
 	articleViews: 1520,
 	memberData: {
 		_id: 'user1',
+		memberType: 'USER' as any,
+		memberStatus: 'ACTIVE' as any,
+		memberAuthType: 'EMAIL' as any,
+		memberPhone: '+1-555-0123',
 		memberNick: 'TeslaEnthusiast',
 		memberImage: '/img/profile/tesla-user.jpg',
 		memberCars: 3,
 		memberFollowers: 1200,
-		memberRank: 4.9
+		memberRank: 4.9,
+		memberArticles: 12,
+		memberPoints: 1500,
+		memberLikes: 500,
+		memberViews: 2500,
+		memberComments: 89,
+		memberWarnings: 0,
+		memberBlocks: 0,
+		deletedAt: undefined,
+		createdAt: new Date('2023-01-15'),
+		updatedAt: new Date('2024-01-15'),
+		accessToken: '',
+		meLiked: [],
+		meFollowed: []
 	},
 	createdAt: new Date('2024-01-15'),
 	updatedAt: new Date('2024-01-15'),
@@ -104,33 +122,75 @@ const mockArticle: BoardArticle = {
 const mockComments: Comment[] = [
 	{
 		_id: '1',
-		commentContent: 'Excellent review! I\'ve been considering the Model S and this really helps. How\'s the build quality compared to traditional luxury sedans?',
-		commentLikes: 12,
-		memberData: {
-			_id: 'user2',
-			memberNick: 'CarLover2024',
-			memberImage: '/img/profile/user2.jpg',
-			memberCars: 2
-		},
-		createdAt: new Date('2024-01-16'),
 		commentStatus: 'ACTIVE' as any,
 		commentGroup: 'ARTICLE' as any,
-		commentRefId: '1'
+		commentContent: 'Excellent review! I\'ve been considering the Model S and this really helps. How\'s the build quality compared to traditional luxury sedans?',
+		commentRefId: '1',
+		memberId: 'user2',
+		memberData: {
+			_id: 'user2',
+			memberType: 'USER' as any,
+			memberStatus: 'ACTIVE' as any,
+			memberAuthType: 'EMAIL' as any,
+			memberPhone: '+1-555-0124',
+			memberNick: 'CarLover2024',
+			memberImage: '/img/profile/user2.jpg',
+			memberCars: 2,
+			memberArticles: 8,
+			memberPoints: 800,
+			memberLikes: 200,
+			memberFollowers: 150,
+			memberFollowings: 75,
+			memberViews: 1200,
+			memberComments: 45,
+			memberWarnings: 0,
+			memberBlocks: 0,
+			memberRank: 4.2,
+			deletedAt: undefined,
+			createdAt: new Date('2023-02-15'),
+			updatedAt: new Date('2024-01-16'),
+			accessToken: '',
+			meLiked: [],
+			meFollowed: []
+		},
+		createdAt: new Date('2024-01-16'),
+		updatedAt: new Date('2024-01-16')
 	},
 	{
 		_id: '2',
-		commentContent: 'I have the same car and completely agree with your assessment. The performance is absolutely incredible. One thing I\'d add is that the over-the-air updates keep making the car better over time.',
-		commentLikes: 8,
-		memberData: {
-			_id: 'user3',
-			memberNick: 'EVOwner',
-			memberImage: '/img/profile/user3.jpg',
-			memberCars: 1
-		},
-		createdAt: new Date('2024-01-16'),
 		commentStatus: 'ACTIVE' as any,
 		commentGroup: 'ARTICLE' as any,
-		commentRefId: '1'
+		commentContent: 'I have the same car and completely agree with your assessment. The performance is absolutely incredible. One thing I\'d add is that the over-the-air updates keep making the car better over time.',
+		commentRefId: '1',
+		memberId: 'user3',
+		memberData: {
+			_id: 'user3',
+			memberType: 'USER' as any,
+			memberStatus: 'ACTIVE' as any,
+			memberAuthType: 'EMAIL' as any,
+			memberPhone: '+1-555-0125',
+			memberNick: 'EVOwner',
+			memberImage: '/img/profile/user3.jpg',
+			memberCars: 1,
+			memberArticles: 5,
+			memberPoints: 600,
+			memberLikes: 150,
+			memberFollowers: 80,
+			memberFollowings: 40,
+			memberViews: 800,
+			memberComments: 25,
+			memberWarnings: 0,
+			memberBlocks: 0,
+			memberRank: 4.0,
+			deletedAt: undefined,
+			createdAt: new Date('2023-03-10'),
+			updatedAt: new Date('2024-01-16'),
+			accessToken: '',
+			meLiked: [],
+			meFollowed: []
+		},
+		createdAt: new Date('2024-01-16'),
+		updatedAt: new Date('2024-01-16')
 	}
 ];
 
@@ -224,7 +284,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 										textTransform: 'none'
 									}}
 								>
-									{comment.commentLikes + (isLiked ? 1 : 0)}
+                                                                        {isLiked ? 1 : 0}
 								</Button>
 								<Button
 									size="small"
@@ -320,7 +380,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	}
 
 	return (
-		<Box sx={{ 
+                <Box component="div" sx={{
 			background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
 			minHeight: '100vh',
 			py: 4
@@ -377,7 +437,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 							>
 								{/* Article Image */}
 								{article.articleImage && (
-									<Box
+									<Box component="div"
 										sx={{
 											height: '400px',
 											backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.1)), url(${article.articleImage})`,
@@ -386,7 +446,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 											position: 'relative'
 										}}
 									>
-										<Box
+										<Box component="div"
 											sx={{
 												position: 'absolute',
 												bottom: 24,
@@ -464,7 +524,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									</Stack>
 
 									{/* Article Content */}
-									<Box 
+									<Box component="div" 
 										sx={{ 
 											mb: 4,
 											'& h2, & h3': {
@@ -594,7 +654,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 									{/* Show More Comments */}
 									{comments.length > 3 && (
-										<Box textAlign="center" mt={2}>
+										<Box component="div" textAlign="center" mt={2}>
 											<Button
 												onClick={() => setShowAllComments(!showAllComments)}
 												startIcon={showAllComments ? <CollapseIcon /> : <ExpandIcon />}
@@ -748,7 +808,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.4, delay: 0.3 }}
 				>
-					<Box textAlign="center" mt={4}>
+					<Box component="div" textAlign="center" mt={4}>
 						<Button
 							startIcon={<BackIcon />}
 							variant="outlined"

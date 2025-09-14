@@ -202,11 +202,10 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 		const newSearchCommunity = {
 			...searchCommunity,
 			page: 1,
-			search: { 
-				// Only add articleCategory if a specific category is selected
-				...(selectedCategory && selectedCategory !== 'ALL' ? { articleCategory: selectedCategory as BoardArticleCategory } : {}),
-				text: searchQuery || undefined
-			}
+		search: { 
+			articleCategory: selectedCategory && selectedCategory !== 'ALL' ? selectedCategory as BoardArticleCategory : BoardArticleCategory.FREE,
+			text: searchQuery || undefined
+		}
 		};
 		console.log('Community page - Setting search variables:', newSearchCommunity);
 		setSearchCommunity(newSearchCommunity);
@@ -384,7 +383,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 
 						{/* Post Image */}
 						{postImage && (
-							<Box
+							<Box component="div"
 								sx={{
 									width: '100%',
 									height: '300px',
@@ -459,12 +458,12 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 	}
 
 	return (
-		<Box sx={{ 
+		<Box component="div" sx={{ 
 			background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
 			minHeight: '100vh'
 		}}>
 			{/* Hero Header */}
-			<Box sx={{ 
+			<Box component="div" sx={{ 
 				background: 'linear-gradient(135deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5)), url("/img/community/hero-bg.jpg")',
 				backgroundSize: 'cover',
 				backgroundPosition: 'center',
@@ -550,7 +549,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											>
 												<Stack direction="row" alignItems="center" justifyContent="space-between">
 													<Stack direction="row" alignItems="center" spacing={1}>
-														<Box sx={{ color: category.color }}>
+														<Box component="div" sx={{ color: category.color }}>
 															{category.icon}
 														</Box>
 														<Stack>
@@ -774,7 +773,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 
 							{/* Load More */}
 							{boardArticles.length < totalCount && (
-								<Box textAlign="center">
+								<Box component="div" textAlign="center">
 									<Button 
 										variant="outlined" 
 										size="large"
@@ -800,7 +799,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 									</Typography>
 									<Grid container spacing={2}>
 										<Grid item xs={6}>
-											<Box textAlign="center" p={2} bgcolor="primary.light" borderRadius="12px">
+											<Box component="div" textAlign="center" p={2} bgcolor="primary.light" borderRadius="12px">
 												<Typography variant="h4" fontWeight={700} color="white">
 													{totalCount}
 												</Typography>
@@ -810,7 +809,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											</Box>
 										</Grid>
 										<Grid item xs={6}>
-											<Box textAlign="center" p={2} bgcolor="success.light" borderRadius="12px">
+											<Box component="div" textAlign="center" p={2} bgcolor="success.light" borderRadius="12px">
 												<Typography variant="h4" fontWeight={700} color="white">
 													50k+
 												</Typography>
@@ -820,7 +819,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											</Box>
 										</Grid>
 										<Grid item xs={6}>
-											<Box textAlign="center" p={2} bgcolor="warning.light" borderRadius="12px">
+											<Box component="div" textAlign="center" p={2} bgcolor="warning.light" borderRadius="12px">
 												<Typography variant="h4" fontWeight={700} color="white">
 													24h
 												</Typography>
@@ -830,7 +829,7 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 											</Box>
 										</Grid>
 										<Grid item xs={6}>
-											<Box textAlign="center" p={2} bgcolor="error.light" borderRadius="12px">
+											<Box component="div" textAlign="center" p={2} bgcolor="error.light" borderRadius="12px">
 												<Typography variant="h4" fontWeight={700} color="white">
 													4.8★
 												</Typography>
