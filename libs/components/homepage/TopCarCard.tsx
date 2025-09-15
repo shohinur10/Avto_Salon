@@ -31,6 +31,7 @@ const TopCarCard = (props: TopCarCardProps) => {
 		return (
 			<Stack className="top-card-box">
 				<Box
+													component="div"
 													
 													
 													
@@ -92,6 +93,7 @@ const TopCarCard = (props: TopCarCardProps) => {
 		return (
 			<Stack className="top-card-box">
 				<Box
+													component="div"
 													
 													
 													

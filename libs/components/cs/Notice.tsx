@@ -382,6 +382,7 @@ const NoticeComponent = ({ onNoticeClick }: NoticeComponentProps) => {
 							))
 						) : (
 							<Box
+													component="div"
 													
 													
 													

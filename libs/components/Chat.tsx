@@ -147,8 +147,7 @@ const Chat = () => {
 									? `${REACT_APP_API_URL}/${memberData.memberImage}`
 									: '/img/profile/defaultUser.svg';
 								return memberData?._id === user?._id ? (
-									<Box
-										
+									<Box component="div"
 										flexDirection={'row'}
 										style={{ display: 'flex' }}
 										alignItems={'flex-end'}

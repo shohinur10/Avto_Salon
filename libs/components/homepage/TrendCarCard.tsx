@@ -31,6 +31,7 @@ const TrendCarCard = (props: TrendCarCardProps) => {
 		return (
 			<Stack className="trend-card-box" key={car._id}>
 				<Box
+													component="div"
 													
 													
 													
@@ -85,6 +86,7 @@ const TrendCarCard = (props: TrendCarCardProps) => {
 		return (
 			<Stack className="trend-card-box" key={car._id}>
 				<Box
+													component="div"
 													
 													
 													

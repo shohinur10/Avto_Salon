@@ -517,6 +517,7 @@ const CreatePost: NextPage = () => {
 				</Typography>
 				
 				<Box
+													component="div"
 													
 													
 													

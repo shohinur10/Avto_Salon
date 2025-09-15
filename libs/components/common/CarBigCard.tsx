@@ -33,6 +33,7 @@ const CarBigCard = (props: CarBigCardProps) => {
 		return (
 			<Stack className="car-big-card-box" onClick={() => goCarDetailPage(car?._id)}>
                           <Box
+													component="div"
                                   
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${car?.carImages?.[0]})` }}

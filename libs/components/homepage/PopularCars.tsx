@@ -148,9 +148,9 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 									className="luxury-car-card"
 									onClick={() => handleCarClick(car._id)}
 								>
-									<Box component="div"    className="card-image-container">
+									<Box component="div" className="card-image-container">
 										<CardMedia
-											
+											component="img"
 											height="240"
 											image={car.carImages?.[0] ? `${REACT_APP_API_URL}/${car.carImages[0]}` : '/img/cars/default-car.jpg'}
 											alt={`${car.brand} ${car.carTitle}`}

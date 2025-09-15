@@ -29,6 +29,7 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 		return (
 			<Stack className="popular-card-box">
 				<Box
+													component="div"
 													
 													
 													
@@ -87,6 +88,7 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 		return (
 			<Stack className="popular-card-box">
 				<Box
+													component="div"
 													
 													
 													

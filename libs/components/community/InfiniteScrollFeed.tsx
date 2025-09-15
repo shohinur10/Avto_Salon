@@ -143,6 +143,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 				>
 					<Stack direction="row" spacing={2} mb={2}>
 						<Box
+													component="div"
 													
 													
 													
@@ -157,6 +158,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 						/>
 						<Stack spacing={1} flex={1}>
 							<Box
+													component="div"
 													
 													
 													
@@ -170,6 +172,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 								}}
 							/>
 							<Box
+													component="div"
 													
 													
 													
@@ -186,6 +189,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 					</Stack>
 					<Stack spacing={2}>
 						<Box
+													component="div"
 													
 													
 													
@@ -199,6 +203,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 							}}
 						/>
 						<Box
+													component="div"
 													
 													
 													
@@ -211,6 +216,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 							}}
 						/>
 						<Box
+													component="div"
 													
 													
 													
@@ -245,6 +251,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 						}}
 					>
 						<Box
+													component="div"
 													
 													
 													

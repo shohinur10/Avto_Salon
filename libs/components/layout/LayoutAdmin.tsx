@@ -100,6 +100,7 @@ const withAdminLayout = (Component: ComponentType) => {
 								onClose={handleCloseUserMenu}
 							>
 								<Box
+													component="div"
 													
 													
 													

@@ -108,6 +108,7 @@ const ShowcaseCard = (props: ShowcaseCardProps) => {
 					{/* Play button overlay for videos */}
 					{isVideo && (
 						<Box
+													component="div"
 													
 													
 													

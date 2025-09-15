@@ -180,6 +180,7 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 								>
 									<Box component="div"    className="card-image-container">
 										<CardMedia
+													component="img"
 											
 											height="240"
 											image={car.carImages?.[0] || '/img/cars/default-car.jpg'}

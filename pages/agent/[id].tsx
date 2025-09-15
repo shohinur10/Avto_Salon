@@ -285,6 +285,7 @@ const AgentDetail: NextPage<AgentDetailProps> = ({ initialInput, ...props }) => 
 									anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 									badgeContent={
 										<Box
+													component="div"
 													
 													
 													
