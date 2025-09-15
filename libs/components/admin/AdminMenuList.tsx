@@ -116,7 +116,7 @@ const AdminMenuList = (props: any) => {
 				<List className={'menu_wrap'} key={index} disablePadding>
 					<ListItemButton
 						onClick={item.on_click}
-						component={'li'}
+						
 						className={clickMenu[0] === item.title ? 'menu on' : 'menu'}
 						sx={{
 							minHeight: 48,
@@ -140,7 +140,7 @@ const AdminMenuList = (props: any) => {
 						in={!!clickMenu.find((menu: string) => menu === item.title)}
 						className="menu"
 						timeout="auto"
-						component="li"
+						
 						unmountOnExit
 					>
 						<List className="menu-list" disablePadding>
@@ -148,10 +148,10 @@ const AdminMenuList = (props: any) => {
 								sub_menu_set[item.title].map((sub: any, i: number) => (
 									<Link href={sub.url} shallow={true} replace={true} key={i}>
 										<ListItemButton
-											component="li"
+											
 											className={clickMenu[0] === item.title && clickSubMenu === sub.title ? 'li on' : 'li'}
 										>
-											<Typography variant={sub.title} component={'span'}>
+											<Typography variant={sub.title} >
 												{sub.title}
 											</Typography>
 										</ListItemButton>

@@ -41,9 +41,9 @@ const PlatformStats: React.FC = () => {
 	];
 
 	return (
-		<Box component="div"   className="platform-stats">
-			<Box component="div"   className="container">
-				<Box component="div"   className="stats-header">
+		<Box component="div"    className="platform-stats">
+			<Box component="div"    className="container">
+				<Box component="div"    className="stats-header">
 					<Typography variant="h2" className="stats-title">
 						Platform Statistics
 					</Typography>
@@ -55,22 +55,22 @@ const PlatformStats: React.FC = () => {
 				<Grid container spacing={3} className="enhanced-stats-grid">
 					{stats.map((stat, index) => (
 						<Grid item xs={12} sm={6} md={3} key={index}>
-							<Box component="div"   className="enhanced-stat-card">
-								<Box component="div"   className="stat-image-container">
+							<Box component="div"    className="enhanced-stat-card">
+								<Box component="div"    className="stat-image-container">
 									<img 
 										src={stat.image} 
 										alt={stat.alt} 
 										className="stat-background-image"
 									/>
-									<Box component="div"   className="stat-image-overlay"></Box>
+									<Box component="div"    className="stat-image-overlay"></Box>
 								</Box>
-								<Box component="div"   className="stat-content-wrapper">
-									<Box component="div"   className="stat-badge">
+								<Box component="div"    className="stat-content-wrapper">
+									<Box component="div"    className="stat-badge">
 										<Typography variant="h2" className="stat-number">
 											{stat.number}
 										</Typography>
 									</Box>
-									<Box component="div"   className="stat-info">
+									<Box component="div"    className="stat-info">
 										<Typography variant="h6" className="stat-label">
 											{stat.label}
 										</Typography>

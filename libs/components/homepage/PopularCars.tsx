@@ -67,7 +67,7 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 			transition={{ duration: 0.8 }}
 			className="popular-cars"
 		>
-                  <Box component="div"   className="section-header">
+                  <Box component="div"    className="section-header">
 				<motion.div
 					initial={{ opacity: 0, x: -30 }}
 					animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
@@ -81,7 +81,7 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 					</Typography>
 				</motion.div>
 
-				<Box component="div"   className="navigation-controls">
+				<Box component="div"    className="navigation-controls">
 					<IconButton className="nav-btn prev-btn" id="popular-prev">
 						<ArrowBackIcon />
 					</IconButton>
@@ -148,16 +148,16 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 									className="luxury-car-card"
 									onClick={() => handleCarClick(car._id)}
 								>
-									<Box component="div"   className="card-image-container">
+									<Box component="div"    className="card-image-container">
 										<CardMedia
-											component="img"
+											
 											height="240"
 											image={car.carImages?.[0] ? `${REACT_APP_API_URL}/${car.carImages[0]}` : '/img/cars/default-car.jpg'}
 											alt={`${car.brand} ${car.carTitle}`}
 											className="car-image"
 										/>
 										
-										<Box component="div"   className="image-overlay" />
+										<Box component="div"    className="image-overlay" />
 										
 										<motion.div
 											whileHover={{ scale: 1.1 }}
@@ -195,7 +195,7 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 									</Box>
 
 									<CardContent className="card-content">
-										<Box component="div"   className="car-info">
+										<Box component="div"    className="car-info">
 											<Typography variant="h6" className="car-title">
 												{car.brand}
 											</Typography>
@@ -204,8 +204,8 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 											</Typography>
 										</Box>
 
-										<Box component="div"   className="car-details">
-											<Box component="div"   className="detail-item">
+										<Box component="div"    className="car-details">
+											<Box component="div"    className="detail-item">
 												<Typography variant="caption" className="detail-label">
 													Engine
 												</Typography>
@@ -214,7 +214,7 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 												</Typography>
 											</Box>
 											
-											<Box component="div"   className="detail-item">
+											<Box component="div"    className="detail-item">
 												<Typography variant="caption" className="detail-label">
 													Category
 												</Typography>
@@ -224,12 +224,12 @@ const PopularCars: React.FC<PopularCarsProps> = ({ cars = [], onLikeToggle }) =>
 											</Box>
 										</Box>
 
-										<Box component="div"   className="card-footer">
+										<Box component="div"    className="card-footer">
 											<Typography variant="h5" className="car-price">
 												{formatPrice(car.carPrice)}
 											</Typography>
-											<Box component="div"   className="car-stats">
-												<Box component="div"   className="stat-item">
+											<Box component="div"    className="car-stats">
+												<Box component="div"    className="stat-item">
 													<FavoriteIcon className="stat-icon" />
 													<Typography variant="caption">
 														{car.carLikes || 0}

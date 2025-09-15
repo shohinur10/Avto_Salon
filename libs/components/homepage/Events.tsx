@@ -77,8 +77,8 @@ const EventCard = ({ event }: { event: EventData }) => {
 					}
 				}}
 			>
-				<Box component="div"   className="mobile-event-info">
-					<Box component="div"   sx={{ 
+				<Box component="div"    className="mobile-event-info">
+					<Box component="div"    sx={{ 
 						fontSize: '14px', 
 						fontWeight: 600, 
 						color: '#FFD700',
@@ -88,7 +88,7 @@ const EventCard = ({ event }: { event: EventData }) => {
 					}}>
 						{getLocationDisplayName(event?.city)}
 					</Box>
-					<Box component="div"   sx={{ 
+					<Box component="div"    sx={{ 
 						fontSize: '18px', 
 						fontWeight: 700, 
 						lineHeight: '1.3',
@@ -97,7 +97,7 @@ const EventCard = ({ event }: { event: EventData }) => {
 						{event?.eventTitle}
 					</Box>
 				</Box>
-				<Box component="div"   sx={{ 
+				<Box component="div"    sx={{ 
 					fontSize: '14px', 
 					opacity: 0.9,
 					lineHeight: '1.4'
@@ -149,8 +149,8 @@ const EventCard = ({ event }: { event: EventData }) => {
 					}
 				}}
 			>
-				<Box component="div"   className="event-info">
-					<Box component="div"   sx={{ 
+				<Box component="div"    className="event-info">
+					<Box component="div"    sx={{ 
 						fontSize: '16px', 
 						fontWeight: 600, 
 						color: '#FFD700',
@@ -160,7 +160,7 @@ const EventCard = ({ event }: { event: EventData }) => {
 					}}>
 						{getLocationDisplayName(event?.city)}
 					</Box>
-					<Box component="div"   sx={{ 
+					<Box component="div"    sx={{ 
 						fontSize: '28px', 
 						fontWeight: 700, 
 						lineHeight: '1.2',
@@ -169,7 +169,7 @@ const EventCard = ({ event }: { event: EventData }) => {
 						{event?.eventTitle}
 					</Box>
 				</Box>
-				<Box component="div"   
+				<Box component="div"    
 					className="event-overlay"
 					sx={{ 
 						fontSize: '16px', 
@@ -203,8 +203,8 @@ const Events = () => {
 					color: 'white'
 				}}
 			>
-				<Box component="div"   sx={{ textAlign: 'center', marginBottom: '32px' }}>
-					<Box component="div"   sx={{ 
+				<Box component="div"    sx={{ textAlign: 'center', marginBottom: '32px' }}>
+					<Box component="div"    sx={{ 
 						fontSize: '32px', 
 						fontWeight: 700, 
 						marginBottom: '12px',
@@ -215,7 +215,7 @@ const Events = () => {
 					}}>
 						Events
 					</Box>
-					<Box component="div"   sx={{ 
+					<Box component="div"    sx={{ 
 						fontSize: '16px', 
 						opacity: 0.8,
 						lineHeight: '1.5'
@@ -269,7 +269,7 @@ const Events = () => {
 							marginBottom: '60px'
 						}}
 					>
-						<Box component="div"   sx={{ 
+						<Box component="div"    sx={{ 
 							fontSize: '48px', 
 							fontWeight: 700, 
 							marginBottom: '16px',
@@ -281,7 +281,7 @@ const Events = () => {
 						}}>
 							Exclusive Events
 						</Box>
-						<Box component="div"   sx={{ 
+						<Box component="div"    sx={{ 
 							fontSize: '20px', 
 							opacity: 0.8,
 							lineHeight: '1.6',

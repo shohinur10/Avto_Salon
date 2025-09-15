@@ -285,7 +285,7 @@ const AgentDetail: NextPage<AgentDetailProps> = ({ initialInput, ...props }) => 
 									anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 									badgeContent={
 										<Box
-													component="div"
+													
 													
 													
 											sx={{
@@ -306,7 +306,7 @@ const AgentDetail: NextPage<AgentDetailProps> = ({ initialInput, ...props }) => 
 								</Badge>
 								
 								<Stack alignItems="center" spacing={1}>
-									<Box component="div"   display="flex" alignItems="center" gap={1}>
+									<Box component="div"    display="flex" alignItems="center" gap={1}>
 										<Typography variant="h4" fontWeight="bold">
 											{agent.memberFullName || agent.memberNick}
 										</Typography>
@@ -319,7 +319,7 @@ const AgentDetail: NextPage<AgentDetailProps> = ({ initialInput, ...props }) => 
 										{agentProfile.title}
 									</Typography>
 									
-									<Box component="div"   display="flex" alignItems="center" gap={1}>
+									<Box component="div"    display="flex" alignItems="center" gap={1}>
 										<Rating value={agentProfile.clientRating} precision={0.1} readOnly />
 										<Typography variant="body2">
 											({agentProfile.clientRating.toFixed(1)})
@@ -426,15 +426,15 @@ const AgentDetail: NextPage<AgentDetailProps> = ({ initialInput, ...props }) => 
 								{/* Quick Info */}
 								<Grid item xs={12}>
 									<Stack direction="row" spacing={3} flexWrap="wrap">
-										<Box component="div"   display="flex" alignItems="center" gap={1}>
+										<Box component="div"    display="flex" alignItems="center" gap={1}>
 											<LocationIcon color="action" />
 											<Typography variant="body2">{agentProfile.territory}</Typography>
 										</Box>
-										<Box component="div"   display="flex" alignItems="center" gap={1}>
+										<Box component="div"    display="flex" alignItems="center" gap={1}>
 											<LanguageIcon color="action" />
 											<Typography variant="body2">{agentProfile.languages?.join(', ')}</Typography>
 										</Box>
-										<Box component="div"   display="flex" alignItems="center" gap={1}>
+										<Box component="div"    display="flex" alignItems="center" gap={1}>
 											<TimeIcon color="action" />
 											<Typography variant="body2">{agentProfile.workingHours}</Typography>
 										</Box>
@@ -447,7 +447,7 @@ const AgentDetail: NextPage<AgentDetailProps> = ({ initialInput, ...props }) => 
 			</Card>
 
 			{/* Tabs Section */}
-			<Box component="div"   sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
+			<Box component="div"    sx={{ borderBottom: 1, borderColor: 'divider', mb: 3 }}>
 				<Tabs value={activeTab} onChange={handleTabChange}>
 					<Tab label="About" />
 					<Tab label={`Cars (${agentCars.length})`} />
@@ -504,8 +504,8 @@ const AgentDetail: NextPage<AgentDetailProps> = ({ initialInput, ...props }) => 
 							<CardContent>
 								<Typography variant="h6" gutterBottom>Monthly Performance</Typography>
 								<Stack spacing={2}>
-									<Box component="div"  >
-										<Box component="div"   display="flex" justifyContent="space-between" mb={1}>
+									<Box component="div"   >
+										<Box component="div"    display="flex" justifyContent="space-between" mb={1}>
 											<Typography variant="body2">Cars Sold</Typography>
 											<Typography variant="body2">{agentProfile.monthlyStats.carsSold}</Typography>
 										</Box>
@@ -514,8 +514,8 @@ const AgentDetail: NextPage<AgentDetailProps> = ({ initialInput, ...props }) => 
 											value={(agentProfile.monthlyStats.carsSold / 20) * 100} 
 										/>
 									</Box>
-									<Box component="div"  >
-										<Box component="div"   display="flex" justifyContent="space-between" mb={1}>
+									<Box component="div"   >
+										<Box component="div"    display="flex" justifyContent="space-between" mb={1}>
 											<Typography variant="body2">Response Rate</Typography>
 											<Typography variant="body2">{agentProfile.monthlyStats.responseRate}%</Typography>
 										</Box>
@@ -524,8 +524,8 @@ const AgentDetail: NextPage<AgentDetailProps> = ({ initialInput, ...props }) => 
 											value={agentProfile.monthlyStats.responseRate} 
 										/>
 									</Box>
-									<Box component="div"  >
-										<Box component="div"   display="flex" justifyContent="space-between" mb={1}>
+									<Box component="div"   >
+										<Box component="div"    display="flex" justifyContent="space-between" mb={1}>
 											<Typography variant="body2">Client Satisfaction</Typography>
 											<Typography variant="body2">{agentProfile.satisfactionRate}%</Typography>
 										</Box>

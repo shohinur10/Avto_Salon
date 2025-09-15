@@ -223,14 +223,14 @@ const LuxuryHomepage: React.FC = () => {
 			</div>
 
 			{/* Luxury Car Search Section */}
-                        <Box component="div"   className="luxury-search-section">
+                        <Box component="div"    className="luxury-search-section">
 				<AutoTempestSearch />
 			</Box>
 
 			{/* Why Choose Our Salon Section - Enhanced Luxury Layout */}
-			<Box component="div"   className="why-choose-section">
-				<Box component="div"   className="container">
-					<Box component="div"   className="section-header-content">
+			<Box component="div"    className="why-choose-section">
+				<Box component="div"    className="container">
+					<Box component="div"    className="section-header-content">
 						<Typography variant="h2" className="section-title">
 							Why Choose Our Salon
 						</Typography>
@@ -239,18 +239,18 @@ const LuxuryHomepage: React.FC = () => {
 						</Typography>
 					</Box>
 					
-					<Box component="div"   className="feature-cards-container">
+					<Box component="div"    className="feature-cards-container">
 						{/* Large Top Card - Certified Quality */}
-						<Box component="div"   className="large-feature-card certified-quality-card">
-							<Box component="div"   className="feature-background">
+						<Box component="div"    className="large-feature-card certified-quality-card">
+							<Box component="div"    className="feature-background">
 								<img 
 									src="/img/cars/bmw-x7.jpg" 
 									alt="Premium car inspection process" 
 									className="feature-bg-image"
 								/>
-								<Box component="div"   className="feature-overlay"></Box>
+								<Box component="div"    className="feature-overlay"></Box>
 							</Box>
-							<Box component="div"   className="feature-content">
+							<Box component="div"    className="feature-content">
 								<Typography variant="h3" className="feature-title">
 									Certified Quality
 								</Typography>
@@ -268,18 +268,18 @@ const LuxuryHomepage: React.FC = () => {
 						</Box>
 						
 						{/* Three Smaller Cards Row */}
-						<Box component="div"   className="small-cards-row">
+						<Box component="div"    className="small-cards-row">
 							{/* Expert Consultation */}
-							<Box component="div"   className="small-feature-card expert-consultation-card">
-								<Box component="div"   className="feature-background">
+							<Box component="div"    className="small-feature-card expert-consultation-card">
+								<Box component="div"    className="feature-background">
 									<img 
 										src="/img/cars/mercedes-s.jpg" 
 										alt="Expert automotive consultation" 
 										className="feature-bg-image"
 									/>
-									<Box component="div"   className="feature-overlay"></Box>
+									<Box component="div"    className="feature-overlay"></Box>
 								</Box>
-								<Box component="div"   className="feature-content">
+								<Box component="div"    className="feature-content">
 									<Typography variant="h5" className="feature-title">
 										Expert Consultation
 									</Typography>
@@ -297,16 +297,16 @@ const LuxuryHomepage: React.FC = () => {
 							</Box>
 							
 							{/* Secure Transactions */}
-							<Box component="div"   className="small-feature-card secure-transactions-card">
-								<Box component="div"   className="feature-background">
+							<Box component="div"    className="small-feature-card secure-transactions-card">
+								<Box component="div"    className="feature-background">
 									<img 
 										src="/img/cars/porsche-cayenne.jpg" 
 										alt="Secure automotive transactions" 
 										className="feature-bg-image"
 									/>
-									<Box component="div"   className="feature-overlay"></Box>
+									<Box component="div"    className="feature-overlay"></Box>
 								</Box>
-								<Box component="div"   className="feature-content">
+								<Box component="div"    className="feature-content">
 									<Typography variant="h5" className="feature-title">
 										Secure Transactions
 									</Typography>
@@ -324,16 +324,16 @@ const LuxuryHomepage: React.FC = () => {
 							</Box>
 							
 							{/* Premium Cars */}
-							<Box component="div"   className="small-feature-card premium-cars-card">
-								<Box component="div"   className="feature-background">
+							<Box component="div"    className="small-feature-card premium-cars-card">
+								<Box component="div"    className="feature-background">
 									<img 
 										src="/img/cars/ferrari-488.jpg" 
 										alt="Premium luxury car collection" 
 										className="feature-bg-image"
 									/>
-									<Box component="div"   className="feature-overlay"></Box>
+									<Box component="div"    className="feature-overlay"></Box>
 								</Box>
-								<Box component="div"   className="feature-content">
+								<Box component="div"    className="feature-content">
 									<Typography variant="h5" className="feature-title">
 										Premium Cars
 									</Typography>
@@ -355,16 +355,16 @@ const LuxuryHomepage: React.FC = () => {
 			</Box>
 
 			{/* Platform Statistics */}
-			<Box component="div"   className="stats-showcase-section">
+			<Box component="div"    className="stats-showcase-section">
 				<PlatformStats />
 			</Box>
 
 			{/* Popular Cars Section */}
-			<Box component="div"   className="popular-cars-section">
+			<Box component="div"    className="popular-cars-section">
 				{popularLoading ? (
-					<Box component="div"   className="loading-container">
-						<Box component="div"   className="luxury-loader">
-							<Box component="div"   className="loader-ring"></Box>
+					<Box component="div"    className="loading-container">
+						<Box component="div"    className="luxury-loader">
+							<Box component="div"    className="loader-ring"></Box>
 							<Typography className="loader-text">Loading Popular Cars...</Typography>
 						</Box>
 					</Box>
@@ -382,11 +382,11 @@ const LuxuryHomepage: React.FC = () => {
 			</Box>
 
 			{/* Top Cars Section */}
-			<Box component="div"   className="top-cars-section">
+			<Box component="div"    className="top-cars-section">
 				{topLoading ? (
-					<Box component="div"   className="loading-container">
-						<Box component="div"   className="luxury-loader">
-							<Box component="div"   className="loader-ring"></Box>
+					<Box component="div"    className="loading-container">
+						<Box component="div"    className="luxury-loader">
+							<Box component="div"    className="loader-ring"></Box>
 							<Typography className="loader-text">Loading Top Cars...</Typography>
 						</Box>
 					</Box>
@@ -404,28 +404,28 @@ const LuxuryHomepage: React.FC = () => {
 			</Box>
 
 			{/* Top Agents Section */}
-			<Box component="div"   className="top-agents-section">
+			<Box component="div"    className="top-agents-section">
 				<TopAgents 
 					initialInput={agentsInput}
 				/>
 			</Box>
 
 			{/* Events Section */}
-			<Box component="div"   className="events-section">
+			<Box component="div"    className="events-section">
 				<Events />
 			</Box>
 
 			{/* Call to Action Section */}
-			<Box component="div"   className="cta-section">
-				<Box component="div"   className="container">
-					<Box component="div"   className="cta-content">
+			<Box component="div"    className="cta-section">
+				<Box component="div"    className="container">
+					<Box component="div"    className="cta-content">
 						<Typography variant="h3" className="cta-title">
 							Ready to Find Your Dream Car?
 						</Typography>
 						<Typography variant="body1" className="cta-subtitle">
 							Join thousands of satisfied customers who found their perfect vehicle with us.
 						</Typography>
-						<Box component="div"   className="cta-actions">
+						<Box component="div"    className="cta-actions">
 							<Button 
 								className="cta-btn cta-btn-primary"
 								onClick={handleStartShopping}
@@ -445,9 +445,9 @@ const LuxuryHomepage: React.FC = () => {
 
 			{/* Loading States */}
 			{(popularLoading || topLoading) && (
-				<Box component="div"   className="loading-container">
-					<Box component="div"   className="luxury-loader">
-						<Box component="div"   className="loader-ring"></Box>
+				<Box component="div"    className="loading-container">
+					<Box component="div"    className="luxury-loader">
+						<Box component="div"    className="loader-ring"></Box>
 						<Typography className="loader-text">Loading Premium Content...</Typography>
 					</Box>
 				</Box>

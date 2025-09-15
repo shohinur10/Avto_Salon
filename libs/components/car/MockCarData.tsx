@@ -360,7 +360,7 @@ const MockCarData: React.FC = () => {
   };
 
   return (
-    <Box component="div"   sx={{ p: 2 }}>
+    <Box component="div"    sx={{ p: 2 }}>
       <Typography variant="h5" sx={{ mb: 2, color: '#D4AF37', fontWeight: 600 }}>
         🚗 Mock Car Data - Design Preview
       </Typography>

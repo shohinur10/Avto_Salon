@@ -203,7 +203,7 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 															onClick={() => updateMemberHandler({ _id: member._id, memberType: type })}
 															key={type}
 														>
-															<Typography variant={'subtitle1'} component={'span'}>
+															<Typography variant={'subtitle1'} >
 																{type}
 															</Typography>
 														</MenuItem>
@@ -236,7 +236,7 @@ export const MemberPanelList = (props: MemberPanelListType) => {
 															onClick={() => updateMemberHandler({ _id: member._id, memberStatus: status })}
 															key={status}
 														>
-															<Typography variant={'subtitle1'} component={'span'}>
+															<Typography variant={'subtitle1'} >
 																{status}
 															</Typography>
 														</MenuItem>

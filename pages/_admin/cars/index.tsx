@@ -153,14 +153,14 @@ const AdminCars: NextPage = ({ initialInquiry, ...props }: any) => {
 	};
 
 	return (
-		<Box component="div"   className={'content'}>
+		<Box component="div"    className={'content'}>
 			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
 				Car List
 			</Typography>
-			<Box component="div"   className={'table-wrap'}>
-				<Box component="div"   sx={{ width: '100%', typography: 'body1' }}>
+			<Box component="div"    className={'table-wrap'}>
+				<Box component="div"    sx={{ width: '100%', typography: 'body1' }}>
 					<TabContext value={value}>
-						<Box component="div"  >
+						<Box component="div"   >
 							<List className={'tab-menu'}>
 								<ListItem
 									onClick={(e: any) => tabChangeHandler(e, 'ALL')}

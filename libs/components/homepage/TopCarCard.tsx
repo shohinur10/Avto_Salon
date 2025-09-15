@@ -31,16 +31,16 @@ const TopCarCard = (props: TopCarCardProps) => {
 		return (
 			<Stack className="top-card-box">
 				<Box
-													component="div"
 													
-													component={'div'}
+													
+													
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${car?.carImages[0]})` }}
                     onClick={() => pushDetailHandler(car._id)} 
 				>
 					<div>${car?.carPrice}</div>
 				</Box>
-				<Box component="div"   className={'info'}>
+				<Box component="div"    className={'info'}>
 					<strong
 					 className={'title'}
 					 onClick={() => {
@@ -92,16 +92,16 @@ const TopCarCard = (props: TopCarCardProps) => {
 		return (
 			<Stack className="top-card-box">
 				<Box
-													component="div"
 													
-													component={'div'}
+													
+													
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${car?.carImages[0]})` }}
 					onClick={() => pushDetailHandler(car._id)}
 				>
 					<div>${car?.carPrice}</div>
 				</Box>
-				<Box component="div"   className={'info'}>
+				<Box component="div"    className={'info'}>
 					<strong 
 					className={'title'}
 					onClick={() => {pushDetailHandler(car._id);

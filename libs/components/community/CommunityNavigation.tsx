@@ -133,7 +133,7 @@ const CommunityNavigation: React.FC<CommunityNavigationProps> = ({
 				</Stack>
 
 				{/* Quick Category Access */}
-				<Box component="div"  >
+				<Box component="div"   >
 					<Typography variant="subtitle2" fontWeight={700} mb={2} color="text.secondary">
 						Quick Access
 					</Typography>
@@ -148,7 +148,7 @@ const CommunityNavigation: React.FC<CommunityNavigationProps> = ({
 								<Chip
 									label={
 										<Stack direction="row" alignItems="center" spacing={1}>
-											<Typography variant="body2" component="span">
+											<Typography variant="body2" >
 												{category.emoji}
 											</Typography>
 											<Typography variant="body2" fontWeight={600}>

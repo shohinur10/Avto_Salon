@@ -335,7 +335,7 @@ const AddCar = ({ initialValues, ...props }: any) => {
 	// Show loading while authentication is being checked
 	if (!user?._id) {
 		return (
-			<Box component="div"   sx={{ 
+			<Box component="div"    sx={{ 
 				display: 'flex', 
 				justifyContent: 'center', 
 				alignItems: 'center', 
@@ -355,7 +355,7 @@ const AddCar = ({ initialValues, ...props }: any) => {
 		return <div>ADD NEW CAR MOBILE PAGE</div>;
 	} else {
 		return (
-			<Box component="div"   sx={{ 
+			<Box component="div"    sx={{ 
 				background: 'linear-gradient(135deg, #ffffff 0%, #fafafa 100%)',
 				minHeight: '100vh',
 				padding: '20px'
@@ -759,7 +759,7 @@ const AddCar = ({ initialValues, ...props }: any) => {
 
 							{/* Image Preview */}
 							{insertCarData.carImages.length > 0 && (
-								<Box component="div"   sx={{ mt: 3 }}>
+								<Box component="div"    sx={{ mt: 3 }}>
 									<Typography 
 										variant="h6" 
 										sx={{ color: '#DAA520', fontWeight: 600, mb: 2 }}
@@ -819,7 +819,7 @@ const AddCar = ({ initialValues, ...props }: any) => {
 					</GoldCard>
 
 					{/* Submit Button */}
-					<Box component="div"   sx={{ textAlign: 'center', mt: 4 }}>
+					<Box component="div"    sx={{ textAlign: 'center', mt: 4 }}>
 						<GoldButton
 							size="large"
 							disabled={doDisabledCheck() || isUploading}

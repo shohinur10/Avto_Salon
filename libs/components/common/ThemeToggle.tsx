@@ -30,7 +30,7 @@ const ThemeToggle: React.FC = () => {
           },
         }}
       >
-        <Box component="div" 
+        <Box component="div"  
           sx={{
             fontSize: '20px',
             transition: 'all 0.3s ease',

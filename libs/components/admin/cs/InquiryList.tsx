@@ -170,12 +170,12 @@ export const InquiryList = (props: InquiryPanelListType) => {
 											sx={{ p: 1 }}
 										>
 											<MenuItem onClick={(e: any) => generateMentorTypeHandle('member._id', 'mentor', 'originate')}>
-												<Typography variant={'subtitle1'} component={'span'}>
+												<Typography variant={'subtitle1'} >
 													MENTOR
 												</Typography>
 											</MenuItem>
 											<MenuItem onClick={(e:any ) => generateMentorTypeHandle('member._id', 'user', 'remove')}>
-												<Typography variant={'subtitle1'} component={'span'}>
+												<Typography variant={'subtitle1'} >
 													USER
 												</Typography>
 											</MenuItem>

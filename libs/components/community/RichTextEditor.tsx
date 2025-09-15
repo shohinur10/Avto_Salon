@@ -107,7 +107,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 		>
 			{/* Toolbar */}
 			<Box
-													component="div"
+													
 													
 													
 													
@@ -151,7 +151,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
 			{/* Editor */}
 			<Box
-													component="div"
+													
 													
 													
 													
@@ -256,7 +256,7 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
 			{/* Footer with tips */}
 			<Box
-													component="div"
+													
 													
 													
 													

@@ -218,7 +218,7 @@ export const CarPanelList = (props: CarPanelListType) => {
 																	onClick={() => updateCarHandler({ _id: car._id, carStatus: status })}
 																	key={status}
 																>
-																	<Typography variant={'subtitle1'} component={'span'}>
+																	<Typography variant={'subtitle1'} >
 																		{status}
 																	</Typography>
 																</MenuItem>

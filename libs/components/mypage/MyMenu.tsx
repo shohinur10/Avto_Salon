@@ -33,7 +33,7 @@ const MyMenu = () => {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>
 				<Stack className={'profile'}>
-					<Box component="div"   className={'profile-img'}>
+					<Box component="div"    className={'profile-img'}>
 						<img
 							src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
 							alt={'member-photo'}
@@ -41,7 +41,7 @@ const MyMenu = () => {
 					</Box>
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{user?.memberNick}</Typography>
-						<Box component="div"   className={'user-phone'}>
+						<Box component="div"    className={'user-phone'}>
 							<img src={'/img/icons/call.svg'} alt={'icon'} />
 							<Typography className={'p-number'}>{user?.memberPhone}</Typography>
 						</Box>
@@ -76,7 +76,7 @@ const MyMenu = () => {
 												) : (
 													<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 												)}
-												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+												<Typography className={'sub-title'} variant={'subtitle1'} >
 													Add Car
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '40px' }}>
@@ -99,7 +99,7 @@ const MyMenu = () => {
 												) : (
 													<img className={'com-icon'} src={'/img/icons/home.svg'} alt={'com-icon'} />
 												)}
-												<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+												<Typography className={'sub-title'} variant={'subtitle1'} >
 													My Properties
 												</Typography>
 												<IconButton aria-label="delete" sx={{ ml: '36px' }}>
@@ -125,7 +125,7 @@ const MyMenu = () => {
 											<img className={'com-icon'} src={'/img/icons/like.svg'} alt={'com-icon'} />
 										)}
 
-										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+										<Typography className={'sub-title'} variant={'subtitle1'} >
 											My Favorites
 										</Typography>
 									</div>
@@ -146,7 +146,7 @@ const MyMenu = () => {
 											<img className={'com-icon'} src={'/img/icons/search.svg'} alt={'com-icon'} />
 										)}
 
-										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+										<Typography className={'sub-title'} variant={'subtitle1'} >
 											Recently Visited
 										</Typography>
 									</div>
@@ -193,7 +193,7 @@ const MyMenu = () => {
 												/>
 											</g>
 										</svg>
-										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+										<Typography className={'sub-title'} variant={'subtitle1'} >
 											My Followers
 										</Typography>
 									</div>
@@ -241,7 +241,7 @@ const MyMenu = () => {
 											</g>
 										</svg>
 
-										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+										<Typography className={'sub-title'} variant={'subtitle1'} >
 											My Followings
 										</Typography>
 									</div>
@@ -270,7 +270,7 @@ const MyMenu = () => {
 												<img className={'com-icon'} src={'/img/icons/discovery.svg'} alt={'com-icon'} />
 											)}
 
-											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+											<Typography className={'sub-title'} variant={'subtitle1'} >
 												Articles
 											</Typography>
 										</div>
@@ -290,7 +290,7 @@ const MyMenu = () => {
 											) : (
 												<img className={'com-icon'} src={'/img/icons/newTab.svg'} alt={'com_icon'} />
 											)}
-											<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+											<Typography className={'sub-title'} variant={'subtitle1'} >
 												Write Article
 											</Typography>
 										</div>
@@ -318,7 +318,7 @@ const MyMenu = () => {
 										) : (
 											<img className={'com-icon'} src={'/img/icons/user.svg'} alt={'com-icon'} />
 										)}
-										<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+										<Typography className={'sub-title'} variant={'subtitle1'} >
 											My Profile
 										</Typography>
 									</div>
@@ -327,7 +327,7 @@ const MyMenu = () => {
 							<ListItem onClick={logoutHandler}>
 								<div className={'flex-box'}>
 									<img className={'com-icon'} src={'/img/icons/logout.svg'} alt={'com-icon'} />
-									<Typography className={'sub-title'} variant={'subtitle1'} component={'p'}>
+									<Typography className={'sub-title'} variant={'subtitle1'} >
 										Logout
 									</Typography>
 								</div>
