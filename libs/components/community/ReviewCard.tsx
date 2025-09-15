@@ -99,8 +99,7 @@ const ReviewCard = (props: ReviewCardProps) => {
 				}}
 			>
 				{/* Header with car image */}
-				<Box
-													
+				<Box component="div"
 					sx={{
 						height: '200px',
 						backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${imagePath})`,
@@ -126,8 +125,7 @@ const ReviewCard = (props: ReviewCardProps) => {
 					
 					{/* Rating */}
 					{rating > 0 && (
-						<Box
-													
+						<Box component="div"
 							sx={{
 								backgroundColor: 'rgba(255,255,255,0.9)',
 								borderRadius: '8px',
