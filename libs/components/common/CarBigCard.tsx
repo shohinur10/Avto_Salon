@@ -46,7 +46,7 @@ const CarBigCard = (props: CarBigCardProps) => {
 
 					<div className={'price'}>${formatterStr(car?.carPrice)}</div>
 				</Box>
-				<Box component="div"  className={'info'}>
+				<Box component="div"   className={'info'}>
 					<strong className={'title'}>{car?.carTitle}</strong>
 					<p className={'desc'}>{car?.carAddress}</p>
 					<div className={'options'}>

@@ -109,6 +109,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 			<Box
 													component="div"
 													
+													
+													
 				
 				sx={{
 					display: 'flex',
@@ -150,6 +152,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 			{/* Editor */}
 			<Box
 													component="div"
+													
+													
 													
 				
 				ref={editorRef}
@@ -253,6 +257,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 			{/* Footer with tips */}
 			<Box
 													component="div"
+													
+													
 													
 				
 				sx={{

@@ -306,7 +306,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, delay: 0.1 }}
       >
-        <Box component="div"  className="header-content">
+        <Box component="div"   className="header-content">
           <Breadcrumbs aria-label="breadcrumb" className="breadcrumbs">
             {breadcrumbs}
           </Breadcrumbs>
@@ -321,13 +321,13 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
         </Box>
 
         {/* GraphQL Test Component for Debugging */}
-        <Box component="div"  sx={{ maxWidth: 1200, margin: '0 auto', padding: '0 2rem' }}>
+        <Box component="div"   sx={{ maxWidth: 1200, margin: '0 auto', padding: '0 2rem' }}>
           <GraphQLTest />
         </Box>
       </motion.div>
 
       {/* Main Content */}
-      <Box component="div"  className="main-content">
+      <Box component="div"   className="main-content">
         {/* Left Sidebar - Filters */}
         <motion.div
           className="filter-sidebar filters"
@@ -335,8 +335,8 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          <Box component="div"  className="filter-container">
-            <Box component="div"  className="filter-header">
+          <Box component="div"   className="filter-container">
+            <Box component="div"   className="filter-header">
             <Typography variant="h5" className="filter-title">
                 <FilterIcon sx={{ mr: 1, verticalAlign: 'middle' }} />
                 Filters
@@ -352,7 +352,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </Box>
 
             {/* Search Bar */}
-            <Box component="div"  className="search-section">
+            <Box component="div"   className="search-section">
               <TextField
                 fullWidth
                 placeholder="Search cars..."
@@ -373,8 +373,8 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </Box>
 
             {/* Location Filter */}
-            <Box component="div"  sx={{ mb: 3 }}>
-              <Box component="div"
+            <Box component="div"   sx={{ mb: 3 }}>
+              <Box component="div" 
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -388,13 +388,13 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                 }}
                 onClick={() => toggleSection('location')}
               >
-                <Box component="div"  sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box component="div"   sx={{ display: 'flex', alignItems: 'center' }}>
                   <LocationIcon sx={{ mr: 1, color: 'primary.main' }} />
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Location
               </Typography>
                 </Box>
-                <Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   {selectedLocations.length > 0 && (
                     <Chip
                       label={selectedLocations.length}
@@ -407,7 +407,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
               </Box>
               
               {expandedSections.location && (
-                <Box component="div"  sx={{ mt: 2, pl: 2 }}>
+                <Box component="div"   sx={{ mt: 2, pl: 2 }}>
                 {Object.values(CarLocation).map((location) => (
                   <FormControlLabel
                     key={location}
@@ -435,8 +435,8 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </Box>
 
             {/* Car Type Filter */}
-            <Box component="div"  sx={{ mb: 3 }}>
-              <Box component="div"
+            <Box component="div"   sx={{ mb: 3 }}>
+              <Box component="div" 
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -450,13 +450,13 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                 }}
                 onClick={() => toggleSection('carType')}
               >
-                <Box component="div"  sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box component="div"   sx={{ display: 'flex', alignItems: 'center' }}>
                   <CarIcon sx={{ mr: 1, color: 'primary.main' }} />
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
                 Car Type
               </Typography>
                 </Box>
-                <Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   {selectedCategories.length > 0 && (
                     <Chip
                       label={selectedCategories.length}
@@ -469,7 +469,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
               </Box>
               
               {expandedSections.carType && (
-                <Box component="div"  sx={{ mt: 2, pl: 2 }}>
+                <Box component="div"   sx={{ mt: 2, pl: 2 }}>
                 {Object.values(CarCategory).map((category) => (
                   <FormControlLabel
                     key={category}
@@ -497,8 +497,8 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </Box>
 
             {/* Brand Filter */}
-            <Box component="div"  sx={{ mb: 3 }}>
-              <Box component="div"
+            <Box component="div"   sx={{ mb: 3 }}>
+              <Box component="div" 
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -512,13 +512,13 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                 }}
                 onClick={() => toggleSection('brand')}
               >
-                <Box component="div"  sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box component="div"   sx={{ display: 'flex', alignItems: 'center' }}>
                   <CarIcon sx={{ mr: 1, color: 'primary.main' }} />
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
                     Brand
               </Typography>
                 </Box>
-                <Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   {selectedBrands.length > 0 && (
                     <Chip
                       label={selectedBrands.length}
@@ -531,7 +531,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
               </Box>
               
               {expandedSections.brand && (
-                <Box component="div"  sx={{ mt: 2, pl: 2 }}>
+                <Box component="div"   sx={{ mt: 2, pl: 2 }}>
                   {Object.values(CarBrand).map((brand) => (
                     <FormControlLabel
                       key={brand}
@@ -559,8 +559,8 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </Box>
 
             {/* Fuel Type Filter */}
-            <Box component="div"  sx={{ mb: 3 }}>
-              <Box component="div"
+            <Box component="div"   sx={{ mb: 3 }}>
+              <Box component="div" 
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -574,13 +574,13 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                 }}
                 onClick={() => toggleSection('fuelType')}
               >
-                <Box component="div"  sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box component="div"   sx={{ display: 'flex', alignItems: 'center' }}>
                   <SpeedIcon sx={{ mr: 1, color: 'primary.main' }} />
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
                     Fuel Type
               </Typography>
                 </Box>
-                <Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   {selectedFuelTypes.length > 0 && (
                     <Chip
                       label={selectedFuelTypes.length}
@@ -593,7 +593,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </Box>
 
               {expandedSections.fuelType && (
-                <Box component="div"  sx={{ mt: 2, pl: 2 }}>
+                <Box component="div"   sx={{ mt: 2, pl: 2 }}>
                   {Object.values(FuelType).map((fuelType) => (
                 <FormControlLabel
                       key={fuelType}
@@ -621,8 +621,8 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </Box>
 
             {/* Transaction Type Filter */}
-            <Box component="div"  sx={{ mb: 3 }}>
-              <Box component="div"
+            <Box component="div"   sx={{ mb: 3 }}>
+              <Box component="div" 
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -636,13 +636,13 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
                 }}
                 onClick={() => toggleSection('transactionType')}
               >
-                <Box component="div"  sx={{ display: 'flex', alignItems: 'center' }}>
+                <Box component="div"   sx={{ display: 'flex', alignItems: 'center' }}>
                   <SettingsIcon sx={{ mr: 1, color: 'primary.main' }} />
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
                     Transaction Type
                   </Typography>
                 </Box>
-                <Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                <Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   {selectedTransactionTypes.length > 0 && (
                     <Chip
                       label={selectedTransactionTypes.length}
@@ -655,7 +655,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
               </Box>
               
               {expandedSections.transactionType && (
-                <Box component="div"  sx={{ mt: 2, pl: 2 }}>
+                <Box component="div"   sx={{ mt: 2, pl: 2 }}>
                   {Object.values(CarTransactionType).map((type) => (
                 <FormControlLabel
                       key={type}
@@ -683,11 +683,11 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </Box>
 
             {/* Year Range Filter */}
-            <Box component="div"  sx={{ mb: 3 }}>
+            <Box component="div"   sx={{ mb: 3 }}>
               <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, p: 2 }}>
                 Year Range
               </Typography>
-              <Box component="div"  sx={{ px: 2 }}>
+              <Box component="div"   sx={{ px: 2 }}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <TextField
@@ -726,11 +726,11 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </Box>
 
             {/* Mileage Range Filter */}
-            <Box component="div"  sx={{ mb: 3 }}>
+            <Box component="div"   sx={{ mb: 3 }}>
               <Typography variant="h6" sx={{ fontWeight: 600, mb: 2, p: 2 }}>
                 Mileage Range
               </Typography>
-              <Box component="div"  sx={{ px: 2 }}>
+              <Box component="div"   sx={{ px: 2 }}>
                 <Grid container spacing={2}>
                   <Grid item xs={6}>
                     <TextField
@@ -763,11 +763,11 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
         </motion.div>
 
         {/* Main Content Area with Cars Grid */}
-        <Box component="div"  className="content-area cars-list">
+        <Box component="div"   className="content-area cars-list">
           {/* Top Controls Bar */}
-          <Box component="div"  className="top-controls">
+          <Box component="div"   className="top-controls">
             {/* Results Info */}
-            <Box component="div"  className="results-info">
+            <Box component="div"   className="results-info">
               <Typography variant="h6" className="results-count">
                 {carsLoading ? (
                   'Loading...'
@@ -796,9 +796,9 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             </Box>
 
             {/* View Mode and Sort Controls */}
-            <Box component="div"  className="controls-group">
+            <Box component="div"   className="controls-group">
               {/* View Mode Toggle */}
-              <Box component="div"  className="view-mode-toggle">
+              <Box component="div"   className="view-mode-toggle">
                 <IconButton
                   onClick={() => setViewMode('grid')}
                   color={viewMode === 'grid' ? 'primary' : 'default'}

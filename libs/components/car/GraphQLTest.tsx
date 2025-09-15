@@ -32,7 +32,7 @@ const GraphQLTest: React.FC = () => {
   });
 
   return (
-    <Box component="div"  sx={{ p: 3, bgcolor: '#f5f5f5', borderRadius: 2, mb: 2 }}>
+    <Box component="div"   sx={{ p: 3, bgcolor: '#f5f5f5', borderRadius: 2, mb: 2 }}>
       <Typography variant="h6" gutterBottom>
         GraphQL Connection Test
       </Typography>
@@ -42,14 +42,14 @@ const GraphQLTest: React.FC = () => {
       </Typography>
 
       {loading && (
-        <Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+        <Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           <CircularProgress size={20} />
           <Typography>Loading...</Typography>
         </Box>
       )}
 
       {error && (
-        <Box component="div"  sx={{ color: 'error.main', mb: 2 }}>
+        <Box component="div"   sx={{ color: 'error.main', mb: 2 }}>
           <Typography variant="body2" color="error">
             Error: {error.message}
           </Typography>
@@ -65,7 +65,7 @@ const GraphQLTest: React.FC = () => {
       )}
 
       {data && (
-        <Box component="div"  sx={{ color: 'success.main' }}>
+        <Box component="div"   sx={{ color: 'success.main' }}>
           <Typography variant="body2">
             ✅ Success! Found {data?.getCars?.list?.length || 0} cars
           </Typography>

@@ -300,7 +300,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
 						<Grid container spacing={2}>
 							{imagePreviews.map((preview, index) => (
 								<Grid item xs={12} sm={6} md={4} key={index}>
-									<Box component="div"
+									<Box component="div" 
 										sx={{
 											position: 'relative',
 											borderRadius: '12px',
@@ -394,7 +394,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
 
 					{/* Progress Bar */}
 					{uploading && (
-                                                <Box component="div"  sx={{ width: '100%' }}>
+                                                <Box component="div"   sx={{ width: '100%' }}>
 							<LinearProgress />
 							<Typography variant="body2" color="text.secondary" textAlign="center" mt={1}>
 								Creating your post...

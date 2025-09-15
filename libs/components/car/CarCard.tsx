@@ -46,9 +46,9 @@ const CarCard = (props: CarCardType) => {
 		return <div>CAR CARD</div>;
 	} else {
 		return (
-			<Box component="div"  className="car-card" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+			<Box component="div"   className="car-card" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
 				{/* Card Header with Image */}
-				<Box component="div"  className="card-header" sx={{ position: 'relative', borderRadius: '12px 12px 0 0', overflow: 'hidden' }}>
+				<Box component="div"   className="card-header" sx={{ position: 'relative', borderRadius: '12px 12px 0 0', overflow: 'hidden' }}>
 					<Link
 						href={{
 							pathname: '/car/detail',
@@ -74,7 +74,7 @@ const CarCard = (props: CarCardType) => {
 					
 					{/* Top Badge */}
 					{car && car?.carRank && car?.carRank > topCarRank && (
-						<Box component="div"  className="top-badge" sx={{
+						<Box component="div"   className="top-badge" sx={{
 							position: 'absolute',
 							top: '12px',
 							left: '12px',
@@ -89,13 +89,13 @@ const CarCard = (props: CarCardType) => {
 							fontWeight: 'bold',
 							boxShadow: '0 2px 8px rgba(0,0,0,0.2)',
 						}}>
-                                                   <Box component="img" src="/img/icons/electricity.svg" alt="" sx={{ width: '16px', height: '16px' }} />
+                                                    <Box component="img" src="/img/icons/electricity.svg" alt="" sx={{ width: '16px', height: '16px' }} />
 							<Typography sx={{ fontSize: '0.75rem', fontWeight: 'bold' }}>TOP</Typography>
 						</Box>
 					)}
 
 					{/* Price Box */}
-					<Box component="div"  className="price-box" sx={{
+					<Box component="div"   className="price-box" sx={{
 						position: 'absolute',
 						bottom: '12px',
 						right: '12px',
@@ -132,7 +132,7 @@ const CarCard = (props: CarCardType) => {
 				</Box>
 
 				{/* Card Body */}
-				<Box component="div"  className="card-body" sx={{ 
+				<Box component="div"   className="card-body" sx={{ 
 					flex: 1, 
 					display: 'flex', 
 					flexDirection: 'column', 
@@ -141,7 +141,7 @@ const CarCard = (props: CarCardType) => {
 					borderRadius: '0 0 12px 12px',
 				}}>
 					{/* Car Title and Location */}
-					<Box component="div"  className="car-info" sx={{ marginBottom: '16px' }}>
+					<Box component="div"   className="car-info" sx={{ marginBottom: '16px' }}>
 													<Link
 							href={{
 								pathname: '/car/detail',
@@ -166,7 +166,7 @@ const CarCard = (props: CarCardType) => {
 							</Typography>
 							</Link>
 						
-						<Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#666' }}>
+						<Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#666' }}>
 							<LocationOnIcon sx={{ fontSize: '16px' }} />
 							<Typography variant="body2" sx={{ fontSize: '0.875rem' }}>
 								{car.carAddress}, {car.carLocation}
@@ -175,33 +175,33 @@ const CarCard = (props: CarCardType) => {
 					</Box>
 
 					{/* Car Specifications */}
-					<Box component="div"  className="car-specs" sx={{ marginBottom: '16px' }}>
-						<Box component="div"  sx={{ 
+					<Box component="div"   className="car-specs" sx={{ marginBottom: '16px' }}>
+						<Box component="div"   sx={{ 
 							display: 'grid', 
 							gridTemplateColumns: 'repeat(2, 1fr)', 
 							gap: '12px',
 							marginBottom: '16px'
 						}}>
-							<Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+							<Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
 								<DirectionsCarIcon sx={{ fontSize: '18px', color: '#667eea' }} />
 								<Typography variant="body2" sx={{ fontSize: '0.875rem', color: '#555' }}>
 									{car.carSeats} seats
 								</Typography>
 							</Box>
-							<Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+							<Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
 								<DirectionsCarIcon sx={{ fontSize: '18px', color: '#667eea' }} />
 								<Typography variant="body2" sx={{ fontSize: '0.875rem', color: '#555' }}>
 									{car.carDoors} doors
 								</Typography>
 							</Box>
-							<Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+							<Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
 								<EventIcon sx={{ fontSize: '18px', color: '#667eea' }} />
 								<Typography variant="body2" sx={{ fontSize: '0.875rem', color: '#555' }}>
 									{car.carYear}
 								</Typography>
 							</Box>
 					{car.carMileage && (
-								<Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+								<Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
 									<SpeedIcon sx={{ fontSize: '18px', color: '#667eea' }} />
 									<Typography variant="body2" sx={{ fontSize: '0.875rem', color: '#555' }}>
 										{car.carMileage.toLocaleString()} mi
@@ -212,15 +212,15 @@ const CarCard = (props: CarCardType) => {
 					</Box>
 
 					{/* Transaction Type and Status */}
-					<Box component="div"  className="car-status" sx={{ marginTop: 'auto' }}>
-						<Box component="div"  sx={{ 
+					<Box component="div"   className="car-status" sx={{ marginTop: 'auto' }}>
+						<Box component="div"   sx={{ 
 							display: 'flex', 
 							justifyContent: 'space-between', 
 							alignItems: 'center',
 							paddingTop: '16px',
 							borderTop: '1px solid #f0f0f0'
 						}}>
-							<Box component="div"  sx={{ display: 'flex', gap: '8px' }}>
+							<Box component="div"   sx={{ display: 'flex', gap: '8px' }}>
 								<Chip
 									label={car.carTransactionType}
 									size="small"
@@ -244,10 +244,10 @@ const CarCard = (props: CarCardType) => {
 							</Box>
 							
 							{/* Views and Likes */}
-							<Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#999' }}>
+							<Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#999' }}>
 								{car.carViews && (
 									<Tooltip title="Views">
-										<Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+										<Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 											<RemoveRedEyeIcon sx={{ fontSize: '16px' }} />
 											<Typography variant="caption">{car.carViews}</Typography>
 										</Box>
@@ -255,7 +255,7 @@ const CarCard = (props: CarCardType) => {
 								)}
 								{car.carLikes && (
 									<Tooltip title="Likes">
-										<Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+										<Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
 											<FavoriteIcon sx={{ fontSize: '16px', color: '#e91e63' }} />
 											<Typography variant="caption">{car.carLikes}</Typography>
 										</Box>

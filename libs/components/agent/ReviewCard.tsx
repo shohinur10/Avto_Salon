@@ -20,7 +20,7 @@ const ReviewCard = (props: ReviewCardProps) => {
 		return <div>REVIEW CARD</div>;
 	} else {
 		return (
-			<Box component="div"  className={'review-card'}>
+			<Box component="div"   className={'review-card'}>
 				<div className={'info'}>
 					<div className={'left'}>
 						<img src={imagePath} alt="" />

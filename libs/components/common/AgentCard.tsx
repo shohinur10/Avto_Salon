@@ -88,7 +88,7 @@ const AgentCard = (props: AgentCardProps) => {
 					mb: 2
 				}}
 			>
-				<Box component="div"  sx={{ position: 'relative', textAlign: 'center', pt: 2 }}>
+				<Box component="div"   sx={{ position: 'relative', textAlign: 'center', pt: 2 }}>
 					<Avatar
 						src={imagePath}
 						sx={{
@@ -144,7 +144,7 @@ const AgentCard = (props: AgentCardProps) => {
 
 					{/* Follow/Unfollow Button Section - Mobile */}
 					{user?._id && user._id !== agent._id && subscribeHandler && unsubscribeHandler && (
-						<Box component="div"  sx={{ textAlign: 'center', mb: 2 }}>
+						<Box component="div"   sx={{ textAlign: 'center', mb: 2 }}>
 							{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? (
 								<Button
 									variant="outlined"
@@ -245,7 +245,7 @@ const AgentCard = (props: AgentCardProps) => {
 					}
 				}}
 			>
-				<Box component="div"  sx={{ position: 'relative', textAlign: 'center', pt: 3 }}>
+				<Box component="div"   sx={{ position: 'relative', textAlign: 'center', pt: 3 }}>
 				<Link href={`/agent/${agent?._id}`}>
 						<Avatar
 							src={imagePath}
@@ -311,13 +311,13 @@ const AgentCard = (props: AgentCardProps) => {
 					</Stack>
 
 					<Stack direction="row" spacing={2} justifyContent="center" mb={2}>
-						<Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+						<Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
 							<RemoveRedEyeIcon sx={{ fontSize: '1rem', color: 'rgba(255, 255, 255, 0.6)' }} />
 							<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
 								{agent?.memberViews || 0}
 							</Typography>
 						</Box>
-						<Box component="div"  sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+						<Box component="div"   sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
 							<FavoriteIcon sx={{ fontSize: '1rem', color: 'rgba(255, 255, 255, 0.6)' }} />
 							<Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.6)' }}>
 								{agent?.memberLikes || 0}
@@ -327,7 +327,7 @@ const AgentCard = (props: AgentCardProps) => {
 
 				{/* Follow/Unfollow Button Section */}
 				{user?._id && user._id !== agent._id && subscribeHandler && unsubscribeHandler && (
-					<Box component="div"  sx={{ textAlign: 'center', mb: 2 }}>
+					<Box component="div"   sx={{ textAlign: 'center', mb: 2 }}>
 						{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? (
 							<Button
 								variant="outlined"

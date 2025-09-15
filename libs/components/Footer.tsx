@@ -87,7 +87,7 @@ const Footer = () => {
 	// Mobile Version
 	if (device === 'mobile') {
 		return (
-			<Box component="div" 
+			<Box component="div"  
 				sx={{
 					backgroundColor: '#121212',
 					color: '#cccccc',
@@ -103,7 +103,7 @@ const Footer = () => {
 					marginRight: '-50vw'
 				}}
 			>
-				<Box component="div"  sx={{ 
+				<Box component="div"   sx={{ 
 					maxWidth: '1600px', 
 					margin: '0 auto', 
 					px: { xs: 3, sm: 4 } // Increased padding on mobile
@@ -162,7 +162,7 @@ const Footer = () => {
 						</Stack>
 
 						{/* Newsletter */}
-						<Box component="div" 
+						<Box component="div"  
 							sx={{
 								backgroundColor: '#2a2a2a',
 								borderRadius: '12px',
@@ -512,7 +512,7 @@ const Footer = () => {
 
 	// Desktop Version
 	return (
-		<Box component="div" 
+		<Box component="div"  
 			sx={{
 				backgroundColor: '#121212',
 				color: '#cccccc',
@@ -528,13 +528,13 @@ const Footer = () => {
 				marginRight: '-50vw'
 			}}
 		>
-			<Box component="div"  sx={{ 
+			<Box component="div"   sx={{ 
 				maxWidth: '1600px', 
 				margin: '0 auto', 
 				px: { xs: 3, sm: 4, md: 6, lg: 8 } // Responsive padding
 			}}>
 				{/* Main Footer Grid - Responsive Columns */}
-				<Box component="div" 
+				<Box component="div"  
 					sx={{
 						display: 'grid',
 						gridTemplateColumns: { 
@@ -549,7 +549,7 @@ const Footer = () => {
 					}}
 				>
 					{/* Column 1: Company Info & Logo */}
-					<Box component="div"  sx={{ 
+					<Box component="div"   sx={{ 
 						gridColumn: { xs: '1', sm: 'span 2', md: 'span 3', lg: '1' }
 					}}>
 										<img 
@@ -603,7 +603,7 @@ const Footer = () => {
 					</Box>
 
 					{/* Column 2: Car Categories */}
-					<Box component="div"  sx={{ 
+					<Box component="div"   sx={{ 
 						gridColumn: { xs: '1', sm: '1', md: '1', lg: '2' }
 					}}>
 						<Typography 
@@ -640,7 +640,7 @@ const Footer = () => {
 					</Box>
 
 					{/* Column 3: Our Services */}
-					<Box component="div"  sx={{ 
+					<Box component="div"   sx={{ 
 						gridColumn: { xs: '1', sm: '2', md: '2', lg: '3' }
 					}}>
 						<Typography 
@@ -677,7 +677,7 @@ const Footer = () => {
 					</Box>
 
 					{/* Column 4: Quick Actions */}
-					<Box component="div"  sx={{ 
+					<Box component="div"   sx={{ 
 						gridColumn: { xs: '1', sm: '1', md: '3', lg: '4' }
 					}}>
 						<Typography 
@@ -748,7 +748,7 @@ const Footer = () => {
 					</Box>
 
 					{/* Column 5: Newsletter & Social Media */}
-					<Box component="div"  sx={{ 
+					<Box component="div"   sx={{ 
 						gridColumn: { xs: '1', sm: '2', md: 'span 3', lg: '5' }
 					}}>
 						<Typography 
@@ -764,7 +764,7 @@ const Footer = () => {
 						</Typography>
 						
 						{/* Newsletter Signup */}
-						<Box component="div"  sx={{ mb: 4 }}>
+						<Box component="div"   sx={{ mb: 4 }}>
 							<Typography 
 								sx={{ 
 									fontSize: '14px', 
@@ -827,7 +827,7 @@ const Footer = () => {
 						</Box>
 
 						{/* Social Media Icons */}
-						<Box component="div" >
+						<Box component="div"  >
 							<Typography 
 								sx={{ 
 									fontSize: '16px', 

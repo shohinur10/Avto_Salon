@@ -254,7 +254,7 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 							</Select>
 						</FormControl>
 
-						<Box component="div" >
+						<Box component="div"  >
 							<Typography gutterBottom>
 								Budget Range: ${userPreferences.priceRange.min.toLocaleString()} - ${userPreferences.priceRange.max.toLocaleString()}
 							</Typography>
@@ -317,7 +317,7 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 						</Typography>
 						
 						{Object.entries(priorityFactors).map(([factor, value]) => (
-							<Box component="div"  key={factor}>
+							<Box component="div"   key={factor}>
 								<Typography gutterBottom>
 									{factor.charAt(0).toUpperCase() + factor.slice(1)}: {(value * 100).toFixed(0)}%
 								</Typography>
@@ -348,7 +348,7 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 				return (
 					<Stack spacing={2}>
 						{isCalculating ? (
-							<Box component="div"  textAlign="center" py={4}>
+							<Box component="div"   textAlign="center" py={4}>
 								<PsychologyIcon sx={{ fontSize: 60, color: 'primary.main', mb: 2 }} />
 								<Typography variant="h6" gutterBottom>
 									Finding Your Perfect Matches...
@@ -360,7 +360,7 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 							</Box>
 						) : (
 							<>
-								<Box component="div"  textAlign="center" mb={2}>
+								<Box component="div"   textAlign="center" mb={2}>
 									<AutoAwesomeIcon sx={{ fontSize: 40, color: 'primary.main' }} />
 									<Typography variant="h6" gutterBottom>
 										Your Top Agent Matches
@@ -373,8 +373,8 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 								{matchedAgents.map((agent, index) => (
 									<Card key={agent._id} variant="outlined">
 										<CardContent>
-											<Box component="div"  display="flex" alignItems="center" gap={2}>
-												<Box component="div"  position="relative">
+											<Box component="div"   display="flex" alignItems="center" gap={2}>
+												<Box component="div"   position="relative">
 													<Avatar src={agent.memberImage} sx={{ width: 60, height: 60 }} />
 													<Chip
 														label={`#${index + 1}`}
@@ -388,14 +388,14 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 													/>
 												</Box>
 												
-												<Box component="div"  flex={1}>
+												<Box component="div"   flex={1}>
 													<Typography variant="h6">
 														{agent.memberFullName || agent.memberNick}
 													</Typography>
 													<Typography variant="body2" color="text.secondary">
 														{agent.title}
 													</Typography>
-													<Box component="div"  display="flex" alignItems="center" gap={1} mt={1}>
+													<Box component="div"   display="flex" alignItems="center" gap={1} mt={1}>
 														<Rating value={agent.clientRating} size="small" readOnly />
 														<Typography variant="caption">
 															({agent.clientRating})
@@ -442,14 +442,14 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 	return (
 		<Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
 			<DialogTitle>
-				<Box component="div"  display="flex" alignItems="center" gap={1}>
+				<Box component="div"   display="flex" alignItems="center" gap={1}>
 					<PsychologyIcon color="primary" />
 					<Typography variant="h6">Find Your Perfect Agent</Typography>
 				</Box>
 			</DialogTitle>
 			
 			<DialogContent>
-				<Box component="div"  sx={{ width: '100%', mt: 2 }}>
+				<Box component="div"   sx={{ width: '100%', mt: 2 }}>
 					<Stepper activeStep={activeStep} alternativeLabel>
 						{steps.map((label) => (
 							<Step key={label}>
@@ -458,7 +458,7 @@ const AgentMatcher: React.FC<AgentMatcherProps> = ({
 						))}
 					</Stepper>
 					
-					<Box component="div"  sx={{ mt: 4, mb: 2 }}>
+					<Box component="div"   sx={{ mt: 4, mb: 2 }}>
 						{renderStepContent(activeStep)}
 					</Box>
 				</Box>

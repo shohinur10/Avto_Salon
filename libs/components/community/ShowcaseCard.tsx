@@ -80,8 +80,7 @@ const ShowcaseCard = (props: ShowcaseCardProps) => {
 				}}
 			>
 				{/* Main Image/Video */}
-				<Box
-													
+				<Box component="div" 
 					sx={{
 						height: '240px',
 						backgroundImage: `url(${imagePath})`,
@@ -109,6 +108,8 @@ const ShowcaseCard = (props: ShowcaseCardProps) => {
 					{/* Play button overlay for videos */}
 					{isVideo && (
 						<Box
+													component="div"
+													
 													
 							sx={{
 								position: 'absolute',

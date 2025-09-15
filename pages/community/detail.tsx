@@ -380,7 +380,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 	}
 
 	return (
-                <Box component="div"  sx={{
+                <Box component="div"   sx={{
 			background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
 			minHeight: '100vh',
 			py: 4
@@ -437,7 +437,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 							>
 								{/* Article Image */}
 								{article.articleImage && (
-									<Box component="div" 
+									<Box component="div"  
 										sx={{
 											height: '400px',
 											backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.1)), url(${article.articleImage})`,
@@ -446,7 +446,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 											position: 'relative'
 										}}
 									>
-										<Box component="div" 
+										<Box component="div"  
 											sx={{
 												position: 'absolute',
 												bottom: 24,
@@ -524,7 +524,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 									</Stack>
 
 									{/* Article Content */}
-									<Box component="div"  
+									<Box component="div"   
 										sx={{ 
 											mb: 4,
 											'& h2, & h3': {
@@ -654,7 +654,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 
 									{/* Show More Comments */}
 									{comments.length > 3 && (
-										<Box component="div"  textAlign="center" mt={2}>
+										<Box component="div"   textAlign="center" mt={2}>
 											<Button
 												onClick={() => setShowAllComments(!showAllComments)}
 												startIcon={showAllComments ? <CollapseIcon /> : <ExpandIcon />}
@@ -808,7 +808,7 @@ const CommunityDetail: NextPage = ({ initialInput, ...props }: T) => {
 					animate={{ opacity: 1, y: 0 }}
 					transition={{ duration: 0.4, delay: 0.3 }}
 				>
-					<Box component="div"  textAlign="center" mt={4}>
+					<Box component="div"   textAlign="center" mt={4}>
 						<Button
 							startIcon={<BackIcon />}
 							variant="outlined"

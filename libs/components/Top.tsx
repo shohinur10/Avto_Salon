@@ -158,12 +158,12 @@ const Top = () => {
 			<Stack className={'navbar'}>
 				<Stack className={navbarClass.join(' ')}>
 					<Stack className={'container'}>
-						<Box component="div"  className={'logo-box'}>
+						<Box component="div"   className={'logo-box'}>
 							<Link href={'/'}>
 								<img src="/img/logo/logo.png" alt="" style={{ height: '50px' }} />
 							</Link>
 						</Box>
-						<Box component="div"  className={'router-box'}>
+						<Box component="div"   className={'router-box'}>
 							<Link href={'/'}><div>{t('Home')}</div></Link>
 							<Link href={'/car'}><div>{t('Cars')}</div></Link>
 							<Link href={'/agent'}><div> {t('Agents')} </div></Link>
@@ -171,7 +171,7 @@ const Top = () => {
 							{user?._id && <Link href={'/mypage'}><div> {t('My Page')} </div></Link>}
 							<Link href={'/cs'}><div> {t('CS')} </div></Link>
 						</Box>
-						<Box component="div"  className={'user-box'}>
+						<Box component="div"   className={'user-box'}>
 							{user?._id ? (
 								<>
 									<div className={'login-user'} onClick={(e: any) => setLogoutAnchor(e.currentTarget)}>
@@ -214,7 +214,7 @@ const Top = () => {
 									onClick={langClick}
 									endIcon={<CaretDown size={14} color="#616161" weight="fill" />}
 								>
-									<Box component="div"  className={'flag'}>
+									<Box component="div"   className={'flag'}>
 										<img src={`/img/flag/lang${lang || 'en'}.png`} alt="language" />
 									</Box>
 								</Button>
