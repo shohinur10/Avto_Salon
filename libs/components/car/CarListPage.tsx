@@ -498,8 +498,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
 
             {/* Brand Filter */}
             <Box component="div"  sx={{ mb: 3 }}>
-              <Box
-													
+              <Box component="div"
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -561,8 +560,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
 
             {/* Fuel Type Filter */}
             <Box component="div"  sx={{ mb: 3 }}>
-              <Box
-													
+              <Box component="div"
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -624,8 +622,7 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
 
             {/* Transaction Type Filter */}
             <Box component="div"  sx={{ mb: 3 }}>
-              <Box
-													
+              <Box component="div"
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
