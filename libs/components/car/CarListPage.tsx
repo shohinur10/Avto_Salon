@@ -376,7 +376,6 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             <Box component="div" sx={{ mb: 3 }}>
               <Box
 													component="div"
-													component="div"
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -439,7 +438,6 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             {/* Car Type Filter */}
             <Box component="div" sx={{ mb: 3 }}>
               <Box
-													component="div"
 													component="div"
                 sx={{
                   display: 'flex',
@@ -504,7 +502,6 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             <Box component="div" sx={{ mb: 3 }}>
               <Box
 													component="div"
-													component="div"
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -568,7 +565,6 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             <Box component="div" sx={{ mb: 3 }}>
               <Box
 													component="div"
-													component="div"
                 sx={{
                   display: 'flex',
                   alignItems: 'center',
@@ -631,7 +627,6 @@ const CarListPage: React.FC<CarListPageProps> = ({ initialFilters = {} }) => {
             {/* Transaction Type Filter */}
             <Box component="div" sx={{ mb: 3 }}>
               <Box
-													component="div"
 													component="div"
                 sx={{
                   display: 'flex',
