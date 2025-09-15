@@ -141,8 +141,7 @@ const TeslaSocialPost = (props: TeslaSocialPostProps) => {
 	}
 
 	return (
-		<Box
-													
+		<Box component="div"
 			sx={{
 				backgroundColor: 'white',
 				borderRadius: '16px',
@@ -249,8 +248,7 @@ const TeslaSocialPost = (props: TeslaSocialPostProps) => {
 					}}
 				>
 					{postImages.map((image, index) => (
-						<Box
-													
+						<Box component="div"
 							key={index}
 							sx={{
 								width: '100%',
@@ -266,8 +264,7 @@ const TeslaSocialPost = (props: TeslaSocialPostProps) => {
 					))}
 					
 					{/* Photo overlay */}
-					<Box
-													
+					<Box component="div"
 						sx={{
 							position: 'absolute',
 							bottom: 16,
@@ -418,8 +415,7 @@ const TeslaSocialPost = (props: TeslaSocialPostProps) => {
 							
 							{/* Image Preview */}
 							{imagePreview && (
-								<Box
-													
+								<Box component="div"
 									sx={{
 										width: 100,
 										height: 100,
