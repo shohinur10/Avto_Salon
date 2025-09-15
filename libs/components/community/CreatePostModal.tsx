@@ -300,9 +300,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
 						<Grid container spacing={2}>
 							{imagePreviews.map((preview, index) => (
 								<Grid item xs={12} sm={6} md={4} key={index}>
-									<Box
-													
-										
+									<Box component="div"
 										sx={{
 											position: 'relative',
 											borderRadius: '12px',
