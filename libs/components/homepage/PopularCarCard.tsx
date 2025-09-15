@@ -29,6 +29,7 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 		return (
 			<Stack className="popular-card-box">
 				<Box
+													component="div"
 					component={'div'}
 					className={'card-img'}
 					style={{ 
@@ -51,7 +52,7 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 
 					<div className={'price'}>${car.carPrice}</div>
 				</Box>
-				<Box component={'div'} className={'info'}>
+				<Box component="div" className={'info'}>
 					<strong className={'title'}>{car.carTitle}</strong>
 					<p className={'desc'}>{car.carAddress}</p>
 					<div className={'options'}>
@@ -85,6 +86,7 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 		return (
 			<Stack className="popular-card-box">
 				<Box
+													component="div"
 					component={'div'}
 					className={'card-img'}
 					style={{ 
@@ -107,7 +109,7 @@ const PopularCarCard = (props: PopularCarCardProps) => {
 
 					<div className={'price'}>${car.carPrice}</div>
 				</Box>
-				<Box component={'div'} className={'info'}>
+				<Box component="div" className={'info'}>
 					<strong className={'title'}>{car.carTitle}</strong>
 					<p className={'desc'}>{car.carAddress}</p>
 					<div className={'options'}>

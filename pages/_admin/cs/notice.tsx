@@ -23,8 +23,8 @@ const AdminNotice: NextPage = (props: any) => {
 
 	return (
 		// @ts-ignore
-		<Box component={'div'} className={'content'}>
-			<Box component={'div'} className={'title flex_space'}>
+		<Box component="div" className={'content'}>
+			<Box component="div" className={'title flex_space'}>
 				<Typography variant={'h2'}>Notice Management</Typography>
 				<Button
 					className="btn_add"
@@ -36,10 +36,10 @@ const AdminNotice: NextPage = (props: any) => {
 					ADD
 				</Button>
 			</Box>
-			<Box component={'div'} className={'table-wrap'}>
-				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
+			<Box component="div" className={'table-wrap'}>
+				<Box component="div" sx={{ width: '100%', typography: 'body1' }}>
 					<TabContext value={'value'}>
-						<Box component={'div'}>
+						<Box component="div">
 							<List className={'tab-menu'}>
 								<ListItem
 									// onClick={(e) => handleTabChange(e, 'all')}

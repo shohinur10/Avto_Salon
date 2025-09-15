@@ -117,12 +117,12 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 				<Card sx={{ height: '100%', display: 'flex', flexDirection: 'column', minHeight: '500px' }}>
 					{/* Header Section */}
 					<CardContent sx={{ pb: 1 }}>
-						<Box sx={{ display: 'flex', alignItems: 'flex-start' }}>
+						<Box component="div" sx={{ display: 'flex', alignItems: 'flex-start' }}>
 							<Badge
 								overlap="circular"
 								anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
 								badgeContent={
-									<Box
+									<Box component="div"
 										sx={{
 											width: 16,
 											height: 16,
@@ -140,8 +140,8 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 								/>
 							</Badge>
 							
-							<Box sx={{ ml: 2, flex: 1 }}>
-								<Box display="flex" alignItems="center" gap={1}>
+							<Box component="div" sx={{ ml: 2, flex: 1 }}>
+								<Box component="div" display="flex" alignItems="center" gap={1}>
 									<Typography variant="h6" fontWeight="bold">
 										{agent.memberFullName || agent.memberNick}
 									</Typography>
@@ -156,22 +156,22 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 									{agent.title}
 								</Typography>
 								
-								<Box display="flex" alignItems="center" gap={2} flexWrap="wrap">
-									<Box display="flex" alignItems="center" gap={0.5}>
+								<Box component="div" display="flex" alignItems="center" gap={2} flexWrap="wrap">
+									<Box component="div" display="flex" alignItems="center" gap={0.5}>
 										<Rating value={agent.clientRating} precision={0.1} size="small" readOnly />
 										<Typography variant="caption">
 											({agent.clientRating.toFixed(1)})
 										</Typography>
 									</Box>
 									
-									<Box display="flex" alignItems="center" gap={0.5}>
+									<Box component="div" display="flex" alignItems="center" gap={0.5}>
 										<WorkIcon fontSize="small" color="action" />
 										<Typography variant="caption">
 											{agent.experience} years
 										</Typography>
 									</Box>
 									
-									<Box display="flex" alignItems="center" gap={0.5}>
+									<Box component="div" display="flex" alignItems="center" gap={0.5}>
 										<TrendingUpIcon fontSize="small" color="action" />
 										<Typography variant="caption">
 											{agent.carsSold} cars sold
@@ -181,7 +181,7 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 							</Box>
 
 							{/* Action Buttons */}
-							<Box sx={{ display: 'flex', alignItems: 'center' }}>
+							<Box component="div" sx={{ display: 'flex', alignItems: 'center' }}>
 								<IconButton
 									onClick={() => onLike?.(agent._id)}
 									color={isLiked ? "error" : "default"}
@@ -195,11 +195,11 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 
 					<CardContent sx={{ pt: 1, flex: 1, display: 'flex', flexDirection: 'column' }}>
 						{/* Specializations */}
-						<Box mb={2}>
+						<Box component="div" mb={2}>
 							<Typography variant="subtitle2" gutterBottom>
 								Specializations
 							</Typography>
-							<Box display="flex" gap={0.5} flexWrap="wrap">
+							<Box component="div" display="flex" gap={0.5} flexWrap="wrap">
 								{getTopSpecializations().map((spec, index) => (
 									<Chip
 										key={`${spec}-${index}`}
@@ -214,9 +214,9 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 
 						{/* Performance Metrics */}
 						{variant !== 'compact' && (
-							<Box mb={2}>
+							<Box component="div" mb={2}>
 								<Stack direction="row" spacing={2} divider={<Divider orientation="vertical" flexItem />}>
-									<Box textAlign="center">
+									<Box component="div" textAlign="center">
 										<Typography variant="h6" color="primary">
 											{agent.satisfactionRate}%
 										</Typography>
@@ -224,7 +224,7 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 											Satisfaction
 										</Typography>
 									</Box>
-									<Box textAlign="center">
+									<Box component="div" textAlign="center">
 										<Typography variant="h6" color="primary">
 											{agent.monthlyStats.carsSold}
 										</Typography>
@@ -232,7 +232,7 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 											This Month
 										</Typography>
 									</Box>
-									<Box textAlign="center">
+									<Box component="div" textAlign="center">
 										<Typography variant="h6" color="primary">
 											{agent.responseTime}
 										</Typography>
@@ -245,15 +245,15 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 						)}
 
 						{/* Location & Languages */}
-						<Box mb={2}>
+						<Box component="div" mb={2}>
 							<Stack direction="row" spacing={2} alignItems="center">
-								<Box display="flex" alignItems="center" gap={0.5}>
+								<Box component="div" display="flex" alignItems="center" gap={0.5}>
 									<LocationIcon fontSize="small" color="action" />
 									<Typography variant="caption">
 										{agent.territory}
 									</Typography>
 								</Box>
-								<Box display="flex" alignItems="center" gap={0.5}>
+								<Box component="div" display="flex" alignItems="center" gap={0.5}>
 									<LanguageIcon fontSize="small" color="action" />
 									<Typography variant="caption">
 										{agent.languages?.slice(0, 2).join(', ')}
@@ -265,11 +265,11 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 
 						{/* Recent Testimonial */}
 						{variant === 'detailed' && agent.clientTestimonials?.length > 0 && (
-							<Box mb={2}>
+							<Box component="div" mb={2}>
 								<Typography variant="subtitle2" gutterBottom>
 									Recent Review
 								</Typography>
-								<Box p={2} bgcolor="grey.50" borderRadius={1}>
+								<Box component="div" p={2} bgcolor="grey.50" borderRadius={1}>
 									<Rating 
 										value={agent.clientTestimonials[0].rating} 
 										size="small" 
@@ -286,7 +286,7 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 						)}
 
 						{/* Working Hours */}
-						<Box display="flex" alignItems="center" gap={0.5}>
+						<Box component="div" display="flex" alignItems="center" gap={0.5}>
 							<TimeIcon fontSize="small" color="action" />
 							<Typography variant="caption" color="text.secondary">
 								{agent.workingHours} ({agent.timezone})
@@ -303,7 +303,7 @@ const EnhancedAgentCard: React.FC<EnhancedAgentCardProps> = ({
 						</Box>
 						
 						{/* Spacer to push actions to bottom */}
-						<Box sx={{ flex: 1 }} />
+						<Box component="div" sx={{ flex: 1 }} />
 					</CardContent>
 
 					{/* Action Buttons */}

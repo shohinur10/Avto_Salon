@@ -30,7 +30,7 @@ const SimpleAgentFilter: React.FC<SimpleAgentFilterProps> = ({
 	};
 
 	return (
-		<Box style={{ padding: '1rem', backgroundColor: '#fff', borderRadius: '8px', marginBottom: '1rem' }}>
+		<Box component="div" style={{ padding: '1rem', backgroundColor: '#fff', borderRadius: '8px', marginBottom: '1rem' }}>
 			<Typography variant="h6" style={{ marginBottom: '1rem' }}>
 				Agent Filters
 			</Typography>

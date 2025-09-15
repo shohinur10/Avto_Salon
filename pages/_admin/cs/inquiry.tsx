@@ -21,14 +21,14 @@ const InquiryArticles: NextPage = (props: any) => {
 	/** HANDLERS **/
 
 	return (
-		<Box component={'div'} className={'content'}>
+		<Box component="div" className={'content'}>
 			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
 				1:1 Inquiry Management
 			</Typography>
-			<Box component={'div'} className={'table-wrap'}>
-				<Box component={'div'} sx={{ width: '100%', typography: 'body1' }}>
+			<Box component="div" className={'table-wrap'}>
+				<Box component="div" sx={{ width: '100%', typography: 'body1' }}>
 					<TabContext value={'value'}>
-						<Box component={'div'}>
+						<Box component="div">
 							<List className={'tab-menu'}>
 								<ListItem
 									// onClick={(e) => handleTabChange(e, 'all')}

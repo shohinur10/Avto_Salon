@@ -232,7 +232,7 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 	return (
 		<Container maxWidth="xl" className="enhanced-agents-page">
 			{/* Hero Section */}
-			<Box className="agents-hero" py={4}>
+			<Box component="div" className="agents-hero" py={4}>
 				<motion.div
 					initial="hidden"
 					animate="visible"
@@ -338,7 +338,7 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 			</Box>
 
 			{/* Main Content */}
-			<Box className="agents-content">
+			<Box component="div" className="agents-content">
 				<Grid container spacing={3}>
 					{/* Filter Sidebar */}
 					{showFilter && (
@@ -366,7 +366,7 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 							alignItems="center" 
 							mb={3}
 						>
-							<Box display="flex" alignItems="center" gap={2}>
+							<Box component="div" display="flex" alignItems="center" gap={2}>
 								<Button
 									variant="outlined"
 									startIcon={<FilterListIcon />}
@@ -422,9 +422,9 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 									<Grid item xs={12} sm={6} md={4} key={index}>
 										<Card>
 											<CardContent>
-												<Box display="flex" alignItems="center" gap={2} mb={2}>
+												<Box component="div" display="flex" alignItems="center" gap={2} mb={2}>
 													<Skeleton variant="circular" width={60} height={60} />
-													<Box flex={1}>
+													<Box component="div" flex={1}>
 														<Skeleton variant="text" width="80%" />
 														<Skeleton variant="text" width="60%" />
 													</Box>
@@ -473,7 +473,7 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 
 						{/* No Results */}
 						{!loading && enhancedAgents.length === 0 && (
-							<Box textAlign="center" py={8}>
+							<Box component="div" textAlign="center" py={8}>
 								<SearchIcon sx={{ fontSize: 80, color: 'text.disabled', mb: 2 }} />
 								<Typography variant="h6" gutterBottom>
 									No agents found
@@ -486,7 +486,7 @@ const EnhancedAgentsPage: React.FC<EnhancedAgentsPageProps> = ({
 
 						{/* Pagination */}
 						{!loading && enhancedAgents.length > 0 && totalPages > 1 && (
-							<Box display="flex" justifyContent="center" mt={4}>
+							<Box component="div" display="flex" justifyContent="center" mt={4}>
 								<Pagination
 									count={totalPages}
 									page={currentPage}

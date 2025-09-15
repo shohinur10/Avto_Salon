@@ -71,11 +71,11 @@ const TopAgents = (props: TopAgentsProps) => {
 			<Stack className={'top-agents'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component={'div'} className={'left'}>
+						<Box component="div" className={'left'}>
 							<span>Top Agents</span>
 							<p>Our Top Agents always ready to serve you</p>
 						</Box>
-						<Box component={'div'} className={'right'}>
+						<Box component="div" className={'right'}>
 							<div className={'more-box'}>
 								<span>See All Agents</span>
 								<img src="/img/icons/rightup.svg" alt="" />
@@ -83,10 +83,10 @@ const TopAgents = (props: TopAgentsProps) => {
 						</Box>
 					</Stack>
 					<Stack className={'wrapper'}>
-						<Box component={'div'} className={'switch-btn swiper-agents-prev'}>
+						<Box component="div" className={'switch-btn swiper-agents-prev'}>
 							<ArrowBackIosNewIcon />
 						</Box>
-						<Box component={'div'} className={'card-wrapper'}>
+						<Box component="div" className={'card-wrapper'}>
 							<Swiper
 								className={'top-agents-swiper'}
 								slidesPerView={'auto'}
@@ -106,7 +106,7 @@ const TopAgents = (props: TopAgentsProps) => {
 								})}
 							</Swiper>
 						</Box>
-						<Box component={'div'} className={'switch-btn swiper-agents-next'}>
+						<Box component="div" className={'switch-btn swiper-agents-next'}>
 							<ArrowBackIosNewIcon />
 						</Box>
 					</Stack>

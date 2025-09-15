@@ -438,7 +438,7 @@ const Faq = () => {
 	} else {
 		return (
 			<Stack className={'faq-content'}>
-				<Box className={'categories'} component={'div'}>
+				<Box component="div" className={'categories'}>
 					<div
 						className={category === 'property' ? 'active' : ''}
 						onClick={() => {
@@ -496,7 +496,7 @@ const Faq = () => {
 						Other
 					</div>
 				</Box>
-				<Box className={'wrap'} component={'div'}>
+				<Box component="div" className={'wrap'}>
 					{data[category] &&
 						data[category].map((ele: any) => (
 							<Accordion expanded={expanded === ele?.id} onChange={handleChange(ele?.id)} key={ele?.subject}>

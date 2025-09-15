@@ -75,6 +75,7 @@ const QACard = (props: QACardProps) => {
 				<Stack direction="row" alignItems="center" justifyContent="space-between" mb={2}>
 					<Stack direction="row" alignItems="center" spacing={2}>
 						<Box
+													component="div"
 							sx={{
 								width: 40,
 								height: 40,

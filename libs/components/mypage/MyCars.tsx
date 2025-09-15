@@ -225,7 +225,7 @@ const MyCars: NextPage = ({ initialInput, ...props }: any) => {
 		return <div>MY CARS MOBILE</div>;
 	} else {
 		return (
-			<Box sx={{ 
+			<Box component="div" sx={{ 
 				background: 'linear-gradient(135deg, #ffffff 0%, #fafafa 100%)',
 				minHeight: '100vh',
 				padding: '20px'
@@ -276,11 +276,11 @@ const MyCars: NextPage = ({ initialInput, ...props }: any) => {
 						</CardContent>
 					</GoldCard>
 					{/* Car List */}
-					<Box>
+					<Box component="div">
 						{agentCars?.length === 0 ? (
 							<GoldCard>
 								<CardContent sx={{ textAlign: 'center', py: 8 }}>
-									<Box sx={{ mb: 3 }}>
+									<Box component="div" sx={{ mb: 3 }}>
 										<img 
 											src="/img/icons/icoAlert.svg" 
 											alt="No cars" 
@@ -306,7 +306,7 @@ const MyCars: NextPage = ({ initialInput, ...props }: any) => {
 											<Grid container spacing={3} alignItems="center">
 												{/* Car Image */}
 												<Grid item xs={12} sm={3}>
-													<Box
+													<Box component="div"
 														sx={{
 															width: '100%',
 															height: 120,

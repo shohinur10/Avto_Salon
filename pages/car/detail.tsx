@@ -715,33 +715,33 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 										<Typography className={'title'}>Car Details</Typography>
 										<Stack className={'info-box'}>
 											<Stack className={'left'}>
-												<Box component={'div'} className={'info'}>
+												<Box component="div" className={'info'}>
 													<Typography className={'title'}>Price</Typography>
 													<Typography className={'data'}>${formatterStr(car?.carPrice)}</Typography>
 												</Box>
-												<Box component={'div'} className={'info'}>
+												<Box component="div" className={'info'}>
 																									<Typography className={'title'}>Year</Typography>
 												<Typography className={'data'}>{car?.carYear}</Typography>
 												</Box>
-												<Box component={'div'} className={'info'}>
+												<Box component="div" className={'info'}>
 																									<Typography className={'title'}>Seats</Typography>
 												<Typography className={'data'}>{car?.carSeats}</Typography>
 												</Box>
-												<Box component={'div'} className={'info'}>
+												<Box component="div" className={'info'}>
 																									<Typography className={'title'}>Doors</Typography>
 												<Typography className={'data'}>{car?.carDoors}</Typography>
 												</Box>
 											</Stack>
 											<Stack className={'right'}>
-												<Box component={'div'} className={'info'}>
+												<Box component="div" className={'info'}>
 																									<Typography className={'title'}>Brand</Typography>
 												<Typography className={'data'}>{car?.brand}</Typography>
 												</Box>
-												<Box component={'div'} className={'info'}>
+												<Box component="div" className={'info'}>
 																									<Typography className={'title'}>Car Category</Typography>
 												<Typography className={'data'}>{car?.carCategory}</Typography>
 												</Box>
-												<Box component={'div'} className={'info'}>
+												<Box component="div" className={'info'}>
 																									<Typography className={'title'}>Car Options</Typography>
 												<Typography className={'data'}>
 													For {car?.isBarterAvailable && 'Barter'} {car?.isForRent && 'Rent'}
@@ -795,7 +795,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 											{carComments?.map((comment: Comment) => {
 												return <Review comment={comment} key={comment?._id} />;
 											})}
-											<Box component={'div'} className={'pagination-box'}>
+											<Box component="div" className={'pagination-box'}>
 												<MuiPagination
 													page={commentInquiry.page}
 													count={Math.ceil(commentTotal / commentInquiry.limit)}
@@ -816,7 +816,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 										}}
 										value={insertCommentData.commentContent}
 									></textarea>
-									<Box className={'submit-btn'} component={'div'}>
+									<Box component="div" className={'submit-btn'}>
 										<Button
 											className={'submit-review'}
 											disabled={insertCommentData.commentContent === '' || user?._id === ''}

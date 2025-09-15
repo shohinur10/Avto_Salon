@@ -301,6 +301,7 @@ const CreatePostModal = (props: CreatePostModalProps) => {
 							{imagePreviews.map((preview, index) => (
 								<Grid item xs={12} sm={6} md={4} key={index}>
 									<Box
+													component="div"
 										component="div"
 										sx={{
 											position: 'relative',
