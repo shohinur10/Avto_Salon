@@ -73,8 +73,7 @@ const EventCard = (props: EventCardProps) => {
 				}}
 			>
 				{/* Event Image */}
-				<Box
-													
+				<Box component="div"
 					sx={{
 						height: '200px',
 						backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${imagePath})`,
@@ -113,8 +112,7 @@ const EventCard = (props: EventCardProps) => {
 				<Stack sx={{ padding: '20px' }}>
 					{/* Organizer Info */}
 					<Stack direction="row" alignItems="center" spacing={2} mb={2}>
-						<Box
-													
+						<Box component="div"
 							sx={{
 								width: 36,
 								height: 36,
