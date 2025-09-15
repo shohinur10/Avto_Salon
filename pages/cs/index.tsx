@@ -37,12 +37,12 @@ const CS: NextPage = () => {
 		return (
 			<Stack className={'cs-page'}>
 				<Stack className={'container'}>
-					<Box component="div" className={'cs-main-info'}>
-						<Box component="div" className={'info'}>
+					<Box component="div"  className={'cs-main-info'}>
+						<Box component="div"  className={'info'}>
 							<span>Cs center</span>
 							<p>I will answer your questions</p>
 						</Box>
-						<Box component="div" className={'btns'}>
+						<Box component="div"  className={'btns'}>
 							<div
 								className={tab == 'notice' ? 'active' : ''}
 								onClick={() => {
@@ -62,7 +62,7 @@ const CS: NextPage = () => {
 						</Box>
 					</Box>
 
-					<Box component="div" className={'cs-content'}>
+					<Box component="div"  className={'cs-content'}>
 						{tab === 'notice' && <Notice />}
 
 						{tab === 'faq' && <Faq />}

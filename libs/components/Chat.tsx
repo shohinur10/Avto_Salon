@@ -17,7 +17,6 @@ const NewMessage = (type: any) => {
 	if (type === 'right') {
 		return (
 			<Box
-													component="div"
 				component={'div'}
 				flexDirection={'row'}
 				style={{ display: 'flex' }}
@@ -30,7 +29,7 @@ const NewMessage = (type: any) => {
 		);
 	} else {
 		return (
-			<Box component="div" flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }}>
+			<Box component="div"  flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }}>
 				<Avatar alt={'jonik'} src={'/img/profile/defaultUser.svg'} />
 				<div className={'msg_left'}></div>
 			</Box>
@@ -133,14 +132,14 @@ const Chat = () => {
 				</button>
 			) : null}
 			<Stack className={`chat-frame ${open ? 'open' : ''}`}>
-				<Box component="div" className={'chat-top'}>
+				<Box component="div"  className={'chat-top'}>
 					<div style={{ fontFamily: 'Nunito' }}>Online Chat</div>
 					<RippleBadge style={{ margin: '-18px 0 0 21px' }} badgeContent={onlineUsers} />
 				</Box>
-				<Box component="div" className={'chat-content'} id="chat-content" ref={chatContentRef}>
+				<Box component="div"  className={'chat-content'} id="chat-content" ref={chatContentRef}>
 					<ScrollableFeed>
 						<Stack className={'chat-main'}>
-							<Box component="div" flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }}>
+							<Box component="div"  flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }}>
 								<div className={'welcome'}>Welcome to Live chat!</div>
 							</Box>
 							{messagesList.map((ele: MessagePayload) => {
@@ -150,7 +149,6 @@ const Chat = () => {
 									: '/img/profile/defaultUser.svg';
 								return memberData?._id === user?._id ? (
 									<Box
-													component="div"
 										component={'div'}
 										flexDirection={'row'}
 										style={{ display: 'flex' }}
@@ -161,7 +159,7 @@ const Chat = () => {
 										<div className={'msg-right'}>{text}</div>
 									</Box>
 								) : (
-									<Box component="div" flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }}>
+									<Box component="div"  flexDirection={'row'} style={{ display: 'flex' }} sx={{ m: '10px 0px' }}>
 										<Avatar alt={'jonik'} src={memberImage} />
 										<div className={'msg-left'}>{text}</div>
 									</Box>
@@ -171,7 +169,7 @@ const Chat = () => {
 						</Stack>
 					</ScrollableFeed>
 				</Box>
-				<Box component="div" className={'chat-bott'}>
+				<Box component="div"  className={'chat-bott'}>
 					<input
 						type={'text'}
 						name={'message'}

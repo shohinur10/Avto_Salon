@@ -153,14 +153,14 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 	console.log('+articles', articles);
 
 	return (
-		<Box component="div" className={'content'}>
+		<Box component="div"  className={'content'}>
 			<Typography variant={'h2'} className={'tit'} sx={{ mb: '24px' }}>
 				Article List
 			</Typography>
-			<Box component="div" className={'table-wrap'}>
-				<Box component="div" sx={{ width: '100%', typography: 'body1' }}>
+			<Box component="div"  className={'table-wrap'}>
+				<Box component="div"  sx={{ width: '100%', typography: 'body1' }}>
 					<TabContext value={value}>
-						<Box component="div">
+						<Box component="div" >
 							<List className={'tab-menu'}>
 								<ListItem
 									onClick={(e:any) => tabChangeHandler(e, 'ALL')}
@@ -210,7 +210,7 @@ const AdminCommunity: NextPage = ({ initialInquiry, ...props }: any) => {
 
 						<TablePagination
 							rowsPerPageOptions={[10, 20, 40, 60]}
-							component="div"
+							
 							count={articleTotal}
 							rowsPerPage={communityInquiry?.limit}
 							page={communityInquiry?.page - 1}

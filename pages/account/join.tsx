@@ -106,14 +106,14 @@ const Join: NextPage = () => {
 	if (device === 'mobile') {
 		return (
 			<Stack className={'join-page-mobile'}>
-				<Box component="div" className={'mobile-header'}>
-					<Box component="div" className={'logo'}>
+				<Box component="div"  className={'mobile-header'}>
+					<Box component="div"  className={'logo'}>
 						<img src="/img/logo/logoText.svg" alt="" />
 						<span>Auto Salon</span>
 					</Box>
 				</Box>
-				<Box component="div" className={'mobile-content'}>
-					<Box component="div" className={'welcome-section'}>
+				<Box component="div"  className={'mobile-content'}>
+					<Box component="div"  className={'welcome-section'}>
 						<h1 className={'main-title'}>
 							{loginView ? 'Welcome Back' : 'Join Us'}
 						</h1>
@@ -124,7 +124,7 @@ const Join: NextPage = () => {
 							}
 						</p>
 					</Box>
-					<Box component="div" className={'input-wrap'}>
+					<Box component="div"  className={'input-wrap'}>
 						<div className={'input-box'}>
 							<span>Nickname</span>
 							<input
@@ -210,7 +210,7 @@ const Join: NextPage = () => {
 							</div>
 						)}
 					</Box>
-					<Box component="div" className={'register'}>
+					<Box component="div"  className={'register'}>
 						{!loginView && (
 							<div className={'type-option'}>
 								<span className={'text'}>Register as:</span>
@@ -284,7 +284,7 @@ const Join: NextPage = () => {
 							</Button>
 						)}
 					</Box>
-					<Box component="div" className={'ask-info'}>
+					<Box component="div"  className={'ask-info'}>
 						{loginView ? (
 							<p>
 								Not registered yet?
@@ -313,11 +313,11 @@ const Join: NextPage = () => {
 					<Stack className={'main'}>
 						<Stack className={'left'}>
 							{/* @ts-ignore */}
-							<Box component="div" className={'logo'}>
+							<Box component="div"  className={'logo'}>
 								<img src="/img/logo/logoText.svg" alt="" />
 								<span>Auto Salon</span>
 							</Box>
-							<Box component="div" className={'welcome-section'}>
+							<Box component="div"  className={'welcome-section'}>
 								<h1 className={'main-title'}>
 									{loginView ? 'Welcome Back' : 'Join Our Community'}
 								</h1>
@@ -328,7 +328,7 @@ const Join: NextPage = () => {
 									}
 								</p>
 							</Box>
-							<Box component="div" className={'input-wrap'}>
+							<Box component="div"  className={'input-wrap'}>
 								<div className={'input-box'}>
 									<span>Nickname</span>
 									<input
@@ -414,7 +414,7 @@ const Join: NextPage = () => {
 									</div>
 								)}
 							</Box>
-							<Box component="div" className={'register'}>
+							<Box component="div"  className={'register'}>
 								{!loginView && (
 									<div className={'type-option'}>
 										<span className={'text'}>Register as:</span>
@@ -491,7 +491,7 @@ const Join: NextPage = () => {
 									</Button>
 								)}
 							</Box>
-							<Box component="div" className={'ask-info'}>
+							<Box component="div"  className={'ask-info'}>
 								{loginView ? (
 									<p>
 										Not registered yet?
@@ -512,13 +512,13 @@ const Join: NextPage = () => {
 							</Box>
 						</Stack>
 						<Stack className={'right'}>
-							<Box component="div" className={'car-showcase'}>
-								<Box component="div" className={'car-overlay'}>
+							<Box component="div"  className={'car-showcase'}>
+								<Box component="div"  className={'car-overlay'}>
 									<h2 className={'feature-title'}>Experience Luxury</h2>
 									<p className={'feature-description'}>
 										Discover the finest collection of premium vehicles from world-renowned brands
 									</p>
-									<Box component="div" className={'car-brands'}>
+									<Box component="div"  className={'car-brands'}>
 										<img src="/img/brands/MERCEDES.svg" alt="Mercedes" />
 										<img src="/img/brands/BMW.svg" alt="BMW" />
 										<img src="/img/brands/AUDI.svg" alt="Audi" />

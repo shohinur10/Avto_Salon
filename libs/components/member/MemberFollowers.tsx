@@ -110,15 +110,15 @@ const MemberFollowers = (props: MemberFollowsProps) => {
 									</Stack>
 								</Stack>
 								<Stack className={'details-box'}>
-									<Box component="div" className={'info-box'}>
+									<Box component="div"  className={'info-box'}>
 										<p>Followers</p>
 										<span>({follower?.followerData?.memberFollowers})</span>
 									</Box>
-									<Box component="div" className={'info-box'}>
+									<Box component="div"  className={'info-box'}>
 										<p>Followings</p>
 										<span>({follower?.followerData?.memberFollowings})</span>
 									</Box>
-									<Box component="div" className={'info-box'}>
+									<Box component="div"  className={'info-box'}>
 										{follower?.meLiked && follower?.meLiked[0]?.myFavorite ? (
 											<FavoriteIcon
 												color="primary"

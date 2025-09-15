@@ -210,7 +210,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 					}
 				}}
 			>
-				<Box component="div" sx={{ position: 'relative', textAlign: 'center', pt: 3 }}>
+				<Box component="div"  sx={{ position: 'relative', textAlign: 'center', pt: 3 }}>
 					<Link href={`/agent/${agent?._id}`} style={{ textDecoration: 'none' }}>
 						<Avatar
 							src={imagePath}
@@ -229,7 +229,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 							}}
 						/>
 					</Link>
-					<Box component="div"
+					<Box component="div" 
 						onClick={() => likeMemberHandler(agent?._id)}
 						sx={{
 							position: 'absolute',
@@ -300,7 +300,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 					{/* Followers and Following Section */}
 					<Stack direction="row" spacing={2} justifyContent="center" mb={2}>
-						<Box component="div" sx={{ textAlign: 'center' }}>
+						<Box component="div"  sx={{ textAlign: 'center' }}>
 							<Typography variant="body2" sx={{ color: 'rgba(128, 128, 128, 0.7)', fontSize: '0.75rem' }}>
 								Followers
 							</Typography>
@@ -308,8 +308,8 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 								{agent?.memberFollowers || 0}
 							</Typography>
 						</Box>
-						<Box component="div" sx={{ width: '1px', bgcolor: 'rgba(128, 128, 128, 0.3)', mx: 1 }} />
-						<Box component="div" sx={{ textAlign: 'center' }}>
+						<Box component="div"  sx={{ width: '1px', bgcolor: 'rgba(128, 128, 128, 0.3)', mx: 1 }} />
+						<Box component="div"  sx={{ textAlign: 'center' }}>
 							<Typography variant="body2" sx={{ color: 'rgba(128, 128, 128, 0.7)', fontSize: '0.75rem' }}>
 								Following
 							</Typography>
@@ -321,7 +321,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 					{/* Follow/Unfollow Button Section */}
 					{user?._id && user._id !== agent._id && (
-						<Box component="div" sx={{ textAlign: 'center', mb: 2 }}>
+						<Box component="div"  sx={{ textAlign: 'center', mb: 2 }}>
 							{agent?.meFollowed && agent?.meFollowed[0]?.myFollowing ? (
 								<Button
 									variant="outlined"
@@ -489,7 +489,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 					))}
 				</Stack>
 				{total > searchFilter.limit && (
-                                        <Box component="div" sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
+                                        <Box component="div"  sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
 						<Pagination
 							count={Math.ceil(total / searchFilter.limit)}
 							page={currentPage}
@@ -529,7 +529,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 				</Stack>
 
 								{/* Search Section */}
-				<Box component="div" sx={{ mb: 4 }}>
+				<Box component="div"  sx={{ mb: 4 }}>
 					<Stack direction="row" spacing={2} alignItems="center">
 						<TextField
 							fullWidth
@@ -627,13 +627,13 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 				{/* Agents Grid */}
 				{getAgentsLoading ? (
-					<Box component="div" sx={{ textAlign: 'center', py: 8 }}>
+					<Box component="div"  sx={{ textAlign: 'center', py: 8 }}>
 						<Typography variant="h6" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
 							Loading our amazing agents...
 						</Typography>
 					</Box>
 				) : agents.length === 0 ? (
-					<Box component="div" sx={{ textAlign: 'center', py: 8 }}>
+					<Box component="div"  sx={{ textAlign: 'center', py: 8 }}>
 						<Typography variant="h6" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
 							No agents found. Try adjusting your search.
 						</Typography>
@@ -650,7 +650,7 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 
 				{/* Pagination */}
 				{total > searchFilter.limit && (
-					<Box component="div" sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
+					<Box component="div"  sx={{ display: 'flex', justifyContent: 'center', mt: 6 }}>
 						<Pagination
 							count={Math.ceil(total / searchFilter.limit)}
 							page={currentPage}

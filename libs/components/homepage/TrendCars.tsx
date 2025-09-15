@@ -71,7 +71,7 @@ const TrendCars = (props: TrendCarsProps) => {
 					</Stack>
 					<Stack className={'card-box'}>
 						{trendCars.length === 0 ? (
-							<Box component="div" className={'empty-list'}>
+							<Box component="div"  className={'empty-list'}>
 								Trends Empty
 							</Box>
 						) : (
@@ -100,11 +100,11 @@ const TrendCars = (props: TrendCarsProps) => {
 			<Stack className={'trend-cars'}>
 				<Stack className={'container'}>
 					<Stack className={'info-box'}>
-						<Box component="div" className={'left'}>
+						<Box component="div"  className={'left'}>
 							<span>Trend Cars</span>
 							<p>Trend is based on likes</p>
 						</Box>
-						<Box component="div" className={'right'}>
+						<Box component="div"  className={'right'}>
 							<div className={'pagination-box'}>
 								<WestIcon className={'swiper-trend-prev'} />
 								<div className={'swiper-trend-pagination'}></div>
@@ -114,7 +114,7 @@ const TrendCars = (props: TrendCarsProps) => {
 					</Stack>
 					<Stack className={'card-box'}>
 						{trendCars.length === 0 ? (
-							<Box component="div" className={'empty-list'}>
+							<Box component="div"  className={'empty-list'}>
 								Trends Empty
 							</Box>
 						) : (

@@ -132,7 +132,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 		<Stack spacing={3}>
 			{[1, 2, 3].map((item) => (
 				<Box
-													component="div"
+													
 					key={item}
 					sx={{
 						backgroundColor: 'white',
@@ -144,7 +144,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 				>
 					<Stack direction="row" spacing={2} mb={2}>
 						<Box
-													component="div"
+													
 							sx={{
 								width: 48,
 								height: 48,
@@ -155,7 +155,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 						/>
 						<Stack spacing={1} flex={1}>
 							<Box
-													component="div"
+													
 								sx={{
 									height: 20,
 									backgroundColor: '#f0f0f0',
@@ -165,7 +165,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 								}}
 							/>
 							<Box
-													component="div"
+													
 								sx={{
 									height: 16,
 									backgroundColor: '#f0f0f0',
@@ -178,7 +178,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 					</Stack>
 					<Stack spacing={2}>
 						<Box
-													component="div"
+													
 							sx={{
 								height: 24,
 								backgroundColor: '#f0f0f0',
@@ -188,7 +188,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 							}}
 						/>
 						<Box
-													component="div"
+													
 							sx={{
 								height: 60,
 								backgroundColor: '#f0f0f0',
@@ -197,7 +197,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 							}}
 						/>
 						<Box
-													component="div"
+													
 							sx={{
 								height: 200,
 								backgroundColor: '#f0f0f0',
@@ -212,13 +212,13 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 	);
 
 	return (
-		<Box component="div" sx={{ position: 'relative', minHeight: '100vh' }}>
+		<Box component="div"  sx={{ position: 'relative', minHeight: '100vh' }}>
 			{/* Posts Feed */}
 			<Stack spacing={0}>
 				{posts.length === 0 && !loading ? (
 					// Empty State
 					<Box
-													component="div"
+													
 						sx={{
 							display: 'flex',
 							flexDirection: 'column',
@@ -229,7 +229,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 						}}
 					>
 						<Box
-													component="div"
+													
 							sx={{
 								width: 120,
 								height: 120,
@@ -274,7 +274,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 				{/* Loading Indicator */}
 				{loading && (
 					posts.length > 0 ? (
-						<Box component="div" sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+						<Box component="div"  sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
 							<Stack alignItems="center" spacing={2}>
 								<CircularProgress size={32} />
 								<Typography variant="body2" color="text.secondary">
@@ -289,7 +289,7 @@ const InfiniteScrollFeed = (props: InfiniteScrollFeedProps) => {
 
 				{/* End of Content */}
 				{!hasMore && posts.length > 0 && (
-					<Box component="div" sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
+					<Box component="div"  sx={{ display: 'flex', justifyContent: 'center', py: 4 }}>
 						<Typography variant="body2" color="text.secondary">
 							You've reached the end! 🎉
 						</Typography>

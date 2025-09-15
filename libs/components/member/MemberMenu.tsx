@@ -43,7 +43,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>
 				<Stack className={'profile'}>
-					<Box component="div" className={'profile-img'}>
+					<Box component="div"  className={'profile-img'}>
 						<img
 							src={member?.memberImage ? `${REACT_APP_API_URL}/${member?.memberImage}` : '/img/profile/defaultUser.svg'}
 							alt={'member-photo'}
@@ -51,7 +51,7 @@ const MemberMenu = (props: MemberMenuProps) => {
 					</Box>
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{member?.memberNick}</Typography>
-						<Box component="div" className={'user-phone'}>
+						<Box component="div"  className={'user-phone'}>
 							<img src={'/img/icons/call.svg'} alt={'icon'} />
 							<Typography className={'p-number'}>{member?.memberPhone}</Typography>
 						</Box>

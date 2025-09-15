@@ -26,7 +26,7 @@ class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <Box component="div" sx={{ p: 4, textAlign: 'center' }}>
+        <Box component="div"  sx={{ p: 4, textAlign: 'center' }}>
           <Typography variant="h5" gutterBottom>
             Something went wrong
           </Typography>

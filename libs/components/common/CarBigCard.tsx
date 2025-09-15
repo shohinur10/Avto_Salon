@@ -32,9 +32,8 @@ const CarBigCard = (props: CarBigCardProps) => {
 	} else {
 		return (
 			<Stack className="car-big-card-box" onClick={() => goCarDetailPage(car?._id)}>
-				<Box
-													component="div"
-					component={'div'}
+                          <Box
+                                  component={'div'}
 					className={'card-img'}
 					style={{ backgroundImage: `url(${REACT_APP_API_URL}/${car?.carImages?.[0]})` }}
 				>
@@ -47,7 +46,7 @@ const CarBigCard = (props: CarBigCardProps) => {
 
 					<div className={'price'}>${formatterStr(car?.carPrice)}</div>
 				</Box>
-				<Box component="div" className={'info'}>
+				<Box component="div"  className={'info'}>
 					<strong className={'title'}>{car?.carTitle}</strong>
 					<p className={'desc'}>{car?.carAddress}</p>
 					<div className={'options'}>

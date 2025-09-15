@@ -62,7 +62,7 @@ const withAdminLayout = (Component: ComponentType) => {
 
 		return (
 			<main id="pc-wrap" className="admin">
-				<Box component="div" sx={{ display: 'flex' }}>
+				<Box component="div"  sx={{ display: 'flex' }}>
 					<AppBar
 						position="fixed"
 						sx={{
@@ -100,8 +100,7 @@ const withAdminLayout = (Component: ComponentType) => {
 								onClose={handleCloseUserMenu}
 							>
 								<Box
-													component="div"
-									component={'div'}
+													component={'div'}
 									onClick={handleCloseUserMenu}
 									sx={{
 										width: '200px',
@@ -116,7 +115,7 @@ const withAdminLayout = (Component: ComponentType) => {
 										</Typography>
 									</Stack>
 									<Divider />
-									<Box component="div" sx={{ p: 1, py: '6px' }} onClick={logoutHandler}>
+									<Box component="div"  sx={{ p: 1, py: '6px' }} onClick={logoutHandler}>
 										<MenuItem sx={{ px: '16px', py: '6px' }}>
 											<Typography variant={'subtitle1'} component={'span'}>
 												Logout
@@ -172,7 +171,7 @@ const withAdminLayout = (Component: ComponentType) => {
 						<MenuList />
 					</Drawer>
 
-					<Box component="div" id="bunker" sx={{ flexGrow: 1 }}>
+					<Box component="div"  id="bunker" sx={{ flexGrow: 1 }}>
 						{/*@ts-ignore*/}
 						<Component {...props} setSnackbar={setSnackbar} setTitle={setTitle} />
 					</Box>

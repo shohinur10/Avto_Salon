@@ -284,7 +284,7 @@ const CreatePost: NextPage = () => {
 							onClick={() => handleTypeSelect(type.type)}
 						>
 							<CardContent>
-								<Box component="div" sx={{ color: type.color, mb: 2 }}>
+								<Box component="div"  sx={{ color: type.color, mb: 2 }}>
 									{React.cloneElement(type.icon, { fontSize: 'large' })}
 								</Box>
 								<Typography variant="h6" fontWeight={700} mb={1}>
@@ -317,7 +317,7 @@ const CreatePost: NextPage = () => {
 					}
 				}}
 			/>
-			<Box component="div">
+			<Box component="div" >
 				<Typography variant="h6" mb={2}>Content</Typography>
 				<RichTextEditor
 					value={postData.content}
@@ -325,7 +325,7 @@ const CreatePost: NextPage = () => {
 					placeholder="Share your thoughts, experiences, or questions..."
 				/>
 				{/* Debug display */}
-				<Box component="div" sx={{ mt: 2, p: 2, bgcolor: 'grey.100', borderRadius: 1, fontSize: '12px' }}>
+				<Box component="div"  sx={{ mt: 2, p: 2, bgcolor: 'grey.100', borderRadius: 1, fontSize: '12px' }}>
 					<Typography variant="caption" color="text.secondary">
 						Debug Info:
 					</Typography>
@@ -387,7 +387,7 @@ const CreatePost: NextPage = () => {
 			</Grid>
 
 			{/* Tags */}
-			<Box component="div">
+			<Box component="div" >
 				<Typography variant="h6" mb={2}>Tags</Typography>
 				<Stack direction="row" spacing={1} flexWrap="wrap" mb={2}>
 					{postData.tags.map((tag) => (
@@ -427,7 +427,7 @@ const CreatePost: NextPage = () => {
 			</Box>
 
 			{/* Image Upload */}
-			<Box component="div">
+			<Box component="div" >
 				<Typography variant="h6" mb={2}>Images (Optional)</Typography>
 				<input
 					accept="image/*"
@@ -517,7 +517,7 @@ const CreatePost: NextPage = () => {
 				</Typography>
 				
 				<Box
-													component="div"
+													
 					sx={{
 						mb: 3,
 						'& h2, & h3': { fontWeight: 700, mb: 1, mt: 2 },
@@ -550,7 +550,7 @@ const CreatePost: NextPage = () => {
 	}
 
 	return (
-		<Box component="div" sx={{ 
+		<Box component="div"  sx={{ 
 			background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
 			minHeight: '100vh',
 			py: 4

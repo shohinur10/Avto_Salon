@@ -33,7 +33,7 @@ const MyMenu = () => {
 		return (
 			<Stack width={'100%'} padding={'30px 24px'}>
 				<Stack className={'profile'}>
-					<Box component="div" className={'profile-img'}>
+					<Box component="div"  className={'profile-img'}>
 						<img
 							src={user?.memberImage ? `${REACT_APP_API_URL}/${user?.memberImage}` : '/img/profile/defaultUser.svg'}
 							alt={'member-photo'}
@@ -41,7 +41,7 @@ const MyMenu = () => {
 					</Box>
 					<Stack className={'user-info'}>
 						<Typography className={'user-name'}>{user?.memberNick}</Typography>
-						<Box component="div" className={'user-phone'}>
+						<Box component="div"  className={'user-phone'}>
 							<img src={'/img/icons/call.svg'} alt={'icon'} />
 							<Typography className={'p-number'}>{user?.memberPhone}</Typography>
 						</Box>

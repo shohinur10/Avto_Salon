@@ -269,7 +269,7 @@ const NoticeComponent = ({ onNoticeClick }: NoticeComponentProps) => {
 
 				{/* Loading State */}
 				{loading && (
-					<Box component="div" display="flex" justifyContent="center" py={4}>
+					<Box component="div"  display="flex" justifyContent="center" py={4}>
 						<CircularProgress />
 					</Box>
 				)}
@@ -382,7 +382,7 @@ const NoticeComponent = ({ onNoticeClick }: NoticeComponentProps) => {
 							))
 						) : (
 							<Box
-													component="div"
+													
 								sx={{
 									display: 'flex',
 									flexDirection: 'column',
@@ -409,7 +409,7 @@ const NoticeComponent = ({ onNoticeClick }: NoticeComponentProps) => {
 
 				{/* Pagination */}
 				{!loading && totalCount > inquiry.limit && (
-					<Box component="div" display="flex" justifyContent="center" mt={4}>
+					<Box component="div"  display="flex" justifyContent="center" mt={4}>
 						<Pagination
 							count={Math.ceil(totalCount / inquiry.limit)}
 							page={inquiry.page}

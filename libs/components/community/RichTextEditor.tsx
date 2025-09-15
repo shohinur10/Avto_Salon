@@ -107,8 +107,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 		>
 			{/* Toolbar */}
 			<Box
-													component="div"
-				component="div"
+													
+				
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
@@ -148,8 +148,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
 			{/* Editor */}
 			<Box
-													component="div"
-				component="div"
+													
+				
 				ref={editorRef}
 				contentEditable
 				suppressContentEditableWarning
@@ -250,8 +250,8 @@ const RichTextEditor: React.FC<RichTextEditorProps> = ({
 
 			{/* Footer with tips */}
 			<Box
-													component="div"
-				component="div"
+													
+				
 				sx={{
 					px: 2,
 					py: 1,
