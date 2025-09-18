@@ -12,21 +12,29 @@ export function getJwtToken(): any {
 }
 
 export function setJwtToken(token: string) {
-	localStorage.setItem('accessToken', token);
+	if (typeof window !== 'undefined') {
+		localStorage.setItem('accessToken', token);
+	}
 }
 
 export const logIn = async (nick: string, password: string): Promise<void> => {
 	try {
+		console.log('Starting login process for:', nick);
 		const { jwtToken } = await requestJwtToken({ nick, password });
 
 		if (jwtToken) {
+			console.log('JWT token received, updating storage and user info');
 			updateStorage({ jwtToken });
 			updateUserInfo(jwtToken);
+			console.log('Login process completed successfully');
+		} else {
+			console.error('No JWT token received');
+			throw new Error('No token received from server');
 		}
 	} catch (err) {
 		console.warn('login err', err);
 		logOut();
-		// throw new Error('Login Err');
+		throw new Error('Login failed. Please check your credentials.');
 	}
 };
 
@@ -51,16 +59,31 @@ const requestJwtToken = async ({
 
 		return { jwtToken: accessToken };
 	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
+		console.log('request token err', err);
+		
+		// Handle GraphQL errors
+		if (err.graphQLErrors && err.graphQLErrors.length > 0) {
+			const errorMessage = err.graphQLErrors[0].message;
+			switch (errorMessage) {
+				case 'Definer: login and password do not match':
+					await sweetMixinErrorAlert('Please check your password again');
+					break;
+				case 'Definer: user has been blocked!':
+					await sweetMixinErrorAlert('User has been blocked!');
+					break;
+				case 'No member nick found':
+					await sweetMixinErrorAlert('User not found. Please check your nickname.');
+					break;
+				default:
+					await sweetMixinErrorAlert(errorMessage);
+			}
+		} else if (err.networkError) {
+			await sweetMixinErrorAlert('Network error. Please check your connection.');
+		} else {
+			await sweetMixinErrorAlert('Login failed. Please try again.');
 		}
-		throw new Error('token error');
+		
+		throw new Error('Login failed');
 	}
 };
 
@@ -73,9 +96,9 @@ export const signUp = async (nick: string, password: string, phone: string, type
 			updateUserInfo(jwtToken);
 		}
 	} catch (err) {
-		console.warn('login err', err);
+		console.warn('signup err', err);
 		logOut();
-		// throw new Error('Login Err');
+		throw new Error('Signup failed. Please try again.');
 	}
 };
 
@@ -101,21 +124,36 @@ const requestSignUpJwtToken = async ({
 			fetchPolicy: 'network-only',
 		});
 
-		console.log('---------- login ----------');
+		console.log('---------- signup ----------');
 		const { accessToken } = result?.data?.signup;
 
 		return { jwtToken: accessToken };
 	} catch (err: any) {
-		console.log('request token err', err.graphQLErrors);
-		switch (err.graphQLErrors[0].message) {
-			case 'Definer: login and password do not match':
-				await sweetMixinErrorAlert('Please check your password again');
-				break;
-			case 'Definer: user has been blocked!':
-				await sweetMixinErrorAlert('User has been blocked!');
-				break;
+		console.log('request signup token err', err);
+		
+		// Handle GraphQL errors
+		if (err.graphQLErrors && err.graphQLErrors.length > 0) {
+			const errorMessage = err.graphQLErrors[0].message;
+			switch (errorMessage) {
+				case 'Definer: login and password do not match':
+					await sweetMixinErrorAlert('Please check your password again');
+					break;
+				case 'Definer: user has been blocked!':
+					await sweetMixinErrorAlert('User has been blocked!');
+					break;
+				case 'No member nick found':
+					await sweetMixinErrorAlert('User not found. Please check your nickname.');
+					break;
+				default:
+					await sweetMixinErrorAlert(errorMessage);
+			}
+		} else if (err.networkError) {
+			await sweetMixinErrorAlert('Network error. Please check your connection.');
+		} else {
+			await sweetMixinErrorAlert('Signup failed. Please try again.');
 		}
-		throw new Error('token error');
+		
+		throw new Error('Signup failed');
 	}
 };
 

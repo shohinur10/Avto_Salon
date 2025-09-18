@@ -1,14 +1,21 @@
 services:
   avto_salon:
-    container_name: avto-salon-frontend
+    container_name: avto-salon-frontend-prod
     build:
       context: .
       dockerfile: Dockerfile.prod
+      args:
+        - REACT_APP_API_URL=http://72.60.108.222:4001
+        - REACT_APP_API_GRAPHQL_URL=http://72.60.108.222:4001/graphql
+        - REACT_APP_API_WS=ws://72.60.108.222:4001
     ports:
       - "3001:3000"
     environment:
-      - PORT=3000
       - NODE_ENV=production
+      - PORT=3000
+      - REACT_APP_API_URL=http://72.60.108.222:4001
+      - REACT_APP_API_GRAPHQL_URL=http://72.60.108.222:4001/graphql
+      - REACT_APP_API_WS=ws://72.60.108.222:4001
     networks: 
       - monorepo-network
 
@@ -16,4 +23,3 @@ networks:
   monorepo-network:
     external: true
     name: brand_cars_monorepo-network
-

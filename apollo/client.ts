@@ -32,31 +32,48 @@ const tokenRefreshLink = new TokenRefreshLink({
 
 // Custom WebSocket client
 class LoggingWebSocket {
-	private socket: WebSocket;
+	private socket: WebSocket | null = null;
 
 	constructor(url: string) {
-		this.socket = new WebSocket(`${url}?token=${getJwtToken()}`);
-		socketVar(this.socket);
+		try {
+			// Only connect if we're in the browser and have a valid URL
+			if (typeof window !== 'undefined' && url && url.startsWith('ws://')) {
+				this.socket = new WebSocket(`${url}?token=${getJwtToken()}`);
+				socketVar(this.socket);
 
-		this.socket.onopen = () => {
-			console.log('WebSocket connection!');
-		};
+				this.socket.onopen = () => {
+					console.log('WebSocket connection established!');
+				};
 
-		this.socket.onmessage = (msg) => {
-			console.log('WebSocket message:', msg.data);
-		};
+				this.socket.onmessage = (msg) => {
+					console.log('WebSocket message:', msg.data);
+				};
 
-		this.socket.onerror = (error) => {
-			console.log('WebSocket, error:', error);
-		};
+				this.socket.onerror = (error) => {
+					console.warn('WebSocket connection error:', error);
+				};
+
+				this.socket.onclose = () => {
+					console.log('WebSocket connection closed');
+				};
+			} else {
+				console.warn('WebSocket connection skipped - invalid URL or server-side rendering');
+			}
+		} catch (error) {
+			console.warn('Failed to create WebSocket connection:', error);
+		}
 	}
 
 	send(data: string | ArrayBuffer | SharedArrayBuffer | Blob | ArrayBufferView) {
-		this.socket.send(data);
+		if (this.socket) {
+			this.socket.send(data);
+		}
 	}
 
 	close() {
-		this.socket.close();
+		if (this.socket) {
+			this.socket.close();
+		}
 	}
 }
 
@@ -73,19 +90,29 @@ function createIsomorphicLink() {
 			return forward(operation);
 		});
 
+		const graphqlUrl = process.env.REACT_APP_API_GRAPHQL_URL || 'http://72.60.108.222:4001/graphql';
+		console.log('GraphQL URL:', graphqlUrl);
+		
 		// @ts-ignore
 		const link = new createUploadLink({
-			uri: process.env.REACT_APP_API_GRAPHQL_URL,
+			uri: graphqlUrl,
 		});
 
 		/* WEBSOCKET SUBSCRIPTION LINK */
+		const wsUrl = process.env.REACT_APP_API_WS || 'ws://72.60.108.222:4001';
+		console.log('WebSocket URL:', wsUrl);
+		
 		const wsLink = new WebSocketLink({
-			uri: process.env.REACT_APP_API_WS ?? 'ws://127.0.0.1:3005',
+			uri: wsUrl,
 			options: {
-				reconnect: false,
-				timeout: 30000,
+				reconnect: true,
+				reconnectionAttempts: 3,
+				timeout: 10000,
 				connectionParams: () => {
-					return { headers: getHeaders() };
+					return { 
+						headers: getHeaders(),
+						token: getJwtToken()
+					};
 				},
 			},
 			webSocketImpl: LoggingWebSocket,

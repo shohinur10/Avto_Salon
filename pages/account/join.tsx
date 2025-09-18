@@ -83,20 +83,50 @@ const Join: NextPage = () => {
 
 	const doLogin = useCallback(async () => {
 		console.warn(input);
+		
+		// Validate input before attempting login
+		if (!input.nick.trim()) {
+			await sweetMixinErrorAlert('Please enter your nickname');
+			return;
+		}
+		if (!input.password.trim()) {
+			await sweetMixinErrorAlert('Please enter your password');
+			return;
+		}
+		
 		try {
 			await logIn(input.nick, input.password);
+			console.log('Login successful, redirecting to:', router.query.referrer ?? '/');
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
+			console.error('Login failed:', err);
 			await sweetMixinErrorAlert(err.message);
 		}
 	}, [input]);
 
 	const doSignUp = useCallback(async () => {
 		console.warn(input);
+		
+		// Validate input before attempting signup
+		if (!input.nick.trim()) {
+			await sweetMixinErrorAlert('Please enter your nickname');
+			return;
+		}
+		if (!input.password.trim()) {
+			await sweetMixinErrorAlert('Please enter your password');
+			return;
+		}
+		if (!input.phone.trim()) {
+			await sweetMixinErrorAlert('Please enter your phone number');
+			return;
+		}
+		
 		try {
 			await signUp(input.nick, input.password, input.phone, input.type);
+			console.log('Signup successful, redirecting to:', router.query.referrer ?? '/');
 			await router.push(`${router.query.referrer ?? '/'}`);
 		} catch (err: any) {
+			console.error('Signup failed:', err);
 			await sweetMixinErrorAlert(err.message);
 		}
 	}, [input]);
