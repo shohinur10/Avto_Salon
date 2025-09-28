@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notification System Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        .test-button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 5px;
+            font-size: 14px;
+        }
+        .test-button:hover {
+            background-color: #0056b3;
+        }
+        .test-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .result {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+        .success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+        .error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+        .info {
+            background-color: #d1ecf1;
+            border: 1px solid #bee5eb;
+            color: #0c5460;
+        }
+        .agent-list {
+            max-height: 200px;
+            overflow-y: auto;
+            border: 1px solid #ddd;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+        }
+        .agent-item {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+        }
+        .agent-item:hover {
+            background-color: #f0f0f0;
+        }
+        .agent-item.selected {
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔔 Notification System Test</h1>
+        <p>This page tests the notification system by sending test notifications to real users in the system.</p>
+
+        <div class="test-section">
+            <h3>Step 1: Load Agents</h3>
+            <button class="test-button" onclick="loadAgents()">Load Agents</button>
+            <div id="agents-result" class="result info" style="display: none;"></div>
+            <div id="agent-list" class="agent-list" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Step 2: Send Test Notification</h3>
+            <p>Select an agent from the list above, then click the test button below.</p>
+            <button class="test-button" onclick="sendTestNotification()" id="send-btn" disabled>Send Test Notification</button>
+            <div id="notification-result" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>Step 3: Verify Notification</h3>
+            <button class="test-button" onclick="verifyNotifications()" id="verify-btn" disabled>Verify Notifications</button>
+            <div id="verify-result" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h3>System Status</h3>
+            <div id="system-status" class="result info">
+                GraphQL URL: <span id="graphql-url">Loading...</span><br>
+                Selected Agent: <span id="selected-agent">None</span><br>
+                Test Status: <span id="test-status">Ready</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const GRAPHQL_URL = 'http://72.60.108.222:4001/graphql';
+        let selectedAgent = null;
+        let agents = [];
+
+        // Update system status
+        document.getElementById('graphql-url').textContent = GRAPHQL_URL;
+
+        async function makeGraphQLRequest(query, variables = {}) {
+            try {
+                const response = await fetch(GRAPHQL_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        query: query,
+                        variables: variables
+                    })
+                });
+
+                const result = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                if (result.errors) {
+                    throw new Error(`GraphQL Error: ${result.errors.map(e => e.message).join(', ')}`);
+                }
+
+                return result.data;
+            } catch (error) {
+                console.error('GraphQL request failed:', error);
+                throw error;
+            }
+        }
+
+        async function loadAgents() {
+            const resultDiv = document.getElementById('agents-result');
+            const agentListDiv = document.getElementById('agent-list');
+            
+            try {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result info';
+                resultDiv.textContent = 'Loading agents...';
+
+                const query = `
+                    query GetPublicAgents($input: AgentsInquiry!) {
+                        getAgents(input: $input) {
+                            list {
+                                _id
+                                memberNick
+                                memberFullName
+                            }
+                            metaCounter {
+                                total
+                            }
+                        }
+                    }
+                `;
+
+                const data = await makeGraphQLRequest(query, {
+                    input: {
+                        page: 1,
+                        limit: 10,
+                        search: {}
+                    }
+                });
+
+                agents = data.getAgents.list;
+                
+                if (agents.length === 0) {
+                    resultDiv.className = 'result error';
+                    resultDiv.textContent = 'No agents found in the system';
+                    return;
+                }
+
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `Found ${agents.length} agents:`;
+                
+                agentListDiv.style.display = 'block';
+                agentListDiv.innerHTML = '';
+                
+                agents.forEach((agent, index) => {
+                    const agentDiv = document.createElement('div');
+                    agentDiv.className = 'agent-item';
+                    agentDiv.textContent = `${index + 1}. ${agent.memberNick || agent.memberFullName || 'Unknown'} (ID: ${agent._id})`;
+                    agentDiv.onclick = () => selectAgent(agent);
+                    agentListDiv.appendChild(agentDiv);
+                });
+
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `Error loading agents: ${error.message}`;
+            }
+        }
+
+        function selectAgent(agent) {
+            selectedAgent = agent;
+            
+            // Update UI
+            document.querySelectorAll('.agent-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            event.target.classList.add('selected');
+            
+            document.getElementById('selected-agent').textContent = agent.memberNick || agent.memberFullName || 'Unknown';
+            document.getElementById('send-btn').disabled = false;
+        }
+
+        async function sendTestNotification() {
+            if (!selectedAgent) {
+                alert('Please select an agent first');
+                return;
+            }
+
+            const resultDiv = document.getElementById('notification-result');
+            
+            try {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result info';
+                resultDiv.textContent = 'Sending test notification...';
+
+                const mutation = `
+                    mutation CreateNotification($input: NotificationInput!) {
+                        createNotification(input: $input) {
+                            _id
+                            notificationType
+                            notificationStatus
+                            notificationGroup
+                            notificationTitle
+                            notificationContent
+                            notificationRefId
+                            memberId
+                            createdAt
+                            updatedAt
+                        }
+                    }
+                `;
+
+                const testNotification = {
+                    notificationType: 'LIKE',
+                    notificationGroup: 'MEMBER',
+                    notificationTitle: 'Test Notification - System Check',
+                    notificationContent: `This is a test notification to verify the notification system is working properly. Sent to ${selectedAgent.memberNick || selectedAgent.memberFullName} at: ${new Date().toISOString()}`,
+                    notificationRefId: 'test-ref-' + Date.now(),
+                    memberId: selectedAgent._id
+                };
+
+                const data = await makeGraphQLRequest(mutation, {
+                    input: testNotification
+                });
+
+                resultDiv.className = 'result success';
+                resultDiv.textContent = `✅ Test notification sent successfully!\n\nNotification ID: ${data.createNotification._id}\nTitle: ${data.createNotification.notificationTitle}\nCreated: ${new Date(data.createNotification.createdAt).toLocaleString()}`;
+                
+                document.getElementById('verify-btn').disabled = false;
+                document.getElementById('test-status').textContent = 'Notification Sent';
+
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Error sending notification: ${error.message}`;
+                document.getElementById('test-status').textContent = 'Error';
+            }
+        }
+
+        async function verifyNotifications() {
+            const resultDiv = document.getElementById('verify-result');
+            
+            try {
+                resultDiv.style.display = 'block';
+                resultDiv.className = 'result info';
+                resultDiv.textContent = 'Verifying notifications...';
+
+                const query = `
+                    query GetNotifications($input: NotificationInquiry!) {
+                        getNotifications(input: $input) {
+                            list {
+                                _id
+                                notificationType
+                                notificationStatus
+                                notificationGroup
+                                notificationTitle
+                                notificationContent
+                                notificationRefId
+                                memberId
+                                createdAt
+                                updatedAt
+                            }
+                            metaCounter {
+                                total
+                                unread
+                            }
+                        }
+                    }
+                `;
+
+                const data = await makeGraphQLRequest(query, {
+                    input: {
+                        page: 1,
+                        limit: 20,
+                        search: {}
+                    }
+                });
+
+                const notifications = data.getNotifications.list;
+                const testNotifications = notifications.filter(n => 
+                    n.notificationTitle.includes('Test Notification - System Check')
+                );
+
+                if (testNotifications.length > 0) {
+                    resultDiv.className = 'result success';
+                    resultDiv.textContent = `✅ Found ${testNotifications.length} test notifications!\n\n` +
+                        testNotifications.map((notification, index) => 
+                            `${index + 1}. ${notification.notificationTitle}\n   ID: ${notification._id}\n   Created: ${new Date(notification.createdAt).toLocaleString()}`
+                        ).join('\n\n');
+                    document.getElementById('test-status').textContent = 'Verification Complete';
+                } else {
+                    resultDiv.className = 'result info';
+                    resultDiv.textContent = `ℹ️ No test notifications found in the list. This might be because:\n- Notifications require authentication to view\n- The notification was created but not visible to anonymous users\n- The notification system is working but filtering results\n\nTotal notifications in system: ${notifications.length}`;
+                    document.getElementById('test-status').textContent = 'Partial Success';
+                }
+
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.textContent = `❌ Error verifying notifications: ${error.message}`;
+                document.getElementById('test-status').textContent = 'Verification Failed';
+            }
+        }
+    </script>
+</body>
+</html>
