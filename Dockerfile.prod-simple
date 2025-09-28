@@ -1,0 +1,26 @@
+FROM node:18-alpine
+
+# Set working directory
+WORKDIR /usr/src/avto-salon
+
+# Copy package files first for better caching
+COPY package.json yarn.lock ./
+
+# Install dependencies with npm (more reliable than yarn in Docker)
+RUN npm install --legacy-peer-deps --production=false
+
+# Copy the rest of the application
+COPY . .
+
+# Set production environment
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
+# Build the application
+RUN npm run build
+
+# Expose port
+EXPOSE 3000
+
+# Start production server
+CMD ["npm", "run", "start"]

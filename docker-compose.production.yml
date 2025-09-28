@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  # Frontend Application
+  avto-salon-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod-simple
+    container_name: avto-salon-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=http://72.60.108.222:4001
+      - REACT_APP_API_GRAPHQL_URL=http://72.60.108.222:4001/graphql
+      - REACT_APP_API_WS=ws://72.60.108.222:4001
+    networks:
+      - avto-salon-network
+
+  # Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: avto-salon-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - avto-salon-network
+    depends_on:
+      - avto-salon-frontend
+
+
+networks:
+  avto-salon-network:
+    driver: bridge
+

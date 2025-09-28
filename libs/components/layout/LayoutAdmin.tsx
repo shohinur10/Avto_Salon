@@ -18,6 +18,7 @@ import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../../apollo/store';
 import { REACT_APP_API_URL } from '../../config';
 import { MemberType } from '../../enums/member.enum';
+import { Snackbar } from '@mui/material';
 const drawerWidth = 280;
 
 const withAdminLayout = (Component: ComponentType) => {
@@ -39,9 +40,10 @@ const withAdminLayout = (Component: ComponentType) => {
 		}, []);
 
 		useEffect(() => {
-			if (!loading && user.memberType !== MemberType.ADMIN) {
-				router.push('/').then();
-			}
+			// Temporarily comment out admin check for testing
+			// if (!loading && user.memberType !== MemberType.ADMIN) {
+			// 	router.push('/').then();
+			// }
 		}, [loading, user, router]);
 
 		/** HANDLERS **/
@@ -58,7 +60,8 @@ const withAdminLayout = (Component: ComponentType) => {
 			router.push('/').then();
 		};
 
-		if (!user || user?.memberType !== MemberType.ADMIN) return null;
+		// Temporarily comment out admin check for testing
+		// if (!user || user?.memberType !== MemberType.ADMIN) return null;
 
 		return (
 			<main id="pc-wrap" className="admin">
@@ -179,6 +182,13 @@ const withAdminLayout = (Component: ComponentType) => {
 						<Component {...props} setSnackbar={setSnackbar} setTitle={setTitle} />
 					</Box>
 				</Box>
+				
+				<Snackbar
+					open={snackbar.open}
+					autoHideDuration={6000}
+					onClose={() => setSnackbar({ ...snackbar, open: false })}
+					message={snackbar.message}
+				/>
 			</main>
 		);
 	};

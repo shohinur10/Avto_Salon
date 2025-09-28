@@ -67,3 +67,19 @@ hr {
 		display: flex;
 	}
 }
+
+// URGENT: Force Top Agents cards to be round - Highest priority
+.top-agent-card {
+	border-radius: 50px !important;
+	background: #ffffff !important;
+	box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12) !important;
+	border: 2px solid rgba(212, 175, 55, 0.1) !important;
+	height: 320px !important;
+	width: 280px !important;
+	padding: 40px 30px !important;
+	display: flex !important;
+	flex-direction: column !important;
+	align-items: center !important;
+	justify-content: center !important;
+	margin: 0 auto !important;
+}

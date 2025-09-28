@@ -32,6 +32,8 @@ import { T } from '../../libs/types/common';
 import { Direction, Message } from '../../libs/enums/common.enum';
 import { CREATE_COMMENT, LIKE_TARGET_CAR } from '../../apollo/user/mutation';
 import { sweetMixinErrorAlert, sweetTopSmallSuccessAlert } from '../../libs/sweetAlert';
+import NotificationService from '../../libs/services/notificationService';
+import { NotificationGroup } from '../../libs/enums/notification.enum';
 
 SwiperCore.use([Autoplay, Navigation, Pagination]);
 
@@ -49,6 +51,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 	const [car, setCar] = useState<Car | null>(null);
 	const [slideImage, setSlideImage] = useState<string>('');
 	const [imageError, setImageError] = useState<boolean>(false);
+	const [imageLoading, setImageLoading] = useState<boolean>(true);
 	const [destinationCars, setDestinationCars] = useState<Car[]>([]);
 	const [commentInquiry, setCommentInquiry] = useState<CommentsInquiry>(initialComment);
 	const [carComments, setCarComments] = useState<Comment[]>([]);
@@ -83,6 +86,7 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 					setSlideImage('');
 				}
 				setImageError(false);
+				setImageLoading(false);
 			}
 		},
 	});
@@ -153,33 +157,41 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 	/** HANDLERS **/
 	// Default car images based on car type/brand
 	const getDefaultCarImage = (car?: Car | null): string => {
-		if (!car) return '/img/car/default-car.jpg';
+		if (!car) return '/img/cars/mercedes.jpg'; // Use existing image as default
 		
 		const brand = car.brand?.toLowerCase();
 		const category = car.carCategory?.toLowerCase();
 		
-		// Brand-specific default images
+		// Brand-specific default images using existing images
 		const brandImages: { [key: string]: string } = {
-			'mercedes': '/img/car/brands/mercedes-default.jpg',
-			'bmw': '/img/car/brands/bmw-default.jpg',
-			'audi': '/img/car/brands/audi-default.jpg',
-			'tesla': '/img/car/brands/tesla-default.jpg',
-			'toyota': '/img/car/brands/toyota-default.jpg',
-			'honda': '/img/car/brands/honda-default.jpg',
-			'ford': '/img/car/brands/ford-default.jpg',
-			'nissan': '/img/car/brands/nissan-default.jpg',
+			'mercedes': '/img/cars/mercedes.jpg',
+			'bmw': '/img/cars/BMW.jpg',
+			'audi': '/img/cars/audi-q8.jpg',
+			'tesla': '/img/cars/mercedes.jpg', // Tesla not available, use Mercedes
+			'toyota': '/img/cars/mercedes.jpg', // Toyota not available, use Mercedes
+			'honda': '/img/cars/honda.jpg',
+			'ford': '/img/cars/ford.jpg',
+			'nissan': '/img/cars/mercedes.jpg', // Nissan not available, use Mercedes
+			'ferrari': '/img/cars/ferrari-488.jpg',
+			'lamborghini': '/img/cars/lambo-huracan.jpg',
+			'porsche': '/img/cars/porsche-cayenne.jpg',
+			'bentley': '/img/cars/bentley-continental.jpg',
+			'lexus': '/img/cars/lexus-rx.jpg',
+			'rolls-royce': '/img/cars/rolls-phantom.jpg',
+			'mclaren': '/img/cars/mclaren-720s.jpg',
 		};
 		
-		// Category-specific default images
+		// Category-specific default images using existing images
 		const categoryImages: { [key: string]: string } = {
-			'sedan': '/img/car/categories/sedan-default.jpg',
-			'suv': '/img/car/categories/suv-default.jpg',
-			'coupe': '/img/car/categories/coupe-default.jpg',
-			'hatchback': '/img/car/categories/hatchback-default.jpg',
-			'convertible': '/img/car/categories/convertible-default.jpg',
-			'truck': '/img/car/categories/truck-default.jpg',
-			'sports': '/img/car/categories/sports-default.jpg',
-			'luxury': '/img/car/categories/luxury-default.jpg',
+			'sedan': '/img/cars/mercedes-s.jpg',
+			'suv': '/img/cars/bmw-x7.jpg',
+			'coupe': '/img/cars/ferrari-488.jpg',
+			'convertible': '/img/cars/ferrari-488.jpg',
+			'hatchback': '/img/cars/honda.jpg',
+			'wagon': '/img/cars/mercedes.jpg',
+			'truck': '/img/cars/truck_hyundai.jpg',
+			'sports': '/img/cars/ferrari-488.jpg',
+			'luxury': '/img/cars/rolls-phantom.jpg',
 		};
 		
 		// Return brand-specific image if available
@@ -192,17 +204,23 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 			return categoryImages[category];
 		}
 		
-		// Return generic default car image
-		return '/img/car/default-car.jpg';
+		// Return generic default car image using existing image
+		return '/img/cars/mercedes.jpg';
 	};
 
 	const changeImageHandler = (image: string) => {
 		setSlideImage(image);
 		setImageError(false);
+		setImageLoading(true);
 	};
 
 	const handleImageError = () => {
 		setImageError(true);
+		setImageLoading(false);
+		console.log('Main car image failed to load, using default image');
+		console.log('Failed image URL:', imageError || !slideImage 
+			? getDefaultCarImage(car)
+			: `${REACT_APP_API_URL}/${slideImage}`);
 	};
 
 	const likeCarHandler = async (user: T, id: string) => {
@@ -213,6 +231,18 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 			await likeTargetCar({
 				variables: { input: id },
 			});
+
+			// Create notification for the car owner (if not liking own car)
+			if (car && car.memberId !== user._id) {
+				await NotificationService.createLikeNotification(
+					car.memberId,
+					id,
+					NotificationGroup.CAR,
+					user.memberNick || user.memberFullName || 'Someone',
+					car.carTitle
+				);
+			}
+
 			await getCarRefetch({ input: id });
 
 			await getCarsRefetch({
@@ -242,6 +272,18 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 		try {
 			if (!user._id) throw new Error(Message.NOT_AUTHENTICATED);
 			await createComment({ variables: { input: insertCommentData } });
+
+			// Create notification for the car owner (if not commenting on own car)
+			if (car && car.memberId !== user._id) {
+				await NotificationService.createCommentNotification(
+					car.memberId,
+					car._id,
+					NotificationGroup.CAR,
+					user.memberNick || user.memberFullName || 'Someone',
+					car.carTitle,
+					insertCommentData.commentContent.substring(0, 50) + (insertCommentData.commentContent.length > 50 ? '...' : '')
+				);
+			}
 
 			setInsertCommentData({ ...insertCommentData, commentContent: '' });
 
@@ -299,6 +341,17 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 							overflow: 'hidden',
 							position: 'relative'
 						}}>
+							{imageLoading && (
+								<Box sx={{ 
+									position: 'absolute', 
+									top: '50%', 
+									left: '50%', 
+									transform: 'translate(-50%, -50%)',
+									zIndex: 1
+								}}>
+									<CircularProgress color="primary" />
+								</Box>
+							)}
 							<img
 								src={
 									imageError || !slideImage 
@@ -307,10 +360,13 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 								}
 								alt={car?.carTitle || 'Car image'}
 								onError={handleImageError}
+								onLoad={() => setImageLoading(false)}
 								style={{
 									width: '100%',
 									height: '100%',
-									objectFit: 'cover'
+									objectFit: 'cover',
+									opacity: imageLoading ? 0.5 : 1,
+									transition: 'opacity 0.3s ease'
 								}}
 							/>
 							<Stack 
@@ -578,6 +634,17 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 							</Stack>
 							<Stack className={'images'}>
 								<Stack className={'main-image'}>
+									{imageLoading && (
+										<Box sx={{ 
+											position: 'absolute', 
+											top: '50%', 
+											left: '50%', 
+											transform: 'translate(-50%, -50%)',
+											zIndex: 1
+										}}>
+											<CircularProgress color="primary" />
+										</Box>
+									)}
 									<img
 										src={
 											imageError || !slideImage 
@@ -586,7 +653,14 @@ const CarDetail: NextPage = ({ initialComment, ...props }: any) => {
 										}
 										alt={car?.carTitle || 'Car image'}
 										onError={handleImageError}
-										onLoad={() => setImageError(false)}
+										onLoad={() => {
+											setImageError(false);
+											setImageLoading(false);
+										}}
+										style={{
+											opacity: imageLoading ? 0.5 : 1,
+											transition: 'opacity 0.3s ease'
+										}}
 									/>
 								</Stack>
 								<Stack className={'sub-images'}>

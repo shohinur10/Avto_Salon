@@ -43,9 +43,20 @@ const PlatformStats: React.FC = () => {
 	return (
 		<Box component="div"    className="platform-stats">
 			<Box component="div"    className="container">
+				{/* Statistics Info Section - Same design as about page */}
+				<Box component="div"    className="stats-info">
+					{stats.map((stat, index) => (
+						<Box component="div"    key={index} className="stat-item">
+							<strong>{stat.number}</strong>
+							<p>{stat.label}</p>
+						</Box>
+					))}
+				</Box>
+
+				{/* Enhanced Stats Grid - Platform Excellence */}
 				<Box component="div"    className="stats-header">
 					<Typography variant="h2" className="stats-title">
-						Platform Statistics
+						Platform Excellence
 					</Typography>
 					<Typography variant="body1" className="stats-subtitle">
 						Numbers that speak to our excellence and customer trust

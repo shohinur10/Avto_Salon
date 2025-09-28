@@ -72,6 +72,8 @@ import { REACT_APP_API_URL } from '../../libs/config';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 import Moment from 'react-moment';
+import NotificationService from '../../libs/services/notificationService';
+import { NotificationGroup } from '../../libs/enums/notification.enum';
 
 export const getStaticProps = async ({ locale }: any) => ({
 	props: {
@@ -240,9 +242,24 @@ const Community: NextPage = ({ initialInput, ...props }: T) => {
 			if (!id) return;
 			if (!user._id) throw new Error(Messages.error2);
 
+			// Find the article to get author info
+			const article = boardArticles.find(art => art._id === id);
+			if (!article) return;
+
 			await likeTargetBoardArticle({
 				variables: { input: id },
 			});
+
+			// Create notification for the article author (if not liking own post)
+			if (article.memberId !== user._id) {
+				await NotificationService.createLikeNotification(
+					article.memberId,
+					id,
+					NotificationGroup.ARTICLE,
+					user.memberNick || user.memberFullName || 'Someone',
+					article.articleTitle
+				);
+			}
 
 			await boardArticlesRefetch({ input: searchCommunity });
 			await sweetTopSmallSuccessAlert('success', 800);

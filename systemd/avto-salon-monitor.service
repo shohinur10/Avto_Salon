@@ -1,0 +1,34 @@
+[Unit]
+Description=Car Salon Health Monitor Service
+Documentation=https://github.com/your-repo/avto-salon
+After=avto-salon.service
+Requires=avto-salon.service
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/avto-salon
+ExecStart=/var/www/avto-salon/monitor-health.sh
+Restart=always
+RestartSec=30
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=avto-salon-monitor
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/log/avto-salon
+ReadWritePaths=/var/backups/avto-salon
+
+# Resource limits
+LimitNOFILE=1024
+LimitNPROC=256
+
+[Install]
+WantedBy=multi-user.target
+

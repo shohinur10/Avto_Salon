@@ -453,6 +453,72 @@ export const SUBSCRIBE = gql`
 	}
 `;
 
+/**************************
+ *      NOTIFICATION      *
+ *************************/
+
+export const CREATE_NOTIFICATION = gql`
+	mutation CreateNotification($input: NotificationInput!) {
+		createNotification(input: $input) {
+			_id
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationContent
+			notificationRefId
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const UPDATE_NOTIFICATION = gql`
+	mutation UpdateNotification($input: NotificationUpdate!) {
+		updateNotification(input: $input) {
+			_id
+			notificationType
+			notificationStatus
+			notificationGroup
+			notificationTitle
+			notificationContent
+			notificationRefId
+			memberId
+			createdAt
+			updatedAt
+		}
+	}
+`;
+
+export const MARK_NOTIFICATION_AS_READ = gql`
+	mutation MarkNotificationAsRead($input: String!) {
+		markNotificationAsRead(notificationId: $input) {
+			_id
+			notificationStatus
+			updatedAt
+		}
+	}
+`;
+
+export const MARK_ALL_NOTIFICATIONS_AS_READ = gql`
+	mutation MarkAllNotificationsAsRead {
+		markAllNotificationsAsRead {
+			success
+			message
+		}
+	}
+`;
+
+export const DELETE_NOTIFICATION = gql`
+	mutation DeleteNotification($input: String!) {
+		deleteNotification(notificationId: $input) {
+			success
+			message
+		}
+	}
+`;
+
 export const UNSUBSCRIBE = gql`
 	mutation Unsubscribe($input: String!) {
 		unsubscribe(input: $input) {

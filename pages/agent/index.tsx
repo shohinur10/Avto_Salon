@@ -35,7 +35,7 @@ import { Member } from '../../libs/types/member/member';
 import { useMutation, useQuery } from '@apollo/client';
 import { LIKE_TARGET_MEMBER, SUBSCRIBE, UNSUBSCRIBE } from '../../apollo/user/mutation';
 import { T } from '../../libs/types/common';
-import { GET_AGENTS } from '../../apollo/user/query';
+import { GET_AGENTS, GET_PUBLIC_AGENTS } from '../../apollo/user/query';
 import { Messages } from '../../libs/config';
 import { REACT_APP_API_URL } from '../../libs/config';
 import { useReactiveVar } from '@apollo/client';
@@ -65,18 +65,25 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const [likeTargetMember] = useMutation(LIKE_TARGET_MEMBER);
 	const [subscribe] = useMutation(SUBSCRIBE);
 	const [unsubscribe] = useMutation(UNSUBSCRIBE);
+	// Use public query for agents that doesn't require authentication
 	const {
 		loading: getAgentsLoading,
 		data: getAgentsData,
 		error: getAgentsError,
 		refetch: getAgentsRefetch,
-	} = useQuery(GET_AGENTS, {
+	} = useQuery(GET_PUBLIC_AGENTS, {
 		fetchPolicy: 'network-only',
 		variables: { input: searchFilter },
 		notifyOnNetworkStatusChange: true,
 		onCompleted: (data: T) => {
 			setAgents(data?.getAgents?.list);
 			setTotal(data?.getAgents?.metaCounter[0]?.total);
+		},
+		onError: (error) => {
+			console.warn('Failed to load agents:', error);
+			// Fallback to empty state if query fails
+			setAgents([]);
+			setTotal(0);
 		},
 	});
 	/** HANDLERS **/
@@ -101,7 +108,10 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const likeMemberHandler = async (id: string) => {
 		try {
 			if (!id) return;
-			if (!user?._id) throw new Error(Messages.error2);
+			if (!user?._id) {
+				await sweetMixinErrorAlert('Please login to like agents');
+				return;
+			}
 
 			await likeTargetMember({
 				variables: { input: id },
@@ -118,7 +128,10 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const subscribeHandler = async (id: string) => {
 		try {
 			if (!id) throw new Error(Messages.error1);
-			if (!user?._id) throw new Error(Messages.error2);
+			if (!user?._id) {
+				await sweetMixinErrorAlert('Please login to follow agents');
+				return;
+			}
 
 			await subscribe({
 				variables: { input: id },
@@ -135,7 +148,10 @@ const AgentList: NextPage = ({ initialInput, ...props }: any) => {
 	const unsubscribeHandler = async (id: string) => {
 		try {
 			if (!id) throw new Error(Messages.error1);
-			if (!user?._id) throw new Error(Messages.error2);
+			if (!user?._id) {
+				await sweetMixinErrorAlert('Please login to unfollow agents');
+				return;
+			}
 
 			await unsubscribe({
 				variables: { input: id },

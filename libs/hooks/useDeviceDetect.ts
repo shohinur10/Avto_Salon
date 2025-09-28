@@ -7,7 +7,7 @@ const useDeviceDetect = (): string => {
 		const userAgent = navigator.userAgent;
 		const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(userAgent);
 		setDevice(isMobile ? 'mobile' : 'desktop');
-	}, [device]);
+	}, []); // Remove device from dependency array to prevent infinite re-renders
 
 	return device;
 };

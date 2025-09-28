@@ -33,6 +33,49 @@ query GetAgents($input: AgentsInquiry!) {
             createdAt
             updatedAt
             accessToken
+            meLiked {
+                memberId
+                likeRefId
+                myFavorite
+            }
+            meFollowed {
+                followingId
+                followerId
+                myFollowing
+            }
+        }
+        metaCounter {
+            total
+        }
+    }
+}
+`;
+
+// Public version of GET_AGENTS that doesn't require authentication
+export const GET_PUBLIC_AGENTS = gql`
+query GetPublicAgents($input: AgentsInquiry!) {
+    getAgents(input: $input) {
+        list {
+            _id
+            memberType
+            memberStatus
+            memberPhone
+            memberNick
+            memberFullName
+            memberImage
+            memberAddress
+            memberDesc
+            memberCars
+            memberArticles
+            memberFollowers
+            memberFollowings
+            memberPoints
+            memberLikes
+            memberViews
+            memberComments
+            memberRank
+            createdAt
+            updatedAt
         }
         metaCounter {
             total
@@ -658,6 +701,49 @@ export const GET_MEMBER_FOLLOWERS = gql`
     }
 }
 `;
+
+/**************************
+ *      NOTIFICATION      *
+ *************************/
+
+export const GET_NOTIFICATIONS = gql`
+	query GetNotifications($input: NotificationInquiry!) {
+    getNotifications(input: $input) {
+        list {
+            _id
+            notificationType
+            notificationStatus
+            notificationGroup
+            notificationTitle
+            notificationContent
+            notificationRefId
+            memberId
+            createdAt
+            updatedAt
+            memberData {
+                _id
+                memberNick
+                memberFullName
+                memberImage
+            }
+        }
+        metaCounter {
+            total
+            unread
+        }
+    }
+}
+`;
+
+// TODO: Backend needs to implement getNotificationCount query
+// export const GET_NOTIFICATION_COUNT = gql`
+// 	query GetNotificationCount {
+//     getNotificationCount {
+//         total
+//         unread
+//     }
+// }
+// `;
 
 export const GET_MEMBER_FOLLOWINGS = gql`
 	query GetMemberFollowings($input: FollowInquiry!) {

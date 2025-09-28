@@ -1,0 +1,18 @@
+{
+  "libs/components/mypage/WriteArticle.tsx -> ../community/Teditor": {
+    "id": 24872,
+    "files": [
+      "static/css/da194b0dc0fcf692.css",
+      "static/chunks/vendors-8e0fe28fc03969ac.js",
+      "static/chunks/872.ba35edb168d989b6.js"
+    ]
+  },
+  "pages/community/create.tsx -> ../../libs/components/community/RichTextEditor": {
+    "id": 14841,
+    "files": [
+      "static/css/da194b0dc0fcf692.css",
+      "static/chunks/vendors-8e0fe28fc03969ac.js",
+      "static/chunks/841.5e7aea6750c8dd4b.js"
+    ]
+  }
+}

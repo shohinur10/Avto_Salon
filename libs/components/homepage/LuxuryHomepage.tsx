@@ -392,12 +392,7 @@ const LuxuryHomepage: React.FC = () => {
 					</Box>
 				) : (
 					<TopCars
-						cars={(() => {
-							const cars = topCarsData?.getCars?.list || [];
-							return cars.filter(
-								(car: Car, index: number, self: Car[]) => index === self.findIndex((c: Car) => c._id === car._id)
-							);
-						})()}
+						cars={topCarsData?.getCars?.list || []}
 						onLikeToggle={handleCarLikeToggle}
 					/>
 				)}

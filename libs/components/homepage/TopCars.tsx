@@ -54,7 +54,23 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 		}).format(price);
 	};
 
-	if (!cars || cars.length === 0) {
+	// Filter unique cars and determine if we should use loop
+	const uniqueCars = cars.filter(
+		(car, index, self) => index === self.findIndex(c => c._id === car._id)
+	);
+	
+	// Only enable loop if we have enough cars to avoid repetition
+	const shouldLoop = uniqueCars.length >= 4;
+	
+	// Adjust slides per view based on available cars
+	const getSlidesPerView = () => {
+		if (uniqueCars.length === 1) return 1;
+		if (uniqueCars.length === 2) return 2;
+		if (uniqueCars.length === 3) return 3;
+		return 4; // Default for 4+ cars
+	};
+
+	if (!uniqueCars || uniqueCars.length === 0) {
 		return (
 			<motion.section
 				ref={ref}
@@ -107,7 +123,7 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 						Top Ranked Cars
 					</Typography>
 					<Typography variant="body1" className="section-subtitle">
-						Highest rated premium vehicles in our collection
+						Highest rated premium vehicles in our collection ({uniqueCars.length} available)
 					</Typography>
 				</motion.div>
 
@@ -129,7 +145,7 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 			>
 				<Swiper
 					spaceBetween={30}
-					slidesPerView={1}
+					slidesPerView={getSlidesPerView()}
 					navigation={{
 						prevEl: '#top-cars-prev',
 						nextEl: '#top-cars-next',
@@ -138,34 +154,32 @@ const TopCars: React.FC<TopCarsProps> = ({ cars = [], onLikeToggle }) => {
 						clickable: true,
 						dynamicBullets: true,
 					}}
-					autoplay={{
+					autoplay={shouldLoop ? {
 						delay: 4500,
 						disableOnInteraction: false,
-					}}
-					loop={true}
+					} : false}
+					loop={shouldLoop}
 					breakpoints={{
 						640: {
-							slidesPerView: 2,
+							slidesPerView: Math.min(2, uniqueCars.length),
 							spaceBetween: 20,
 						},
 						768: {
-							slidesPerView: 2,
+							slidesPerView: Math.min(2, uniqueCars.length),
 							spaceBetween: 25,
 						},
 						1024: {
-							slidesPerView: 3,
+							slidesPerView: Math.min(3, uniqueCars.length),
 							spaceBetween: 30,
 						},
 						1200: {
-							slidesPerView: 4,
+							slidesPerView: Math.min(4, uniqueCars.length),
 							spaceBetween: 30,
 						},
 					}}
 					className="cars-swiper"
 				>
-					{cars.filter(
-						(car, index, self) => index === self.findIndex(c => c._id === car._id)
-					).map((car, index) => (
+					{uniqueCars.map((car, index) => (
 						<SwiperSlide key={`top-${car._id}`}>
 							<motion.div
 								initial={{ opacity: 0, y: 30 }}

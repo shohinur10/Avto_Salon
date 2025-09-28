@@ -8,7 +8,20 @@
 		"build": "next build",
 		"start": "next start",
 		"lint": "next lint",
-		"changelog": "standard-version --skip.tag"
+		"changelog": "standard-version --skip.tag",
+		"build:production": "NODE_ENV=production next build",
+		"start:production": "NODE_ENV=production next start -p 3000",
+		"type-check": "tsc --noEmit",
+		"analyze": "ANALYZE=true next build",
+		"export": "next export",
+		"test": "jest",
+		"test:watch": "jest --watch",
+		"test:coverage": "jest --coverage",
+		"audit": "npm audit --audit-level moderate",
+		"audit:fix": "npm audit fix",
+		"clean": "rm -rf .next out dist",
+		"prebuild": "npm run clean",
+		"postbuild": "echo 'Build completed'"
 	},
 	"dependencies": {
 		"@apollo/client": "^3.5.10",
