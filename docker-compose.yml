@@ -1,0 +1,18 @@
+services:
+  nestar-next:
+    container_name: nestar-next
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports: 
+      - 4000:3000
+    environment:
+      - PORT=3000
+      - NODE_ENV=production
+    networks:
+      - client-network
+
+networks:
+  client-network:
+    driver: bridge
