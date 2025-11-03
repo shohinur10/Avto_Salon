@@ -1,1 +1,0 @@
-self.__SSG_MANIFEST=new Set(["\u002F","\u002Faccount\u002Fjoin","\u002Fagent","\u002Fagent\u002F[id]","\u002Fcar","\u002Fcar\u002Fdetail","\u002Fcommunity","\u002Fcommunity\u002Fcreate","\u002Fcommunity\u002Fdetail","\u002Fcs","\u002Fmember","\u002Fmypage"]);self.__SSG_MANIFEST_CB&&self.__SSG_MANIFEST_CB()
