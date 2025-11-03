@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
-import { GET_NOTIFICATIONS } from '../../apollo/user/query';
+// import { GET_NOTIFICATIONS } from '../../apollo/user/query';
 import { useReactiveVar } from '@apollo/client';
 import { userVar } from '../../apollo/store';
 
@@ -20,35 +20,37 @@ export const useNotifications = () => {
 
 	// TEMPORARILY DISABLED: Backend doesn't have getNotifications query yet
 	// TODO: Re-enable when backend implements the notification queries
-	const { data: notificationsData, refetch: refetchNotifications } = useQuery(GET_NOTIFICATIONS, {
-		variables: {
-			input: {
-				page: 1,
-				limit: 100,
-				search: {
-					// Empty search object - will fetch all notifications for the user
-				}
-			}
-		},
-		pollInterval: 30000, // Poll every 30 seconds
-		skip: true, // TEMPORARILY DISABLED - Backend not ready
-		errorPolicy: 'ignore', // Ignore errors to prevent UI crashes
-		onCompleted: (data) => {
-			if (data?.getNotifications?.list) {
-				const notifications = data.getNotifications.list;
-				const total = notifications.length;
-				const unread = notifications.filter((n: any) => n.notificationStatus === 'UNREAD').length;
+	// const { data: notificationsData, refetch: refetchNotifications } = useQuery(GET_NOTIFICATIONS, {
+	// 	variables: {
+	// 		input: {
+	// 			page: 1,
+	// 			limit: 100,
+	// 			search: {
+	// 				// Empty search object - will fetch all notifications for the user
+	// 			}
+	// 		}
+	// 	},
+	// 	pollInterval: 30000, // Poll every 30 seconds
+	// 	skip: true, // TEMPORARILY DISABLED - Backend not ready
+	// 	errorPolicy: 'ignore', // Ignore errors to prevent UI crashes
+	// 	onCompleted: (data) => {
+	// 		if (data?.getNotifications?.list) {
+	// 			const notifications = data.getNotifications.list;
+	// 			const total = notifications.length;
+	// 			const unread = notifications.filter((n: any) => n.notificationStatus === 'UNREAD').length;
 				
-				setNotificationCount({ total, unread });
-				setLastUpdate(new Date());
-			}
-		},
-		onError: (error) => {
-			console.error('Error fetching notifications:', error);
-			// Set default values on error and don't crash the app
-			setNotificationCount({ total: 0, unread: 0 });
-		}
-	});
+	// 			setNotificationCount({ total, unread });
+	// 			setLastUpdate(new Date());
+	// 		}
+	// 	},
+	// 	onError: (error) => {
+	// 		console.error('Error fetching notifications:', error);
+	// 		// Set default values on error and don't crash the app
+	// 		setNotificationCount({ total: 0, unread: 0 });
+	// 	}
+	// });
+	const notificationsData = null;
+	const refetchNotifications = async () => {};
 
 	// Manual refresh function
 	const refreshNotifications = useCallback(async () => {
