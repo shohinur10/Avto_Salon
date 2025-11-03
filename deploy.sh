@@ -2,10 +2,10 @@
 set -e  # Exit on any error
 
 #production
-git reset --hard
+git fetch origin
 git clean -fd
+git reset --hard origin/master
 git checkout master
-git pull origin master
 
 # Stop existing containers
 docker compose down
