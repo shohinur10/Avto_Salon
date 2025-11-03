@@ -84,8 +84,8 @@ query GetPublicAgents($input: AgentsInquiry!) {
 }
 `;
 
-export const GET_MEMBER = gql(`
-query GetMember($input: String!) {
+export const GET_MEMBER = gql`
+	query GetMember($input: String!) {
     getMember(memberId: $input) {
         _id
         memberType
@@ -118,7 +118,7 @@ query GetMember($input: String!) {
 				}
     }
 }
-`);
+`;
 
 /**************************
  *        CAR       *
