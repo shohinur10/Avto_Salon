@@ -70,6 +70,17 @@ const nextConfig = {
 		];
 	},
 	
+	// Redirect root to default locale
+	async redirects() {
+		return [
+			{
+				source: '/',
+				destination: '/kr',
+				permanent: false,
+			},
+		];
+	},
+	
 	// Webpack optimizations
 	webpack: (config, { dev, isServer }) => {
 		if (!dev && !isServer) {
