@@ -90,8 +90,10 @@ function createIsomorphicLink() {
 			return forward(operation);
 		});
 
-		const graphqlUrl = process.env.REACT_APP_API_GRAPHQL_URL || 'http://72.60.108.222:4001/graphql';
-		console.log('GraphQL URL:', graphqlUrl);
+		const graphqlUrl = process.env.REACT_APP_API_GRAPHQL_URL || 'http://72.60.236.198:4001/graphql';
+		if (process.env.NODE_ENV !== 'production') {
+			console.log('GraphQL URL:', graphqlUrl);
+		}
 		
 		// @ts-ignore
 		const link = new createUploadLink({
@@ -99,8 +101,10 @@ function createIsomorphicLink() {
 		});
 
 		/* WEBSOCKET SUBSCRIPTION LINK */
-		const wsUrl = process.env.REACT_APP_API_WS || 'ws://72.60.108.222:4001';
-		console.log('WebSocket URL:', wsUrl);
+		const wsUrl = process.env.REACT_APP_API_WS || 'ws://72.60.236.198:4001';
+		if (process.env.NODE_ENV !== 'production') {
+			console.log('WebSocket URL:', wsUrl);
+		}
 		
 		const wsLink = new WebSocketLink({
 			uri: wsUrl,
